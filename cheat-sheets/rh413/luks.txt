@@ -1,0 +1,46 @@
+# fdisk /dev/sdb
+# pvcreate /dev/sdb1
+# vgcreate luks-vol /dev/sdb1
+# lvcreate -n secure -L 20G luks-vol
+# cryptsetup luksFormat /dev/luks-vol/secure
+- YES
+- Provide passphrase
+# cryptsetup luksOpen /dev/luks-vol/secure secret
+- will create device mapper volume with the name secret
+- Will ask for the passphrase to open it
+
+# mkfs.ext4 /dev/mapper/secret
+- Will create a file system on top of encrypted device
+
+Temporary Mount ( Test)
+# mkdir /mnt/secret
+# mount /dev/mapper/secure /mnt/secret
+
+Persistent mount
+1. With password prompt
+# vim /etc/crypttab
+secret /dev/luks-vol/secure none
+
+- none means we want system to prompt for password upon reboot
+
+2. unattended mount
+
+- To boot with encrypted volume unattended, a file must be created with a LUKS key
+that will unlock the encrypted volume
+# dd if=/dev/urandom of=/root/lukskey bs=4096 count=1
+# chmod 600 /root/lukskey
+
+- Then add the key file for LUKS using the following command
+- Syntax: block device key-file
+# cryptsetup luksAddKey /dev/lus-vol/secure /root/lukskey
+
+- Create an /etc/crypttab entry for the volume. The file contains a list of the devices to be unlocked during system reboot
+Syntax: name Block device key-file
+- One device per line
+secret /dev/luks-vol/secure /root/lukskey
+
+- Create an entry in /etc/fstab 
+# vim /etc/fstab
+/dev/mapper/secret /mnt/secret ext4 defaults 1 2
+
+- Reboot to see if it works

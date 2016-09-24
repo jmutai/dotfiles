@@ -1,0 +1,9 @@
+    A file integrity checker and intrusion detection program.
+
+# pacman -S aide
+# yum -y install aide
+
+# vim /etc/aide.conf
+- Create database in /var/lib/aide directory
+# aide --init
+# aide --check
