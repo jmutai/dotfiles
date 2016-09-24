@@ -71,28 +71,28 @@ if [[ "$?" -eq 0 ]]; then
 }
 
 mygit () {
-rsync -av ~/.config/i3/ ~/mygit/.config/i3/ 
-rsync -av ~/.i3blocks.conf ~/mygit/.config/ 
-rsync -av ~/cheats/ ~/mygit/cheat-sheets/
-rsync -av  ~/.ncmpcpp/config ~/mygit/.ncmpcpp/
-rsync -av ~/.zshrc ~/mygit/
-rsync -av ~/.vim/ ~/mygit/.vim/
-rsync -av ~/.vimrc ~/mygit/
-sync  -av ~/.config/ranger/ ~/mygit/.config/ranger/
-rsync -av ~/.mpd/mpd.conf  ~/mygit/.mpd/
-rsync -av ~/.config/mpv/  ~/mygit/.config/mpv/
-rsync -av ~/.config/termite/config  ~/mygit/.config/termite/
-rsync -av ~/.muttrc ~/mygit/
-rsync -av ~/.mutt/themes/ ~/mygit/.mutt/themes/ 
+rsync -av ~/.config/i3/ ~/mygit/dotfiles/.config/i3/ 
+rsync -av ~/.i3blocks.conf ~/mygit/dotfiles/.config/ 
+rsync -av ~/cheats/ ~/mygit/dotfiles/cheat-sheets/
+rsync -av  ~/.ncmpcpp/config ~/mygit/dotfiles/.ncmpcpp/
+rsync -av ~/.zshrc ~/mygit/dotfiles/
+rsync -av ~/.vim/ ~/mygit/dotfiles/.vim/
+rsync -av ~/.vimrc ~/mygit/dotfiles/
+sync  -av ~/.config/ranger/ ~/mygit/dotfiles/.config/ranger/
+rsync -av ~/.mpd/mpd.conf  ~/mygit/dotfiles/.mpd/
+rsync -av ~/.config/mpv/  ~/mygit/dotfiles/.config/mpv/
+rsync -av ~/.config/termite/config  ~/mygit/dotfiles/.config/termite/
+rsync -av ~/.muttrc ~/mygit/dotfiles/
+rsync -av ~/.mutt/themes/ ~/mygit/dotfiles/.mutt/themes/ 
 
-rsync -av  ~/.lab/func ~/mygit/.functions
-rsync -av  ~/.lab/aliases  ~/mygit/.aliases
-rsync -av  ~/.lab/exports  ~/mygit/.exports
-rsync -av ~/.lab/bash-scripts/ ~/mygit/scripts/ 
-rsync -av ~/.mutt/accounts/gmail ~/mygit/.mutt/accounts/
-rsync -av ~/.cmus/rc  ~/mygit/.cmus/
-rsync -av /usr/share/cmus/  ~/mygit/.cmus/usr-share-cmus/
-rsync -av ~/.Xresources  ~/mygit/
+rsync -av  ~/.lab/func ~/mygit/dotfiles/.functions
+rsync -av  ~/.lab/aliases  ~/mygit/dotfiles/.aliases
+rsync -av  ~/.lab/exports  ~/mygit/dotfiles/.exports
+rsync -av ~/.lab/bash-scripts/ ~/mygit/dotfiles/scripts/ 
+rsync -av ~/.mutt/accounts/gmail ~/mygit/dotfiles/.mutt/accounts/
+rsync -av ~/.cmus/rc  ~/mygit/dotfiles/.cmus/
+rsync -av /usr/share/cmus/  ~/mygit/dotfiles/.cmus/usr-share-cmus/
+rsync -av ~/.Xresources  ~/mygit/dotfiles/
 
 
 }
