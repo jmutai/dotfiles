@@ -1,0 +1,108 @@
+# Backup important files to Dropbox
+
+backup () {
+rsync -av ~/.config/i3/config ~/Dropbox/arch-custom/i3config.bak 
+rsync -av ~/.i3blocks.conf ~/Dropbox/arch-custom/i3blocks.bak 
+rsync -av ~/cheats ~/Dropbox/arch-custom/cheatsheets 
+rsync -av /home/josepy/.lab/ /home/josepy/Dropbox/dotfiles/
+rsync -av /home/josepy/.lab/ /home/josepy/Dropbox/arch-custom/lab/
+rsync -av  /home/josepy/cherrytree /home/josepy/Dropbox/cherrytree
+rsync -av  ~/.ncmpcpp/config  /home/josepy/Dropbox/arch-custom/ncmpcpp.conf
+rsync -av ~/.oh-my-zsh ~/Dropbox/arch-custom/oh-my-zsh
+rsync -av ~/.zshrc ~/Dropbox/arch-custom/zshrc.bak 
+rsync -av ~/.vimrc ~/Dropbox/arch-custom/vimrc.bak
+rsync -av ~/.vim ~/Dropbox/arch-custom/vim/
+rsync -av ~/.config/ranger/ ~/Dropbox/arch-custom/ranger
+rsync -av ~/.mpd/mpd.conf ~/Dropbox/arch-custom/mpd.conf.bak
+rsync -av ~/.config/mpv/mpv.conf ~/Dropbox/arch-custom/mpv.conf.bak
+rsync -av ~/.config/mpv/scripts ~/Dropbox/arch-custom/mpv-scripts
+rsync -av ~/.config/termite/config ~/Dropbox/arch-custom/termite-config
+rsync -av ~/.muttrc ~/Dropbox/arch-custom/muttrc
+rsync -av ~/.mutt/ ~/Dropbox/arch-custom/mutt/
+rsync -av ~/.Xresources ~/Dropbox/arch-custom/
+}
+
+# Shuffle files on mpv
+play (){
+    mpv --shuffle *
+    }
+
+
+# Check system total boot time
+st () {
+systemd-analyze | awk '{print $NF}'
+}
+
+# Remove unused/old docker containers
+contrem (){
+        cont_ids=`docker ps -a | awk '{print $1}' | grep -o "[a-f0-9]\{12\}"`
+
+for i in $cont_ids; do
+   echo ""
+   echo -e "Removing old docker containers...."
+   echo ""
+   docker rm $i;
+done
+
+if [[ "$?" -eq 0 ]]; then
+    echo ""
+    echo "*** All containers removed ***"
+      else
+        echo "Error/No containers to delete..."
+fi
+}
+
+imgrem (){
+old_image_ids=`docker  images  | grep none | awk '{print $3}'`
+
+for i in $old_image_ids; do
+    echo ""
+    echo -e "Removing old unused docker images in none repo...."
+    echo ""
+    docker rmi $i;
+done
+
+if [[ "$?" -eq 0 ]]; then
+    echo ""
+    echo "*** All docker images in none repo removed ***"
+        else
+     echo "Error,No docker images deleted..."
+ fi
+}
+
+mygit () {
+rsync -av ~/.config/i3/ ~/mygit/.config/i3/ 
+rsync -av ~/.i3blocks.conf ~/mygit/.config/ 
+rsync -av ~/cheats/ ~/mygit/cheat-sheets/
+rsync -av  ~/.ncmpcpp/config ~/mygit/.ncmpcpp/
+rsync -av ~/.zshrc ~/mygit/
+rsync -av ~/.vim/ ~/mygit/.vim/
+rsync -av ~/.vimrc ~/mygit/
+sync  -av ~/.config/ranger/ ~/mygit/.config/ranger/
+rsync -av ~/.mpd/mpd.conf  ~/mygit/.mpd/
+rsync -av ~/.config/mpv/  ~/mygit/.config/mpv/
+rsync -av ~/.config/termite/config  ~/mygit/.config/termite/
+rsync -av ~/.muttrc ~/mygit/
+rsync -av ~/.mutt/themes/ ~/mygit/.mutt/themes/ 
+
+rsync -av  ~/.lab/func ~/mygit/.functions
+rsync -av  ~/.lab/aliases  ~/mygit/.aliases
+rsync -av  ~/.lab/exports  ~/mygit/.exports
+rsync -av ~/.lab/bash-scripts/ ~/mygit/scripts/ 
+rsync -av ~/.mutt/accounts/gmail ~/mygit/.mutt/accounts/
+rsync -av ~/.cmus/rc  ~/mygit/.cmus/
+rsync -av /usr/share/cmus/  ~/mygit/.cmus/usr-share-cmus/
+rsync -av ~/.Xresources  ~/mygit/
+
+
+}
+
+
+# Make a temporary directory and enter it
+tmpd() {
+        if [ $# -eq 0 ]; then
+            tmpdir=`mktemp -d` && cd $dir
+        else
+            dir=`mktemp -d -t $1.XXXXXXXXXX` && cd $tmpdir
+        fi
+    }

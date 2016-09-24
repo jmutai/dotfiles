@@ -1,0 +1,57 @@
+#URxvt.font:           xft:DejaVu Sans Mono:pixelsize=11
+URxvt.jumpScroll:     true
+URxvt.scrollBar:      false
+URxvt.saveLines:      0
+URxvt.pointerShape:   arrow
+URxvt.termName:       rxvt-unicode
+URxvt.urgentOnBell:   true
+
+XTerm.termName:              xterm-16color
+XTerm.charClass:             33:48,37:48,42:48,45-47:48,58:48,63-64:48,126:48
+XTerm.vt100.faceName:        DejaVu Sans Mono
+XTerm.vt100.faceSize:        8
+XTerm.vt100.eightBitInput:   false
+XTerm.vt100.metaSendsEscape: true
+XTerm.vt100.bellIsUrgent:    true
+XTerm.vt100.pointerShape:    arrow
+XTerm.vt100.saveLines:       0
+XTerm.vt100.scrollBar:       false
+
+*.background:  #002b36
+*.foreground:  #93a1a1
+*.cursorColor: white
+
+*.color0:      #002b36
+*.color1:      #dc322f
+*.color2:      #859900
+*.color3:      #b58900
+*.color4:      #268bd2
+*.color5:      #d33682
+*.color6:      #2aa198
+*.color7:      #93a1a1
+*.color8:      #586e75
+*.color9:      #dc322f
+*.color10:     #859900
+*.color11:     #b58900
+*.color12:     #268bd2
+*.color13:     #d33682
+*.color14:     #2aa198
+*.color15:     #fdf6e3
+
+Xcursor.theme: Adwaita
+
+Xft.dpi:       96
+Xft.antialias: true
+Xft.hinting:   true
+Xft.hintstyle: hintfull
+Xft.lcdfilter: none
+Xft.rgba:      rgb
+
+! ------------------------------------------------------------------------------
+! ROFI Color theme
+! ------------------------------------------------------------------------------
+rofi.color-enabled: true
+rofi.color-window: #002b37, #002b37, #003642
+rofi.color-normal: #002b37, #819396, #003643, #008ed4, #ffffff
+rofi.color-active: #002b37, #008ed4, #003643, #008ed4, #66c6ff
+rofi.color-urgent: #002b37, #da4281, #003643, #008ed4, #890661

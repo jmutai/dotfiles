@@ -1,0 +1,25 @@
+- Directory that holds info about kernel modules is:
+ /lib/modules
+# cat /proc/version
+# cat /proc/cmdline
+
+- Listing loaded modules
+# lsmod
+# cat /proc/modules
+# lsmod | grep ^v
+
+- Displaying Module information
+# modinfo dm_mirror
+
+- Loading Modules
+# modprobe -v dm_mirror
+
+- Unload Kernel Modules
+# modprobe -vr dm_mirror
+
+- Installing new modules
+# depmod > Force the system to scan the hardware, find appropriate modules for new devices, create required dependencies, and update the 
+# depmod -v 
+
+
+

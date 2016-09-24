@@ -1,0 +1,167 @@
+
+# Color scheme
+#source ~/.mutt/themes/tomorrow-night.muttrc
+source ~/.mutt/themes/mutt-colors-solarized-dark-256.muttrc
+set status_on_top = yes
+set status_format  = "Folder: %f : %r%n new (%m messages)%?d? (%d to delete)?%?t? (%t tagged)? %>-%?p?( %p postponed )? : "
+
+set imap_check_subscribed
+set imap_keepalive = 300
+unset imap_passive
+set mail_check = 60
+set mbox_type=Maildir
+
+# Paths ----------------------------------------------
+set folder           = ~/.mail               # mailbox location
+set alias_file       = ~/.mutt/alias         # alias file
+set header_cache     = ~/.mutt/cache/headers # where to store headers
+set message_cachedir = ~/.mutt/cache/bodies  # where to store bodies
+set certificate_file = ~/.mutt/certificates  # where to store certs
+set mailcap_path     = ~/.mutt/mailcap       # entries for filetypes
+set tmpdir           = ~/.mutt/temp          # where to keep temp files
+set signature        = ~/.mutt/sig           # my signature file
+
+auto_view text/html
+set content_type=text/html
+ignore "Authentication-Results:"
+ignore "DomainKey-Signature:"
+ignore "DKIM-Signature:"
+
+# Set editor
+
+# Sidebar Patch --------------------------------------
+set sidebar_visible = yes
+bind index,pager B sidebar-toggle-visible
+set sidebar_width   = 24
+set sidebar_format  = "%B%* (%N)"
+#set sidebar_delim='|'
+#set sidebar_sort=yes
+
+# Bar shortcuts
+# Ctrl-n, Ctrl-p to select next, previous folder.
+# # Ctrl-o to open selected folder.
+ bind index,pager \CP sidebar-prev
+ bind index,pager \CN sidebar-next
+ bind index,pager \CO sidebar-open
+
+
+ # Special Keybindings  
+ 
+bind editor <space> noop  
+macro index,pager ga "<change-folder>=[Gmail]/All<tab><enter>" "Go to all mail"  
+macro index,pager gi "<change-folder>=INBOX<enter>" "Go to inbox"  
+macro index,pager gs "<change-folder>=[Gmail]/Starred<enter>" "Go to starred messages"  
+macro index,pager gd "<change-folder>=[Gmail]/Drafts<enter>" "Go to drafts"  
+macro index,pager e "<enter-command>unset trash\n <delete-message>" "Gmail archive message" # different from Gmail, but wanted to keep "y" to show folders.
+
+# Gmail account 1
+source ~/.mutt/accounts/gmail.muttrc
+folder-hook $folder  'source ~/.mutt/accounts/gmail.muttrc'
+
+# Default inbox.
+
+mailboxes "+---- Mailboxes ---------------" \
+
+ #         +kiplangatmtai/ \
+         # +---GitHub--- \
+         # +github/INBOX \
+         # +github/sent \
+
+
+# Index View Options
+set date_format = "%Y-%m-%d %H:%M"
+set index_format = "[%Z]  %D  %-20.20F  %s"
+set sort = threads                         # like gmail
+set sort_aux = reverse-last-date-received  # like gmail
+set uncollapse_jump                        # don't collapse on an unread message
+set sort_re                                # thread based on regex
+set reply_regexp = "^(([Rr][Ee]?(\[[0-9]+\])?: *)?(\[[^]]+\] *)?)*"
+
+# Pager View 
+set pager_index_lines = 10 # number of index lines to show
+set pager_context = 3      # number of context lines to show
+set pager_stop             # don't go to next message automatically
+set menu_scroll            # scroll in menus
+set tilde                  # show tildes like in vim
+unset markers              # no ugly plus signs
+set quote_regexp = "^( {0,4}[>|:#%]| {0,4}[a-z0-9]+[>|]+)+"
+alternative_order text/plain text/enriched text/html
+
+# Compose View
+
+set realname = "Josphat Mutai"       # who am i?
+set envelope_from                    # which from?
+unset sig_dashes
+set sig_on_top                       # Signature before the quote
+set edit_headers                     # show headers when composing
+set fast_reply                       # skip to compose when replying
+set askcc                            # ask for CC:
+set fcc_attach                       # save attachments with the body
+unset mime_forward                   # forward attachments as part of body
+set forward_format = "Fwd: %s"       # format of subject when forwarding
+set forward_decode                   # decode when forwarding
+set attribution = "On %d, %n wrote:" # format of quoting header
+set reply_to                         # reply to Reply to: field
+set reverse_name                     # reply as whomever it was to
+set include                          # include message in replies
+set forward_quote                    # include message in forwards
+
+# Headers
+
+ignore *                                # ignore all headers
+unignore from: to: cc: date: subject:   # show only these
+hdr_order from: to: cc: date: subject:  # and in this order
+
+# unbind stupid keys
+bind index,pager \# noop
+bind index i        noop
+bind index w        noop
+
+# Pager
+bind pager i  exit
+bind pager /  search
+bind pager k  previous-line
+bind pager j  next-line
+bind pager gg top
+bind pager G  bottom
+bind pager R  group-reply
+
+bind attach,index,pager \CD next-page
+bind attach,index,pager \CU previous-page
+bind attach,index g first-entry
+bind attach,index G last-entry
+
+# Viewing urls
+ macro pager \cb <pipe-entry>'urlview'<enter> 'Follow links with urlview'
+
+
+# Index
+bind index R  group-reply
+bind index <tab>    sync-mailbox
+bind index k        previous-entry
+bind index j        next-entry
+bind index gg       first-entry
+bind index G        last-entry
+bind index p        recall-message
+bind index <space>  collapse-thread
+macro index s "<pipe-message>cat > ~/Desktop/"  "save message as"
+
+# Mark all as read
+macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read"
+
+# Sync email
+
+macro index o "<shell-escape>~/dotfiles/mutt/offlineimap_sync.sh --inbox<enter>"
+macro index O "<shell-escape>~/dotfiles/mutt/offlineimap_sync.sh<enter>"
+
+# Just use notmuch for everything
+macro index / "<enter-command>unset wait_key<enter><shell-escape>mutt-notmuch-py<enter><change-folder-readonly>~/.cache/mutt_results<enter>" \
+          "search mail (using notmuch)"
+
+# Unlimit aka show [a]ll
+ macro index a "<limit>all\n" "show all messages (undo limit)"
+
+# View
+ bind attach <return> view-mailcap
+
+

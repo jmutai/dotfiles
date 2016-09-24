@@ -1,0 +1,92 @@
+$ youtube-dl --get-filename -o '%(title)s.%(ext)s' BaW_jenozKc
+youtube-dl test video ''_ä↭𝕐.mp4    # All kinds of weird characters
+
+$ youtube-dl --get-filename -o '%(title)s.%(ext)s' BaW_jenozKc --restrict-filenames
+youtube-dl_test_video_.mp4          # A simple file name
+
+# Download YouTube playlist videos in separate directory indexed by video order in a playlist
+$ youtube-dl -o '%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s' https://www.youtube.com/playlist?list=PLwiyx1dc3P2JR9N8gQaQN_BCvlSlap7re
+
+# Download all playlists of YouTube channel/user keeping each playlist in separate directory:
+$ youtube-dl -o '%(uploader)s/%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s' https://www.youtube.com/user/TheLinuxFoundation/playlists
+
+# Download Udemy course keeping each chapter in separate directory under MyVideos directory in your home
+$ youtube-dl -u user -p password -o '~/MyVideos/%(playlist)s/%(chapter_number)s - %(chapter)s/%(title)s.%(ext)s' https://www.udemy.com/java-tutorial/
+
+# Download entire series season keeping each series and each season in separate directory under C:/MyVideos
+$ youtube-dl -o "C:/MyVideos/%(series)s/%(season_number)s - %(season)s/%(episode_number)s - %(episode)s.%(ext)s" http://videomore.ru/kino_v_detalayah/5_sezon/367617
+
+# Stream the video being downloaded to stdout
+$ youtube-dl -o - BaW_jenozKc
+
+> Not sure
+youtube-dl --continue --ignore-errors --no-overwrites --extract-audio --audio-format mp3 --output "%(title)s.%(ext)s" [path here]
+
+
+youtube-dl --download-archive downloaded.txt --no-post-overwrites -ciwx --audio-format mp3 -o "%(title)s.%(ext)s" [path here]
+It will redownload any videos from before that you didn't keep for one last time as it creates the list. You can now delete them.
+
+If your MP3 files had been named with the default format of %(title)s-%(id)s.%(ext)s, you could have avoided the redownload by creating downloaded.txt from the youtube %(id)s in a bash terminal as follows:
+
+for n in *.mp3
+do if [[ "$n" =~ -[-_0-9a-zA-Z]{11}.mp3$ ]]
+   then echo "youtube ${n: -15: 11}" >> downloaded.txt
+   fi
+done
+
+
+# To download a video in 720p MP4:
+youtube-dl -f 22 example.com/watch?v=id
+
+# To download a video in 720p MP4 or WebM or FLV:
+youtube-dl -f 22/45/120
+
+# To list all available formats of a video:
+youtube-dl -F example.com/watch?v=id
+
+# To download a video to /$uploader/$date/$title.$ext:
+youtube-dl -o '%(uploader)s/%(date)s/%(title)s.%(ext)s' example.com/watch?v=id
+
+# To download a video playlist starting from a certain video:
+youtube-dl --playlist-start 5 example.com/watch?v=id&list=listid
+
+# To simulate a download with youtube-dl:
+youtube-dl -s example.com/watch?v=id
+
+# For all video formats see
+# http://en.wikipedia.org/wiki/YouTube#Quality_and_codecs
+
+
+Also you can create URL list in a simple text file and use following command.
+
+ youtube-dl -cit -a file_name_in_which_you_paste_URL_list
+
+youtube-dl -cit --extract-audio --audio-format mp3 https://www.youtube.com/playlist?list=PLttJ4RON7sleuL8wDpxbKHbSJ7BH4vvCk
+
+
+Filesystem Options:
+    -a, --batch-file FILE            File containing URLs to download ('-' for stdin)
+    --id                             Use only video ID in file name
+    -o, --output TEMPLATE            Output filename template, see the "OUTPUT TEMPLATE" for all the info
+    --autonumber-size NUMBER         Specify the number of digits in %(autonumber)s when it is present in output filename template or --auto-number option is given
+    --restrict-filenames             Restrict filenames to only ASCII characters, and avoid "&" and spaces in filenames
+    -A, --auto-number                [deprecated; use -o "%(autonumber)s-%(title)s.%(ext)s" ] Number downloaded files starting from 00000
+    -t, --title                      [deprecated] Use title in file name (default)
+    -l, --literal                    [deprecated] Alias of --title
+    -w, --no-overwrites              Do not overwrite files
+    -c, --continue                   Force resume of partially downloaded files. By default, youtube-dl will resume downloads if possible.
+    --no-continue                    Do not resume partially downloaded files (restart from beginning)
+    --no-part                        Do not use .part files - write directly into output file
+    --no-mtime                       Do not use the Last-modified header to set the file modification time
+    --write-description              Write video description to a .description file
+    --write-info-json                Write video metadata to a .info.json file
+    --write-annotations              Write video annotations to a .annotations.xml file
+    --load-info-json FILE            JSON file containing the video information (created with the "--write-info-json" option)
+    --cookies FILE                   File to read cookies from and dump cookie jar in
+    --cache-dir DIR                  Location in the filesystem where youtube-dl can store some downloaded information permanently. By default $XDG_CACHE_HOME/youtube-
+                                     dl or ~/.cache/youtube-dl . At the moment, only YouTube player files (for videos with obfuscated signatures) are cached, but that
+                                     may change.
+    --no-cache-dir                   Disable filesystem caching
+    --rm-cache-dir                   Delete all filesystem cache files
+
+

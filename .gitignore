@@ -1,0 +1,3 @@
+# Ignore Trash folder if any exist
+.Trash-*
+

@@ -1,0 +1,10 @@
+# uncomment multiple lines
+:66,70s/^/#
+
+Comment back
+:66,70s/^#/
+
+or
+Shift + V
+:s/^/#
+

@@ -1,0 +1,48 @@
+
+ # Receive options
+
+ set imap_user = "user@gmail.com"
+ set imap_pass = "password-here"
+ set folder=imaps://user@imap.gmail.com/
+ set spoolfile = +INBOX
+ set postponed = +Drafts
+ set trash= +Trash
+ set record  = +Sent\ Items
+
+
+
+
+#set folder="imaps://imap.gmail.com"
+#set spoolfile="imaps://imap.gmail.com/INBOX"
+#set record="imaps://imap.gmail.com/[Gmail]/Sent Mail"
+
+save-hook       .* "=[Google Mail].Bin"
+
+# query via google contacts
+set query_command="goobook query '%s'"
+bind editor <Tab> complete-query
+macro index,pager a "<pipe-message>goobook add<return>" "add the sender addres
+color status green default
+
+
+# Send options
+
+ set from = "user@gmail.com"
+ set realname = "Real name"
+ set smtp_url = 'smtp://user@smtp.gmail.com'
+ set smtp_pass='password-here'
+ set hostname="gmail.com"
+ set signature="User Signature"
+
+ # Connection options 
+ set ssl_force_tls = yes
+ unset ssl_starttls
+
+## Hook -- IMPORTANT!
+account-hook $folder "set imap_user=user@gmail.com imap_pass=password-here"
+
+#unset record
+#set sendmail="/usr/sbin/ssmtp"
+
+# Check new mails after every 2 minutes
+set mail_check = 120

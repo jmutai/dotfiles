@@ -1,0 +1,79 @@
+
+    j – scroll down one line
+    k – scroll up one line
+    h – scroll to the left
+    l – scroll to the right
+    G – bottom of the page
+    gg – top of the page
+    Ctrl-f – scroll down one page
+    Ctrl-b – scroll up one page
+    gt – next tab
+    gT – previous tab
+    g0 – first tab
+    g$ – last tab
+    o – open URL (prompts for URL or string to be passed to default search engine)
+    t – open URL in new tab (prompts for URL)
+    T – open in new tab (shows current URL for editing)
+    :q – close tab
+    :qall or ZQ – quit Firefox without saving session
+    :xall or QQ – save session and quit Firefox
+    / string search for string on the current page
+    :help – open Vimperator’s help
+
+
+Exit , Restarting, & Other
+
+ZZ	: quit save tabs 
+C-Z 	: disable all Vimperator Keys except
+   	 Esc for Web Apps
+:res  	: restart browser
+:addons : shows addons window
+:preferences :shows preferences
+
+
+Navigating the Browser
+
+R 	:  reload 
+C-c 	: stop
+gP 	: opens copied link  into a new tab)
+gU	: goes to the root website 
+y	: yanks current location to clipboard 
+Y 	:  copy selected text 
+:vie [url]  : view source
+
+Navigating the Page
+
+zi	: text zoom 
+zo      : text shrink 
+F	: prints numbers, select one & it'll open  link in new tab 
+f       : same as above but for same tab 
+/ <term>:find term on page
+n       : go to the next matched term 
+
+Tabs & Windows
+
+:o www.vim.org	
+	- opens in current tab
+
+:o  test.com, test.net  
+	-  opens both in tabs
+
+:tabopen / :topen vim.org 
+	-  open in new tab
+
+
+> o set pass-through mode, just type Ctrl-z and you’ll see a big “– PASS THROUGH –” in the status bar.
+
+History and Bookmarks
+> To view the browser history, just type 
+:history
+
+> To move back one in the history, use Ctrl-o or H and to move forward in your browser history, use Ctrl-i or L. Just like Vim, you can add a “count” to the command as well — so if you want to go back two pages, just use 2H or to go forward three pages you can use 3L
+
+> To add a new bookmark, just type A. This will add a new bookmark for the current page. Or you can remove a bookmark for the page by hitting A again. This is similar to just using the star in the Awesome bar with standard Firefox.
+
+>To set a QuickMark, type M followed by an letter or number (0 through 9 only, QuickMarks doesn’t do double digits). For instance, if you wanted to assign Linux-Mag.com to the letter L while you were on the page, type ML.
+
+To go to that bookmark, type:
+goL
+

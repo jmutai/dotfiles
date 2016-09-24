@@ -1,0 +1,323 @@
+# vim:filetype=i3
+# i3 config file (v4)
+set $mod Mod4
+set $editor termite
+
+set_from_resource $darkred     color1  #000000
+set_from_resource $red         color9  #000000
+set_from_resource $darkgreen   color2  #000000
+set_from_resource $green       color10 #000000
+set_from_resource $darkyellow  color3  #000000
+set_from_resource $yellow      color11 #000000
+set_from_resource $darkblue    color4  #000000
+set_from_resource $blue        color12 #000000
+set_from_resource $darkmagenta color5  #000000
+set_from_resource $magenta     color13 #000000
+set_from_resource $darkcyan    color6  #000000
+set_from_resource $cyan        color14 #000000
+set_from_resource $darkwhite   color7  #000000
+set_from_resource $white       color15 #000000
+# Use custom colors for black
+set $black       #282828
+set $darkblack   #1d2021
+set $transparent #00000000
+
+set $ws1  "1:  "
+set $ws2  "2:  "
+set $ws3  "3:  "
+set $ws4  "4:  "
+set $ws5  "5:  "
+set $ws6  "6:  "
+set $ws7  "7:  "
+set $ws8  "8:  "
+set $ws9  "9:  "
+set $ws10 "10:  "
+
+set $default_gaps_inner 0
+set $default_gaps_outer 0
+gaps inner $default_gaps_inner
+gaps outer $default_gaps_outer
+
+workspace $ws1 gaps inner 0
+workspace $ws1 gaps outer 0
+workspace $ws9 gaps inner 0
+workspace $ws9 gaps outer 0
+workspace $ws10 gaps inner 0
+workspace $ws10 gaps outer 0
+
+workspace_auto_back_and_forth yes
+force_display_urgency_hint 0 ms
+focus_on_window_activation urgent
+smart_borders no_gaps
+
+floating_minimum_size -1 x -1
+floating_maximum_size -1 x -1
+
+font pango:Hack, FontAwesome 12
+
+#                       BORDER      BACKGROUND  TEXT        INDICATOR   CHILD_BORDER
+client.focused          $black      $black      $darkwhite  $darkblack  $darkblack
+client.unfocused        $black      $black      $white      $darkblack  $darkblack
+client.focused_inactive $black      $black      $white      $darkblack  $darkblack
+client.urgent           $darkred    $darkred    $black      $darkred    $darkred
+client.background       $black
+
+floating_modifier $mod
+bindsym $mod+Return exec --no-startup-id $HOME/scripts/fullscreen_wrap.sh $editor
+bindsym $mod+Shift+Return exec --no-startup-id $HOME/scripts/fullscreen_wrap.sh $editor --name __scratchpad
+
+bindsym $mod+q kill
+
+bindsym $mod+d exec --no-startup-id rofi -show run
+
+bindsym $mod+Left focus left
+bindsym $mod+Right focus right
+bindsym $mod+Up focus up
+bindsym $mod+Down focus down
+
+bindsym $mod+Shift+Left move left 35px
+bindsym $mod+Shift+Down move down 35px
+bindsym $mod+Shift+Up move up 35px
+bindsym $mod+Shift+Right move right 35px
+
+bindsym $mod+h split h
+bindsym $mod+v split v
+
+# Until I figure out a better way to use this key
+bindsym Hyper_L fullscreen
+bindsym $mod+f fullscreen
+bindsym $mod+g fullscreen global
+
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+
+bindsym $mod+a focus parent
+bindsym $mod+Shift+a focus child
+
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+bindsym $mod+Tab workspace back_and_forth
+
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+Shift+plus scratchpad show
+
+bindsym $mod+Shift+s sticky toggle
+# put YouTube into fullscreen and execute this for media mode
+bindsym $mod+y fullscreen disable; floating enable; resize set 400 300; sticky enable; move window to position 2140 20
+
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+bindsym XF86AudioLowerVolume exec --no-startup-id $HOME/scripts/volume_control.py down 5
+bindsym XF86AudioRaiseVolume exec --no-startup-id $HOME/scripts/volume_control.py up 5
+bindsym XF86AudioMute exec --no-startup-id $HOME/scripts/volume_control.py toggle
+bindsym $mod+Shift+v exec --no-startup-id "killall pavucontrol; $HOME/scripts/fullscreen_wrap.sh pavucontrol -t 3"
+
+bindsym XF86MonBrightnessDown exec --no-startup-id ${HOME}/scripts/backlight.sh -dec 10
+bindsym XF86MonBrightnessUp exec --no-startup-id ${HOME}/scripts/backlight.sh -inc 10
+
+bindsym $mod+Shift+w exec --no-startup-id $editor --name "__nmtui" -e "nmtui-connect"
+
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+r restart
+
+# screenshot
+bindsym --release Print exec --no-startup-id "maim -p 0 -c 0.96,0.5,0.09 $HOME/Pictures/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png"
+bindsym --release Shift+Print exec --no-startup-id "maim -s -p 0 -c 0.96,0.5,0.09 $HOME/Pictures/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png"
+
+bindsym $mod+n exec --no-startup-id thunar
+
+set $mode_resize resize
+bindsym $mod+r mode "$mode_resize"
+mode "$mode_resize" {
+    bindsym Left resize shrink width 10 px or 1 ppt
+    bindsym Down resize grow height 10 px or 1 ppt
+    bindsym Up resize shrink height 10 px or 1 ppt
+    bindsym Right resize grow width 10 px or 1 ppt
+
+    bindsym Shift+Left resize shrink width 20 px or 5 ppt
+    bindsym Shift+Down resize grow height 20 px or 5 ppt
+    bindsym Shift+Up resize shrink height 20 px or 5 ppt
+    bindsym Shift+Right resize grow width 20 px or 5 ppt
+
+    bindsym s mode "default", exec --no-startup-id $HOME/scripts/slopsize.sh
+
+    bindsym 1 mode "default", resize set 1000 600
+    bindsym 2 mode "default", resize set 1500 600
+    bindsym 3 mode "default", resize set 1200 1000
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+set $mode_power power
+bindsym Mod1+Control+l mode "$mode_power"
+mode "$mode_power" {
+    bindsym l mode "default", exec --no-startup-id $HOME/.i3/i3exit lock
+    bindsym e mode "default", exec --no-startup-id $HOME/.i3/i3exit logout
+    bindsym s mode "default", exec --no-startup-id $HOME/.i3/i3exit suspend
+    bindsym h mode "default", exec --no-startup-id $HOME/.i3/i3exit hibernate
+    bindsym r mode "default", exec --no-startup-id $HOME/.i3/i3exit reboot
+    bindsym p mode "default", exec --no-startup-id $HOME/.i3/i3exit shutdown
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+set $mode_gaps gaps
+set $mode_gaps_outer outer gaps
+set $mode_gaps_inner inner gaps
+bindsym $mod+Shift+g mode "$mode_gaps"
+mode "$mode_gaps" {
+    bindsym o      mode "$mode_gaps_outer"
+    bindsym i      mode "$mode_gaps_inner"
+
+    bindsym 0      mode "default", exec --no-startup-id i3-msg "gaps inner current set 0" && i3-msg "gaps outer current set 0"
+    bindsym d      mode "default", exec --no-startup-id i3-msg "gaps inner current set $default_gaps_inner" && i3-msg "gaps outer current set $default_gaps_outer"
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+mode "$mode_gaps_inner" {
+    bindsym plus  gaps inner current plus 5
+    bindsym minus gaps inner current minus 5
+    bindsym 0     mode "default", gaps inner current set 0
+    bindsym d     mode "default", gaps inner current set $default_gaps_inner
+
+    bindsym Shift+plus  gaps inner all plus 5
+    bindsym Shift+minus gaps inner all minus 5
+    bindsym Shift+0     mode "default", gaps inner all set 0
+    bindsym Shift+d     mode "default", gaps inner all set $default_gaps_inner
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+mode "$mode_gaps_outer" {
+    bindsym plus  gaps outer current plus 5
+    bindsym minus gaps outer current minus 5
+    bindsym 0     mode "default", gaps outer current set 0
+    bindsym d     mode "default", gaps outer current set $default_gaps_outer
+
+    bindsym Shift+plus  gaps outer all plus 5
+    bindsym Shift+minus gaps outer all minus 5
+    bindsym Shift+0     mode "default", gaps outer all set 0
+    bindsym Shift+d     mode "default", gaps outer all set $default_gaps_outer
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+set $mode_brightness brightness
+bindsym $mod+Shift+b mode "$mode_brightness"
+mode "$mode_brightness" {
+    bindsym plus  exec --no-startup-id ${HOME}/scripts/backlight.sh -time 50 -inc 10
+    bindsym minus exec --no-startup-id ${HOME}/scripts/backlight.sh -time 50 -dec 10
+    bindsym Shift+plus  exec --no-startup-id ${HOME}/scripts/backlight.sh -time 50 -inc 1
+    bindsym Shift+minus exec --no-startup-id ${HOME}/scripts/backlight.sh -time 50 -dec 1
+
+    bindsym 0     mode "default", exec --no-startup-id ${HOME}/scripts/backlight.sh -time 50 -set 100
+    bindsym 1     mode "default", exec --no-startup-id ${HOME}/scripts/backlight.sh -time 50 -set 10
+    bindsym 2     mode "default", exec --no-startup-id ${HOME}/scripts/backlight.sh -time 50 -set 20
+    bindsym 3     mode "default", exec --no-startup-id ${HOME}/scripts/backlight.sh -time 50 -set 30
+    bindsym 4     mode "default", exec --no-startup-id ${HOME}/scripts/backlight.sh -time 50 -set 40
+    bindsym 5     mode "default", exec --no-startup-id ${HOME}/scripts/backlight.sh -time 50 -set 50
+    bindsym 6     mode "default", exec --no-startup-id ${HOME}/scripts/backlight.sh -time 50 -set 60
+    bindsym 7     mode "default", exec --no-startup-id ${HOME}/scripts/backlight.sh -time 50 -set 70
+    bindsym 8     mode "default", exec --no-startup-id ${HOME}/scripts/backlight.sh -time 50 -set 80
+    bindsym 9     mode "default", exec --no-startup-id ${HOME}/scripts/backlight.sh -time 50 -set 90
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+# fix graphics glitch
+new_window none
+#for_window [class=(?i)termite] border pixel 3
+
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="bubble"] floating enable
+for_window [window_role="task_dialog"] floating enable
+for_window [window_role="Preferences"] floating enable
+
+for_window [window_type="dialog"] floating enable
+for_window [window_type="menu"] floating enable
+
+for_window [class="(?i)gsimplecal"] floating enable, move position mouse
+for_window [class="(?i)qemu-system"] floating enable
+for_window [class="(?i)VirtualBox" title="(?i)Manager"] floating enable
+for_window [class="(?i)blueman"] floating enable
+
+#for_window [instance="sun-awt-X11-XFramePeer"] floating enable
+for_window [instance="__scratchpad"] floating enable
+for_window [instance="__nmtui"] floating enable
+
+for_window [class="(?i)pavucontrol"] floating enable, move position mouse
+for_window [class="(?i)pavucontrol" instance="pavucontrol-bar"] move down 34px
+
+#assign [class="(?i)chrome"]                       $ws1
+assign [class="(?i)eclipse" window_type="splash"] $ws3
+assign [class="(?i)eclipse" window_type="normal"] $ws3
+assign [class="(?i)thunderbird"]                  $ws9
+
+bar {
+#    verbose yes
+    status_command i3blocks
+    i3bar_command i3bar -t
+    position top
+    font pango:Hack, FontAwesome 11
+    strip_workspace_numbers yes
+    separator_symbol "■"
+    bindsym button4 nop
+    bindsym button5 nop
+    tray_output eDP1
+    tray_output LVDS-0
+    tray_padding 0
+    height 34
+    colors {
+        statusline         $white
+        background         $transparent
+        separator          $transparent
+
+#                          BORDER       BACKGROUND   TEXT
+        focused_workspace  $transparent $transparent $darkwhite
+        inactive_workspace $transparent $transparent $white
+        active_workspace   $transparent $transparent $white
+        urgent_workspace   $darkred     $darkred     $transparent
+        binding_mode       $darkred     $darkred     $transparent
+    }
+}
+
+# AUTOSTART
+exec_always --no-startup-id feh --bg-fill $HOME/.config/wallpapers/simple.png
+exec --no-startup-id compton -b
+
+exec --no-startup-id nm-applet &
+exec --no-startup-id blueman-applet &
+exec --no-startup-id redshift-gtk &
+
+exec --no-startup-id dunst &
+exec --no-startup-id xedgewarp -b
+
+exec_always --no-startup-id "pgrep --exact xev || xev -root -event randr | grep --line-buffered ScreenChangeNotify | while read change; do pkill -RTMIN+4 i3blocks; done"
