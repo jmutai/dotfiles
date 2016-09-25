@@ -70,9 +70,21 @@ statusbar_visibility = "yes"
 titles_visibility = "yes"
 
 progressbar_look = "▀▀ "
+progressbar_boldness = "yes"
+#progressbar_elapsed_color = "white"
+
 now_playing_prefix = "> "
 song_status_format = " $2%a $4⟫$3⟫ $8%t $4⟫$3⟫ $5%b "
 autocenter_mode = "yes"
 centered_cursor = "yes"
+
+# Misc
+display_bitrate = "yes"
+# enable_window_title = "no"
+follow_now_playing_lyrics = "yes"
+ignore_leading_the = "yes"
+
+
+
 
 

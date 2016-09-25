@@ -93,6 +93,8 @@ rsync -av ~/.mutt/accounts/gmail ~/mygit/dotfiles/.mutt/accounts/
 rsync -av ~/.cmus/rc  ~/mygit/dotfiles/.cmus/
 rsync -av /usr/share/cmus/  ~/mygit/dotfiles/.cmus/usr-share-cmus/
 rsync -av ~/.Xresources  ~/mygit/dotfiles/
+rsync -av /usr/lib/i3blocks/ ~/mygit/dotfiles/i3blocks/
+rsync -av ~/.i3blocks.conf ~/mygit/dotfiles/i3blocks/ 
 
 
 }

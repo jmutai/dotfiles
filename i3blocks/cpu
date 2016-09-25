@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+cpu_cores="$(grep -c ^processor /proc/cpuinfo)"
+echo "$cpu_cores"
