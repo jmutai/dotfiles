@@ -36,7 +36,8 @@ else:
     elif state == "Unknown":
         fulltext = "<span font='FontAwesome'>\uf128</span> "
     else:
-        fulltext = FA_LIGHTNING + " " + FA_PLUG + " "
+        #fulltext = FA_LIGHTNING + " " + FA_PLUG + " "
+        fulltext =   FA_PLUG + " "
 
     def color(percent):
         if percent < 10:

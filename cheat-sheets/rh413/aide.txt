@@ -1,9 +1,20 @@
-    A file integrity checker and intrusion detection program.
+AIDE: Advanced intrusion detection environment
+A file integrity checker and intrusion detection program.
 
 # pacman -S aide
 # yum -y install aide
 
+- Config file
 # vim /etc/aide.conf
-- Create database in /var/lib/aide directory
+
+- Initialize database in /var/lib/aide directory
 # aide --init
+
+- To check file system integrity
 # aide --check
+# aide -C
+
+Syntax in config file
+
+<directory> <monitor>
+

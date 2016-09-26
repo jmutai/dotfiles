@@ -28,9 +28,9 @@ if ! [ -e "/sys/class/net/${INTERFACE}/operstate" ] || ! [ "`cat /sys/class/net/
 then
     #echo "$INTERFACE down"
     #echo "$INTERFACE down"
-    echo "$INTERFACE "
-    echo "$INTERFACE "
-    echo "#FF0000"
+    #echo "$INTERFACE "
+    #echo "$INTERFACE "
+    #echo "#FF0000"
     exit 0
 fi
 
@@ -83,10 +83,10 @@ fi
 echo -n " "
 
 # outgoing
-echo -n " "
-tx_kib=$(( $tx_rate >> 10 ))
-if [[ "$tx_rate" -gt 1048576 ]]; then
-  printf '%sM' "`echo "scale=1; $tx_kib / 1024" | bc`"
-else
-  echo -n "${tx_kib}K"
-fi
+#echo -n " "
+#tx_kib=$(( $tx_rate >> 10 ))
+#if [[ "$tx_rate" -gt 1048576 ]]; then
+ # printf '%sM' "`echo "scale=1; $tx_kib / 1024" | bc`"
+#else
+#  echo -n "${tx_kib}K"
+#fi

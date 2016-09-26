@@ -96,19 +96,23 @@ create_con (){
     echo -e " Your current connections are: \n"
     nmcli con show
     echo ""
-    echo -e " This will create new connection....."
-    echo -en " Enter interface type: " 
+    echo -en " This will create new connection.....\n"
+    echo ""
+    echo -en " Enter interface type(e.g team,ethernet,bridge,bridge-slave): " 
     read con_type
-    echo -en " Enter connection name: " 
+    echo -en " Enter connection name(e.g eth1): " 
     read con_name
-    echo -en " Enter interface name: "
+    echo -en " Enter interface name(e.g eno1): "
     read int_name
-    echo -en " Enter ipv4: " 
+    echo -en " Enter ipv4 ( e.g 192.168.1.5/24): " 
     read ip_v4
-    echo -en " Enter gw v4: " 
+    echo -en " Enter gw v4 (e.g 192.168.1.1): " 
     read gw_v4
-    echo -e " Adding connections ...... \n"
+    echo -en "Enter con method (auto/manual): "
+    read con_method
+    echo -e " Adding connections ...... "
     nmcli con add type "$con_type" ifname "$int_name" con-name "$con_name" autoconnect yes  ip4 "$ip_v4"  gw4 "$gw_v4" 
+    nmcli con mod "$con_name" ipv4.method "$con_method"
     echo ""
     if [[ $? -eq "0" ]]; then
 	echo "***** Network connection added successfully ***** "

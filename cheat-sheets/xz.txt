@@ -1,0 +1,11 @@
+time xz -9ve --threads=0 linux-3.18.19.tar
+
+Compress a directory
+tar cJvf etc.tar.xz /etc/
+
+XZ_OPT=-9e tar cJf vid.tar.xz dir/
+
+Decompress
+xz -d file.txt.xz
+
+

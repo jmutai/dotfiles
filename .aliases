@@ -29,3 +29,5 @@ alias i3blocks='vim ~/.i3blocks.conf'
 
 alias main='vim /home/josepy/Dropbox/arch-custom/arch-custom.txt' 
 alias push='git push -u origin master'
+alias ssh='TERM=xterm  ssh'
+

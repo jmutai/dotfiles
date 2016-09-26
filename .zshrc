@@ -1,6 +1,6 @@
 # Path to your oh-my-zsh installation.
   export ZSH=~/.oh-my-zsh
-  export PATH=$PATH:~/.lab
+  export PATH=$PATH:~/.lab/bash-scripts 
 
 ZSH_THEME="honukai"
 
@@ -19,7 +19,8 @@ export ARCHFLAGS="-arch x86_64"
 
 setopt HIST_IGNORE_ALL_DUPS
 
-alias ypa="youtube-dl -f 22 --write-auto-sub --ignore-errors --no-overwrites --embed-subs --download-archive=downloaded.txt -o '%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s'"
+alias ypa="youtube-dl -f 22 --write-auto-sub --ignore-errors --no-overwrites --embed-subs --download-archive=downloaded.txt \
+    -o '%(playlist)s/%(title)s.%(ext)s'"
 alias res='ypa -c --download-archive=downloaded.txt https://www.youtube.com/playlist?list=PL2BN1Zd8U_MufmbEcn5cIpsd1LHFKA8S3'
 
 # Single video

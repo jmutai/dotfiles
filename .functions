@@ -1,15 +1,17 @@
+#!/bin/bash
+
 # Backup important files to Dropbox
 
 backup () {
-rsync -av ~/.config/i3/config ~/Dropbox/arch-custom/i3config.bak 
-rsync -av ~/.i3blocks.conf ~/Dropbox/arch-custom/i3blocks.bak 
-rsync -av ~/cheats ~/Dropbox/arch-custom/cheatsheets 
+rsync -av ~/.config/i3/config ~/Dropbox/arch-custom/i3config.bak
+rsync -av ~/.i3blocks.conf ~/Dropbox/arch-custom/i3blocks.bak
+rsync -av ~/cheats ~/Dropbox/arch-custom/cheatsheets
 rsync -av /home/josepy/.lab/ /home/josepy/Dropbox/dotfiles/
 rsync -av /home/josepy/.lab/ /home/josepy/Dropbox/arch-custom/lab/
 rsync -av  /home/josepy/cherrytree /home/josepy/Dropbox/cherrytree
 rsync -av  ~/.ncmpcpp/config  /home/josepy/Dropbox/arch-custom/ncmpcpp.conf
 rsync -av ~/.oh-my-zsh ~/Dropbox/arch-custom/oh-my-zsh
-rsync -av ~/.zshrc ~/Dropbox/arch-custom/zshrc.bak 
+rsync -av ~/.zshrc ~/Dropbox/arch-custom/zshrc.bak
 rsync -av ~/.vimrc ~/Dropbox/arch-custom/vimrc.bak
 rsync -av ~/.vim ~/Dropbox/arch-custom/vim/
 rsync -av ~/.config/ranger/ ~/Dropbox/arch-custom/ranger
@@ -71,8 +73,8 @@ if [[ "$?" -eq 0 ]]; then
 }
 
 mygit () {
-rsync -av ~/.config/i3/ ~/mygit/dotfiles/.config/i3/ 
-rsync -av ~/.i3blocks.conf ~/mygit/dotfiles/.config/ 
+rsync -av ~/.config/i3/ ~/mygit/dotfiles/.config/i3/
+rsync -av ~/.i3blocks.conf ~/mygit/dotfiles/.config/
 rsync -av ~/cheats/ ~/mygit/dotfiles/cheat-sheets/
 rsync -av  ~/.ncmpcpp/config ~/mygit/dotfiles/.ncmpcpp/
 rsync -av ~/.zshrc ~/mygit/dotfiles/
@@ -83,18 +85,18 @@ rsync -av ~/.mpd/mpd.conf  ~/mygit/dotfiles/.mpd/
 rsync -av ~/.config/mpv/  ~/mygit/dotfiles/.config/mpv/
 rsync -av ~/.config/termite/config  ~/mygit/dotfiles/.config/termite/
 rsync -av ~/.muttrc ~/mygit/dotfiles/
-rsync -av ~/.mutt/themes/ ~/mygit/dotfiles/.mutt/themes/ 
+rsync -av ~/.mutt/themes/ ~/mygit/dotfiles/.mutt/themes/
 
 rsync -av  ~/.lab/func ~/mygit/dotfiles/.functions
 rsync -av  ~/.lab/aliases  ~/mygit/dotfiles/.aliases
 rsync -av  ~/.lab/exports  ~/mygit/dotfiles/.exports
-rsync -av ~/.lab/bash-scripts/ ~/mygit/dotfiles/scripts/ 
+rsync -av ~/.lab/bash-scripts/ ~/mygit/dotfiles/scripts/
 rsync -av ~/.mutt/accounts/gmail ~/mygit/dotfiles/.mutt/accounts/
 rsync -av ~/.cmus/rc  ~/mygit/dotfiles/.cmus/
 rsync -av /usr/share/cmus/  ~/mygit/dotfiles/.cmus/usr-share-cmus/
 rsync -av ~/.Xresources  ~/mygit/dotfiles/
 rsync -av /usr/lib/i3blocks/ ~/mygit/dotfiles/i3blocks/
-rsync -av ~/.i3blocks.conf ~/mygit/dotfiles/i3blocks/ 
+rsync -av ~/.i3blocks.conf ~/mygit/dotfiles/i3blocks/
 
 
 }

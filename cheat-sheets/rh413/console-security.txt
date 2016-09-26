@@ -1,0 +1,25 @@
+1. Create grub password
+use gru-crypt or grub-md5-crypt
+
+# grub-crypt
+- Add password
+- Copy given value output
+# vim /etc/grub.conf
+Add the line
+password --encrypted <Encrypted password>
+
+Disable ctrl+Alt+Delete
+# cp /etc/init/control-alt-delete.conf /etc/init/control-alt-delete.override
+# vim /etc/init/control-alt-delete.override
+
+exec /bin/true
+
+Securing Text login
+before login message: /etc/issue
+Before login ssh: /etc/issue/net
+
+After login
+/etc/motd
+
+
+
