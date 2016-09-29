@@ -1,0 +1,39 @@
+Services
+Syslog
+Systemd-journald
+
+Evolution:
+Syslog > facility.priority destination
+Syslog-ng
+Rsyslog > Modular, current
+
+# /etc/rsyslog.conf
+
+Secured remote logging
+Requirements:
+1. Time sync
+2. TLS certificates > Generate with certtool
+3. Log server and client using TLS both should have port 6514/tcp
+4. Gtls driver must be configured on the client
+5. CA certs present on client and server
+
+- SELinux port type:
+ syslogd_port_t
+
+- The package providing 
+
+# yum search rsyslog
+# yum -y install rsyslog-doc elinks
+
+Client:
+Procedure
+# systemctl enable chronyd
+
+- Doc is in /usr/share/doc/rsyslog-xxx/
+- Create the private key that will be used to sign host certificates
+# certtool --generate-privkey --outfile ca-key.pem
+
+- Create the Certificate authority(CA) certificate to veri
+# certtool --generate-self-signed --load-privkey ca-key.pem --outfile ca.pem
+
+Configure remote server

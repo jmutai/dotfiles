@@ -1,3 +1,7 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =1
+let g:netrw_dirhist_cnt =5
 let g:netrw_dirhist_1='/home/josepy/.lab/scripts/i3-battery-popup'
+let g:netrw_dirhist_2='/home/josepy/dotfiles/leofa-dotfiles/.git'
+let g:netrw_dirhist_3='/home/josepy/dotfiles/leofa-dotfiles/setup'
+let g:netrw_dirhist_4='/home/josepy/.lab/scripts/i3-battery-popup'
+let g:netrw_dirhist_5='/home/josepy/.config/i3'

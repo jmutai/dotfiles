@@ -102,13 +102,15 @@ bindsym $mod+a focus parent
 #bindsym $mod+d focus child
 
 # Workspace Variables
-set $ws1 "1: Desktop  "
-set $ws2 "2: Web  "
-set $ws3 "3: Learn  "
-set $ws4 "4: Thunar  "
-set $ws5 "5: Virtual  "
-set $ws6 "6: Spotify  "
-set $ws7 "7: Tor  "
+
+set $ws1 "1:  "
+set $ws2 "2:  "
+set $ws3 "3:  "
+set $ws4 "4:  "
+set $ws5 "5:  "
+set $ws6 "6:  "
+set $ws7 "7:  "
+
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -117,8 +119,8 @@ bindsym $mod+3 workspace $ws3
 bindsym $mod+4 workspace $ws4
 bindsym $mod+5 workspace $ws5
 bindsym $mod+6 workspace $ws6
-bindsym $mod+7 workspace 7
-bindsym $mod+8 workspace 8
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
 bindsym $mod+9 workspace 9
 bindsym $mod+0 workspace 10
 
@@ -167,6 +169,12 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
+# i3 gaps settings
+smart_gaps on
+gaps outer 0
+gaps inner 0 
+
+
 # Custom bind keys
 #bindsym $mod+l exec i3lock
 #
@@ -214,7 +222,7 @@ bar {
     separator_symbol        " " 
 
 
-    #strip_workspace_numbers yes
+   #strip_workspace_numbers yes
 
   colors {
         #separator #268bd2
@@ -236,60 +244,57 @@ bar {
 #client.unfocused #073642 #073642 #93a1a1 #586e75
 #client.urgent #d33682 #d33682 #fdf6e3 #dc322f
 
-set $m1 #fdf6e3 
-set $m2 #303030 
-                                               #BORDER    BACKGROUND   TEXT        INDICATOR   CHILD_BORDER
-                       client.focused          $black      $black      $m1         $darkblack  $darkblack
-                       client.unfocused        $black      $black      $white      $darkblack  $darkblack
-                       client.focused_inactive $black      $black      $white      $darkblack  $darkblack
-                       client.urgent           $darkred    $darkred    $black      $darkred    $darkred
+
+set $m1 #808080 
+set $m2 #FFF0E0
+                                               #BORDER    BACKGROUND   TEXT         INDICATOR   CHILD_BORDER
+                       client.focused          $black      $black      $m2          $darkblack  $darkblack
+                       client.unfocused        $black      $black      $m1          $darkblack  $darkblack
+                       client.focused_inactive $black      $black      $m1           $darkblack  $darkblack
+                       client.urgent           $darkred    $darkred    $black       $darkred    $darkred
                        client.background       $black
 
 
+#                       client.focused          $black      $black      $darkwhite  $darkblack  $darkblack
+#                       client.unfocused        $black      $black      $white      $darkblack  $darkblack
+#                       client.focused_inactive $black      $black      $white      $darkblack  $darkblack
+#                       client.urgent           $darkred    $darkred    $black      $darkred    $darkred
+#                       client.background       $black
+
 # Startup programs
 
-exec --no-startup-id dunst &
+exec --no-startup-id mpd  
+exec --no-startup-id conky  
+#exec --no-startup-id dropbox &
+exec --no-startup-id dunst 
+exec_always compton &
 exec_always feh --bg-scale ~/Pictures/wallpaper2.png
+#exec  ~/.config/i3/scripts/batnotify 
 
-# bindsym $mod+j exec --no-startup-id feh --bg-fill "$(find /home/afeld/Bilder/Wallpaper/ | shuf -n1)" &
-#
-
+# bindsym $mod+j exec --no-startup-id feh --bg-fill "$(find ~/Pictures/wallpapers | shuf -n1)" &
 #exec_always --no-startup-id nm-applet
-
-# Transparent background
-exec_always compton
-
-# Atostart media players
-exec --no-startup-id mpd
-exec --no-startup-id conky
-
 #exec --no-startup-id termite -name ncmpcpp -e ncmpcpp -s playlist
 
-exec_always --no-startup-id   dropbox
 
 # Bind App to workspace
 # Check class by : xprop
-assign [class="chromium"] $ws2
+assign [class="google-chrome"] $ws2
 assign [class="Atom"] $ws3
 assign [class="Foxit Reader"] $ws3
 assign [class="Thunar"] $ws4
-assign [class="Virt-manager"] $ws5
-assign [class="Cherrytree"] $ws3
 assign [class="mtp-ng-qt"] $ws4
-assign [class="Spotify"] $ws6
+assign [class="Caja"] $ws4
+assign [class="Virt-manager"] $ws5
 assign [class="qBittorrent"] $ws7
 
 
- assign [class="Termite" instance="ncmpcpp"] $ws6
-
-#assign [instance="xfce4-terminal|urxvt"] $WS1
-
-
-# Assign urxvt
-#
+# Assign to certain workspace
+assign [window_role="browser"] $ws2
+assign [class="(?i)qutebrowser"] $ws2
+assign [instance="spotify|cheese|gimp"] $ws6
 
 # Custom Keybinds
-bindsym $mod+c exec chromium
+bindsym $mod+c exec google-chrome-stable
 
 # Press $mod+o followed by either f, t, Esc or Return to launch firefox,
 # thunderbird or return to the default mode, respectively.
@@ -331,28 +336,38 @@ mode $power_mode {
 }
 
 
-# Enable browser pop-ups
+# Floating windows
 
-for_window [window_role="pop-up"] floating enable
-for_window [window_role="bubble"] floating enable
-for_window [window_role="task_dialog"] floating enable
-for_window [window_role="Preferences"] floating enable
-for_window [window_role="Open Files"] floating enable
+#for_window [window_role="pop-up"] floating enable
+#for_window [window_role="bubble"] floating enable
+#for_window [window_role="task_dialog"] floating enable
+#for_window [window_role="Preferences"] floating enable
+
+for_window [window_role="task_dialog|bubble|page-info|Preferences|pop-up"] floating enable
+for_window [window_role="Open Files"] floating enable sticky
+for_window [window_role="File Operation Progress"] floating enable sticky
 
 
 for_window [class="qBittorrent" window_role="pop-up"] floating enable
 for_window [class="mtp-ng-qt" window_role="Open"] floating enable
-
-# for_window [class="mpv"] floating enable
-
 for_window [window_type="dialog"] floating enable
 for_window [window_type="menu"] floating enable
+
+# Sticky window
+for_window [instance="file_progress"]  sticky enable
+for_window [class="info|Mate-color-select|gcolor2|timesup|QtPass|GtkFileChooserDialog"] sticky enable
+
+
+# Focus window settings
+no_focus [window_role="pop-up"]
+focus_on_window_activation focus 
+#for_window [class="(?i)"] focus 
 
 # Rename workspace with i3-input using numbers and text
 
 bindsym $mod+n exec i3-input -F 'rename workspace to "%s"' -P 'New name for this workspace: '
 
-for_window [class="Chromium" instance="Chromium"] border none
+for_window [class="google-chrome-stable" instance="google-chrome-stable"] border none
 
 
 

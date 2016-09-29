@@ -1,3 +1,22 @@
+Display banner ( Security message)
+Securing Text login
+before login message: /etc/issue
+Before login ssh: /etc/issue/net
+
+After login
+/etc/motd
+
+- Disable ctrl+alt+delete
+
+# systemctl status ctrl-alt-del.target
+
+- If loaded, to disable ctrl-alt-del completely, do
+
+# systemctl mask ctrl-alt-del.target
+
+
+
+RHEL6 Only
 1. Create grub password
 use gru-crypt or grub-md5-crypt
 
@@ -14,12 +33,6 @@ Disable ctrl+Alt+Delete
 
 exec /bin/true
 
-Securing Text login
-before login message: /etc/issue
-Before login ssh: /etc/issue/net
-
-After login
-/etc/motd
 
 
 

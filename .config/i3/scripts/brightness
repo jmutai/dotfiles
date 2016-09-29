@@ -1,0 +1,10 @@
+#!/bin/bash
+printf "%.0f " $(xbacklight -get)
+
+# Mouse actions
+
+case $BLOCK_BUTTON in
+    1) exec xbacklight -dec 5 ;; # Decrease brightness on left click
+    3) exec xbacklight -inc 5 ;; # Increase brightness on right click
+esac
+
