@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+set -eu
+
+# To be run just after chroot and installing git
+
+echo "Setting locale and hostname...."
+
+echo "arch.localhost" > /etc/hostname 
+echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+locale-gen
+echo "LANG=en_US.UTF-8" > /etc/locale.conf
+ln -s /usr/share/zoneinfo/Africa/Nairobi  /etc/localtime
+
+
+echo " Doing database update"
+pacman -Syyu
+
+echo ""
+echo " Installing base packages"
+pacman -S --noconfirm \
+grub \
+bash-completion \
+sudo  \
+dhclient \
+efibootmgr \
+vim \
+btrfs-progs \
+lvm2 
+
+
+echo ""
+echo "Installing Xorg server ..."
+pacman -S xorg --noconfirm
+
+echo ""
+echo "Installing alsa and pulseaudio"
+pacman -S --noconfirm \
+pulseaudio \
+pulseaudio-{equalizer,alsa,gconf} \
+alsa \
+alsa-{utils,plugins,firmware} 
+
+echo ""
+echo "Installing synaptics touchpad drivers"
+pacman -S --noconfirm  xf86-video-intel \
+xf86-input-{keyboard,synaptics,mouse,libinput} 
+
+echo "Installing i3 wm"
+pacman -S --noconfirm \
+i3 \
+dmenu \
+rofi \
+xorg-init \
+
+echo "Configuring i3"
+cat <<EOF >>/etc/profile
+[ -z "$DISPLAY" -a "$(fgconsole)" -eq 1 ] && exec startx
+EOF
+
+echo " Setting root password"
+echo "root:password" | chpasswd
+
+echo "Adding user and setting password"
+useradd -G power,audio,wheel,storage josepy
+echo "josepy:password" | chpasswd
+
+echo "Installing grub"
+grub-install --target=x86_64-efi --efi-directory=/boot/efi \ 
+--bootloader-id=grub
+
+echo ""
+echo "Generating grub config files"
+grub-mkconfig -o /boot/grub/grub.cfg
+grub-mkconfig -o  /boot/efi/EFI/arch/grub.cfg
+
+echo ""
+

@@ -1,0 +1,119 @@
+#!/usr/bin/env bash
+
+# My arch Linux regular package list
+
+set -eu
+dir=$(pwd)
+ if [ ! -e "${dir}/${0}" ]; then
+     echo ""
+     echo " You're in `pwd` "
+     echo " Script has to be run within setup directory!!"
+     exit 1
+ fi 
+
+ # Restore Arch Linux pacman.conf
+ sudo cp ${dir}/pacman.conf /etc/pacman.conf 
+ echo ""
+
+pacaur --needed --noconfirm --noedit -S \
+	gvim \
+	vim-airline \
+	vim-fugitive \
+	vim-gruvbox-git \
+	vim-airline-gruvbox-git \
+	vim-youcompleteme-git \
+	vim-gitgutter-git \
+	htop \
+	xclip \
+	xsel \
+	mlocate \
+	termite-git \
+	termite-ranger-fix-git \
+	bash-completion \
+	zsh-completions \
+	youtube-dl \
+	maim \
+	feh \
+	openssh \
+	thunar \
+	thunar-archive-plugin \
+	file-roller \
+	openssh \
+	rsync \
+	unzip \
+	zip \
+	google-chrome \
+	elinks \
+	xdotool \
+	ccze \
+	acpi \
+	sysstat \
+	libnotify \
+	dosfstools \
+	epdfview \
+	gpicview \
+	ttf-dejavu \
+	ttf-inconsolata \
+	mpv \
+	mingetty \
+	slop \
+	dunst \
+	compton-git \
+	nitrogen \
+	rofi \
+	i3blocks-gaps-git \
+	i3lock-git \
+	i3-vim-syntax-git \
+	i3-gaps-next-git \
+	dmenu \
+	xorg-xinit \
+	j4-dmenu-desktop \
+	ranger \
+	atool \
+	mediainfo \
+	poppler \
+	transmission-cli \
+	w3m \
+	highlight \
+	mpd \
+	mpc \
+	ncmpcpp \
+	neomutt-git \
+	offlineimap \
+	msmtp \
+	gvfs-mtp \
+	android-tools \
+	libmtp \
+	android-udev \
+	simple-mtpfs \
+	mtpfs  \
+	android-file-transfer \
+	moka-icon-theme-git \
+	faba-icon-theme-git \
+	faba-mono-icons-git \
+	gnome-keyring \
+	deepin-screenshot \
+	faenza-icon-theme \
+	vertex-themes-git \
+	numix-themes \
+	numix-icon-theme-git \
+	numix-frost-themes \
+	numix-folders-git \
+	gtk-engine-murrine-git \
+	gtk-theme-arc-git \
+	ttf-font-awesome \
+	networkmanager \
+	network-manager-applet \
+	mutt \
+	weechat \
+	ttf-hack \
+	ohsnap \
+	tumbler \
+	eog \
+	tk \
+	lm_sensors \
+	chrony \
+	powerline-fonts-git \ 
+
+
+

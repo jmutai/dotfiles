@@ -269,8 +269,7 @@ exec --no-startup-id conky
 exec --no-startup-id dunst 
 exec_always compton &
 exec_always feh --bg-scale ~/Pictures/wallpaper2.png
-#exec  ~/.config/i3/scripts/batnotify 
-
+exec ~/.config/i3/scripts/batnotify &
 # bindsym $mod+j exec --no-startup-id feh --bg-fill "$(find ~/Pictures/wallpapers | shuf -n1)" &
 #exec_always --no-startup-id nm-applet
 #exec --no-startup-id termite -name ncmpcpp -e ncmpcpp -s playlist

@@ -1,0 +1,56 @@
+Frequently Used
+p/SPACE	: Pause / playback mode
+f	: Toggle fullscreen
+ENTER	: Go forward in the playlist, even over the end
+< and >	: Go backward/forward in the playlist.
+q / ESC	: Stop playing and quit
+m	: Mute / unmute audio
+v	: Subtitle visibility
+s	: Take a screenshot
+S	: Take a screenshot without subtitles
+Q	: Quit saving current position to watch later
+o	: Show progress
+T	: Toggle video window on top
+v    	: Toggle subtitle visibility.
+j and J	: Cycle through the available subtitles.
+
+y and g	: Step forward/backward in the subtitle list.
+
+F    	: Toggle displaying "forced subtitles".
+r and t	: Move subtitles up/down.
+
+s (−vf screenshot only)	: Take a screenshot.
+
+S (−vf screenshot only)	: Start/stop taking screenshots.
+
+I    			: Show filename on the OSD.
+
++ and −	: Adjust audio delay by +/− 0.1 seconds.
+
+/ and *	: Decrease/increase volume.
+
+9 and 0	: Decrease/increase volume.
+
+( and )	: Adjust audio balance in favor of left/right channel.
+
+
+Navigation
+PGUP / PGDWN	: Next / previous chapter
+ / ,		: Next / previous frame
+RIGHT / LEFT	: Seek 5 seconds
+UP / DOWN	: Seek 60 seconds
+
+Playback
+ctrl++		: Increase audio delay
+ctrl+-		: Decrease audio delay
+[ / ]		: Decrease / increase speed
+m		: Mute / unmute audio
+A		: Cycle aspect ratio
+1 / 2		: Decrease / increase contrast
+3 / 4		: Decrease / increase brightness
+5 / 6		: Decrease / increase gamma
+7 / 8		: Decrease / increase saturation
+9 / 0		: Decrease / increase audio volume
+w / e		: Zoom out / in
+
+

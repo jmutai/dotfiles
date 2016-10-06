@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/bin/bash
 
 # Battery notifier script for i3
 # First warning is at 25%,  Second at 15%, and sleep below 10%
@@ -9,40 +9,36 @@
 # Packages that should be installed are libnotify and acpi 
 # pacman -S acpi libnotify > Arch Linux
 
-critical_level=15
 discharge_mode=`acpi -a | grep -o off` # a, --ac-adapter         ac adapter information
 
 # Get current battery lavel 
 battery_level=$(cat /sys/class/power_supply/BAT0/capacity)
+critical_value=20
 
 # battery_level=$(acpi -b | sed 's/.*[dg], //g;s/\%,.*//g') # b, --battery battery information
 # battery_level=`acpi -b | cut -d ' ' -f 4 | grep -o '[0-9]*'`
 
 # Messages to print to notification
-message="*** Battery level is ${battery_level}, critical, sleeping in 30 seconds time ***"
+message="*** Battery level is ${battery_level}%, critical, sleeping in 30 seconds time ***"
 
 # Notification icon to use
 not_icon="/usr/share/icons/gnome/scalable/status/battery-low-symbolic.svg" 
 
 
 if [ "$discharge_mode" == "off" ]; then
-    
 
-
-if [[  "$battery_level" -le "$critical_level" ]]; then 
+if [  "$battery_level" -le "$critical_value" ]; then 
     if [ -f "$not_icon" ]; then
-        notify-send -u critical -i "$not_icon" -t 30000 "$message"
-        # /usr/bin/i3-nagbar -m "$(echo $MESSAGE)"
-        sleep 30
-        systemctl hybrid-sleep 
+        #notify-send -u critical -i "$not_icon" -t 30000 "$message"
+        i3-nagbar -m "$message"
+       # sleep 10
+       #systemctl hybrid-sleep 
 
     else
-        notify-send -u critical  -t 10000 "$message"
-        sleep 30
-        systemctl hybrid-sleep 
+        # notify-send -u critical  -t 10000 "$message"
+        i3-nagbar -m "$message"
+        #sleep 30
+        #systemctl hybrid-sleep 
     fi
 fi
-else
-    exit 0
 fi
-

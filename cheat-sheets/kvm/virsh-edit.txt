@@ -1,0 +1,15 @@
+Virtual networks
+    virsh net-edit
+    net-dumpxml
+
+Storage pools
+    pool-edit
+    pool-dumpxml
+
+Storage volumes
+    vol-edit
+    vol-dumpxml
+
+Interfaces
+    iface-edit
+    iface-dumpxml

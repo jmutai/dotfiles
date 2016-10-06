@@ -1,0 +1,126 @@
+#!/usr/bin/env bash 
+ 
+# My arch Linux regular package list
+ 
+ set -eu
+ dir=$(pwd)
+
+ if [ ! -e "${dir}/${0}" ]; then
+     echo ""
+     echo " You're in `pwd` "
+     echo " Script has to be run within setup directory!!"
+     exit 1
+ fi  
+ 
+# Restore Arch Linux pacman.conf
+sudo cp ${dir}/pacman.conf /etc/pacman.conf 
+echo ""
+ 
+ pacaur --needed --noconfirm --noedit -S \
+	acpi \
+	android-file-transfer \
+	android-tools \
+	android-udev \
+	atool \
+	bash-completion \
+	ccze \
+	chrony \
+	compton-git \
+	deepin-screenshot \
+	dmenu \
+	dosfstools \
+	dunst \
+	elinks \
+	eog \
+	epdfview \
+	faba-icon-theme-git \
+	faba-mono-icons-git \
+	faenza-icon-theme \
+	feh \
+	file-roller \
+	gnome-keyring \
+	google-chrome \
+	gpicview \
+	gtk-engine-murrine-git \
+	gtk-theme-arc-git \
+	gvfs-mtp \
+	gvim \
+	highlight \
+	htop \
+	i3blocks-gaps-git \
+	i3-gaps-next-git \
+	i3lock-git \
+	i3-vim-syntax-git \
+	j4-dmenu-desktop \
+	libmtp \
+	libnotify \
+	lm_sensors \
+    nvidia \
+    nvidia-utils \
+    nvidia-settings \
+    xorg-server-devel \
+    opencl-nvidia \
+	maim \
+	mediainfo \
+	mingetty \
+	mlocate \
+	moka-icon-theme-git \
+	mpc \
+	mpd \
+	mpv \
+	msmtp \
+	mtpfs  \
+	mutt \
+	ncmpcpp \
+	neomutt-git \
+	networkmanager \
+	network-manager-applet \
+	nitrogen \
+	numix-folders-git \
+	numix-frost-themes \
+	numix-icon-theme-git \
+	numix-themes \
+	offlineimap \
+	ohsnap \
+	openssh \
+	openssh \
+	poppler \
+	powerline-fonts-git \ 
+	ranger \
+	rofi \
+	rsync \
+	simple-mtpfs \
+	slop \
+	sysstat \
+	termite-git \
+	termite-ranger-fix-git \
+	thunar-git \
+	thunar-archive-plugin \
+    thunar-volman-git \
+    thunar-dropbox \
+    thunar-media-tags-plugin \
+    xdiff-ext-git \
+	tk \
+	transmission-cli \
+	ttf-dejavu \
+	ttf-font-awesome \
+	ttf-hack \
+	ttf-inconsolata \
+	tumbler \
+	unzip \
+	vertex-themes-git \
+	vim-airline \
+	vim-airline-gruvbox-git \
+	vim-fugitive \
+	vim-gitgutter-git \
+	vim-gruvbox-git \
+	vim-youcompleteme-git \
+	w3m \
+	weechat \
+	xclip \
+	xdotool \
+	xorg-xinit \
+	xsel \
+	youtube-dl \
+	zip \
+	zsh-completions \

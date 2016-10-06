@@ -1,0 +1,122 @@
+FROM <image>:<tag>
+
+MAINTAINER <name>
+
+The RUN instruction
+
+- RUN instruction will execute any command in a new layer on top of the current image, 
+- and commit this image. The image thus committed will be used for the next instruction in the Dockerfile.
+
+The RUN instruction has two forms:
+
+• The RUN <command> form
+
+• The RUN ["executable", "arg1", "arg2"...] form
+
+-In the first form, the command is run in a shell, specifically the /bin/sh -c <command> shell. 
+-The second form is useful in instances where the base image doesn't have a /bin/sh shell. 
+-Docker uses a cache for these image builds. 
+-So in case your image build fails somewhere in the middle, the next run will reuse the previously successful partial builds and continue from the point where it failed.
+The cache will be invalidated in these situations:
+
+• When the docker build command is run with the --no-cache flag.
+
+• When a non-cacheable command such as apt-get update is given. 
+    - All the following RUN instructions will be run again.
+
+• When the first encountered ADD instruction will invalidate the cache for all the following instructions 
+from the Dockerfile if the contents of the context have changed. 
+    - This will also invalidate the cache for the RUN instructions.
+
+The CMD instruction
+- CMD instruction provides the default command for a container to execute. It has the following forms:
+
+• The CMD ["executable", "arg1", "arg2"...] form
+
+• The CMD ["arg1", "arg2"...] form
+
+• The CMD command arg1 arg2 … form
+
+The first form is like an exec and it is the preferred form, where the first value is the path to the executable and is followed by the arguments to it.
+
+    - The second form omits the executable but requires the ENTRYPOINT instruction to specify the executable.
+
+    -If you use the shell form of the CMD instruction, then the <command> command will execute in the /bin/sh -c shell.
+
+- The difference between the RUN and CMD instructions is that a RUN instruction actually runs the command and commits it, 
+    whereas the CMD instruction is not executed during build time. 
+- It is a default command to be run when the user starts a container, unless the user provides a command to start it with.
+E.g:    CMD ["/usr/bin/telnet", "towel.blinkenlights.nl"]
+
+
+The ENTRYPOINT instruction
+- The ENTRYPOINT instruction allows you to turn your Docker image into an executable. 
+- In other words, when you specify an executable in an ENTRYPOINT,containers will run as if it was just that executable.
+
+The ENTRYPOINT instruction has two forms:
+
+1. The ENTRYPOINT ["executable", "arg1", "arg2"...] form.
+
+2. The ENTRYPOINT command arg1 arg2 … form.
+- This instruction adds an entry command that will not be overridden when arguments are passed to the docker run command, unlike the behavior of the CMD instruction.
+- This allows arguments to be passed to the ENTRYPOINT instruction.
+- The docker run <image> -arg command will pass the -arg argument to the command specified in the ENTRYPOINT instruction.
+- Parameters, if specified in the ENTRYPOINT instruction, will not be overridden by the docker run arguments, 
+- but parameters specified via the CMD instruction will be overridden.
+
+The WORKDIR instruction
+- The WORKDIR instruction sets the working directory for the RUN, CMD, and ENTRYPOINT Dockerfile commands that follow it:
+
+WORKDIR /path/to/working/directory
+
+- This instruction can be used multiple times in the same Dockerfile.
+- If a relative path is provided, the WORKDIR instruction will be relative to the path of the previous WORKDIR instruction.
+
+The EXPOSE instruction
+- The EXPOSE instruction informs Docker that a certain port is to be exposed when a container is started:
+
+EXPOSE port1 port2 …
+
+- Even after exposing ports, while starting a container, you still need to provide port mapping using the -p flag to Docker run
+
+
+The ENV instruction
+- The ENV command is used to set environment variables:
+
+ENV <key> <value>
+
+This sets the <key> environment variable to <value>. This value will be passed
+
+to all future RUN instructions. This is equivalent to prefixing the command with
+
+<key>=<value>.
+
+- The environment variables set using the ENV command will persist.
+- This means that when a container is run from the resulting image, the environment variable will be 
+available to the running process as well.
+- The docker inspect command shows the values that have been assigned during the creation of the image. 
+- However, these can be overridden using the 
+    $ docker run –env <key>=<value> command.
+
+USER instruction
+- The USER instruction sets the username or UID to use when running the image and any following the RUN directives:
+    
+    USER xyz
+
+
+The VOLUME instruction
+
+- The VOLUME instruction will create a mount point with the given name and mark it as 
+holding externally mounted volumes from the host or from other containers:
+
+VOLUME [path]
+
+- Here is an example of the VOLUME instruction:
+
+VOLUME ["/data"]
+
+- Here is another example of this instruction:
+
+VOLUME /var/log
+
+- Both formats are acceptable.

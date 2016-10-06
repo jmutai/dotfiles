@@ -98,6 +98,8 @@ rsync -av ~/.Xresources  ~/mygit/dotfiles/
 rsync -av /usr/lib/i3blocks/ ~/mygit/dotfiles/i3blocks/
 rsync -av ~/.i3blocks.conf ~/mygit/dotfiles/i3blocks/
 
+rsync -av /root/.zshrc ~/mygit/dotfiles/zshrc-root
+
 
 }
 
