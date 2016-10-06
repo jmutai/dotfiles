@@ -43,12 +43,19 @@ floating_modifier $mod
 bindsym $mod+Return exec $terminal
 bindsym $mod+x exec $terminal
 
+# Custom bindsyms
+bindsym $mod+p exec ~/.config/i3/bin/logout
+
+
 # kill focused window
 bindsym $mod+q kill
 
 # start dmenu (a program launcher)
 
-bindsym $mod+d exec --no-startup-id rofi -show run -font "FontAwesome 12" -m -1 
+#bindsym $mod+d exec --no-startup-id rofi -show run -font "FontAwesome 12" -m -1 
+
+bindsym $mod+d exec --no-startup-id ~/.config/i3/bin/rofi_app_launcher
+
 
 # change focus
 bindsym $mod+j focus left
@@ -158,8 +165,8 @@ mode "resize" {
 
         # same bindings, but for the arrow keys
         bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Up resize grow height 10 px or 10 ppt
+        bindsym Down resize shrink height 10 px or 10 ppt
         bindsym Right resize grow width 10 px or 10 ppt
 
         # back to normal: Enter or Escape
@@ -264,7 +271,7 @@ set $m2 #FFF0E0
 # Startup programs
 
 exec --no-startup-id mpd  
-exec --no-startup-id conky  
+#exec --no-startup-id conky  
 #exec --no-startup-id dropbox &
 exec --no-startup-id dunst 
 exec_always compton &

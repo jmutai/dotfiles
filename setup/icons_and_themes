@@ -1,0 +1,28 @@
+#!/usr/bin/env bash 
+ 
+# My arch Linux regular package list
+ 
+ set -e
+ dir=$(pwd)
+
+ if [ ! -e "${dir}/${0}" ]; then
+     echo ""
+     echo " You're in `pwd` "
+     echo " Script has to be run within setup directory!!"
+     exit 1
+ fi  
+ 
+echo ""
+pacaur --needed --noconfirm --noedit -S \
+    faenza-icon-theme \
+	gtk-engine-murrine-git \
+	gtk-theme-arc-git \
+	moka-icon-theme-git \
+	numix-folders-git \
+	numix-frost-themes \
+	numix-icon-theme-git \
+	numix-themes \
+	vertex-themes-git 
+
+# faba-icon-theme-git \
+# faba-mono-icons-git \

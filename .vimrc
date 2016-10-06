@@ -1,7 +1,7 @@
 " """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Disclaimer by NerdJK23 \O_o/
 " """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Originally not my vimrc, but every function is well documented, wich is very nice! :D, still learning vim.., 
+" Originally not my vimrc, but every function is well documented, which is very nice! :D, still learning vim.., 
 " credit to the original author! (sorry totally forgot your name :P) 
 "
 " """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -10,7 +10,7 @@
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Sets how many lines of history VIM has to remember
-set history=500
+set history=1000
 
 " Enable filetype plugins
 filetype plugin on
@@ -39,8 +39,8 @@ command W w !sudo tee % > /dev/null
 set so=7
 
 " Avoid garbled characters in Chinese language windows OS
-let $LANG='nl' 
-set langmenu=nl
+set langmenu=en_US
+let $LANG = 'en_US'
 source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
 

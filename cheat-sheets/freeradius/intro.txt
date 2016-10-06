@@ -1,0 +1,17 @@
+RADIUS- Remote Access Dial In User Service
+
+RADIUS server
+
+- The RADIUS protocol is client/server based
+- The RADIUS server will listen on UDP port 1812 and 1813. Port 1812 is used for authentication
+- This will involve Access-Request, Access-Accept, Access-Reject, and Access-Challenge packets. 
+- Port 1813 is used for accounting.
+- This will involve Accounting-Request and Accounting-Response packets.
+
+RADIUS client
+- The client acts as a broker between the RADIUS server and a user or device that wants to gain network access.
+- The proxying functionality of RADIUS also allows one RADIUS server to be the client of another RADIUS sever, which eventually can form a chain.
+
+
+
+

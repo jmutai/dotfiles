@@ -1,0 +1,597 @@
+
+Partitioning
+
+# parted /dev/sda 
+(parted) mklabel gpt
+(parted) mkpart ESP fat32 1MiB 513MiB
+(parted) set 1 boot on
+(parted) name 1 efi-partition
+(parted) mkpart primary 513MiB 800MiB
+(parted) name 2 boot-partition
+(parted) mkpart primary 800MiB 100%
+(parted) name 3 lvm-partition
+(parted) print
+(parted) quit
+
+Create LVM and File systems on partitions
+# parted /dev/sda set 3 lvm on
+# parted /dev/sda print
+# pvcreate /dev/sda3
+# vgcreate  arch-lvm /dev/sda3
+# lvcreate -n arch-root -L 20G arch-lvm
+# lvcreate -n arch-swap -L 2G arch-lvm
+# lvcreate -n arch-home -l 100%FREE arch-lvm
+# lvs
+
+Create file systems
+# mkfs.fat -F32 /dev/sda1
+# mkfs.ext2 /dev/sda2
+# mkfs.btrfs -L root /dev/arch-lvm/arch-root
+# mkfs.btrfs -L home /dev/arch-lvm/arch-home
+# mkswap /dev/arch-lvm/arch-swap
+# swapon /dev/arch-lvm/arch-swap
+
+Create mount points and mount the file systems
+
+# mkdir /mnt/{home,boot}
+# mkdir /mnt/boot/efi
+# mount /dev/arch-lvm/arch-root /mnt
+# mount /dev/sda2 /mnt/boot
+# mount /dev/sda1 /mnt/boot/efi
+# mount /dev/arch-lvm/arch-home /mnt/home
+
+Install base system
+
+# pacstrap /mnt base base-devel efibootmgr vim btrfs-progs --noconfirm
+
+Do system configurations
+
+# genfstab -U -p /mnt > /mnt/etc/fstab
+# arch-chroot /mnt /bin/bash
+# vim /etc/mkinitcpio.conf
+> Look for the line starting with HOOKS=”…”. Modify the line to add lvm2 BEFORE filesystems as shown below
+# mkinitcpio -p linux
+
+Grub
+# pacman -S grub 
+# grub-install --target=x86_64-efi --efi-directory=/boot/efi \ 
+--bootloader-id=grub
+
+# grub-mkconfig -o /boot/grub/grub.cfg
+# grub-mkconfig -o  /boot/efi/EFI/arch/grub.cfg
+
+Root password
+# passwd root
+# useradd -G power,audio,wheel,storage username
+# passwd username
+
+Configure hostname and Locale
+
+# echo "arch.localhost" > /etc/hostname 
+# vim /etc/locale.gen
+
+Uncomment line 168 to look like below:
+
+en_US.UTF-8 UTF-8
+
+Now generate locale with locale-gen command
+# locale-gen 
+# echo "LANG=en_US.UTF-8" > /etc/locale.conf
+
+Configure Timezone
+
+#  ln -s /usr/share/zoneinfo/Africa/Nairobi  /etc/localtime
+Configure pacman to enable multilib.
+
+# vim /etc/pacman.conf
+
+[multilib]
+Include = /etc/pacman.d/mirrorlist
+Add AUR repo
+
+[archlinuxfr]
+SigLevel = Never
+Server = http://repo.archlinux.fr/$arch
+Add archlinuxcn repo if you want ( Optional)
+
+[archlinuxcn]
+SigLevel = Never
+Server = http://repo.archlinuxcn.org/$arch
+
+Install basic software
+
+# pacman -S bash-completion openssh zsh chromium sudo dhclient --noconfirm
+
+HOME
+LINUX SERVERS
+VIRTUALIZATION
+NETWORKING
+VOIP
+PROGRAMMING
+SECURITY
+Home Arch Linux Install Arch Linux with LVM on UEFI system
+Arch LinuxLinux Tutorials
+Install Arch Linux with LVM on UEFI system
+By Kiplangat Mutai -September 3, 20161840
+Share on FacebookTweet on Twitter
+
+This tutorial describes all the steps required to install Arch Linux with LVM on UEFI system using GPT (GUID partition table). This tutorial uses LVM (Logical Volume Manager) for installation of Arch Linux.
+
+The steps may seem complicated if you’re doing this for the first time but I’ve simplified them to be clear and precise.To install Arch Linux with LVM, you’ll be required to handle LVM stuff. Please note that this tutorial assumes you are doing installation on an empty hard drive. if you have data on your drive, be careful to avoid corrupting your crucial data.
+
+Prerequisites
+
+Download and create bootable flash or CD/DVD
+
+Download Arch ISO
+Download Link
+
+2. Create bootable installation media
+
+# dd if=path-to-image.iso  of=/dev/sdX bs=4M
+Start to install Arch Linux with LVM
+
+Once you have installation media ready, boot into live Arch Linux to start install Arch Linux with LVM. You’ll be prompted with screen similar to one below:
+
+install Arch Linux with LVM
+
+Select appropriate version of Arch to install on your machine. In my case it’s the first one. You may have to run lsblk command to confirm block devices attached before beginning to partition.
+
+# lsblk
+install Arch Linux with LVM
+
+Disk Partitioning
+
+Here we’ll create a new GPT partition table for UEFI system using parted command. Then we’ll create necessary partitions for LVM.
+
+Steps to follow are:
+
+Create GPT partition table
+Create bootable EFI System Partition ( recommended size is 512MiB)
+Mark EFI System partition with the boot flag
+Create partiton for /boot
+Mark remaining partition for LVM
+The syntax to create partition with parted is:
+
+(parted) mkpart part-type fs-type start end
+
+part-type: primary,extended or logical ( meaningful for MBR partition tables only)
+
+fs-type: Used by parted to set 1-byte code used by boot loaders to preview type of data in a partition. It won’t actually create file system.
+
+start: Beginning of the partition from the start of the device. Consist of number followed by unit e.g 1MiB
+
+end: End of the partition from the start of the device. 100% means ends at the end of the device ( use all the remaining space)
+
+Commands:
+
+# parted /dev/sda 
+(parted) mklabel gpt
+(parted) mkpart ESP fat32 1MiB 513MiB
+(parted) set 1 boot on
+(parted) name 1 efi-partition
+(parted) mkpart primary 513MiB 800MiB
+(parted) name 2 boot-partition
+(parted) mkpart primary 800MiB 100%
+(parted) name 3 lvm-partition
+(parted) print
+(parted) quit
+install Arch Linux with LVM
+
+Create LVM and File systems on partitions
+
+Remember that our third partition starts at 800MiB and ends at 100%, we’ll mark it for LVM so that we can create Logical volumes on it.
+
+# parted /dev/sda set 3 lvm on
+# parted /dev/sda print
+install Arch Linux with LVM
+
+Create Physical volume
+
+# pvcreate /dev/sda3
+Create Volume group
+
+# vgcreate  arch-lvm /dev/sda3
+Before you can install install Arch Linux with LVM:
+
+Create Logical volumes:
+
+# lvcreate -n arch-root -L 20G arch-lvm
+# lvcreate -n arch-swap -L 2G arch-lvm
+# lvcreate -n arch-home -l 100%FREE arch-lvm
+# lvs
+install Arch Linux with LVM
+
+Create file systems
+
+# mkfs.fat -F32 /dev/sda1
+# mkfs.ext2 /dev/sda2
+# mkfs.btrfs -L root /dev/arch-lvm/arch-root
+# mkfs.btrfs -L home /dev/arch-lvm/arch-home
+# mkswap /dev/arch-lvm/arch-swap
+# swapon /dev/arch-lvm/arch-swap
+Create mount points and mount the file systems
+
+# mkdir /mnt/{home,boot}
+# mkdir /mnt/boot/efi
+# mount /dev/arch-lvm/arch-root /mnt
+# mount /dev/sda2 /mnt/boot
+# mount /dev/sda1 /mnt/boot/efi
+# mount /dev/arch-lvm/arch-home /mnt/home
+Install base system
+
+Install base system
+
+Packages to install are base-devel packages,efibootmgr and btrfs-progs package:
+
+# pacstrap /mnt base base-devel efibootmgr vim btrfs-progs --noconfirm
+Do system configurations
+
+Generate fstab file with all relevant mount points
+
+# genfstab -U -p /mnt > /mnt/etc/fstab
+Make /mnt base root
+
+# arch-chroot /mnt /bin/bash
+Edit /etc/mkinitcpio.conf to include modules needed for btrfs and LVM
+
+# vim /etc/mkinitcpio.conf
+Look for the line starting with HOOKS=”…”. Modify the line to add lvm2 BEFORE filesystems as shown below
+
+include-lvm-modules-mkinitcpio
+
+Then you have to regenerate initrd image. use command below
+
+# mkinitcpio -p linux
+regenerate-initrd-image
+
+Install grub2  bootloader. For a 32-bit system replace x86_64 with i386.
+
+# pacman -S grub 
+# grub-install --target=x86_64-efi --efi-directory=/boot/efi \ 
+--bootloader-id=grub
+Generate grub config files
+
+# grub-mkconfig -o /boot/grub/grub.cfg
+# grub-mkconfig -o  /boot/efi/EFI/arch/grub.cfg
+Set root password and add standard user
+
+# passwd root
+# useradd -G power,audio,wheel,storage username
+# passwd username
+Configure hostname and Locale
+
+# echo "arch.localhost" > /etc/hostname 
+# vim /etc/locale.gen
+Uncomment line 168 to look like below:
+
+en_US.UTF-8 UTF-8
+Now generate locale with locale-gen command
+
+# locale-gen 
+# echo "LANG=en_US.UTF-8" > /etc/locale.conf
+Configure Timezone
+
+#  ln -s /usr/share/zoneinfo/Africa/Nairobi  /etc/localtime
+Configure pacman to enable multilib.
+
+# vim /etc/pacman.conf
+
+[multilib]
+Include = /etc/pacman.d/mirrorlist
+Add AUR repo
+
+[archlinuxfr]
+SigLevel = Never
+Server = http://repo.archlinux.fr/$arch
+Add archlinuxcn repo if you want ( Optional)
+
+[archlinuxcn]
+SigLevel = Never
+Server = http://repo.archlinuxcn.org/$arch
+Install basic software
+
+# pacman -S bash-completion openssh zsh chromium sudo dhclient --noconfirm
+Install X11 server
+
+# pacman -S xorg --noconfirm
+Install audio drivers
+
+# pacman -S alsa-{utils,plugins,firmware} \
+ pulseaudio pulseaudio-{equalizer,alsa,gconf} --noconfirm
+ Install Synaptics touchpad drivers:
+
+# pacman -S xf86-input-{keyboard,synaptics,mouse,libinput}
+
+Install Video intel drivers if you don’t have graphics card
+
+#  pacman -S xf86-video-intel
+else:
+# pacman -S nvidia nvidia-utils nvidia-settings xorg-server-devel opencl-nvidia
+
+Allow member of wheel group to be able to run any command
+
+# echo "export EDITOR=vim" >> ~/.bashrc
+# source ~/.bashrc
+# visudo
+
+And uncomment the line
+
+# %wheel ALL=(ALL) ALL
+to be:
+
+%wheel ALL=(ALL) ALL
+
+i3 Window manager:
+
+# pacman -S i3 dmenu xorg-xinit rofi feh i3blocks
+# vim ~/.xinitrc
+HOME
+LINUX SERVERS
+VIRTUALIZATION
+NETWORKING
+VOIP
+PROGRAMMING
+SECURITY
+Home Arch Linux Install Arch Linux with LVM on UEFI system
+Arch LinuxLinux Tutorials
+Install Arch Linux with LVM on UEFI system
+By Kiplangat Mutai -September 3, 20161840
+Share on FacebookTweet on Twitter
+
+This tutorial describes all the steps required to install Arch Linux with LVM on UEFI system using GPT (GUID partition table). This tutorial uses LVM (Logical Volume Manager) for installation of Arch Linux.
+
+The steps may seem complicated if you’re doing this for the first time but I’ve simplified them to be clear and precise.To install Arch Linux with LVM, you’ll be required to handle LVM stuff. Please note that this tutorial assumes you are doing installation on an empty hard drive. if you have data on your drive, be careful to avoid corrupting your crucial data.
+
+Prerequisites
+
+Download and create bootable flash or CD/DVD
+
+Download Arch ISO
+Download Link
+
+2. Create bootable installation media
+
+# dd if=path-to-image.iso  of=/dev/sdX bs=4M
+Start to install Arch Linux with LVM
+
+Once you have installation media ready, boot into live Arch Linux to start install Arch Linux with LVM. You’ll be prompted with screen similar to one below:
+
+install Arch Linux with LVM
+
+Select appropriate version of Arch to install on your machine. In my case it’s the first one. You may have to run lsblk command to confirm block devices attached before beginning to partition.
+
+# lsblk
+install Arch Linux with LVM
+
+Disk Partitioning
+
+Here we’ll create a new GPT partition table for UEFI system using parted command. Then we’ll create necessary partitions for LVM.
+
+Steps to follow are:
+
+Create GPT partition table
+Create bootable EFI System Partition ( recommended size is 512MiB)
+Mark EFI System partition with the boot flag
+Create partiton for /boot
+Mark remaining partition for LVM
+The syntax to create partition with parted is:
+
+(parted) mkpart part-type fs-type start end
+
+part-type: primary,extended or logical ( meaningful for MBR partition tables only)
+
+fs-type: Used by parted to set 1-byte code used by boot loaders to preview type of data in a partition. It won’t actually create file system.
+
+start: Beginning of the partition from the start of the device. Consist of number followed by unit e.g 1MiB
+
+end: End of the partition from the start of the device. 100% means ends at the end of the device ( use all the remaining space)
+
+Commands:
+
+# parted /dev/sda 
+(parted) mklabel gpt
+(parted) mkpart ESP fat32 1MiB 513MiB
+(parted) set 1 boot on
+(parted) name 1 efi-partition
+(parted) mkpart primary 513MiB 800MiB
+(parted) name 2 boot-partition
+(parted) mkpart primary 800MiB 100%
+(parted) name 3 lvm-partition
+(parted) print
+(parted) quit
+install Arch Linux with LVM
+
+Create LVM and File systems on partitions
+
+Remember that our third partition starts at 800MiB and ends at 100%, we’ll mark it for LVM so that we can create Logical volumes on it.
+
+# parted /dev/sda set 3 lvm on
+# parted /dev/sda print
+install Arch Linux with LVM
+
+Create Physical volume
+
+# pvcreate /dev/sda3
+Create Volume group
+
+# vgcreate  arch-lvm /dev/sda3
+Before you can install install Arch Linux with LVM:
+
+Create Logical volumes:
+
+# lvcreate -n arch-root -L 20G arch-lvm
+# lvcreate -n arch-swap -L 2G arch-lvm
+# lvcreate -n arch-home -l 100%FREE arch-lvm
+# lvs
+install Arch Linux with LVM
+
+Create file systems
+
+# mkfs.fat -F32 /dev/sda1
+# mkfs.ext2 /dev/sda2
+# mkfs.btrfs -L root /dev/arch-lvm/arch-root
+# mkfs.btrfs -L home /dev/arch-lvm/arch-home
+# mkswap /dev/arch-lvm/arch-swap
+# swapon /dev/arch-lvm/arch-swap
+Create mount points and mount the file systems
+
+# mkdir /mnt/{home,boot}
+# mkdir /mnt/boot/efi
+# mount /dev/arch-lvm/arch-root /mnt
+# mount /dev/sda2 /mnt/boot
+# mount /dev/sda1 /mnt/boot/efi
+# mount /dev/arch-lvm/arch-home /mnt/home
+Install base system
+
+Install base system
+
+Packages to install are base-devel packages,efibootmgr and btrfs-progs package:
+
+# pacstrap /mnt base base-devel efibootmgr vim btrfs-progs --noconfirm
+Do system configurations
+
+Generate fstab file with all relevant mount points
+
+# genfstab -U -p /mnt > /mnt/etc/fstab
+Make /mnt base root
+
+# arch-chroot /mnt /bin/bash
+Edit /etc/mkinitcpio.conf to include modules needed for btrfs and LVM
+
+# vim /etc/mkinitcpio.conf
+Look for the line starting with HOOKS=”…”. Modify the line to add lvm2 BEFORE filesystems as shown below
+
+include-lvm-modules-mkinitcpio
+
+Then you have to regenerate initrd image. use command below
+
+# mkinitcpio -p linux
+regenerate-initrd-image
+
+Install grub2  bootloader. For a 32-bit system replace x86_64 with i386.
+
+# pacman -S grub 
+# grub-install --target=x86_64-efi --efi-directory=/boot/efi \ 
+--bootloader-id=grub
+Generate grub config files
+
+# grub-mkconfig -o /boot/grub/grub.cfg
+# grub-mkconfig -o  /boot/efi/EFI/arch/grub.cfg
+
+Set root password and add standard user
+
+# passwd root
+# useradd -G power,audio,wheel,storage username
+# passwd username
+
+Configure hostname and Locale
+
+# echo "arch.localhost" > /etc/hostname 
+# vim /etc/locale.gen
+Uncomment line 168 to look like below:
+
+en_US.UTF-8 UTF-8
+
+Now generate locale with locale-gen command
+
+# locale-gen 
+# echo "LANG=en_US.UTF-8" > /etc/locale.conf
+
+Configure Timezone
+
+#  ln -s /usr/share/zoneinfo/Africa/Nairobi  /etc/localtime
+
+Configure pacman to enable multilib.
+
+# vim /etc/pacman.conf
+
+[multilib]
+Include = /etc/pacman.d/mirrorlist
+Add AUR repo
+
+[archlinuxfr]
+SigLevel = Never
+Server = http://repo.archlinux.fr/$arch
+Add archlinuxcn repo if you want ( Optional)
+
+[archlinuxcn]
+SigLevel = Never
+Server = http://repo.archlinuxcn.org/$arch
+Install basic software
+
+# pacman -S bash-completion openssh zsh chromium sudo dhclient --noconfirm
+Install X11 server
+
+# pacman -S xorg --noconfirm
+Install audio drivers
+
+# pacman -S alsa-{utils,plugins,firmware} \
+ pulseaudio pulseaudio-{equalizer,alsa,gconf} --noconfirm
+ Install Synaptics touchpad drivers:
+
+# pacman -S xf86-input-{keyboard,synaptics,mouse,libinput}
+Install Video intel drivers if you don’t have graphics card
+
+#  pacman -S xf86-video-intel
+else:
+
+# pacman -S nvidia nvidia-utils nvidia-settings xorg-server-devel opencl-nvidia
+Allow member of wheel group to be able to run any command
+
+# echo "export EDITOR=vim" >> ~/.bashrc
+# source ~/.bashrc
+# visudo
+And uncomment the line
+
+# %wheel ALL=(ALL) ALL
+to be:
+
+%wheel ALL=(ALL) ALL
+Then save and quit.
+
+Install Desktop Environment/Windows manager
+
+KDE:
+
+# pacman -S plasma kde-applications-meta 
+# systemctl enable sddm.service
+
+Gnome:
+
+# pacman -S gnome gnome-extra gnome-tweak-tool
+# pacman -S gdm
+# systemctl enable gdm
+
+XFCE:
+
+# pacman -S xfce4 xfce4-goodies xfce4-mixer gstreamer0.10-good-plugins \
+libxnvctrl xscreensaver
+# pacman -S lightdm lightdm-gtk-greeter
+# systemctl enable lightdm.service
+
+Cinnamon:
+
+# pacman -S cinnamon 
+# pacman –S gdm
+# systemctl enable gdm
+
+i3 Window manager:
+
+# pacman -S i3 dmenu xorg-xinit rofi feh i3blocks
+# vim ~/.xinitrc
+Add:
+
+#!/bin/sh 
+exec i3
+# vim /etc/profile
+Add:
+
+[ -z "$DISPLAY" -a "$(fgconsole)" -eq 1 ] && exec startx
+
+Finish the installation:
+
+# exit
+# umount -R /mnt
+# reboot
+

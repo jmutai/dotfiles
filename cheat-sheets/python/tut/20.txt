@@ -1,0 +1,177 @@
+# We are going to learn how to create Graphical User
+# Interfaces (GUIs) with Tk
+
+# Tk is a cross platform GUI toolkit that provides a
+# ton of Widgets (Buttons, Scrollbars, etc.) that are
+# used to build GUIs
+
+# TkInter (tee-kay-inter) is included since Python 3.1 on Macs,
+# Windows and Linux
+
+# TkInter is a Python interface for Tk
+from tkinter import *
+from tkinter import ttk
+
+# Test to see if TkInter is working
+# tkinter._test()
+
+# ---------- HELLO WORLD  ----------
+
+# root is the main window that surrounds your interface
+# This creates a Tk object
+root = Tk()
+
+# Give your app a title
+root.title("First GUI")
+
+# Put a button in the window
+# Components like button are called Widgets
+ttk.Button(root, text="Hello TkInter").grid()
+
+# This keeps the root window visible and your program
+# running
+root.mainloop()
+
+
+# ---------- MULTIPLE COMPONENTS  ----------
+# Some of the different Widgets : Button, Label,
+# Canvas, Menu, Text, Scale, OptionMenu, Frame,
+# CheckButton, LabelFrame, MenuButton, PanedWindow,
+# Entry, ListBox, Message, RadioButton, ScrollBar,
+# Bitmap, SpinBox, Image
+
+root = Tk()
+
+# Frame widgets surround other widgets
+frame = Frame(root)
+
+# We'll use a TkInter variable for our label text
+# so we can change it with set
+labelText = StringVar()
+
+# Create a label and button object
+# You can set attributes on creation or by calling
+# methods
+
+label = Label(frame, textvariable=labelText)
+button = Button(frame, text="Click Me")
+
+# Change the label text
+labelText.set("I am a label")
+
+# Pack positions the widgets in the window
+# It is a simple geometry manager
+label.pack()
+button.pack()
+frame.pack()
+
+root.mainloop()
+
+
+
+# ---------- PACK GEOMETRY MANAGER  ----------
+# Pack positions widgets by allowing them to define
+# their position (Top, Right, Bottom, Left) and
+# their fill direction (X, Y, BOTH, NONE) inside
+# of a box
+
+root = Tk()
+
+frame = Frame(root)
+
+# Define where the widgets should be placed and
+# how they should be stretched to fill the space
+Label(frame, text="A Bunch of Buttons").pack()
+Button(frame, text="B1").pack(side=LEFT, fill=Y)
+Button(frame, text="B2").pack(side=TOP, fill=X)
+Button(frame, text="B3").pack(side=RIGHT, fill=X)
+Button(frame, text="B4").pack(side=LEFT, fill=X)
+
+frame.pack()
+
+root.mainloop()
+
+
+# ---------- GRID GEOMETRY MANAGER  ----------
+# The Grid manager is the most useful using a series
+# of rows and columns for laying out widgets
+
+# Each cell can only hold 1 widget, but a widget
+# can cover multiple cells.
+
+root = Tk()
+
+# rows start at 0, 1, ...
+# columns start at 0, 1, ...
+# sticky defines how the widget expands (N, NE, E, SE,
+# S, SW, W, NW)
+# padx and pady provide padding around the widget above
+# and below it
+Label(root, text="First Name").grid(row=0, sticky=W, padx=4)
+Entry(root).grid(row=0, column=1, sticky=E, pady=4)
+
+Label(root, text="Last Name").grid(row=1, sticky=W, padx=4)
+Entry(root).grid(row=1, column=1, sticky=E, pady=4)
+
+Button(root, text="Submit").grid(row=3)
+
+root.mainloop()
+
+
+# ---------- GRID EXAMPLE 2  ----------
+
+root = Tk()
+
+Label(root, text="Description").grid(row=0, column=0, sticky=W)
+Entry(root, width=50).grid(row=0, column=1)
+Button(root, text="Submit").grid(row=0, column=8)
+
+Label(root, text="Quality").grid(row=1, column=0, sticky=W)
+Radiobutton(root, text="New", value=1).grid(row=2, column=0, sticky=W)
+Radiobutton(root, text="Good", value=2).grid(row=3, column=0, sticky=W)
+Radiobutton(root, text="Poor", value=3).grid(row=4, column=0, sticky=W)
+Radiobutton(root, text="Damaged", value=4).grid(row=5, column=0, sticky=W)
+
+Label(root, text="Benefits").grid(row=1, column=1, sticky=W)
+Checkbutton(root, text="Free Shipping").grid(row=2, column=1, sticky=W)
+Checkbutton(root, text="Bonus Gift").grid(row=3, column=1, sticky=W)
+
+root.mainloop()
+
+# ---------- TKINTER EVENTS  ----------
+
+def get_sum(event):
+
+    # Get the value stored in the entries
+    num1 = int(num1Entry.get())
+    num2 = int(num2Entry.get())
+    sum = num1 + num2
+    
+    # Delete the value in the entry
+    sumEntry.delete(0, "end")
+
+    # Insert the sum into the entry
+    sumEntry.insert(0, sum)
+
+root = Tk()
+
+num1Entry = Entry(root)
+num1Entry.pack(side=LEFT)
+
+Label(root, text="+").pack(side=LEFT)
+
+num2Entry = Entry(root)
+num2Entry.pack(side=LEFT)
+
+equalButton = Button(root, text="=")
+
+# When the left mouse button is clicked call the
+# function get_sum
+equalButton.bind("<Button-1>", get_sum)
+
+equalButton.pack(side=LEFT)
+
+sumEntry = Entry(root)
+sumEntry.pack(side=LEFT)
+
+root.mainloop()

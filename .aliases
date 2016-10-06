@@ -1,32 +1,63 @@
-alias info='pinfo'
+#!/usr/bin/env bash
 alias ycheat='vim ~/cheats/youtube-dl.txt'
 alias yc='vim ~/cheats/youtube-dl-official.txt' 
-alias du='du -sh'
 alias lab='cd ~/.lab'
 alias cdgit='cd ~/mygit'
 alias cdcheats='cd ~/cheats'
-#alias rsync='rsync -av'
+
+# Disk and sys
+alias duh='du -sh'
+alias df='df -hT'
+alias free='free -hm'
+alias info='pinfo'
+
 
 alias nc='ncmpcpp'
 alias top='htop'
 
-alias vm='virt-manager'
 alias screen=' import -window root screenshot.jpg'
 alias pic='deepin-screenshot'
 
 alias clean='rm -rf ~/.zcompdump*'
-alias i3r='i3-msg restart'
-alias i3man='vim ~/cheats/i3.txt'
-alias rman='vim ~/cheats/ranger.txt'
 alias zshrc='vim ~/.zshrc'
 alias zs='source ~/.zshrc'
 
-alias vi='vim'
+# i3
 alias i3config='vim ~/.config/i3/config'
 alias i3blocks='vim ~/.i3blocks.conf'
+alias i3env='cd ~/.config/i3/scripts/'
+alias i3r='i3-msg restart'
 
 alias main='vim /home/josepy/Dropbox/arch-custom/arch-custom.txt' 
-alias push='git push -u origin master'
 alias ssh='TERM=xterm  ssh'
-alias i3env='cd ~/.config/i3/scripts/'
+
+# Git
+alias push='git push -u origin master'
+
+# Google dns set
+alias dns='sudo echo nameserver 8.8.8.8 > /etc/resolv.conf'                            
+# Rhev
+alias rhevh='ssh rhevh'
+alias rhevm='ssh rhevm'
+
+
+# Package management
+alias paci='sudo pacman -S'
+alias pacr='sudo pacman -Rns'
+alias pacc='sudo pacman -Sc --noconfirm'
+alias pacu='sudo pacman -Syu'
+alias pacs='sudo pacman -Ss'
+alias pacqi='pacman -Qi'
+alias pacfix='sudo rm -f /var/lib/pacman/db.lck'
+
+# dock
+alias dockvim='vim ~/mygit/docker/docker_func'
+
+# system
+alias ls='ls --color=auto'
+alias dir='dir --color=auto'
+alias vdir='vdir --color=auto'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
 

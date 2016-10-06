@@ -72,4 +72,14 @@ Using RHEL 7/Cent7 as rhev hypervisor
 # yum -y install http://resources.ovirt.org/pub/yum-repo/ovirt-release35.rpm
 # yum -y install vdsm
 
+Add node:
+- Install web browser and spice extension on client with DE
+# yum -y install firefox spice-xpi
+- Access web admin console
+http://rhevm.example.com/ovirt-engine
+- Login as admin,password 
+- Add target node for management.
+> Hosts > New >
 
+Adding RHEV-M guest agent to virtual machine
+# yum -y install rhevm-guest-agent-common

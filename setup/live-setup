@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-set -eu
-
+set -e
+username=""
 # To be run just after chroot and installing git
 
 echo "Setting locale and hostname...."
@@ -17,6 +17,7 @@ pacman -Syyu
 
 echo ""
 echo " Installing base packages"
+sleep 3
 pacman -S --noconfirm \
 grub \
 bash-completion \
@@ -57,21 +58,65 @@ cat <<EOF >>/etc/profile
 [ -z "$DISPLAY" -a "$(fgconsole)" -eq 1 ] && exec startx
 EOF
 
-echo " Setting root password"
-echo "root:password" | chpasswd
+echo "*** Setting root password ***"
+echo -n "Enter new root password: "
+read pw1
+echo -n "Retype new password: "
+read pw2
 
-echo "Adding user and setting password"
-useradd -G power,audio,wheel,storage josepy
-echo "josepy:password" | chpasswd
+# Check if the passwords match 
+while [ "$pw1" != "$pw2" ]; do
+    echo "Sorry, passwords do not match."
+    echo ""
+    echo -n "Enter root password: "
+    read pw1
+    echo -n "Retype new password: "
+    read pw2
+done
 
-echo "Installing grub"
+username=${user:-root}
+echo "${username}:${pw1}" | chpasswd
+
+unset pw1
+unset pw2
+unset username
+
+echo "*** Adding user and setting password ***"
+read -p  "Enter username to add: " username
+echo "You typed username ${username}"
+useradd -G power,audio,wheel,storage $username
+
+echo "*** Settting password for user ${username} ***"
+read -p "Enter new password: " pw1
+read -p "Retype new password: "  pw2
+
+# Check if the passwords match 
+while [ "$pw1" != "$pw2" ]; do
+    echo "Sorry, passwords do not match."
+    echo ""
+    echo -n "Enter new password: "
+    read pw1
+    echo -n "Retype new password: "
+    read pw2
+done
+
+echo "${username}:${pw1}" | chpasswd
+if [ $? -eq 0 ]; then
+echo ""
+echo "Paswword set successfully"
+else
+    echo "Password set failed"
+fi
+
+echo "*** Installing grub***"
+slepp 3
 grub-install --target=x86_64-efi --efi-directory=/boot/efi \ 
 --bootloader-id=grub
 
 echo ""
-echo "Generating grub config files"
+echo "*** Generating grub config files ***"
+slepp 3
 grub-mkconfig -o /boot/grub/grub.cfg
 grub-mkconfig -o  /boot/efi/EFI/arch/grub.cfg
-
 echo ""
 

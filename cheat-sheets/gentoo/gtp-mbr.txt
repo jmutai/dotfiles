@@ -1,0 +1,38 @@
+MBR
+
+The MBR (Master Boot Record) setup uses 32-bit identifiers for the start sector and length of the partitions, and supports three partition types: primary, extended, and logical. Primary partitions have their information stored in the master boot record itself - a very small (usually 512 bytes) location at the very beginning of a disk. Due to this small space, only four primary partitions are supported (for instance, /dev/sda1 to /dev/sda4).
+
+To support more partitions, one of the primary partitions can be marked as an extended partition. This partition can then contain logical partitions (partitions within a partition).
+
+Each partition is limited to 2 TB in size (due to the 32-bit identifiers). Also, the MBR setup does not provide any backup-MBR, so if an application or user overwrites the MBR, all partition information is lost.
+
+GPT
+
+The GPT (GUID Partition table) setup uses 64-bit identifiers for the partitions. The location in which it stores the partition information is also much bigger than the 512 bytes of an MBR, and there is no limit on the amount of partitions. Also the size of a partition is bounded by a much greater limit (almost 8 ZB - yes, zettabytes).
+
+When a system's software interface between the operating system and firmware is UEFI (instead of BIOS), GPT is almost mandatory as compatibility issues will arise with MBR.
+
+GPT also has the advantage that it has a backup GPT at the end of the disk, which can be used to recover damage of the primary GPT at the beginning. GPT also carries CRC32 checksums to detect errors in the header and partition tables.
+
+GPT or MBR
+From the description above, one might think that using GPT should always be the recommended approach, however there are a few caveats.
+
+Using GPT on a BIOS-based computer works, but then one cannot dual-boot with a Microsoft Windows operating system. The reason is that Microsoft Windows will boot in EFI mode if it detects a GPT partition label.
+
+Some buggy BIOSes or EFIs configured to boot in BIOS/CSM/legacy mode might also have problems with booting from GPT labeled disks. If that is the case, it might be possible to work around the problem by adding the boot/active flag on the protective MBR partition which has to be done through fdisk with the -t dos option to force it to read the partition table using the MBR format.
+
+In this case, launch fdisk and toggle the flag using the a key. Press 1 to select the first partition, then press the w key to write the changes to the disk and exit the fdisk application:
+
+When installing Gentoo on a system that uses UEFI to boot the operating system (instead of BIOS), then it is important that an EFI system partition is created. The instructions for parted below contain the necessary pointers for this.
+
+The EFI system partition also needs to be a FAT32 partition (or vfat as it is shown on Linux systems). The instructions at the end of this chapter use ext2 as the example file system for the /boot/ partition. Make sure to use vfat, like so:
+
+# mkfs.vfat
+
+Warning:
+If the boot partition is not using the FAT32 (vfat) file system, then the systems UEFI firmware will not be able to find the Linux kernel and boot the system!
+
+- ext4 filesytems can be converted into btrfs filesystems, which may be useful for those who'd like to install Gentoo with a stable, well tested filesystem and gradually increase their knowledge about newer filesystems such as btrfs by experimentation.
+
+
+

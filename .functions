@@ -24,6 +24,7 @@ rsync -av ~/.mutt/ ~/Dropbox/arch-custom/mutt/
 rsync -av ~/.Xresources ~/Dropbox/arch-custom/
 }
 
+
 # Shuffle files on mpv
 play (){
     mpv --shuffle *
@@ -35,42 +36,16 @@ st () {
 systemd-analyze | awk '{print $NF}'
 }
 
-# Remove unused/old docker containers
-contrem (){
-        cont_ids=`docker ps -a | awk '{print $1}' | grep -o "[a-f0-9]\{12\}"`
 
-for i in $cont_ids; do
-   echo ""
-   echo -e "Removing old docker containers...."
-   echo ""
-   docker rm $i;
-done
+# Make a temporary directory and enter it
+tmpd() {
+	if [ $# -eq 0 ]; then
+		tmpdir=`mktemp -d` && cd $dir
+	else
+		dir=`mktemp -d -t $1.XXXXXXXXXX` && cd $tmpdir
+	fi
+    }
 
-if [[ "$?" -eq 0 ]]; then
-    echo ""
-    echo "*** All containers removed ***"
-      else
-        echo "Error/No containers to delete..."
-fi
-}
-
-imgrem (){
-old_image_ids=`docker  images  | grep none | awk '{print $3}'`
-
-for i in $old_image_ids; do
-    echo ""
-    echo -e "Removing old unused docker images in none repo...."
-    echo ""
-    docker rmi $i;
-done
-
-if [[ "$?" -eq 0 ]]; then
-    echo ""
-    echo "*** All docker images in none repo removed ***"
-        else
-     echo "Error,No docker images deleted..."
- fi
-}
 
 mygit () {
 rsync -av ~/.config/i3/ ~/mygit/dotfiles/.config/i3/
@@ -98,17 +73,56 @@ rsync -av ~/.Xresources  ~/mygit/dotfiles/
 rsync -av /usr/lib/i3blocks/ ~/mygit/dotfiles/i3blocks/
 rsync -av ~/.i3blocks.conf ~/mygit/dotfiles/i3blocks/
 
-rsync -av /root/.zshrc ~/mygit/dotfiles/zshrc-root
-
-
 }
 
 
-# Make a temporary directory and enter it
-tmpd() {
-        if [ $# -eq 0 ]; then
-            tmpdir=`mktemp -d` && cd $dir
-        else
-            dir=`mktemp -d -t $1.XXXXXXXXXX` && cd $tmpdir
-        fi
-    }
+# Package management
+ sysbackup () {
+     sudo rsync -aAXv --delete  --exclude-from=/etc/rsync_exclude.lst / /mnt/backup/    
+     echo ""
+     if [[ $? -eq 0 ]]; then
+         echo ""
+         echo "Backup sync successful"
+     else
+         echo " Sync failed"
+         exit 1
+     fi
+ }
+
+# Vm management
+# start vm management daemons
+vm () {
+    sudo systemctl start libvirtd.service
+    sudo systemctl start vsftpd.service
+    sudo systemctl start virtlogd.socket
+}
+
+# stop libvirt daemon and vsftpd services
+vmstop () {
+    sudo systemctl stop libvirtd.service 
+    sudo systemctl stop vsftpd.service
+}
+
+# Stop all vms running
+novm () {
+	for i in `sudo virsh list | grep running | awk '{print $2}'`
+	do
+		sudo virsh shutdown $i
+	done                                                                          
+}
+
+# List all kvm vms
+vmlist () {
+	sudo virsh list --all
+}
+
+# start rhev vms
+rhev () { 
+	sudo virsh start node1
+	sudo virsh start rhevm
+}
+
+# youtube-dl
+
+
+

@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+# Rofin files finder
+set -eu
+search_look='rofi -dmenu -i -p find:'
+# -p prompt
+
+search_file="$(xsel -o > /dev/null | $search_look )"
+
+# -o write the selection to standard output.
+# xsel - manipulate the X selection
+
+# Check if locate command is installed
+if [ ! -f /usr/bin/locate ]; then
+    echo "locate command not found"
+    exit 1
+fi
+
+sudo updatedb
+
+# Start search
+
+if [  "$search_file" != '' ]; then
+    search_results="$(echo "$search_file" | locate -e -i -r "$search_file" | $search_look -width 100 -p 'search result:' )"
+
+# locate -e > Print only existing file entries at time of locate
+# -i ignore case, -r regex
+
+
+# Open output with default app
+
+	xdg-open "$search_results"
+# xdg-open - opens a file or URL in the user's preferred application
+
+fi

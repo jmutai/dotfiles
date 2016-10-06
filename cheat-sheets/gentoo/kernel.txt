@@ -1,0 +1,34 @@
+# make -j 5 > Specify number of concurrent compiles
+
+make config > Ask interactive questions
+make menuconfig > has ncurses text interface inside terminal
+make gconfig|xconfig > Graphical interfaces support
+make oldconfig > Will prompt you only for new changes that are not marked in existing configuration file
+
+- Config file is hidden file .config
+
+make all > Compile everything
+make install > Automatically copy kernel image to /boot
+
+else:
+    # cp kernel-image /boot
+
+Create initrd file
+# cd /boot
+# mkinitrd -o initrd.img-<kernel version>
+
+-  if you just want to compile a driver, you don’t need to compile the kernel. You need only the linux-headers package of the kernel.
+
+# make modules
+# make modules_install
+
+
+# make localmodconfig > avoid making hundred of unnecessary modules
+-  use local config to get a kernel based on actual configuration
+
+
+# /proc/config.gz > Current running config file
+
+
+MDDnsty@2016!!??
+
