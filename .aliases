@@ -5,6 +5,8 @@ alias lab='cd ~/.lab'
 alias cdgit='cd ~/mygit'
 alias dots='cd ~/mygit/dotfiles'
 alias cdcheats='cd ~/cheats'
+alias commit="git commit -m 'updated'"
+alias add="git add ."
 
 # Disk and sys
 alias duh='du -sh'
