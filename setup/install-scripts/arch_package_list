@@ -20,7 +20,7 @@ echo ""
     btrfs-progs \
 	ccze \
 	chrony \
-	compton-git \
+	compton \
     conky \
     cronie \
     curl \
@@ -38,7 +38,6 @@ echo ""
 	feh \
 	file-roller \
 	gnome-keyring \
-	google-chrome \
 	gpicview \
 	gvfs-mtp \
 	gvim \
@@ -60,6 +59,7 @@ echo ""
     nvidia-utils \
     nvidia-settings \
     xorg-server-devel \
+    xorg-xinit \
     opencl-nvidia \
 	maim \
 	mediainfo \
@@ -98,7 +98,7 @@ echo ""
     screenfetch \
 	termite-git \
 	termite-ranger-fix-git \
-	thunar-git \
+	thunar \
 	thunar-archive-plugin \
     thunar-volman-git \
     thunar-dropbox \
