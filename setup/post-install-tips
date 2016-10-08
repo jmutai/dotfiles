@@ -2,7 +2,7 @@ Autologin
 =========
 
 vim /etc/systemd/system/getty.target.wants/getty\@tty1.service
-- ExecStart=-/sbin/agetty --autologin ingo --noclear %I $TERM
+- ExecStart=-/sbin/agetty --autologin josepy --noclear %I $TERM
 
 
 NetworkManager
@@ -39,10 +39,6 @@ MKINITCPIO
 COMPRESSION="cat"
 https://wiki.archlinux.org/index.php/Silent_boot
 
-THUNDERBIRD
-===========
-
-Plugins: "Disable reply-list", "Seturgent", "Lightning", "No Message Pane Sort by Mouse"
 
 SYSTEMD
 =======
@@ -59,7 +55,7 @@ Mask:
 ## Suspend
 
 1. Create /etc/systemd/system/suspend@.service with below content.
-2. sudo systemctl enable suspend@ingo.service
+2. sudo systemctl enable suspend@josepy.service
 
 ---------------------------------------
 [Unit]
@@ -70,7 +66,7 @@ Before=sleep.target
 User=%I
 Type=simple
 Environment=DISPLAY=:0
-ExecStart=/home/ingo/.i3/i3exit lock
+ExecStart=/home/josepy/.i3/i3exit lock
 ExecStartPost=/usr/bin/sleep 1
 
 [Install]

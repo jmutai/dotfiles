@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# By jmutai
+# computingforgeeks.com
 set -e
 
 ask() {
@@ -40,9 +42,10 @@ if [ ! -e "${dir}/${0}" ]; then
 fi
 dir="${dir}/.."
 
-ask "Install arch packages?" Y && bash ./arch_package_list 
-ask "Install icons and themes?" Y && bash ./icons_and_themes
-#ask "Install oh-my-zsh setup?"  Y && bash ./oh-my-zsh 
+ask "Install arch base packages?" Y && bash install-scripts/arch_package_list 
+ask "Install icons and themes?" Y && bash install-scripts/icons_and_themes
+ask "Install oh-my-zsh setup?"  Y && bash install-scripts/oh-my-zsh 
+ask "Install vim packages?"  Y && bash install-scripts/vim-packages
 
 ask "Install symlink for .gitconfig?" Y && ln -sfn ${dir}/.gitconfig ${HOME}/.gitconfig
 ask "Install symlink for .zshrc?" Y && ln -sfn ${dir}/.zshrc ${HOME}/.zshrc
