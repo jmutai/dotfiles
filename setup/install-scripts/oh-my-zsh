@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+sudo pacman -S zsh
+sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+cd ~/.oh-my-zsh/themes/
+git clone https://github.com/oskarkrawczyk/honukai-iterm-zsh.git
+cp honukai-iterm-zsh/honukai.zsh-theme ~/.oh-my-zsh/themes/
+

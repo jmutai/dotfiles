@@ -1,0 +1,13 @@
+cryptsetup luksFormat -v -s 512 /dev/lvm/home /etc/luks-keys/home
+cryptsetup -d /etc/luks-keys/home open --type luks /dev/lvm/home home
+mkfs -t ext4 /dev/mapper/home
+mount /dev/mapper/home /home
+
+mkdir -m 700 /etc/luks-keys
+dd if=/dev/random of=/etc/luks-keys/home bs=1 count=256
+
+vim /etc/crypttab
+home    /dev/lvm/home   /etc/luks-keys/home
+
+/etc/fstab
+/dev/mapper/home        /home   ext4        defaults        0       2

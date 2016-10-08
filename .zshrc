@@ -8,10 +8,11 @@ ZSH_THEME="honukai"
 plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
-source ~/.lab/aliases
-source ~/.lab/func
-source ~/.lab/exports
 source ~/mygit/docker/docker_func 
+
+source  ~/mygit/dotfiles/.aliases 
+source  ~/mygit/dotfiles/.functions 
+source  ~/mygit/dotfiles/.exports 
 
 
 # Compilation flags

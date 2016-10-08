@@ -3,6 +3,7 @@ alias ycheat='vim ~/cheats/youtube-dl.txt'
 alias yc='vim ~/cheats/youtube-dl-official.txt' 
 alias lab='cd ~/.lab'
 alias cdgit='cd ~/mygit'
+alias dots='cd ~/mygit/dotfiles'
 alias cdcheats='cd ~/cheats'
 
 # Disk and sys
@@ -42,12 +43,12 @@ alias rhevm='ssh rhevm'
 
 
 # Package management
-alias paci='sudo pacman -S'
-alias pacr='sudo pacman -Rns'
-alias pacc='sudo pacman -Sc --noconfirm'
-alias pacu='sudo pacman -Syu'
-alias pacs='sudo pacman -Ss'
-alias pacqi='pacman -Qi'
+alias paci='pacaur -S'
+alias pacr='pacaur -Rns'
+alias pacc='pacaur -Sc --noconfirm'
+alias pacu='pacaur -Syu'
+alias pacs='pacaur -Ss'
+alias pacqi='pacaur -Qi'
 alias pacfix='sudo rm -f /var/lib/pacman/db.lck'
 
 # dock

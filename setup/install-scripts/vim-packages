@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# Some vim packages
+yaourt -S --noconfirm --needed -S \
+    gvim \
+    vim-airline \
+    vim-fugitive \
+    vim-gruvbox-git \
+    vim-airline-gruvbox-git \
+    vim-youcompleteme-git \
+    #vim-gitgutter-git 

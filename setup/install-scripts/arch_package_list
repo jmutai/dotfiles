@@ -45,6 +45,7 @@ echo ""
 	highlight \
 	htop \
     httrack \
+    iw \
 	i3blocks-gaps-git \
 	i3-gaps-next-git \
 	i3lock-git \
@@ -102,6 +103,7 @@ echo ""
     thunar-volman-git \
     thunar-dropbox \
     thunar-media-tags-plugin \
+    upower \
     xdiff-ext-git \
 	tk \
 	transmission-cli \
@@ -116,12 +118,6 @@ echo ""
     virt-install \
     virt-manager \
     virtviewer \
-	vim-airline \
-	vim-airline-gruvbox-git \
-	vim-fugitive \
-	vim-gitgutter-git \
-	vim-gruvbox-git \
-	vim-youcompleteme-git \
 	w3m \
     wget \
     wireless_tools \

@@ -58,9 +58,9 @@ ask "Install symlink for .mpd/mpd.conf?" Y && ln -sfn ${dir}/.mpd/mpd.conf ${HOM
 ask "Install symlink for .ncmpcpp/config ?" Y && ln -sfn ${dir}/.ncmpcpp/config  ${HOME}/.ncmpcpp/config 
 
 # .config subdir
-ask "Install symlink for .config/i3/?" Y && ln -sfn ${dir}/.config/i3 ${HOME}/.config/i3
 ask "Install symlink for .i3blocks.conf?" Y && ln -sfn ${dir}/.i3blocks.conf ${HOME}/.i3blocks.conf
 ask "Install symlink for .config/mpv/?" Y && ln -sfn ${dir}/.config/mpv ${HOME}/.config/mpv
+ask "Install symlink for .config/mpv/?" Y && ln -sfn ${dir}/.config/i3 ${HOME}/.config/i3
 ask "Install symlink for .config/ranger/?" Y && ln -sfn ${dir}/.config/ranger ${HOME}/.config/ranger
 ask "Install symlink for .config/termite/?" Y && ln -sfn ${dir}/.config/termite ${HOME}/.config/termite
 

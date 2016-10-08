@@ -1,0 +1,133 @@
+Autologin
+=========
+
+vim /etc/systemd/system/getty.target.wants/getty\@tty1.service
+- ExecStart=-/sbin/agetty --autologin ingo --noclear %I $TERM
+
+
+NetworkManager
+==============
+
+sudo vim /etc/systemd/system/multi-user.target.wants/NetworkManager.service
+- Type=simple
+
+
+UDEV
+====
+
+sudo vim /etc/udev/rules.d/50-firmware.rules
+- ACTION!="remove",SUBSYSTEM=="firmware",ATTR{loading}="-1"
+
+
+GRUB2
+=====
+
+sudo vim /etc/default/grub
+sudo update-grub
+
+GRUB_CMDLINE_LINUX_DEFAULT
+- quiet nosplash
+- loglevel=3 systemd.log_level=err systemd.show_status=false
+- nox2apic
+
+GRUB_HIDDEN_TIMEOUT=1
+
+
+MKINITCPIO
+==========
+
+COMPRESSION="cat"
+https://wiki.archlinux.org/index.php/Silent_boot
+
+THUNDERBIRD
+===========
+
+Plugins: "Disable reply-list", "Seturgent", "Lightning", "No Message Pane Sort by Mouse"
+
+SYSTEMD
+=======
+
+Mask:
+- exim4.service
+- ModemManager.service
+- nfs-common.service
+- rpcbind.service
+- rpcbind.target
+- network-online.target
+- binfmt-support.service
+
+## Suspend
+
+1. Create /etc/systemd/system/suspend@.service with below content.
+2. sudo systemctl enable suspend@ingo.service
+
+---------------------------------------
+[Unit]
+Description=Suspend
+Before=sleep.target
+
+[Service]
+User=%I
+Type=simple
+Environment=DISPLAY=:0
+ExecStart=/home/ingo/.i3/i3exit lock
+ExecStartPost=/usr/bin/sleep 1
+
+[Install]
+WantedBy=sleep.target
+---------------------------------------
+
+Create tmpfs
+# sudo vim /etc/fstab
+tmpfs   /tmp         tmpfs   mode=0777,noatime             0  0
+
+Configure Touchpad
+# sudo vim  /etc/X11/xorg.conf.d/70-synaptics.conf
+Section "InputClass"
+    Identifier "touchpad"
+    Driver "synaptics"
+    MatchIsTouchpad "on"
+        Option "TapButton1" "1"
+        Option "TapButton2" "3"
+        Option "TapButton3" "2"
+        Option "VertEdgeScroll" "on"
+        Option "VertTwoFingerScroll" "on"
+        Option "HorizEdgeScroll" "on"
+        Option "HorizTwoFingerScroll" "on"
+        Option "CircularScrolling" "on"
+        Option "CircScrollTrigger" "2"
+        Option "EmulateTwoFingerMinZ" "40"
+        Option "EmulateTwoFingerMinW" "8"
+        Option "CoastingSpeed" "0"
+        Option "FingerLow" "30"
+        Option "FingerHigh" "50"
+        Option "MaxTapTime" "125"
+EndSection
+
+Save chromium cache in tmpfs
+$ sudo vim /etc/fstab
+tmpfs   /home/josepy/.cache   tmpfs   noatime,nodev,nosuid,size=1G  0   0
+
+Chromium Profile in tmpfs
+$ pacaur -S profile-sync-daemon
+- It symlinks and syncs the browser profile directories to RAM.
+$psd
+- First time running psd so please edit /home/josepy/.config/psd/psd.conf to your liking and run again.
+$ vim /home/josepy/.config/psd/psd.conf
+USE_OVERLAYFS="yes"
+BROWSERS="chromium opera"
+$ systemctl --user enable psd.service
+
+
+
+Disable system tray icon on Chromium
+Open the URL chrome://flags in the browser. Disable this flag:
+device-discovery-notifications
+
+Reduce ram usage of chromium by installing OneTab:
+https://chrome.google.com/webstore/detail/onetab/chphlpgkkbolifaimnlloiipkdnihall?hl=en
+
+Profile maintenance
+$ pacaur -S profile-cleaner
+$ pacaur -S browser-vacuum
+

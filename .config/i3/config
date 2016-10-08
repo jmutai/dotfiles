@@ -22,6 +22,7 @@ set_from_resource $white       color15 #000000
  set $transparent #00000000
 
 set $mod Mod4
+set $mod1 Mod1
 set $terminal termite
 
 # bindsym F1 exec ~/bin/dmenu
@@ -175,17 +176,13 @@ mode "resize" {
 }
 
 bindsym $mod+r mode "resize"
-
-# i3 gaps settings
-smart_gaps on
-gaps outer 0
-gaps inner 0 
+bindsym $mod1+f exec ~/.config/i3/bin/rofi_finder
 
 
 # Custom bind keys
 #bindsym $mod+l exec i3lock
 #
-bindsym $mod+l exec i3lock -i ~/Pictures/cube.png 
+bindsym $mod+l exec i3lock -i ~/Pictures/others/cube.png 
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
@@ -275,7 +272,7 @@ exec --no-startup-id mpd
 #exec --no-startup-id dropbox &
 exec --no-startup-id dunst 
 exec_always compton &
-exec_always feh --bg-scale ~/Pictures/wallpaper2.png
+exec_always feh --bg-scale ~/Pictures/others/wallpaper2.png
 exec ~/.config/i3/scripts/batnotify &
 # bindsym $mod+j exec --no-startup-id feh --bg-fill "$(find ~/Pictures/wallpapers | shuf -n1)" &
 #exec_always --no-startup-id nm-applet
@@ -284,12 +281,11 @@ exec ~/.config/i3/scripts/batnotify &
 
 # Bind App to workspace
 # Check class by : xprop
-assign [class="google-chrome"] $ws2
+assign [class="chromium"] $ws2
 assign [class="Atom"] $ws3
 assign [class="Foxit Reader"] $ws3
 assign [class="Thunar"] $ws4
 assign [class="mtp-ng-qt"] $ws4
-assign [class="Caja"] $ws4
 assign [class="Virt-manager"] $ws5
 assign [class="qBittorrent"] $ws7
 
@@ -300,7 +296,7 @@ assign [class="(?i)qutebrowser"] $ws2
 assign [instance="spotify|cheese|gimp"] $ws6
 
 # Custom Keybinds
-bindsym $mod+c exec google-chrome-stable
+bindsym $mod+c exec chromium
 
 # Press $mod+o followed by either f, t, Esc or Return to launch firefox,
 # thunderbird or return to the default mode, respectively.
@@ -310,15 +306,14 @@ bindsym $mod+o mode "$mode_launcher"
 mode "$mode_launcher" {
     bindsym f exec foxitreader 
     bindsym l exec lxappearance  
-    bindsym a exec atom
     bindsym t exec thunar
     bindsym v exec virt-manager 
     bindsym c exec cherrytree
     bindsym s exec spotify
     bindsym d exec deepin-screenshot 
-    bindsym m exec android-file-transfer
+    bindsym a exec android-file-transfer
+    bindsym t exec thunar
     bindsym q exec qbittorrent 
-
 
     bindsym Esc mode "default"
     bindsym Return mode "default"
@@ -373,7 +368,7 @@ focus_on_window_activation focus
 
 bindsym $mod+n exec i3-input -F 'rename workspace to "%s"' -P 'New name for this workspace: '
 
-for_window [class="google-chrome-stable" instance="google-chrome-stable"] border none
+for_window [class="chromium" instance="chromium"] border none
 
 
 
