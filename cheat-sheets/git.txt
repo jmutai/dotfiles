@@ -126,6 +126,15 @@ $ mv README.md README
 $ git rm README.md
 $ git add README
 
+Adding new features
+
+Fork it!
+Create your feature branch: git checkout -b my-new-feature
+Commit your changes: git commit -am 'Add some feature'
+Push to the branch: git push origin my-new-feature
+Submit a pull request :D
+Don’t get discouraged! We estimate that the response time from the maintainers is around: 24 hours.
+
 
 
 

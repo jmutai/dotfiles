@@ -4,7 +4,8 @@ alias yc='vim ~/cheats/youtube-dl-official.txt'
 alias lab='cd ~/.lab'
 alias cdgit='cd ~/mygit'
 alias dots='cd ~/mygit/dotfiles'
-alias cdcheats='cd ~/cheats'
+alias docs='cd ~/mygit/docker/dockerfiles/'
+alias cheats='~/mygit/dotfiles/cheat-sheets/'
 alias commit="git commit -m 'updated'"
 alias add="git add ."
 

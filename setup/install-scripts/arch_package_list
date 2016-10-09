@@ -85,6 +85,7 @@ echo ""
 	powerline-fonts-git \
     python-pip \
     pinfo \
+    pm-utils \
     qemu \
     qbittorrent \
     qutebrowser \
@@ -118,6 +119,7 @@ echo ""
     virt-install \
     virt-manager \
     virtviewer \
+    vundle \
 	w3m \
     wget \
     wireless_tools \

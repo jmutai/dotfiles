@@ -127,3 +127,19 @@ Profile maintenance
 $ pacaur -S profile-cleaner
 $ pacaur -S browser-vacuum
 
+Docker
+sudo  gpasswd -a  josepy docker
+newgrp docker
+
+Configure suspend
+# vim /etc/systemd/sleep.conf
+Add:
+    [Sleep]
+HybridSleepMode=suspend platform
+HybridSleepState=mem
+
+SuspendMode=suspend
+SuspendState=mem disk
+
+To sleep:
+# sudo /lib/systemd/systemd-sleep hybrid-sleep 
