@@ -65,3 +65,6 @@ alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
+alias sleep='sudo  /lib/systemd/systemd-sleep hybrid-sleep'
+alias tip='dockip transmission'
+alias images='docker images'

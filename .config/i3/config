@@ -272,7 +272,7 @@ exec --no-startup-id mpd
 #exec --no-startup-id dropbox &
 exec --no-startup-id dunst 
 exec_always compton &
-exec_always feh --bg-scale ~/Pictures/others/wallpaper2.png
+exec_always feh --bg-scale ~/Pictures/ultra-hd/23.jpg
 exec ~/.config/i3/scripts/batnotify &
 # bindsym $mod+j exec --no-startup-id feh --bg-fill "$(find ~/Pictures/wallpapers | shuf -n1)" &
 #exec_always --no-startup-id nm-applet

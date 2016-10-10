@@ -49,6 +49,7 @@ echo ""
 	i3-gaps-next-git \
 	i3lock-git \
 	i3-vim-syntax-git \
+    imagemagick \
     iptables \
 	j4-dmenu-desktop \
 	libmtp \

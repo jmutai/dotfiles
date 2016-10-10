@@ -72,7 +72,29 @@ rhev () {
 	sudo virsh start rhevm
 }
 
+# Use wget to download complete site for offline reading
+
+offline () {
+    URL="$1"
+    DIR="$2"
+    # Check if url is given
+    if [  -z "$1" ]; then
+        echo "Usage : "$0" <url> <directory>"
+        echo "If no directory is provided, default is ~/websites"
+        exit 0
+    else
+        echo ""
+        echo "*** Downloading "${URL}" content to "{$DIR}"..."
+        cd "$DIR"
+        sleep 2
+        wget --limit-rate=2000k --no-clobber --convert-links --random-wait -r -p -E -e robots=off -U mozilla "$URL" & tail -f nohup.out
+    fi
+
+    }
+
+
 # youtube-dl
+
 
 
 

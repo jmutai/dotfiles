@@ -69,3 +69,4 @@ ask "Install symlink for .config/termite/?" Y && ln -sfn ${dir}/.config/termite 
 
 ask "Install symlink for .mutt/?" Y && ln -sfn ${dir}/.mutt ${HOME}/.mutt
 ask "Install symlink for scripts/?" Y && ln -sfn ${dir}/scripts ${HOME}/scripts
+ask "Install symlink for cheatsheets/?" Y && ln -sfn ${dir}/cheat-sheets ${HOME}/cheat-sheets

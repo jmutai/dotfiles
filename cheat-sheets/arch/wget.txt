@@ -1,0 +1,14 @@
+To specify a target directory: - 
+
+wget -qO- your_link_here | tar xvz -C /target/directory
+
+-q tells wget to do it quietly, -O - is used to write the output to stdout).
+
+tar xvzf -C /tmp/ < <(wget -q -O - http://foo.com/myfile.tar.gz)
+
+Because image size matters, using ADD to fetch packages from remote URLs is strongly discouraged; you should use curl or wget instead. That way you can delete the files you no longer need after they've been extracted and you won't have to add another layer in your image.
+
+RUN mkdir -p /usr/src/things \
+  && curl -SL http://example.com/big.tar.gz \
+    | tar -xJC /usr/src/things \
+  && make -C /usr/src/things all

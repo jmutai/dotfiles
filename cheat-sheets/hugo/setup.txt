@@ -5,3 +5,95 @@ $ docker pull alpine:latest
 
 > Use Caddy web browser, with ACME-enabled certificate authority (i.e. LetsEncrypt).
 
+Deployment strategy: Wercker
+Source Control: Github
+
+Creating first project
+- Create new folder for the project
+# $GOPATH/src/gtihub.com/computingforgeeks.com
+# git init
+
+Create hugo site
+# hugo new site $GOPATH/src/gtihub.com/computingforgeeks.com
+
+- This will create the skeleton for your new Hugo site.
+
+Choosing a theme
+http://themes.gohugo.io/
+e.g http://themes.gohugo.io/hyde-x/
+https://github.com/zyro/hyde-x/blob/master/README.md
+
+- Make a subdirectory called themes and change directory to it and clone the theme you have chosen there:
+
+git clone https://github.com/zyro/hyde-x
+
+- Once this theme repo got cloned into my project I then removed its .git directory by changing directory into the themes root folder and removing it:
+
+cd themes/hyde-x
+rm -fr .git
+
+Configuring your project and theme
+In the root of your project there is a file called config.toml that you need to update to configure your site
+Look at: https://github.com/softinio/softinio.com/blob/master/config.toml
+
+Content Types, Archetypes and Front Matter
+I have decided to have two content types:
+
+post for my blog posts
+page for my sites static pages (like my about me page).
+
+When creating any kind of content using Hugo you must provide some meta data about it. This meta data is known as front matter.
+
+For example my front matter for this post is:
+
++++
+categories = ["python", "golang"]
+date = "2015-11-29T07:16:53-05:00"
+description = "In this post I will discuss the steps I took to migrate my blog from Pelican to Hugo."
+keywords = ["pelican",  "hugo",  "golang", "go", "python", "blog"]
+slug = "migrating-from-pelican-to-hugo"
+tags = ["pelican",  "hugo",  "golang", "go", "python", "blog"]
+title = "Migrating from Pelican to Hugo"
+
++++
+
+- You can get Hugo to automatically create the above front matter for you for each content type. These are called archetypes. If you look at the archetypes subdirectory 
+- Any content created that is of type page will have the contents of page.md added to its header. Any other content type will have the content of default.md added to its header.
+- The main difference between my two different content types is that the page.md content type has menu = "main" this tells hugo that this content is not a blog post and it should be added to the left column of my website below my name as a link.
+
+
+Creating Content
+To create content, from the project root you call:
+
+hugo new <content type>/<name of new content md file>
+
+So to create this page I did:
+
+hugo new post/migrating-from-pelican-to-hugo.md
+
+For more details on permalinks have a look at the http://gohugo.io/extras/permalinks/
+
+GitHub
+- Create new github repo for it and push the code
+$ git remote add origin git@github.com:softinio/softinio.com.git
+$ git commit -am "Initital version of my site"```
+
+Merge the remote with my local:
+
+$ git pull origin master
+
+Pushed my code to GitHub:
+
+$ git push origin master
+
+Disqus comments migrate
+https://help.disqus.com/customer/portal/articles/912757-url-mapper
+
+Github Pages
+
+
+
+
+
+
+
