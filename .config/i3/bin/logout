@@ -9,7 +9,7 @@ option=`echo -e "sleep\nlock screen\nlogout\nreboot\npoweroff\nKill user $USER" 
 
 case $option in
     sleep)
-        systemctl hybrid-sleep
+        sudo  /lib/systemd/systemd-sleep hybrid-sleep
         ;;
     'lock screen')
         i3lock -i ~/Pictures/cube.png

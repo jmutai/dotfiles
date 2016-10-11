@@ -29,7 +29,7 @@ alias zs='source ~/.zshrc'
 # i3
 alias i3config='vim ~/.config/i3/config'
 alias i3blocks='vim ~/.i3blocks.conf'
-alias i3env='cd ~/.config/i3/scripts/'
+alias i3env='cd ~/.config/i3/blocklets/'
 alias i3r='i3-msg restart'
 
 alias main='vim /home/josepy/Dropbox/arch-custom/arch-custom.txt' 
@@ -39,7 +39,8 @@ alias ssh='TERM=xterm  ssh'
 alias push='git push -u origin master'
 
 # Google dns set
-alias dns='sudo echo nameserver 8.8.8.8 > /etc/resolv.conf'                            
+alias dns='sudo setfacl -m u:josepy:rw /etc/resolv.conf && sudo echo nameserver 8.8.8.8 > /etc/resolv.conf'                            
+alias dnss='cat /etc/resolv.conf'
 # Rhev
 alias rhevh='ssh rhevh'
 alias rhevm='ssh rhevm'

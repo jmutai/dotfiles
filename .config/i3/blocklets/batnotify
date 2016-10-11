@@ -32,13 +32,15 @@ if [  "$battery_level" -le "$critical_value" ]; then
         notify-send -u critical -i "$not_icon" -t 30000 "$message"
        # i3-nagbar -m "$message"
         sleep 120
-        systemctl hybrid-sleep 
+        sudo  /lib/systemd/systemd-sleep hybrid-sleep
+
 
     else
          notify-send -u critical  -t 10000 "$message"
         #i3-nagbar -m "$message"
         sleep 120
-        systemctl hybrid-sleep 
+        sudo  /lib/systemd/systemd-sleep hybrid-sleep
+
     fi
 fi
 fi

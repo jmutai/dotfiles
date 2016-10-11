@@ -5,6 +5,9 @@ $ docker pull alpine:latest
 
 > Use Caddy web browser, with ACME-enabled certificate authority (i.e. LetsEncrypt).
 
+$ pip install Pygments
+- . Once installed, Pygments gives you a command pygmentize. Make sure it sits in your PATH, otherwise Hugo cannot find it.
+
 Deployment strategy: Wercker
 Source Control: Github
 
