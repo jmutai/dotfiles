@@ -176,7 +176,7 @@ mode "resize" {
 }
 
 bindsym $mod+r mode "resize"
-bindsym $mod1+f exec ~/.config/i3/bin/rofi_finder
+bindsym $mod+Shift+f exec ~/.config/i3/bin/rofi_finder
 
 
 # Custom bind keys

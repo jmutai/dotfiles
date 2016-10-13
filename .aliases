@@ -67,5 +67,8 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
 alias sleep='sudo  /lib/systemd/systemd-sleep hybrid-sleep'
-alias tip='dockip transmission'
+
+# Docker aliases
 alias images='docker images'
+alias tip='dockip transmission'
+alias ts='docker stop transmission; docker ps'

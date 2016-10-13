@@ -1,0 +1,72 @@
+$ hugo help
+$ hugo version
+
+$ hugo new site mysite
+$ cd mysite
+$ tree a
+
+The resulting dir has 5 sub-directories and 1 file
+
+archetypes: You can create new content files in Hugo using the hugo new command. When you run that command, it adds few configuration properties to the post like date and title. Archetype allows you to define your own configuration properties that will be added to the post front matter whenever hugo new command is used.
+
+config.toml: Every website should have a configuration file at the root. By default, the configuration file uses TOML format but you can also use YAML or JSON formats as well. TOML is minimal configuration file format that’s easy to read due to obvious semantics. The configuration settings mentioned in the config.toml are applied to the full site. These configuration settings include baseurl and title of the website.
+
+content: This is where you will store content of the website. Inside content, you will create sub-directories for different sections. Let’s suppose your website has three actions – blog, article, and tutorial then you will have three different directories for each of them inside the content directory. The name of the section i.e. blog, article, or tutorial will be used by Hugo to apply a specific layout applicable to that section.
+
+data: This directory is used to store configuration files that can be used by Hugo when generating your website. You can write these files in YAML, JSON, or TOML format.
+
+layouts: The content inside this directory is used to specify how your content will be converted into the static website.
+
+static: This directory is used to store all the static content that your website will need like images, CSS, JavaScript or other static content.
+
+Add content
+
+$ hugo new post/how-to-install-arch.md
+
+- Will create a new directory post inside the mysite/content dire and create how-to-install-arch.md file inside.
+
+$ tree -a
+
+- The content inside +++ is the TOML configuration for the post. This configuration file is called front matter.
+- It enables you to define post configuration along with its content. By default, each post will have the three configuration properties shown above.
+
+1. date specifies the date and time at which post was created.
+2. draft specifies that post is not ready for publication yet so it will not be in the generated site.
+3. title specifies title for the post.
+
+Server the content
+Hugo has an inbuilt server that can serve your website content so that you can preview it. You can also use the inbuilt Hugo server in production. To serve content, execute the following command.
+
+$ hugo server
+
+This will start the server on port 1313. You can view your blog at http://localhost:1313/. When you go to the link, you will see nothing. There are couple of reasons for that:
+
+As you can see in the hugo server command output, Hugo didn’t render the draft. Hugo will only render drafts if you pass the buildDrafts flag to the hugo server command.
+We have not specified how Markdown content should be rendered. We have to specify a theme that Hugo can use. We will do that in the next step.
+
+To render drafts, re-run the server with command shown below.
+
+$ hugo server --buildDrafts
+
+ Add theme
+
+- Themes should be added in the themes directory inside the repository root. Create new directory mysite/themes and change directory to it.
+
+Start the server again.
+
+$ hugo server --theme=hyde-x --buildDrafts
+
+Theme Layout
+Let’s understand the layout of the theme. A theme consists of the following:
+
+theme.toml is the theme configuration file that gives information about the theme like name and description of theme, author details, and theme license.
+
+images directory contains two images – screenshot.png and tn.png. screenshot.png is the image of the list view and tn.png is the single post view.
+
+layouts directory contains different views for different content types. Every content type should have two files single.html and list.html. single.html is used for rendering a single piece of content. list.html is used to view a list of content items. For example, you will use list.html to view all the posts that have the programming tag.
+
+static directory stores all the static assets used by the template. Static assets could be JavaScript libraries like jQuery or CSS styles or images, or any other static content. This directory will be copied into the final site when rendered.
+
+
+
+

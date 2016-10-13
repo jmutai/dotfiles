@@ -92,8 +92,11 @@ offline () {
 
     }
 
+    cleantor () {
+        locate "*.torrent.added" | xargs -I {} rm -rf {} 
+    }
 
-# youtube-dl
+
 
 
 
