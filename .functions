@@ -96,8 +96,6 @@ offline () {
         locate "*.torrent.added" | xargs -I {} rm -rf {} 
     }
 
-
-
-
-
-
+remtor () {
+    locate torrent.added | xargs -I {} rm -rf {}
+}

@@ -143,3 +143,13 @@ SuspendState=mem disk
 
 To sleep:
 # sudo /lib/systemd/systemd-sleep hybrid-sleep 
+
+Add user to libvirt group
+$ sudo usermod -aG libvirt josepy
+
+cat <<EOF >>/etc/libvirt/libvirtd.conf
+unix_sock_group = "libvirt"
+unix_sock_rw_perms = "0770"
+EOF
+
+$ sudo systemctl restart libvirtd 

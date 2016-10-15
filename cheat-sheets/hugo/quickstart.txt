@@ -56,7 +56,9 @@ Start the server again.
 
 $ hugo server --theme=hyde-x --buildDrafts
 
+
 Theme Layout
+
 Let’s understand the layout of the theme. A theme consists of the following:
 
 theme.toml is the theme configuration file that gives information about the theme like name and description of theme, author details, and theme license.

@@ -1,0 +1,18 @@
+$ export GOPATH=$HOME/go  
+$ go get -v github.com/spf13/hugo
+
+- # After "go get", I actually find a compiled "hugo" binary inside $GOPATH/bin.
+
+Upgrade
+
+$ go get -v -u github.com/spf13/hugo
+
+hugo -w -D -t redlounge >> Same as:
+hugo --watch --buildDrafts=true --theme redlounge
+
+- syntax highlighting provided by either server-side (Pygments) or client-side (JavaScript) solutions.
+
+
+
+
+

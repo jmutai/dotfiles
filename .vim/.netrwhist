@@ -1,5 +1,5 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =7
+let g:netrw_dirhist_cnt =8
 let g:netrw_dirhist_1='/home/josepy/mygit/dotfiles/.vim/colors'
 let g:netrw_dirhist_2='/home/josepy/mygit/dotfiles/.vim'
 let g:netrw_dirhist_3='/home/josepy/dotfiles/jfrazelle'
@@ -7,3 +7,4 @@ let g:netrw_dirhist_4='/home/josepy/mygit/docker/dockerfiles'
 let g:netrw_dirhist_5='/home/josepy/dockerfiles/alpine-caddy'
 let g:netrw_dirhist_6='/home/josepy/mygit/docker/dockerfiles/alpine-caddy/tests'
 let g:netrw_dirhist_7='/home/josepy/.lab/dockerfiles/ansible'
+let g:netrw_dirhist_8='/home/josepy/mygit/dotfiles/cheat-sheets/rh413'
