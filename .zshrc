@@ -1,6 +1,6 @@
 # Path to your oh-my-zsh installation.
   export ZSH=~/.oh-my-zsh
-  export PATH=$PATH:~/.lab/bash-scripts 
+  export PATH=$PATH:~/.lab/bash-scripts:~/opt/foxitsoftware/foxitreader/  
 
 ZSH_THEME="honukai"
 
