@@ -52,10 +52,11 @@ i3 \
 dmenu \
 rofi \
 xorg-init \
+xorg-init
 
 echo "Configuring i3"
 cat <<EOF >>/etc/profile
-[ -z "$DISPLAY" -a "$(fgconsole)" -eq 1 ] && exec startx
+[ -z "${DISPLAY}" -a "${fgconsole}" -eq 1 ] && exec startx
 EOF
 
 echo "*** Setting root password ***"
@@ -110,9 +111,7 @@ fi
 
 echo "*** Installing grub***"
 slepp 3
-grub-install --target=x86_64-efi --efi-directory=/boot/efi \ 
---bootloader-id=grub
-
+grub-install --target=x86_64-efi --efi-directory=/boot/efi 
 echo ""
 echo "*** Generating grub config files ***"
 slepp 3

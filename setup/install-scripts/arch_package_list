@@ -82,6 +82,8 @@ echo ""
 	openssh \
 	openssh \
     openbsd-netcat \
+    pepper-flash \
+    freshplayerplugin \
 	poppler \
 	powerline-fonts-git \
     python-pip \

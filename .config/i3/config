@@ -190,7 +190,7 @@ bindsym $mod+l exec i3lock -i ~/Pictures/others/cube.png
 
 # Pulse Audio controls
 # run pactl list sinks
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 1 +5% #increase sound volume
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 1+5% #increase sound volume
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 1 -5% #decrease sound volume
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 1 toggle # mute sound
 
@@ -272,7 +272,7 @@ exec --no-startup-id mpd
 #exec --no-startup-id dropbox &
 exec --no-startup-id dunst 
 exec_always compton &
-exec_always feh --bg-scale ~/Pictures/ultra-hd/23.jpg
+exec_always feh --bg-scale ~/Pictures/ultra-hd/26.jpg
 exec ~/.config/i3/scripts/batnotify &
 # bindsym $mod+j exec --no-startup-id feh --bg-fill "$(find ~/Pictures/wallpapers | shuf -n1)" &
 #exec_always --no-startup-id nm-applet
@@ -291,8 +291,8 @@ assign [class="qBittorrent"] $ws7
 
 
 # Assign to certain workspace
-assign [window_role="browser"] $ws2
-assign [class="(?i)qutebrowser"] $ws2
+#assign [window_role="browser"] $ws2
+#assign [class="(?i)qutebrowser"] $ws2
 assign [instance="spotify|cheese|gimp"] $ws6
 
 # Custom Keybinds
