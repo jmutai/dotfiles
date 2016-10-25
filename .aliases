@@ -15,7 +15,7 @@ alias df='df -hT'
 alias free='free -hm'
 alias info='pinfo'
 
-
+alias foxitreader='FoxitReader'
 alias nc='ncmpcpp'
 alias top='htop'
 
@@ -72,3 +72,7 @@ alias sleep='sudo  /lib/systemd/systemd-sleep hybrid-sleep'
 alias images='docker images'
 alias tip='dockip transmission'
 alias ts='docker stop transmission; docker ps'
+alias ds='docker-compose stop'
+alias dockf='vim ~/mygit/docker/docker_func' 
+alias volumes='docker volume ls'
+alias dps='docker-compose ps'

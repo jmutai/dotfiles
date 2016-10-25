@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+
+echo "Installing httpd"
+sleep 3
+sudo pacman -Sy apache --noconfirm
+
+echo "Installing php ...."
+sleep 2
+sudo pacman -S --noconfirm php php-{cgi,gd}
+
+echo "Installing MariaDB...."
+sleep 2
+sudo pacman -S --noconfirm libmariadbclient mariadb mariadb-clients
+
+sudo systemctl start mysqld.service
+
+echo "Doing mariadb configurations...."
+sudo mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+
+read -p "Configure mysql db (Y/N)?" selection
+if [[ "$selection" == "Y" || "$selection" == "y" ]]; then
+    sudo mysql_secure_installation
+else
+    echo "Okay.., Maybe next time"
+fi
+ 
+# If you did upgrade, just type:
+# mysql_upgrade -u root -p
+
+# Comment the line below:
+# LoadModule mpm_event_module modules/mod_mpm_event.so
+
+echo "Configuring php.."
+echo "LoadModule mpm_prefork_module modules/mod_mpm_prefork.so" >> /etc/httpd/conf/httpd.conf
+
+# Place below line in the LoadModule list just after LoadModule dir_module modules/mod_dir.so:
+# LoadModule php7_module modules/libphp7.so
+
+# At the end of include list, add:
+# Include conf/extra/php7_module.conf
+
+# Enable mysqli and gd modules:
+# vim /etc/php/php.ini
+# Make sure below lines are uncommented
+# extension=mysqli.so
+# extension=gd.so
+
+# Restart Apache:
+# systemctl restart httpd
+# mysql -u root -p$password
+
+mysql CREATE DATABASE wordpress;
+CREATE USER 'wordpressuser '@'localhost' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON wordpress.* TO 'wordpressuser'@'localhost';
+FLUSH PRIVILEGES;
+q
+
+echo "Install wordpress.."
+sudo wget https://wordpress.org/latest.tar.gz | tar zvx -C /srv/http/kipepeo
+
+
+

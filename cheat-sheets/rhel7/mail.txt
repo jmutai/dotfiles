@@ -1,0 +1,109 @@
+SMTP
+- The primary purpose of SMTP is to transfer email between mail servers. 
+- However, it is critical for email clients as well. 
+- To send email, the client sends the message to an outgoing mail server, which in turn contacts the destination mail server for delivery. 
+- For this reason, it is necessary to specify an SMTP server when configuring an email client.
+
+- SMTP protocol is that it does not require authentication
+- This allows anyone on the Internet to send email to anyone else or even to large groups of people. 
+- It is this characteristic of SMTP that makes junk email or spam possible
+-  Imposing relay restrictions limits random users on the Internet from sending email through your SMTP server, to other servers on the
+
+internet. 
+- Servers that do not impose such restrictions are called open relay servers.
+-Red Hat Enterprise Linux 7 provides the Postfix and Sendmail SMTP programs.
+
+Mail Access Protocols
+
+-There are two primary protocols used by email client applications to retrieve email from mail servers:
+
+1. the Post Office Protocol (POP) and 
+2. the Internet Message Access Protocol (IMAP).
+
+==> POP
+- The default POP server under Red Hat Enterprise Linux is Dovecot and is provided by the dovecot package.
+- ~]# yum install dovecot
+
+
+- When using a POP server, email messages are downloaded by email client applications. 
+- By default, most POP email clients are automatically configured to delete the message on  the email server after 
+it has been successfully transferred, however this setting usually can be changed.
+
+APOP — POP3 with MD5 authentication. An encoded hash of the user's password is sent from the
+
+email client to the server rather than sending an unencrypted password.
+
+KPOP — POP3 with Kerberos authentication.
+
+RPOP — POP3 with RPOP authentication. This uses a per-user ID, similar to a password, to
+
+authenticate POP requests. However, this ID is not encrypted, so RPOP is no more secure than standard POP.
+
+- For added security, it is possible to use Secure Socket Layer (SSL) encryption for client authentication
+
+and data transfer sessions. This can be enabled by using the pop3s service, or by using the stunnel application
+
+
+==> IMAP
+The default IMAP server under Red Hat Enterprise Linux is Dovecot and is provided by the dovecot package.
+- When using an IMAP mail server, email messages remain on the server where users can read or delete them.
+- IMAP also allows client applications to create, rename, or delete mail directories on the server to organize and store email.
+- IMAP is particularly useful for users who access their email using multiple machines.
+- Only the email header information is downloaded for messages until opened, saving bandwidth. 
+- The user also has the ability to delete messages without viewing or downloading them.
+- For convenience, IMAP client applications are capable of caching copies of messages locally, so the user can browse previously read messages when not directly connected to the IMAP server.
+- For added security, it is possible to use SSL encryption for client authentication and data transfer sessions.
+- This can be enabled by using the imaps service, or by using the stunnel program
+
+Dovecot
+
+- The imap-login and pop3-login processes which implement the IMAP and POP3 protocols are spawned by the master dovecot daemon included in the dovecot package
+- The use of IMAP and POP is configured through the /etc/dovecot/dovecot.conf configuration file; by default dovecot runs IMAP and POP3 together with their secure versions using SSL.
+- To configure dovecot to use POP, complete the following steps:
+
+1. Edit the /etc/dovecot/dovecot.conf configuration file to make sure the protocols variable is uncommented (remove the hash sign (#) at the beginning of the line) and contains the pop3 argument. For example:
+
+protocols = imap pop3 lmtp
+
+When the protocols variable is left commented out, dovecot will use the default values as described above.
+
+2. Make the change operational for the current session by running the following command as root:
+
+~]# systemctl restart dovecot
+
+3. Make the change operational after the next reboot by running the command:
+
+~]# systemctl enable dovecot
+
+- Unlike SMTP, both IMAP and POP3 require connecting clients to authenticate using a user name and password. 
+- By default, passwords for both protocols are passed over the network unencrypted.
+
+To configure SSL on dovecot:
+-Edit the /etc/dovecot/conf.d/10-ssl.conf configuration to make sure the
+
+ssl_protocols variable is uncommented and contains the !SSLv2 !SSLv3 arguments:
+ssl_protocols = !SSLv2 !SSLv3
+
+- These values ensure that dovecot avoids SSL versions 2 and also 3, which are both known to be insecure
+- Edit the /etc/pki/dovecot/dovecot-openssl.cnf configuration file as you prefer.
+
+However, in a typical installation, this file does not require modification.
+- Rename, move or delete the files /etc/pki/dovecot/certs/dovecot.pem and /etc/pki/dovecot/private/dovecot.pem.
+
+- Execute the /usr/libexec/dovecot/mkcert.sh script which creates the dovecot self signed certificates. 
+
+# /usr/libexec/dovecot/mkcert.sh
+
+- These certificates are copied in the /etc/pki/dovecot/certs and /etc/pki/dovecot/private directories. 
+
+- To implement the changes, restart dovecot by issuing the following command as root:
+
+~]# systemctl restart dovecot
+
+ Email Program Classifications
+
+1.  Mail T ransport Agent
+- A Mail Transport Agent (MTA) transports email messages between hosts using SMTP. 
+- A message may involve several MTAs as it moves to its intended destination.
+- Since Red Hat Enterprise Linux offers two MTAs, Postfix and Sendmail, email client programs are often not required to act as an MTA.
+-  Red Hat Enterprise Linux also includes a special purpose MTA called Fetchmail.

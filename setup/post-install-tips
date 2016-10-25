@@ -153,3 +153,18 @@ unix_sock_rw_perms = "0770"
 EOF
 
 $ sudo systemctl restart libvirtd 
+
+Docker compose zsh completion
+mkdir -p ~/.zsh/completion
+curl -L https://raw.githubusercontent.com/docker/compose/$(docker-compose version --short)/contrib/completion/zsh/_docker-compose > ~/.zsh/completion/_docker-compose
+curl -L https://raw.githubusercontent.com/docker/machine/v$(docker-machine --version | tr -ds ',' ' ' | awk 'NR==1{print $(3)}')/contrib/completion/zsh/_docker-machine > ~/.zsh/completion/_docker-machine
+
+
+- Include the directory in your $fpath, e.g. by adding in ~/.zshrc
+
+    fpath=(~/.zsh/completion $fpath)
+- Make sure compinit is loaded or do it by adding in ~/.zshrc
+
+    autoload -Uz compinit && compinit -i
+-Then reload your shell
+    exec $SHELL -l

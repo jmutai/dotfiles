@@ -99,3 +99,34 @@ offline () {
 remtor () {
     locate torrent.added | xargs -I {} rm -rf {}
 }
+
+mylanip () {
+    set eu
+    nmcli con mod eno1 ipv4.addresses "$1"  ipv4.method manual connection.autoconnect yes
+    if [ "$1" == "" ]; then
+        echo "ip address and subnet not specified"
+        exit 
+    fi
+} 
+
+mylangw (){
+    set eu
+    nmcli con mod eno1 ipv4.dns "8.8.8.8 8.8.4.4" ipv4.gateway "$1"
+    if [ "$1" == "" ]; then
+        echo " Gateway not specified  not specified"
+        exit 
+    fi
+}
+
+btrfsr () {
+    sudo btrfs filesystem resize max "$1"    
+    if [ "$1" == "" ]; then
+        echo "No mounted filesystem path.."
+       exit 
+   fi
+}
+
+wp () {
+    cd ~/dockerfiles/wordpress-compose
+    sh ./build.sh
+}

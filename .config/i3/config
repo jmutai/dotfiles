@@ -190,16 +190,16 @@ bindsym $mod+l exec i3lock -i ~/Pictures/others/cube.png
 
 # Pulse Audio controls
 # run pactl list sinks
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 1+5% #increase sound volume
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 1 +5% #increase sound volume
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 1 -5% #decrease sound volume
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 1 toggle # mute sound
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 1 toggle       # mute sound
 
 # Sreen brightness controls
-bindsym XF86MonBrightnessUp exec xbacklight -inc 5 # increase screen brightness
-bindsym XF86MonBrightnessDown exec xbacklight -dec 5 # decrease screen brightness
+bindsym XF86MonBrightnessUp exec xbacklight -inc 5    # increase screen brightness
+bindsym XF86MonBrightnessDown exec xbacklight -dec 5  # decrease screen brightness
 
 # Touchpad controls
-bindsym XF86TouchpadToggle exec ~/.toggletouchpad.sh # toggle touchpad
+#bindsym XF86TouchpadToggle exec ~/.toggletouchpad.sh  # toggle touchpad
 
 # Mpd keys
 # bindsym F9 exec mpc stop
@@ -254,7 +254,7 @@ set $m2 #FFF0E0
                                                #BORDER    BACKGROUND   TEXT         INDICATOR   CHILD_BORDER
                        client.focused          $black      $black      $m2          $darkblack  $darkblack
                        client.unfocused        $black      $black      $m1          $darkblack  $darkblack
-                       client.focused_inactive $black      $black      $m1           $darkblack  $darkblack
+                       client.focused_inactive $black      $black      $m1          $darkblack  $darkblack
                        client.urgent           $darkred    $darkred    $black       $darkred    $darkred
                        client.background       $black
 
@@ -282,12 +282,10 @@ exec ~/.config/i3/scripts/batnotify &
 # Bind App to workspace
 # Check class by : xprop
 assign [class="chromium"] $ws2
-assign [class="Atom"] $ws3
 assign [class="Foxit Reader"] $ws3
 assign [class="Thunar"] $ws4
 assign [class="mtp-ng-qt"] $ws4
 assign [class="Virt-manager"] $ws5
-assign [class="qBittorrent"] $ws7
 
 
 # Assign to certain workspace
@@ -308,12 +306,10 @@ mode "$mode_launcher" {
     bindsym l exec lxappearance  
     bindsym t exec thunar
     bindsym v exec virt-manager 
-    bindsym c exec cherrytree
     bindsym s exec spotify
     bindsym d exec deepin-screenshot 
     bindsym a exec android-file-transfer
     bindsym t exec thunar
-    bindsym q exec qbittorrent 
 
     bindsym Esc mode "default"
     bindsym Return mode "default"
@@ -358,6 +354,10 @@ for_window [window_type="menu"] floating enable
 for_window [instance="file_progress"]  sticky enable
 for_window [class="info|Mate-color-select|gcolor2|timesup|QtPass|GtkFileChooserDialog"] sticky enable
 
+# Teamviewer
+for_window [instance="TeamViewer.exe"] floating enable
+for_window [class="TeamViewer"] floating enable
+for_window [instance="Qt-subapplication" title="TeamViewer"] move scratchpad
 
 # Focus window settings
 no_focus [window_role="pop-up"]
