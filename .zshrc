@@ -3,6 +3,7 @@
   export PATH=$PATH:~/.lab/bash-scripts:~/opt/foxitsoftware/foxitreader/  
   fpath=(~/.zsh/completion $fpath)
   autoload -Uz compinit && compinit -i
+  export EDITOR="vim"
 
 
 
@@ -19,17 +20,12 @@ source  ~/mygit/dotfiles/.functions
 source  ~/mygit/dotfiles/.exports 
 
 
+
 # Compilation flags
 
 export ARCHFLAGS="-arch x86_64"
 
 setopt HIST_IGNORE_ALL_DUPS
 
-alias ypa="youtube-dl  --write-auto-sub --ignore-errors --no-overwrites --embed-subs --download-archive=downloaded.txt \
-    -o '%(playlist)s/%(title)s.%(ext)s'"
-alias res='ypa -c --download-archive=downloaded.txt https://www.youtube.com/playlist?list=PL2BN1Zd8U_MufmbEcn5cIpsd1LHFKA8S3'
-
-# Single video
-alias yv="youtube-dl  --write-auto-sub --ignore-errors --no-overwrites --embed-subs -f 22 -o  '%(title)s.%(ext)s'"
 
 

@@ -168,3 +168,12 @@ curl -L https://raw.githubusercontent.com/docker/machine/v$(docker-machine --ver
     autoload -Uz compinit && compinit -i
 -Then reload your shell
     exec $SHELL -l
+
+
+Enable Nested Virtualization
+# vim /etc/modprobe.d/kvm-nested.conf
+options kvm_intel nested=1
+
+# modprobe -r kvm_intel
+# modprobe kvm_intel 
+cat /sys/module/kvm_intel/parameters/nested 

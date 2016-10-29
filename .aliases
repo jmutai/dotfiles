@@ -76,3 +76,8 @@ alias ds='docker-compose stop'
 alias dockf='vim ~/mygit/docker/docker_func' 
 alias volumes='docker volume ls'
 alias dps='docker-compose ps'
+
+# youtubve-dl
+alias ypa="youtube-dl  --write-auto-sub --ignore-errors --no-overwrites --embed-subs --download-archive=downloaded.txt \
+    -o '%(playlist)s/%(title)s.%(ext)s'"
+alias yv="youtube-dl  --write-auto-sub --ignore-errors --no-overwrites --embed-subs -f 22 -o  '%(title)s.%(ext)s'"

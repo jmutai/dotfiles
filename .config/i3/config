@@ -116,7 +116,7 @@ set $ws2 "2:  "
 set $ws3 "3:  "
 set $ws4 "4:  "
 set $ws5 "5:  "
-set $ws6 "6:  "
+set $ws6 "6:   "
 set $ws7 "7:  "
 
 
@@ -281,11 +281,12 @@ exec ~/.config/i3/scripts/batnotify &
 
 # Bind App to workspace
 # Check class by : xprop
-assign [class="chromium"] $ws2
+assign [class="Chromium"] $ws2
 assign [class="Foxit Reader"] $ws3
 assign [class="Thunar"] $ws4
 assign [class="mtp-ng-qt"] $ws4
 assign [class="Virt-manager"] $ws5
+assign [class="Firefox"] $ws6
 
 
 # Assign to certain workspace
@@ -305,6 +306,7 @@ mode "$mode_launcher" {
     bindsym f exec foxitreader 
     bindsym l exec lxappearance  
     bindsym t exec thunar
+    bindsym f exec firefox
     bindsym v exec virt-manager 
     bindsym s exec spotify
     bindsym d exec deepin-screenshot 

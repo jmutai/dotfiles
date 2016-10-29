@@ -130,3 +130,8 @@ wp () {
     cd ~/dockerfiles/wordpress-compose
     sh ./build.sh
 }
+
+install_date () {
+    sudo ls -lact --full-time /etc |tail
+}
+
