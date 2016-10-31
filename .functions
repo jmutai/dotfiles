@@ -135,3 +135,15 @@ install_date () {
     sudo ls -lact --full-time /etc |tail
 }
 
+# Funtion to create vm snapshot in KVM
+snap () {
+    while [[ $dom_name == "" || $snap_name == "" ]]; do
+        echo  -n "Enter domain name: " 
+        read dom_name
+        echo  -n "Enter snapshot name: " 
+        read snap_name
+    done
+    sudo virsh snapshot-create-as --domain "$dom_name" \
+        --name "$snap_name" \
+        --description "$desc"
+ }
