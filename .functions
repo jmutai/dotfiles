@@ -142,8 +142,36 @@ snap () {
         read dom_name
         echo  -n "Enter snapshot name: " 
         read snap_name
+        echo  -n "Enter Snapshot description: " 
+        read desc
     done
+    echo ""
     sudo virsh snapshot-create-as --domain "$dom_name" \
         --name "$snap_name" \
         --description "$desc"
+ }
+
+ snaplist () {
+    sudo virsh snapshot-list --domain "$1" 
+ }
+ snapinfo () {
+     sudo virsh snapshot-info --domain "$1" "$2"
+     # $1 domain name
+     # $2 snapshot name
+ }
+ snaprestore () {
+     sudo virsh shutdown --domain "$1"
+     sudo virsh snapshot-revert --domain "$1"  --snapshotname "$2" --running
+ }
+
+ snapdelete () {
+    sudo  virsh snapshot-delete --domain "$1" --snapshotname "$2"
+}
+
+proxy () {
+     export http_proxy=http://172.16.15.83:8020
+     export https_proxy=$http_proxy
+     export ftp_proxy=$http_proxy
+     export rsync_proxy=$http_proxy
+     export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
  }
