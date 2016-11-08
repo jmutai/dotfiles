@@ -93,6 +93,7 @@ echo ""
     qbittorrent \
     qutebrowser \
 	ranger \
+    rar \
 	rofi \
 	rsync \
 	simple-mtpfs \
@@ -117,6 +118,7 @@ echo ""
 	ttf-inconsolata \
 	tumbler \
 	unzip \
+    unrar \
     vsftpd \
     vde2 \
     virt-install \

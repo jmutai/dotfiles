@@ -98,11 +98,14 @@ offline () {
 
 mylanip () {
     set eu
-    nmcli con mod eno1 ipv4.addresses "$1"  ipv4.method manual connection.autoconnect yes
-    if [ "$1" == "" ]; then
-        echo "ip address and subnet not specified"
-        exit 
-    fi
+    if [[ "$1" == "" || "$2" == "" ]]; then
+        echo "
+        No arguments given:
+        Provide interface name and ip address
+        "
+    else
+    nmcli con mod "$1" ipv4.addresses "$2"  ipv4.method manual connection.autoconnect yes
+fi
 } 
 
 mylangw (){

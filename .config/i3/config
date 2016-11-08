@@ -313,6 +313,7 @@ mode "$mode_launcher" {
     bindsym d exec deepin-screenshot 
     bindsym a exec android-file-transfer
     bindsym b exec virtualbox
+    bindsym g exec  gns3
 
     bindsym Esc mode "default"
     bindsym Return mode "default"
