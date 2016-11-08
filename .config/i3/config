@@ -286,6 +286,7 @@ assign [class="Foxit Reader"] $ws3
 assign [class="Thunar"] $ws4
 assign [class="mtp-ng-qt"] $ws4
 assign [class="Virt-manager"] $ws5
+assign [class="VirtualBox"] $ws5
 assign [class="Firefox"] $ws6
 
 
@@ -345,6 +346,8 @@ mode $power_mode {
 for_window [window_role="task_dialog|bubble|page-info|Preferences|pop-up"] floating enable
 for_window [window_role="Open Files"] floating enable sticky
 for_window [window_role="File Operation Progress"] floating enable sticky
+for_window [window_role="Save As"] floating enable
+
 
 
 for_window [class="qBittorrent" window_role="pop-up"] floating enable

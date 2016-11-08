@@ -177,3 +177,20 @@ options kvm_intel nested=1
 # modprobe -r kvm_intel
 # modprobe kvm_intel 
 cat /sys/module/kvm_intel/parameters/nested 
+
+Suspend/resume
+# sudo pacman -S pm-utils 
+# blkid
+> Take swap uuid
+If  no swap, create it
+> You will need to point the kernel to your swap using the resume= kernel parameter
+The kernel parameter resume=swap_partition has to be used
+
+resume=/dev/sda1
+resume=UUID=4209c845-f495-4c43-8a03-5363dd433153
+resume=/dev/mapper/archVolumeGroup-archLogicVolume -- example if using LVM
+
+
+# vim /etc/mkinitcpio.conf
+> Add resume hook after udev hook
+HOOKS="base udev resume 

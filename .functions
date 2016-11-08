@@ -96,9 +96,9 @@ offline () {
         locate "*.torrent.added" | xargs -I {} rm -rf {} 
     }
 
-remtor () {
-    locate torrent.added | xargs -I {} rm -rf {}
-}
+    rmtot () {
+         find ~/Downloads -name "*torrent*.added" | xargs -I {}  rm -rf {}
+     }
 
 mylanip () {
     set eu
@@ -174,4 +174,15 @@ proxy () {
      export ftp_proxy=$http_proxy
      export rsync_proxy=$http_proxy
      export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
+ }
+
+ vbox () {
+     sudo modprobe -a vboxguest \
+         vboxsf \
+         vboxvideo \
+         vboxdrv \
+         vboxnetadp \
+         vboxnetflt \
+         vboxpci 
+     virtualbox
  }
