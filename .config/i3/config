@@ -312,7 +312,7 @@ mode "$mode_launcher" {
     bindsym s exec spotify
     bindsym d exec deepin-screenshot 
     bindsym a exec android-file-transfer
-    bindsym t exec thunar
+    bindsym b exec virtualbox
 
     bindsym Esc mode "default"
     bindsym Return mode "default"

@@ -16,11 +16,7 @@ systemd-analyze | awk '{print $NF}'
 
 # Make a temporary directory and enter it
 tmpd() {
-	if [ $# -eq 0 ]; then
 		tmpdir=`mktemp -d` && cd $dir
-	else
-		dir=`mktemp -d -t $1.XXXXXXXXXX` && cd $tmpdir
-	fi
     }
 
 
@@ -177,9 +173,7 @@ proxy () {
  }
 
  vbox () {
-     sudo modprobe -a vboxguest \
-         vboxsf \
-         vboxvideo \
+     sudo modprobe -a \
          vboxdrv \
          vboxnetadp \
          vboxnetflt \
