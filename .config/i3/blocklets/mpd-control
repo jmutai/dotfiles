@@ -11,4 +11,4 @@ case $BLOCK_BUTTON in
     5) exec mpc prev   ;; # Play previous on scroll down
 esac
 
-echo "mpd:  " 
+echo " " 

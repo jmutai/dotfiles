@@ -71,28 +71,26 @@ rhev () {
 # Use wget to download complete site for offline reading
 
 offline () {
-    URL="$1"
-    DIR="$2"
-    # Check if url is given
-    if [  -z "$1" ]; then
-        echo "Usage : "$0" <url> <directory>"
-        echo "If no directory is provided, default is ~/websites"
-        exit 0
-    else
+    if [[ "$1" == "" ]]; then 
         echo ""
-        echo "*** Downloading "${URL}" content to "{$DIR}"..."
-        cd "$DIR"
-        sleep 2
-        wget --limit-rate=2000k --no-clobber --convert-links --random-wait -r -p -E -e robots=off -U mozilla "$URL" & tail -f nohup.out
-    fi
+        echo "URL argument needed"
+        echo ""
+    else
+    wget --limit-rate=2000k \
+        --no-check-certificate \
+        --no-clobber \
+        --convert-links \
+        --random-wait \
+        -r -p -E -e robots=off -U mozilla "$1"  & tail -f nohup.out
+fi
+}
 
-    }
 
     cleantor () {
         locate "*.torrent.added" | xargs -I {} rm -rf {} 
     }
 
-    rmtot () {
+    rmtor () {
          find ~/Downloads -name "*torrent*.added" | xargs -I {}  rm -rf {}
      }
 
@@ -183,3 +181,30 @@ proxy () {
          vboxpci 
      virtualbox
  }
+
+ sshd () {
+     sudo systemctl restart  sshd
+     echo ""
+     systemctl status sshd
+ }
+
+ sstop () {
+    sudo systemctl stop sshd
+} 
+
+deb8 () {
+    sudo virsh start debian8
+}
+deb8stop () {
+    sudo virsh shutdown debian8
+}
+
+mycp () {
+    xclip -sel clip < "$1"
+}
+
+addsshkey () {
+    cat ~/.ssh/id_rsa.pub | ssh "$1" "cat >> ~/.ssh/authorized_keys"
+}
+
+

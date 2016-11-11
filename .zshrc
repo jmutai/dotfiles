@@ -14,10 +14,11 @@ plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 source ~/mygit/docker/docker_func 
-
+source ~/mygit/dotfiles/.vms
 source  ~/mygit/dotfiles/.aliases 
 source  ~/mygit/dotfiles/.functions 
 source  ~/mygit/dotfiles/.exports 
+source ~/.dig
 
 
 

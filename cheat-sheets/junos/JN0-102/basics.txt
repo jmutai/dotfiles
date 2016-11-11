@@ -1,0 +1,21 @@
+CLI has two modes:
+Operational : In operational mode, you monitor everything about the router’s hardware and software and check on network operation
+
+Configuration : In configuration mode, the commands let you define the behavior of the router, 
+such as indicating what network addresses to use and protocols to run.
+
+Configuring the System Basics
+
+> Base system
+> User accounts
+> Remote access
+> Interfaces
+
+First time configurations
+> cli
+> configure
+
+- Another time-saving command is run, which allows you to issue an operational command from within configuration mode. 
+- For example, the run show route command from configuration mode is the same as the show route command from operational mode:
+# run show route
+> show route

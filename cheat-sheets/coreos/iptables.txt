@@ -1,0 +1,17 @@
+iptables -nvL --line-numbers
+
+iptables-save > /tmp/backup-iptables
+iptables-restore < /tmp/backup-iptables  
+
+> Delete rule
+ iptables -D INPUT 3 > 3 is line number for the rule
+
+# Flush the current rules
+iptables -F
+
+# Support loopback communication
+iptables -A INPUT -i lo -j ACCEPT
+
+# Support all responses
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+

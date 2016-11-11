@@ -1,0 +1,130 @@
+sudo apt-get update
+sudo apt-get upgrade
+
+Install the FreeRADIUS software and its dependencies.
+
+aptitude install -y freeradius freeradius-utils freeradius-mysql phpmyadmin mysql-server php5-gd php5-curl php-pear php-db php-mail-mime
+
+Configure FreeRADIUS to use MySQL as backend database. We will install phpMyAdmin here too, which is optional. Answer the prompts with the list below.
+
+aptitude install -y phpmyadmin mysql-server php5-gd php5-curl php-pear php-db php-mail-mime 
+
+mysql -u root -p 
+
+CREATE DATABASE radius;
+GRANT ALL PRIVILEGES ON radius.* TO radius@localhost IDENTIFIED BY "YOUR PASSWORD";
+flush privileges;
+exit
+
+mysql -u radius -p radius < /etc/freeradius/sql/mysql/schema.sql
+mysql -u radius -p radius < /etc/freeradius/sql/mysql/nas.sql
+
+sudo chmod 777 /etc/freeradius/sql/mysql/schema.sql
+sudo chmod 777 /etc/freeradius/sql/mysql/nas.sql
+
+Enable the SQL module in FreeRADIUS. Open the sql.conf file.
+
+vim /etc/freeradius/sql.conf 
+
+Find the section #Connection info and edit the parameters as follows.
+
+server = "localhost"
+login = "radius"
+password = "YOUR PASSWORD"
+radius_db = "radius"
+
+Uncomment #sql.conf in the radius.conf file.
+
+and uncomment      readclients = yes
+
+
+# vim  /etc/freeradius/radiusd.conf
+
+# Uncomment this:
+$INCLUDE sql.conf
+
+$INCLUDE sql/mysql/counter.conf
+
+
+Next, we tell the FreeRADIUS server that our MySQL server is responsible for authorization, authentication, and accounting. Edit the following file.
+
+vim /etc/freeradius/sites-available/default
+
+# Uncomment "sql" under the following sections:
+
+authorize {
+accounting {
+post-auth {
+session {
+
+Lastly, it is necessary to set a new "shared secret" rather than default one. You can set your own "shared secret" by editing clients.conf.
+
+# vim /etc/freeradius/clients.conf
+
+# vim  /etc/freeradius/sites-available/inner-tunnel
+
+in authorize section uncomment sql
+
+
+
+Add testing user
+
+client testing {
+        ipaddr = 0.0.0.0/0
+        secret = testing321
+}
+
+# radtest user pass  pepea-network localhost 0 testing321
+
+Client Setup
+# ssh root@192.168.31.231
+$ pacman -S freeradius freeradius-client
+$ radtest user pass 192.168.31.138 0 testing321
+$ radtest user xxxx 192.168.31.138 0 testing321
+
+
+ > testing is "short name" that is used to distinguish it from other clients.
+
+
+Daloradius
+
+wget https://sourceforge.net/projects/daloradius/files/daloradius/daloradius0.9-9/daloradius-0.9-9.tar.gz
+tar zxvf daloradius-0.9-9.tar.gz 
+vim daloradius-0.9-9/library/daloradius.conf.php
+
+$configValues[‘CONFIG_DB_USER’] = ‘radius’;
+$configValues[‘CONFIG_DB_PASS’] = ‘pepea1234’;
+
+mysql -u radius -p radius < daloradius-0.9-9/contrib/db/fr2-mysql-daloradius-and-freeradius.sql
+
+#  mv daloradius-0.9-9 /var/www/html/daloradius
+
+TESTING
+http://myserver/daloradius
+
+username: administrator
+password: radius
+
+systemctl restart freeradius.service 
+
+Set logs:
+/daloradius/rep-logs-radius.php
+
+ radtest {username} {password} {hostname} 10 {radius_secret}
+
+
+Problems encounter: 
+
+– Freeradius PID ERROR on restarting
+
+ Solution: sudo killall freeradius   & sudo service freeradius start
+
+– Debug Mode : sudo freeradius -X
+
+– NAS device is not added in the freeradius/clients.conf
+ Solution added manually:  sudo nano /etc/freeradius/clients.conf 
+
+client 192.168.0.1/24 {
+        secret = asus
+        shortname =tp
+}
