@@ -44,6 +44,8 @@ alias dnss='cat /etc/resolv.conf'
 # Rhev
 alias rhevh='ssh rhevh'
 alias rhevm='ssh rhevm'
+alias s1s='ssh root@server'
+alias c1s='ssh root@client'
 
 # Virsh mgt
 alias list='sudo virsh list --all'
@@ -76,7 +78,6 @@ alias images='docker images'
 alias tip='dockip transmission'
 alias ts='docker stop transmission; docker ps'
 alias ds='docker-compose stop'
-alias dockf='vim ~/mygit/docker/docker_func' 
 alias volumes='docker volume ls'
 alias dps='docker-compose ps'
 

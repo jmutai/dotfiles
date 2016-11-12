@@ -1,0 +1,115 @@
+#!/usr/bin/env bash
+
+# Vm management
+# start vm management daemons
+vm () {
+    sudo systemctl start libvirtd.service
+    sudo systemctl start vsftpd.service
+    sudo systemctl start virtlogd.socket
+    sudo mount -o loop ~/iso/CentOS-7-x86_64-Everything-1511.iso /srv/ftp/cent7
+
+}
+
+# stop libvirt daemon and vsftpd services
+vmstop () {
+    sudo systemctl stop libvirtd.service 
+    sudo systemctl stop vsftpd.service
+}
+
+# Stop all vms running
+novm () {
+	for i in `sudo virsh list | grep running | awk '{print $2}'`
+	do
+		sudo virsh shutdown $i
+	done                                                                          
+}
+
+# List all kvm vms
+vmlist () {
+	sudo virsh list --all
+}
+
+# Snapshot management
+
+# Create a snaphost or a domaun
+snap () {
+    while [[ $dom_name == "" || $snap_name == "" ]]; do
+        echo  -n "Enter domain name: " 
+        read dom_name
+        echo  -n "Enter snapshot name: " 
+        read snap_name
+        echo  -n "Enter Snapshot description: " 
+        read desc
+    done
+    echo ""
+    sudo virsh snapshot-create-as --domain "$dom_name" \
+        --name "$snap_name" \
+        --description "$desc"
+ }
+
+ # List available snapshots for a domain
+ snaplist () {
+    sudo virsh snapshot-list --domain "$1" 
+ }
+
+ # Display info about a snapshot
+ snapinfo () {
+     sudo virsh snapshot-info --domain "$1" "$2"
+     # $1 domain name
+     # $2 snapshot name
+ }
+
+ # Restore a snapshot
+ snaprestore () {
+     sudo virsh shutdown --domain "$1"
+     sudo virsh snapshot-revert --domain "$1"  --snapshotname "$2" --running
+ }
+
+ # Delete a snapshot
+ snapdelete () {
+    sudo  virsh snapshot-delete --domain "$1" --snapshotname "$2"
+}
+
+
+
+# Virtual Machines
+
+# Start ispconfig server
+ispconfig () {
+    sudo virsh start debian8-ispconfig 2>/dev/null 
+    sleep 30
+    TERM=xterm 
+    ssh josepy@isp
+}
+
+# Start CentOS 7 server
+server () {
+    sudo virsh start server 2>/dev/null
+    sleep 30 
+    TERM=xterm
+    ssh root@server 2>/dev/null
+}
+
+# Start CentOS 7 client
+client () {
+    sudo virsh start client 2>/dev/null 
+    sleep 30 
+    TERM=xterm
+    ssh root@client 2>/dev/null  
+}
+
+# start rhev vms
+rhev () { 
+	sudo virsh start node1
+	sudo virsh start rhevm
+}
+
+# start Debian 8 server
+deb8 () {
+    sudo virsh start debian8
+}
+
+# Stop debian8 server
+deb8stop () {
+    sudo virsh shutdown debian8
+}

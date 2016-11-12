@@ -64,12 +64,11 @@ write_files:
          AllowUsers josepy
 users:
   - name: josepy
+    gecos: Mutai Josphat
     passwd: $6$T6ekUQ.yJ4AkneW4$MYtZdNHL8ugl77ETxlOa3.lvm1eqjvk04h7dTQ5H46PozHCy2q9E7QpuN/A8g1Ht6eOIwO1cP2RauyennfdxG.
     ssh-authorized-keys:
       - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDPkpo98jFG591oge6RaRAnlFkhG/jo1oGj5n945vREvZUh+pfTzisL404Q2uE8P/WdmEv+ecCMt21EY82/0a/W5bawwGvkoqWnTiWpUkgKvpjCZJBHxG0lME+FngtLuWd/31v3baX7rImdQMRXD0onKj4Tvf6070GziY+GPNHKhV40//tVk0KAfYuMmPlrk26ARIikbPcUMG2Sv3D57FaiA0hzoJsKIQoxfq0ix/WVcFJEYFNXoQ1ks7Js+L2lDR39WKf88V0+I9pjE5QJsWDgjkJ9jmKr93hrGD2jZM1QIgH6ZpS3iLGbpfpCM5LPJNzsLl9U+IqzexTq2Uyw9zvz josepy@arch
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
-    groups: 
-      - sudo
-      - docker
+    groups: sudo, docker
     shell: /bin/bash
 

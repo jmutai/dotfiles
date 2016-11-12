@@ -1,0 +1,7 @@
+yum -y install ipa-client
+nmcli con modify ens3 ipv4.dns ipa-server 192.168.122.110
+nmcli con mod ens3; nmcli con up ens3
+
+ipa-client-install
+
+

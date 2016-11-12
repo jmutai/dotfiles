@@ -1,6 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# Backup important files to Dropbox
 
 # Shuffle files on mpv
 play (){
@@ -22,7 +21,7 @@ tmpd() {
 
 
 
-# Package management
+# Backup root filesystem
  sysbackup () {
      sudo rsync -aAXv --delete  --exclude-from=/etc/rsync_exclude.lst / /mnt/backup/    
      echo ""
@@ -35,38 +34,7 @@ tmpd() {
      fi
  }
 
-# Vm management
-# start vm management daemons
-vm () {
-    sudo systemctl start libvirtd.service
-    sudo systemctl start vsftpd.service
-    sudo systemctl start virtlogd.socket
-}
 
-# stop libvirt daemon and vsftpd services
-vmstop () {
-    sudo systemctl stop libvirtd.service 
-    sudo systemctl stop vsftpd.service
-}
-
-# Stop all vms running
-novm () {
-	for i in `sudo virsh list | grep running | awk '{print $2}'`
-	do
-		sudo virsh shutdown $i
-	done                                                                          
-}
-
-# List all kvm vms
-vmlist () {
-	sudo virsh list --all
-}
-
-# start rhev vms
-rhev () { 
-	sudo virsh start node1
-	sudo virsh start rhevm
-}
 
 # Use wget to download complete site for offline reading
 
@@ -74,8 +42,7 @@ offline () {
     if [[ "$1" == "" ]]; then 
         echo ""
         echo "URL argument needed"
-        echo ""
-    else
+        echo oryyylse
     wget --limit-rate=2000k \
         --no-check-certificate \
         --no-clobber \
@@ -85,7 +52,7 @@ offline () {
 fi
 }
 
-
+# Remove transmission .torrent.added files under Downloads directory
     cleantor () {
         locate "*.torrent.added" | xargs -I {} rm -rf {} 
     }
@@ -95,26 +62,31 @@ fi
      }
 
 mylanip () {
-    set eu
     if [[ "$1" == "" || "$2" == "" ]]; then
         echo "
         No arguments given:
-        Provide interface name and ip address
+        Argument 1: Connection name
+        Argument 2: ip/subnet
         "
     else
     nmcli con mod "$1" ipv4.addresses "$2"  ipv4.method manual connection.autoconnect yes
 fi
 } 
 
+# Configure dns and gateway using nmcli
 mylangw (){
-    set eu
-    nmcli con mod eno1 ipv4.dns "8.8.8.8 8.8.4.4" ipv4.gateway "$1"
-    if [ "$1" == "" ]; then
-        echo " Gateway not specified  not specified"
+    nmcli con mod "$1" ipv4.dns "8.8.8.8 8.8.4.4" ipv4.gateway "$2"
+    if [[ "$1" == "" || "$2" == "" ]]; then
+        echo " Help:
+        Argument 1: Connection name
+        Argument 2: gateway addrss
+        Default dns: 8.8.8.8 8.8.4.4
+        "
         exit 
     fi
 }
 
+# Resize btrfs after growing
 btrfsr () {
     sudo btrfs filesystem resize max "$1"    
     if [ "$1" == "" ]; then
@@ -123,56 +95,18 @@ btrfsr () {
    fi
 }
 
+# Start wordpress compose docker containers
 wp () {
     cd ~/dockerfiles/wordpress-compose
     sh ./build.sh
 }
 
+# Check date the os was installed
 install_date () {
     sudo ls -lact --full-time /etc |tail
 }
 
-# Funtion to create vm snapshot in KVM
-snap () {
-    while [[ $dom_name == "" || $snap_name == "" ]]; do
-        echo  -n "Enter domain name: " 
-        read dom_name
-        echo  -n "Enter snapshot name: " 
-        read snap_name
-        echo  -n "Enter Snapshot description: " 
-        read desc
-    done
-    echo ""
-    sudo virsh snapshot-create-as --domain "$dom_name" \
-        --name "$snap_name" \
-        --description "$desc"
- }
-
- snaplist () {
-    sudo virsh snapshot-list --domain "$1" 
- }
- snapinfo () {
-     sudo virsh snapshot-info --domain "$1" "$2"
-     # $1 domain name
-     # $2 snapshot name
- }
- snaprestore () {
-     sudo virsh shutdown --domain "$1"
-     sudo virsh snapshot-revert --domain "$1"  --snapshotname "$2" --running
- }
-
- snapdelete () {
-    sudo  virsh snapshot-delete --domain "$1" --snapshotname "$2"
-}
-
-proxy () {
-     export http_proxy=http://172.16.15.83:8020
-     export https_proxy=$http_proxy
-     export ftp_proxy=$http_proxy
-     export rsync_proxy=$http_proxy
-     export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
- }
-
+# Start vbox and load  modules manually
  vbox () {
      sudo modprobe -a \
          vboxdrv \
@@ -182,29 +116,42 @@ proxy () {
      virtualbox
  }
 
+# Configure system wide proxy
+proxy () {
+     export http_proxy=http://172.16.15.83:8020
+     export https_proxy=$http_proxy
+     export ftp_proxy=$http_proxy
+     export rsync_proxy=$http_proxy
+     export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
+ }
+
+# Start and stop sshd
  sshd () {
      sudo systemctl restart  sshd
      echo ""
      systemctl status sshd
  }
 
- sstop () {
+ sshdstop () {
     sudo systemctl stop sshd
 } 
 
-deb8 () {
-    sudo virsh start debian8
-}
-deb8stop () {
-    sudo virsh shutdown debian8
-}
-
+# Copy file contents to clipboard
 mycp () {
     xclip -sel clip < "$1"
 }
 
+# Maually add ssh public key to remote server
 addsshkey () {
     cat ~/.ssh/id_rsa.pub | ssh "$1" "cat >> ~/.ssh/authorized_keys"
 }
 
+# Generate encryped password
+pass () {
+     mkpasswd --method=SHA-512 --rounds=4096
+     # the above command would create from stdin an SHA-512 password hash
+     #           with 4096 salt rounds
+     # python3 -c 'import crypt; print(crypt.crypt("nerdy@kim", crypt.mksalt(crypt.METHOD_SHA512)))'
+
+}
 

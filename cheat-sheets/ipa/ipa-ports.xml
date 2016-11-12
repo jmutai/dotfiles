@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<service>
+  <short>IPA server ports</short>
+  <description> All ports needed for ipa server to work</description>
+  <port protocol="tcp" port="80"/>
+  <port protocol="tcp" port="443"/>
+  <port protocol="tcp" port="389"/>
+  <port protocol="tcp" port="636"/>
+  <port protocol="tcp" port="88"/>
+  <port protocol="tcp" port="464"/>
+  <port protocol="tcp" port="53"/>
+  <port protocol="udp" port="53"/>
+  <port protocol="udp" port="464"/>
+  <port protocol="udp" port="123"/>
+  <port protocol="udp" port="88"/>
+</service>
+

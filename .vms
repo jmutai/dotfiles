@@ -1,7 +1,0 @@
-#!/bin/bash
-ispconfig () {
-    sudo virsh start debian8-ispconfig 
-    sleep 10
-    TERM=xterm 
-    ssh josepy@isp
-}
