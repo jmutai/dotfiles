@@ -1,0 +1,184 @@
+#!/bin/bash
+
+dock () {
+   sudo systemctl restart docker
+   sudo systemctl start vsftpd
+} 
+
+dockpid (){
+docker inspect -f "{{ .State.Pid }}" $1
+}
+
+dockclean () {
+    docker rm $(docker ps -aq 2>/dev/null) 2>/dev/null
+    docker rm -v $(docker ps --filter status=exited -q 2>/dev/null) 2>/dev/null
+    docker rmi $(docker images --filter dangling=true -q 2>/dev/null) 2>/dev/null
+    sh ~/dockerfiles/docker-clean/docker-clean
+}
+# Delete images with none repo name
+imgrem () {
+    old_image_ids=`docker  images  | grep none | awk '{print $3}'`
+    for i in $old_image_ids; do
+        echo ""
+        echo -e "Removing old unused docker images in none repo...."
+        echo ""
+        docker rmi $i;
+    done
+# Check if it was successful
+if [[ "$?" -eq 0 ]]; then
+    echo ""
+    echo "*** All docker images in none repo removed ***" 
+else
+    echo ""
+    echo "Error,No docker images deleted..."
+fi
+}
+
+
+dockip () {
+    local cont=${1:-}
+    if [[  $cont == "" ]]; then
+        docker ps -a | grep minutes | awk '{print $1,$2}'
+    else
+docker inspect --format "{{.NetworkSettings.Networks.bridge.IPAddress}}" ${cont}
+fi
+}
+
+# Function to remove running containers
+dockstop () {
+    echo ""
+    docker ps -qa | xargs -I {} docker stop {}
+}
+
+
+# Caddy web server alpine based container
+caddy () {
+    docker run -d  \
+    -p 80:80 \
+    -v $HOME/.static:/var/www/html \
+    --name caddy \
+    caddy "$@"
+}
+
+# Transmission container based on alpine
+transmission () { 
+    docker run -d --name transmission \
+        -p 9091:9091 \
+        -p 51413:51413/tcp \
+        -p 51413:51413/udp \
+        -v /home/josepy/Torrents/downloads:/transmission/downloads \
+        -v /home/josepy/Torrents/incomplete:/transmission/incomplete \
+        -v /home/josepy/Downloads:/transmission/watch \
+        -e "USERNAME=admin" \
+        -e "PASSWORD=password" \
+        jmutai/transmission "$@"
+}
+
+centos () {
+     sudo mount -o loop ~/iso/CentOS-7-x86_64-Everything-1511.iso /srv/ftp/cent7
+     docker run -it --rm \
+         --name cent7 \
+         --privileged  \
+         -e "container=docker" \
+         --cap-add SYS_ADMIN \
+         --stop-signal=SIGRTMIN+3 \
+         --security-opt=seccomp:unconfined \
+         -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
+         -v ~/docker-env/local.repo:/etc/yum.repos.d/local.repo \
+         -h cent7.example.com \
+         centos /bin/bash 
+ }
+
+# Mariadb docker start function
+# docker network create --driver overlay main-net
+
+makip () { 
+    export ROOT_PASSWORD="kipepeo"
+    docker run -d \
+        --name makip \
+        -p 3306:3306 \
+        -v /var/lib/mysql:/var/lib/mysql \
+        -e MYSQL_ROOT_PASSWORD=$ROOT_PASSWORD \
+        -e MYSQL_USER=kipepeo \
+        -e MYSQL_PASSWORD=$WORDPRESS_PASSWORD \
+        -e MYSQL_DATABASE=kipepeo \
+        mariadb "$@"
+}
+
+wpkip () {
+    export WORDPRESS_PASSWORD="kipepeo"
+    docker run -it \
+        -p 80:80 \
+        --name wpkip \
+        -e WORDPRESS_DB_HOST=makip:3306 \
+        -e WORDPRESS_DB_USER=wordpress \
+        -e WORDPRESS_DB_PASSWORD=$WORDPRESS_PASSWORD \
+        --link makip \
+        wordpress "$@"
+}
+
+wp () {
+    cd ~/dockerfiles/wordpress-compose
+    sh ./build.sh
+}
+
+wpclean () {
+    cd ~/dockerfiles/wordpress-compose
+    docker-compose stop; dockclean  
+}
+
+wpfix () {
+    docker exec -d wp-kipepeo chmod 777 /var/www/html/wp-content/uploads/
+}
+
+wpbash () {
+docker exec -it  wp-kipepeo /bin/bash
+}
+
+dbbash () {
+docker exec -it  mariadb-kipepeo /bin/bash
+}
+
+# docker pull hurricane/teamviewer
+teamv () {
+    xhost +
+    docker run -it --name teamviewer \
+        -v /tmp/.X11-unix:/tmp/.X11-unix \
+        -e DISPLAY=$DISPLAY \
+        jmutai/teamviewer
+}
+
+
+
+cent7 () {
+docker run -it --rm \
+    --name cent7 \
+    -v ~/docker-env/local.repo:/etc/yum.repos.d/local.repo \
+    centos
+}
+
+fire () {
+    xhost +
+    docker run -d \
+        --name firefox \
+        --memory 2gb \
+        --cpuset-cpus 0 \
+        --net host \
+        -e DISPLAY=$DISPLAY \
+        -h $(hostname) \
+        --device /dev/snd \
+        --device /dev/dri \
+        -v /tmp/.X11-unix:/tmp/.X11-unix \
+        -v $HOME/.mozilla:$HOME/.mozilla \
+        -v $HOME/Downloads:$HOME/Downloads \
+        -v $HOME/Documents:$HOME/Documents \
+        -v /etc/machine-id:/etc/machine-id:ro \
+        jmutai/firefox firefox
+}
+ydl () {
+docker run -it --rm \
+    -v $(pwd):/downloads \
+    jmutai/youtubedl \
+    "$@"
+}
+

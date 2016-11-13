@@ -1,5 +1,6 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_cnt =4
 let g:netrw_dirhist_1='/home/josepy/job'
 let g:netrw_dirhist_2='/home/josepy/job/kcb sec'
 let g:netrw_dirhist_3='/home/josepy/mygit/dotfiles/cheat-sheets/junos/JN0-102.txt'
+let g:netrw_dirhist_4='/home/josepy/mygit/docker/.git'
