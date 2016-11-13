@@ -1,0 +1,18 @@
+
+# show all the members of the cluster:
+
+fleetctl list-machines
+
+# Then load and start the unit:
+
+fleetctl load hugo.service
+fleetctl start hugo.service
+
+# Your container has been started somewhere on the cluster. To verify the status, run:
+
+fleetctl status hugo.service
+
+# To stop the container, run:
+
+fleetctl destroy hugo.service
+

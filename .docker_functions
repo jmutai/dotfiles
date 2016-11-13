@@ -5,6 +5,10 @@ dock () {
    sudo systemctl start vsftpd
 } 
 
+nodock () {
+   sudo systemctl stop  docker
+} 
+
 dockpid (){
 docker inspect -f "{{ .State.Pid }}" $1
 }
@@ -51,6 +55,10 @@ dockstop () {
 }
 
 
+# Dump all sql databases on dabase container
+dockdumpsql () {
+    docker exec some-mariadb sh -c 'exec mysqldump --all-databases -uroot -p"$MYSQL_ROOT_PASSWORD"' > /some/path/on/your/host/all-databases.sql
+}
 # Caddy web server alpine based container
 caddy () {
     docker run -d  \
@@ -181,4 +189,5 @@ docker run -it --rm \
     jmutai/youtubedl \
     "$@"
 }
+
 

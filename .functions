@@ -53,9 +53,6 @@ fi
 }
 
 # Remove transmission .torrent.added files under Downloads directory
-    cleantor () {
-        locate "*.torrent.added" | xargs -I {} rm -rf {} 
-    }
 
     rmtor () {
          find ~/Downloads -name "*torrent*.added" | xargs -I {}  rm -rf {}

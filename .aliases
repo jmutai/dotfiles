@@ -4,7 +4,7 @@ alias yc='vim ~/cheats/youtube-dl-official.txt'
 alias lab='cd ~/.lab'
 alias cdgit='cd ~/mygit'
 alias dots='cd ~/mygit/dotfiles'
-alias docs='cd ~/mygit/docker/dockerfiles/'
+alias docs='cd ~/mygit/dockerfiles/'
 alias cheats='~/mygit/dotfiles/cheat-sheets/'
 alias commit="git commit -m 'updated'"
 alias add="git add ."
@@ -61,7 +61,7 @@ alias pacqi='pacaur -Qi'
 alias pacfix='sudo rm -f /var/lib/pacman/db.lck'
 
 # dock
-alias dockvim='vim ~/mygit/docker/docker_func'
+alias dockvim='vim ~/mygit/dotfiles/.docker_functions'
 
 # system
 alias ls='ls --color=auto'

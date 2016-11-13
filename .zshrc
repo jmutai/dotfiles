@@ -17,7 +17,7 @@ plugins=(git)
 
 # Scripts to source
 source  $ZSH/oh-my-zsh.sh
-source  $S_DIR/../docker/docker_func 
+source  $S_DIR/.docker_functions 
 source  $S_DIR/.vm_functions
 source  $S_DIR/.aliases 
 source  $S_DIR/.functions 

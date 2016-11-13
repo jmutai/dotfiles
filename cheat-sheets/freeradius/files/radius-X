@@ -1,0 +1,581 @@
+freeradius: FreeRADIUS Version 2.2.5, for host x86_64-pc-linux-gnu, built on Oct 24 2014 at 02:05:28
+Copyright (C) 1999-2013 The FreeRADIUS server project and contributors.
+There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.
+You may redistribute copies of FreeRADIUS under the terms of the
+GNU General Public License.
+For more information about these matters, see the file named COPYRIGHT.
+Starting - reading configuration files ...
+including configuration file /etc/freeradius/radiusd.conf
+including configuration file /etc/freeradius/proxy.conf
+including configuration file /etc/freeradius/clients.conf
+including files in directory /etc/freeradius/modules/
+including configuration file /etc/freeradius/modules/otp
+including configuration file /etc/freeradius/modules/logintime
+including configuration file /etc/freeradius/modules/ippool
+including configuration file /etc/freeradius/modules/ntlm_auth
+including configuration file /etc/freeradius/modules/krb5
+including configuration file /etc/freeradius/modules/inner-eap
+including configuration file /etc/freeradius/modules/mac2vlan
+including configuration file /etc/freeradius/modules/attr_filter
+including configuration file /etc/freeradius/modules/sradutmp
+including configuration file /etc/freeradius/modules/linelog
+including configuration file /etc/freeradius/modules/unix
+including configuration file /etc/freeradius/modules/etc_group
+including configuration file /etc/freeradius/modules/rediswho
+including configuration file /etc/freeradius/modules/detail.example.com
+including configuration file /etc/freeradius/modules/counter
+including configuration file /etc/freeradius/modules/chap
+including configuration file /etc/freeradius/modules/acct_unique
+including configuration file /etc/freeradius/modules/ldap
+including configuration file /etc/freeradius/modules/expr
+including configuration file /etc/freeradius/modules/wimax
+including configuration file /etc/freeradius/modules/exec
+including configuration file /etc/freeradius/modules/mac2ip
+including configuration file /etc/freeradius/modules/radutmp
+including configuration file /etc/freeradius/modules/files
+including configuration file /etc/freeradius/modules/redis
+including configuration file /etc/freeradius/modules/digest
+including configuration file /etc/freeradius/modules/opendirectory
+including configuration file /etc/freeradius/modules/policy
+including configuration file /etc/freeradius/modules/soh
+including configuration file /etc/freeradius/modules/realm
+including configuration file /etc/freeradius/modules/detail
+including configuration file /etc/freeradius/modules/always
+including configuration file /etc/freeradius/modules/sqlcounter_expire_on_login
+including configuration file /etc/freeradius/modules/pap
+including configuration file /etc/freeradius/modules/perl
+including configuration file /etc/freeradius/modules/radrelay
+including configuration file /etc/freeradius/modules/dhcp_sqlippool
+including configuration file /etc/freeradius/modules/passwd
+including configuration file /etc/freeradius/modules/replicate
+including configuration file /etc/freeradius/modules/echo
+including configuration file /etc/freeradius/modules/preprocess
+including configuration file /etc/freeradius/modules/detail.log
+including configuration file /etc/freeradius/modules/smsotp
+including configuration file /etc/freeradius/modules/cui
+including configuration file /etc/freeradius/modules/mschap
+including configuration file /etc/freeradius/modules/attr_rewrite
+including configuration file /etc/freeradius/modules/checkval
+including configuration file /etc/freeradius/modules/dynamic_clients
+including configuration file /etc/freeradius/modules/cache
+including configuration file /etc/freeradius/modules/expiration
+including configuration file /etc/freeradius/modules/pam
+including configuration file /etc/freeradius/modules/smbpasswd
+including configuration file /etc/freeradius/modules/sql_log
+including configuration file /etc/freeradius/eap.conf
+including configuration file /etc/freeradius/sql.conf
+including configuration file /etc/freeradius/sql/mysql/dialup.conf
+including configuration file /etc/freeradius/sql/mysql/counter.conf
+including configuration file /etc/freeradius/policy.conf
+including files in directory /etc/freeradius/sites-enabled/
+including configuration file /etc/freeradius/sites-enabled/inner-tunnel
+including configuration file /etc/freeradius/sites-enabled/default
+main {
+	user = "freerad"
+	group = "freerad"
+	allow_core_dumps = no
+}
+including dictionary file /etc/freeradius/dictionary
+main {
+	name = "freeradius"
+	prefix = "/usr"
+	localstatedir = "/var"
+	sbindir = "/usr/sbin"
+	logdir = "/var/log/freeradius"
+	run_dir = "/var/run/freeradius"
+	libdir = "/usr/lib/freeradius"
+	radacctdir = "/var/log/freeradius/radacct"
+	hostname_lookups = no
+	max_request_time = 30
+	cleanup_delay = 5
+	max_requests = 1024
+	pidfile = "/var/run/freeradius/freeradius.pid"
+	checkrad = "/usr/sbin/checkrad"
+	debug_level = 0
+	proxy_requests = yes
+ log {
+ 	stripped_names = no
+ 	auth = no
+ 	auth_badpass = no
+ 	auth_goodpass = no
+ }
+ security {
+ 	max_attributes = 200
+ 	reject_delay = 1
+ 	status_server = yes
+ 	allow_vulnerable_openssl = no
+ }
+}
+radiusd: #### Loading Realms and Home Servers ####
+ proxy server {
+ 	retry_delay = 5
+ 	retry_count = 3
+ 	default_fallback = no
+ 	dead_time = 120
+ 	wake_all_if_all_dead = no
+ }
+ home_server localhost {
+ 	ipaddr = 127.0.0.1
+ 	port = 1812
+ 	type = "auth"
+ 	secret = "testing123"
+ 	response_window = 20
+ 	max_outstanding = 65536
+ 	require_message_authenticator = yes
+ 	zombie_period = 40
+ 	status_check = "status-server"
+ 	ping_interval = 30
+ 	check_interval = 30
+ 	num_answers_to_alive = 3
+ 	num_pings_to_alive = 3
+ 	revive_interval = 120
+ 	status_check_timeout = 4
+  coa {
+  	irt = 2
+  	mrt = 16
+  	mrc = 5
+  	mrd = 30
+  }
+ }
+ home_server_pool my_auth_failover {
+	type = fail-over
+	home_server = localhost
+ }
+ realm example.com {
+	auth_pool = my_auth_failover
+ }
+ realm LOCAL {
+ }
+radiusd: #### Loading Clients ####
+ client localhost {
+ 	ipaddr = 127.0.0.1
+ 	require_message_authenticator = no
+ 	secret = "testing123"
+ 	nastype = "other"
+ }
+ client 127.0.0.0/8 {
+ 	require_message_authenticator = no
+ 	secret = "testing321"
+ 	shortname = "pepea-network"
+ }
+radiusd: #### Instantiating modules ####
+ instantiate {
+ Module: Linked to module rlm_exec
+ Module: Instantiating module "exec" from file /etc/freeradius/modules/exec
+  exec {
+  	wait = no
+  	input_pairs = "request"
+  	shell_escape = yes
+  	timeout = 10
+  }
+ Module: Linked to module rlm_expr
+ Module: Instantiating module "expr" from file /etc/freeradius/modules/expr
+ Module: Linked to module rlm_expiration
+ Module: Instantiating module "expiration" from file /etc/freeradius/modules/expiration
+  expiration {
+  	reply-message = "Password Has Expired  "
+  }
+ Module: Linked to module rlm_logintime
+ Module: Instantiating module "logintime" from file /etc/freeradius/modules/logintime
+  logintime {
+  	reply-message = "You are calling outside your allowed timespan  "
+  	minimum-timeout = 60
+  }
+ }
+radiusd: #### Loading Virtual Servers ####
+server { # from file ?
+ modules {
+  Module: Creating Auth-Type = digest
+  Module: Creating Post-Auth-Type = REJECT
+ Module: Checking authenticate {...} for more modules to load
+ Module: Linked to module rlm_pap
+ Module: Instantiating module "pap" from file /etc/freeradius/modules/pap
+  pap {
+  	encryption_scheme = "auto"
+  	auto_header = no
+  }
+ Module: Linked to module rlm_chap
+ Module: Instantiating module "chap" from file /etc/freeradius/modules/chap
+ Module: Linked to module rlm_mschap
+ Module: Instantiating module "mschap" from file /etc/freeradius/modules/mschap
+  mschap {
+  	use_mppe = yes
+  	require_encryption = no
+  	require_strong = no
+  	with_ntdomain_hack = no
+  	allow_retry = yes
+  }
+ Module: Linked to module rlm_digest
+ Module: Instantiating module "digest" from file /etc/freeradius/modules/digest
+ Module: Linked to module rlm_unix
+ Module: Instantiating module "unix" from file /etc/freeradius/modules/unix
+  unix {
+  	radwtmp = "/var/log/freeradius/radwtmp"
+  }
+ Module: Linked to module rlm_eap
+ Module: Instantiating module "eap" from file /etc/freeradius/eap.conf
+  eap {
+  	default_eap_type = "md5"
+  	timer_expire = 60
+  	ignore_unknown_eap_types = no
+  	cisco_accounting_username_bug = no
+  	max_sessions = 1024
+  }
+ Module: Linked to sub-module rlm_eap_md5
+ Module: Instantiating eap-md5
+ Module: Linked to sub-module rlm_eap_leap
+ Module: Instantiating eap-leap
+ Module: Linked to sub-module rlm_eap_gtc
+ Module: Instantiating eap-gtc
+   gtc {
+   	challenge = "Password: "
+   	auth_type = "PAP"
+   }
+ Module: Linked to sub-module rlm_eap_tls
+ Module: Instantiating eap-tls
+   tls {
+   	rsa_key_exchange = no
+   	dh_key_exchange = yes
+   	rsa_key_length = 512
+   	dh_key_length = 512
+   	verify_depth = 0
+   	CA_path = "/etc/freeradius/certs"
+   	pem_file_type = yes
+   	private_key_file = "/etc/freeradius/certs/server.key"
+   	certificate_file = "/etc/freeradius/certs/server.pem"
+   	CA_file = "/etc/freeradius/certs/ca.pem"
+   	private_key_password = "whatever"
+   	dh_file = "/etc/freeradius/certs/dh"
+   	random_file = "/dev/urandom"
+   	fragment_size = 1024
+   	include_length = yes
+   	check_crl = no
+   	cipher_list = "DEFAULT"
+   	make_cert_command = "/etc/freeradius/certs/bootstrap"
+   	ecdh_curve = "prime256v1"
+    cache {
+    	enable = no
+    	lifetime = 24
+    	max_entries = 255
+    }
+    verify {
+    }
+    ocsp {
+    	enable = no
+    	override_cert_url = yes
+    	url = "http://127.0.0.1/ocsp/"
+    	use_nonce = yes
+    	timeout = 0
+    	softfail = no
+    }
+   }
+ Module: Linked to sub-module rlm_eap_ttls
+ Module: Instantiating eap-ttls
+   ttls {
+   	default_eap_type = "md5"
+   	copy_request_to_tunnel = no
+   	use_tunneled_reply = no
+   	virtual_server = "inner-tunnel"
+   	include_length = yes
+   }
+ Module: Linked to sub-module rlm_eap_peap
+ Module: Instantiating eap-peap
+   peap {
+   	default_eap_type = "mschapv2"
+   	copy_request_to_tunnel = no
+   	use_tunneled_reply = no
+   	proxy_tunneled_request_as_eap = yes
+   	virtual_server = "inner-tunnel"
+   	soh = no
+   }
+ Module: Linked to sub-module rlm_eap_mschapv2
+ Module: Instantiating eap-mschapv2
+   mschapv2 {
+   	with_ntdomain_hack = no
+   	send_error = no
+   }
+ Module: Checking authorize {...} for more modules to load
+ Module: Linked to module rlm_preprocess
+ Module: Instantiating module "preprocess" from file /etc/freeradius/modules/preprocess
+  preprocess {
+  	huntgroups = "/etc/freeradius/huntgroups"
+  	hints = "/etc/freeradius/hints"
+  	with_ascend_hack = no
+  	ascend_channels_per_line = 23
+  	with_ntdomain_hack = no
+  	with_specialix_jetstream_hack = no
+  	with_cisco_vsa_hack = no
+  	with_alvarion_vsa_hack = no
+  }
+reading pairlist file /etc/freeradius/huntgroups
+reading pairlist file /etc/freeradius/hints
+ Module: Linked to module rlm_realm
+ Module: Instantiating module "suffix" from file /etc/freeradius/modules/realm
+  realm suffix {
+  	format = "suffix"
+  	delimiter = "@"
+  	ignore_default = no
+  	ignore_null = no
+  }
+ Module: Linked to module rlm_files
+ Module: Instantiating module "files" from file /etc/freeradius/modules/files
+  files {
+  	usersfile = "/etc/freeradius/users"
+  	acctusersfile = "/etc/freeradius/acct_users"
+  	preproxy_usersfile = "/etc/freeradius/preproxy_users"
+  	compat = "no"
+  }
+reading pairlist file /etc/freeradius/users
+reading pairlist file /etc/freeradius/acct_users
+reading pairlist file /etc/freeradius/preproxy_users
+ Module: Linked to module rlm_sql
+ Module: Instantiating module "sql" from file /etc/freeradius/sql.conf
+  sql {
+  	driver = "rlm_sql_mysql"
+  	server = "localhost"
+  	port = ""
+  	login = "radius"
+  	password = "pepea1234"
+  	radius_db = "radius"
+  	read_groups = yes
+  	sqltrace = no
+  	sqltracefile = "/var/log/freeradius/sqltrace.sql"
+  	readclients = yes
+  	deletestalesessions = yes
+  	num_sql_socks = 32
+  	lifetime = 0
+  	max_queries = 0
+  	sql_user_name = "%{User-Name}"
+  	default_user_profile = ""
+  	nas_query = "SELECT id, nasname, shortname, type, secret, server FROM nas"
+  	authorize_check_query = "SELECT id, username, attribute, value, op           FROM radcheck           WHERE username = '%{SQL-User-Name}'           ORDER BY id"
+  	authorize_reply_query = "SELECT id, username, attribute, value, op           FROM radreply           WHERE username = '%{SQL-User-Name}'           ORDER BY id"
+  	authorize_group_check_query = "SELECT id, groupname, attribute,           Value, op           FROM radgroupcheck           WHERE groupname = '%{Sql-Group}'           ORDER BY id"
+  	authorize_group_reply_query = "SELECT id, groupname, attribute,           value, op           FROM radgroupreply           WHERE groupname = '%{Sql-Group}'           ORDER BY id"
+  	accounting_onoff_query = "          UPDATE radacct           SET              acctstoptime       =  '%S',              acctsessiontime    =  unix_timestamp('%S') -                                    unix_timestamp(acctstarttime),              acctterminatecause =  '%{Acct-Terminate-Cause}',              acctstopdelay      =  %{%{Acct-Delay-Time}:-0}           WHERE acctstoptime IS NULL           AND nasipaddress      =  '%{NAS-IP-Address}'           AND acctstarttime     <= '%S'"
+  	accounting_update_query = "           UPDATE radacct           SET              framedipaddress = '%{Framed-IP-Address}',              acctsessiontime     = '%{Acct-Session-Time}',              acctinputoctets     = '%{%{Acct-Input-Gigawords}:-0}'  << 32 |                                    '%{%{Acct-Input-Octets}:-0}',              acctoutputoctets    = '%{%{Acct-Output-Gigawords}:-0}' << 32 |                                    '%{%{Acct-Output-Octets}:-0}'           WHERE acctsessionid = '%{Acct-Session-Id}'           AND username        = '%{SQL-User-Name}'           AND nasipaddress    = '%{NAS-IP-Address}'"
+  	accounting_update_query_alt = "           INSERT INTO radacct             (acctsessionid,    acctuniqueid,      username,              realm,            nasipaddress,      nasportid,              nasporttype,      acctstarttime,     acctsessiontime,              acctauthentic,    connectinfo_start, acctinputoctets,              acctoutputoctets, calledstationid,   callingstationid,              servicetype,      framedprotocol,    framedipaddress,              acctstartdelay,   xascendsessionsvrkey)           VALUES             ('%{Acct-Session-Id}', '%{Acct-Unique-Session-Id}',              '%{SQL-User-Name}',              '%{Realm}', '%{NAS-IP-Address}', '%{NAS-Port}',              '%{NAS-Port-Type}',              DATE_SUB('%S',                       INTERVAL (%{%{Acct-Session-Time}:-0} +                                 %{%{Acct-Delay-Time}:-0}) SECOND),                       '%{Acct-Session-Time}',              '%{Acct-Authentic}', '',              '%{%{Acct-Input-Gigawords}:-0}' << 32 |              '%{%{Acct-Input-Octets}:-0}',              '%{%{Acct-Output-Gigawords}:-0}' << 32 |              '%{%{Acct-Output-Octets}:-0}',              '%{Called-Station-Id}', '%{Calling-Station-Id}',              '%{Service-Type}', '%{Framed-Protocol}',              '%{Framed-IP-Address}',              '0', '%{X-Ascend-Session-Svr-Key}')"
+  	accounting_start_query = "           INSERT INTO radacct             (acctsessionid,    acctuniqueid,     username,              realm,            nasipaddress,     nasportid,              nasporttype,      acctstarttime,    acctstoptime,              acctsessiontime,  acctauthentic,    connectinfo_start,              connectinfo_stop, acctinputoctets,  acctoutputoctets,              calledstationid,  callingstationid, acctterminatecause,              servicetype,      framedprotocol,   framedipaddress,              acctstartdelay,   acctstopdelay,    xascendsessionsvrkey)           VALUES             ('%{Acct-Session-Id}', '%{Acct-Unique-Session-Id}',              '%{SQL-User-Name}',              '%{Realm}', '%{NAS-IP-Address}', '%{NAS-Port}',              '%{NAS-Port-Type}', '%S', NULL,              '0', '%{Acct-Authentic}', '%{Connect-Info}',              '', '0', '0',              '%{Called-Station-Id}', '%{Calling-Station-Id}', '',              '%{Service-Type}', '%{Framed-Protocol}', '%{Framed-IP-Address}',              '%{%{Acct-Delay-Time}:-0}', '0', '%{X-Ascend-Session-Svr-Key}')"
+  	accounting_start_query_alt = "           UPDATE radacct SET              acctstarttime     = '%S',              acctstartdelay    = '%{%{Acct-Delay-Time}:-0}',              connectinfo_start = '%{Connect-Info}'           WHERE acctsessionid  = '%{Acct-Session-Id}'           AND username         = '%{SQL-User-Name}'           AND nasipaddress     = '%{NAS-IP-Address}'"
+  	accounting_stop_query = "           UPDATE radacct SET              acctstoptime       = '%S',              acctsessiontime    = '%{Acct-Session-Time}',              acctinputoctets    = '%{%{Acct-Input-Gigawords}:-0}' << 32 |                                   '%{%{Acct-Input-Octets}:-0}',              acctoutputoctets   = '%{%{Acct-Output-Gigawords}:-0}' << 32 |                                   '%{%{Acct-Output-Octets}:-0}',              acctterminatecause = '%{Acct-Terminate-Cause}',              acctstopdelay      = '%{%{Acct-Delay-Time}:-0}',              connectinfo_stop   = '%{Connect-Info}'           WHERE acctsessionid   = '%{Acct-Session-Id}'           AND username          = '%{SQL-User-Name}'           AND nasipaddress      = '%{NAS-IP-Address}'"
+  	accounting_stop_query_alt = "           INSERT INTO radacct             (acctsessionid, acctuniqueid, username,              realm, nasipaddress, nasportid,              nasporttype, acctstarttime, acctstoptime,              acctsessiontime, acctauthentic, connectinfo_start,              connectinfo_stop, acctinputoctets, acctoutputoctets,              calledstationid, callingstationid, acctterminatecause,              servicetype, framedprotocol, framedipaddress,              acctstartdelay, acctstopdelay)           VALUES             ('%{Acct-Session-Id}', '%{Acct-Unique-Session-Id}',              '%{SQL-User-Name}',              '%{Realm}', '%{NAS-IP-Address}', '%{NAS-Port}',              '%{NAS-Port-Type}',              DATE_SUB('%S',                  INTERVAL (%{%{Acct-Session-Time}:-0} +                  %{%{Acct-Delay-Time}:-0}) SECOND),              '%S', '%{Acct-Session-Time}', '%{Acct-Authentic}', '',              '%{Connect-Info}',              '%{%{Acct-Input-Gigawords}:-0}' << 32 |              '%{%{Acct-Input-Octets}:-0}',              '%{%{Acct-Output-Gigawords}:-0}' << 32 |              '%{%{Acct-Output-Octets}:-0}',              '%{Called-Station-Id}', '%{Calling-Station-Id}',              '%{Acct-Terminate-Cause}',              '%{Service-Type}', '%{Framed-Protocol}', '%{Framed-IP-Address}',              '0', '%{%{Acct-Delay-Time}:-0}')"
+  	group_membership_query = "SELECT groupname           FROM radusergroup           WHERE username = '%{SQL-User-Name}'           ORDER BY priority"
+  	connect_failure_retry_delay = 60
+  	simul_count_query = ""
+  	simul_verify_query = "SELECT radacctid, acctsessionid, username,                                nasipaddress, nasportid, framedipaddress,                                callingstationid, framedprotocol                                FROM radacct                                WHERE username = '%{SQL-User-Name}'                                AND acctstoptime IS NULL"
+  	postauth_query = "INSERT INTO radpostauth                           (username, pass, reply, authdate)                           VALUES (                           '%{User-Name}',                           '%{%{User-Password}:-%{Chap-Password}}',                           '%{reply:Packet-Type}', '%S')"
+  	safe-characters = "@abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-_: /"
+  }
+rlm_sql (sql): Driver rlm_sql_mysql (module rlm_sql_mysql) loaded and linked
+rlm_sql (sql): Attempting to connect to radius@localhost:/radius
+rlm_sql (sql): starting 0
+rlm_sql (sql): Attempting to connect rlm_sql_mysql #0
+rlm_sql_mysql: Starting connect to MySQL server for #0
+rlm_sql (sql): Connected new DB handle, #0
+rlm_sql (sql): starting 1
+rlm_sql (sql): Attempting to connect rlm_sql_mysql #1
+rlm_sql_mysql: Starting connect to MySQL server for #1
+rlm_sql (sql): Connected new DB handle, #1
+rlm_sql (sql): starting 2
+rlm_sql (sql): Attempting to connect rlm_sql_mysql #2
+rlm_sql_mysql: Starting connect to MySQL server for #2
+rlm_sql (sql): Connected new DB handle, #2
+rlm_sql (sql): starting 3
+rlm_sql (sql): Attempting to connect rlm_sql_mysql #3
+rlm_sql_mysql: Starting connect to MySQL server for #3
+rlm_sql (sql): Connected new DB handle, #3
+rlm_sql (sql): starting 4
+rlm_sql (sql): Attempting to connect rlm_sql_mysql #4
+rlm_sql_mysql: Starting connect to MySQL server for #4
+rlm_sql (sql): Connected new DB handle, #4
+rlm_sql (sql): starting 5
+rlm_sql (sql): Attempting to connect rlm_sql_mysql #5
+rlm_sql_mysql: Starting connect to MySQL server for #5
+rlm_sql (sql): Connected new DB handle, #5
+rlm_sql (sql): starting 6
+rlm_sql (sql): Attempting to connect rlm_sql_mysql #6
+rlm_sql_mysql: Starting connect to MySQL server for #6
+rlm_sql (sql): Connected new DB handle, #6
+rlm_sql (sql): starting 7
+rlm_sql (sql): Attempting to connect rlm_sql_mysql #7
+rlm_sql_mysql: Starting connect to MySQL server for #7
+rlm_sql (sql): Connected new DB handle, #7
+rlm_sql (sql): starting 8
+rlm_sql (sql): Attempting to connect rlm_sql_mysql #8
+rlm_sql_mysql: Starting connect to MySQL server for #8
+rlm_sql (sql): Connected new DB handle, #8
+rlm_sql (sql): starting 9
+rlm_sql (sql): Attempting to connect rlm_sql_mysql #9
+rlm_sql_mysql: Starting connect to MySQL server for #9
+rlm_sql (sql): Connected new DB handle, #9
+rlm_sql (sql): starting 10
+rlm_sql (sql): Attempting to connect rlm_sql_mysql #10
+rlm_sql_mysql: Starting connect to MySQL server for #10
+rlm_sql (sql): Connected new DB handle, #10
+rlm_sql (sql): starting 11
+rlm_sql (sql): Attempting to connect rlm_sql_mysql #11
+rlm_sql_mysql: Starting connect to MySQL server for #11
+rlm_sql (sql): Connected new DB handle, #11
+rlm_sql (sql): starting 12
+rlm_sql (sql): Attempting to connect rlm_sql_mysql #12
+rlm_sql_mysql: Starting connect to MySQL server for #12
+rlm_sql (sql): Connected new DB handle, #12
+rlm_sql (sql): starting 13
+rlm_sql (sql): Attempting to connect rlm_sql_mysql #13
+rlm_sql_mysql: Starting connect to MySQL server for #13
+rlm_sql (sql): Connected new DB handle, #13
+rlm_sql (sql): starting 14
+rlm_sql (sql): Attempting to connect rlm_sql_mysql #14
+rlm_sql_mysql: Starting connect to MySQL server for #14
+rlm_sql (sql): Connected new DB handle, #14
+rlm_sql (sql): starting 15
+rlm_sql (sql): Attempting to connect rlm_sql_mysql #15
+rlm_sql_mysql: Starting connect to MySQL server for #15
+rlm_sql (sql): Connected new DB handle, #15
+rlm_sql (sql): starting 16
+rlm_sql (sql): Attempting to connect rlm_sql_mysql #16
+rlm_sql_mysql: Starting connect to MySQL server for #16
+rlm_sql (sql): Connected new DB handle, #16
+rlm_sql (sql): starting 17
+rlm_sql (sql): Attempting to connect rlm_sql_mysql #17
+rlm_sql_mysql: Starting connect to MySQL server for #17
+rlm_sql (sql): Connected new DB handle, #17
+rlm_sql (sql): starting 18
+rlm_sql (sql): Attempting to connect rlm_sql_mysql #18
+rlm_sql_mysql: Starting connect to MySQL server for #18
+rlm_sql (sql): Connected new DB handle, #18
+rlm_sql (sql): starting 19
+rlm_sql (sql): Attempting to connect rlm_sql_mysql #19
+rlm_sql_mysql: Starting connect to MySQL server for #19
+rlm_sql (sql): Connected new DB handle, #19
+rlm_sql (sql): starting 20
+rlm_sql (sql): Attempting to connect rlm_sql_mysql #20
+rlm_sql_mysql: Starting connect to MySQL server for #20
+rlm_sql (sql): Connected new DB handle, #20
+rlm_sql (sql): starting 21
+rlm_sql (sql): Attempting to connect rlm_sql_mysql #21
+rlm_sql_mysql: Starting connect to MySQL server for #21
+rlm_sql (sql): Connected new DB handle, #21
+rlm_sql (sql): starting 22
+rlm_sql (sql): Attempting to connect rlm_sql_mysql #22
+rlm_sql_mysql: Starting connect to MySQL server for #22
+rlm_sql (sql): Connected new DB handle, #22
+rlm_sql (sql): starting 23
+rlm_sql (sql): Attempting to connect rlm_sql_mysql #23
+rlm_sql_mysql: Starting connect to MySQL server for #23
+rlm_sql (sql): Connected new DB handle, #23
+rlm_sql (sql): starting 24
+rlm_sql (sql): Attempting to connect rlm_sql_mysql #24
+rlm_sql_mysql: Starting connect to MySQL server for #24
+rlm_sql (sql): Connected new DB handle, #24
+rlm_sql (sql): starting 25
+rlm_sql (sql): Attempting to connect rlm_sql_mysql #25
+rlm_sql_mysql: Starting connect to MySQL server for #25
+rlm_sql (sql): Connected new DB handle, #25
+rlm_sql (sql): starting 26
+rlm_sql (sql): Attempting to connect rlm_sql_mysql #26
+rlm_sql_mysql: Starting connect to MySQL server for #26
+rlm_sql (sql): Connected new DB handle, #26
+rlm_sql (sql): starting 27
+rlm_sql (sql): Attempting to connect rlm_sql_mysql #27
+rlm_sql_mysql: Starting connect to MySQL server for #27
+rlm_sql (sql): Connected new DB handle, #27
+rlm_sql (sql): starting 28
+rlm_sql (sql): Attempting to connect rlm_sql_mysql #28
+rlm_sql_mysql: Starting connect to MySQL server for #28
+rlm_sql (sql): Connected new DB handle, #28
+rlm_sql (sql): starting 29
+rlm_sql (sql): Attempting to connect rlm_sql_mysql #29
+rlm_sql_mysql: Starting connect to MySQL server for #29
+rlm_sql (sql): Connected new DB handle, #29
+rlm_sql (sql): starting 30
+rlm_sql (sql): Attempting to connect rlm_sql_mysql #30
+rlm_sql_mysql: Starting connect to MySQL server for #30
+rlm_sql (sql): Connected new DB handle, #30
+rlm_sql (sql): starting 31
+rlm_sql (sql): Attempting to connect rlm_sql_mysql #31
+rlm_sql_mysql: Starting connect to MySQL server for #31
+rlm_sql (sql): Connected new DB handle, #31
+rlm_sql (sql): Processing generate_sql_clients
+rlm_sql (sql) in generate_sql_clients: query is SELECT id, nasname, shortname, type, secret, server FROM nas
+rlm_sql (sql): Reserving sql socket id: 31
+rlm_sql (sql): Released sql socket id: 31
+ Module: Checking preacct {...} for more modules to load
+ Module: Linked to module rlm_acct_unique
+ Module: Instantiating module "acct_unique" from file /etc/freeradius/modules/acct_unique
+  acct_unique {
+  	key = "User-Name, Acct-Session-Id, NAS-IP-Address, NAS-Identifier, NAS-Port"
+  }
+ Module: Checking accounting {...} for more modules to load
+ Module: Linked to module rlm_detail
+ Module: Instantiating module "detail" from file /etc/freeradius/modules/detail
+  detail {
+  	detailfile = "/var/log/freeradius/radacct/%{%{Packet-Src-IP-Address}:-%{Packet-Src-IPv6-Address}}/detail-%Y%m%d"
+  	header = "%t"
+  	detailperm = 384
+  	dirperm = 493
+  	locking = no
+  	log_packet_header = no
+  }
+ Module: Linked to module rlm_attr_filter
+ Module: Instantiating module "attr_filter.accounting_response" from file /etc/freeradius/modules/attr_filter
+  attr_filter attr_filter.accounting_response {
+  	attrsfile = "/etc/freeradius/attrs.accounting_response"
+  	key = "%{User-Name}"
+  	relaxed = no
+  }
+reading pairlist file /etc/freeradius/attrs.accounting_response
+ Module: Checking session {...} for more modules to load
+ Module: Linked to module rlm_radutmp
+ Module: Instantiating module "radutmp" from file /etc/freeradius/modules/radutmp
+  radutmp {
+  	filename = "/var/log/freeradius/radutmp"
+  	username = "%{User-Name}"
+  	case_sensitive = yes
+  	check_with_nas = yes
+  	perm = 384
+  	callerid = yes
+  }
+ Module: Checking post-proxy {...} for more modules to load
+ Module: Checking post-auth {...} for more modules to load
+ Module: Instantiating module "attr_filter.access_reject" from file /etc/freeradius/modules/attr_filter
+  attr_filter attr_filter.access_reject {
+  	attrsfile = "/etc/freeradius/attrs.access_reject"
+  	key = "%{User-Name}"
+  	relaxed = no
+  }
+reading pairlist file /etc/freeradius/attrs.access_reject
+ } # modules
+} # server
+server inner-tunnel { # from file /etc/freeradius/sites-enabled/inner-tunnel
+ modules {
+ Module: Checking authenticate {...} for more modules to load
+ Module: Checking authorize {...} for more modules to load
+ Module: Checking session {...} for more modules to load
+ Module: Checking post-proxy {...} for more modules to load
+ Module: Checking post-auth {...} for more modules to load
+ } # modules
+} # server
+radiusd: #### Opening IP addresses and Ports ####
+listen {
+ 	type = "auth"
+ 	ipaddr = *
+ 	port = 0
+}
+listen {
+ 	type = "acct"
+ 	ipaddr = *
+ 	port = 0
+}
+listen {
+  	type = "auth"
+  	ipaddr = 127.0.0.1
+  	port = 18120
+}
+ ... adding new socket proxy address * port 43273
+Listening on authentication address * port 1812
+Listening on accounting address * port 1813
+Listening on authentication address 127.0.0.1 port 18120 as server inner-tunnel
+Listening on proxy address * port 1814
+Ready to process requests.

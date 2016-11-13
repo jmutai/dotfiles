@@ -1,0 +1,5 @@
+systemctl daemon-reload
+systemctl start docker-redis_server.service
+
+systemctl enable docker-redis_server.service
+

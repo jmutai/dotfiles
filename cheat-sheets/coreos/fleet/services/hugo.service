@@ -1,0 +1,14 @@
+[Unit]
+Description= Hugo service for docker
+After=docker.service
+
+[Service]
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker kill hugo
+ExecStartPre=-/usr/bin/docker rm hugo
+ExecStartPre=/usr/bin/docker pull jmutai/hugo
+ExecStart=/usr/bin/docker run \
+    --name hugo \
+     
+ExecStop=/usr/bin/docker stop hugo
+
