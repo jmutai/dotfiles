@@ -5,22 +5,18 @@ Install the FreeRADIUS software and its dependencies.
 
 aptitude install -y freeradius freeradius-utils freeradius-mysql phpmyadmin mysql-server php5-gd php5-curl php-pear php-db php-mail-mime
 
-Configure FreeRADIUS to use MySQL as backend database. We will install phpMyAdmin here too, which is optional. Answer the prompts with the list below.
 
-aptitude install -y phpmyadmin mysql-server php5-gd php5-curl php-pear php-db php-mail-mime 
 
 mysql -u root -p 
 
 CREATE DATABASE radius;
-GRANT ALL PRIVILEGES ON radius.* TO radius@localhost IDENTIFIED BY "YOUR PASSWORD";
+GRANT ALL PRIVILEGES ON radius.* TO radius@localhost IDENTIFIED BY "freeradius";
 flush privileges;
 exit
 
 mysql -u radius -p radius < /etc/freeradius/sql/mysql/schema.sql
 mysql -u radius -p radius < /etc/freeradius/sql/mysql/nas.sql
 
-sudo chmod 777 /etc/freeradius/sql/mysql/schema.sql
-sudo chmod 777 /etc/freeradius/sql/mysql/nas.sql
 
 Enable the SQL module in FreeRADIUS. Open the sql.conf file.
 
@@ -82,6 +78,7 @@ $ pacman -S freeradius freeradius-client
 $ radtest user pass 192.168.31.138 0 testing321
 $ radtest user xxxx 192.168.31.138 0 testing321
 
+radtest user localhost pass 
 
  > testing is "short name" that is used to distinguish it from other clients.
 
@@ -93,11 +90,13 @@ tar zxvf daloradius-0.9-9.tar.gz
 vim daloradius-0.9-9/library/daloradius.conf.php
 
 $configValues[‘CONFIG_DB_USER’] = ‘radius’;
-$configValues[‘CONFIG_DB_PASS’] = ‘pepea1234’;
+$configValues[‘CONFIG_DB_PASS’] = ‘freeradius’;
 
-mysql -u radius -p radius < daloradius-0.9-9/contrib/db/fr2-mysql-daloradius-and-freeradius.sql
+# mysql -u radius -p radius < daloradius-0.9-9/contrib/db/fr2-mysql-daloradius-and-freeradius.sql
 
 #  mv daloradius-0.9-9 /var/www/html/daloradius
+#  chown -R www-data:www-data /var/www/html
+
 
 TESTING
 http://myserver/daloradius
@@ -105,7 +104,7 @@ http://myserver/daloradius
 username: administrator
 password: radius
 
-systemctl restart freeradius.service 
+# systemctl restart freeradius.service 
 
 Set logs:
 /daloradius/rep-logs-radius.php
@@ -128,3 +127,11 @@ client 192.168.0.1/24 {
         secret = asus
         shortname =tp
 }
+
+Daloradius Testing:
+Using the daloRADIUS web application, go to Management > Users > New User. Add a test user, for example user id test1 with password, for example test2. Click Apply to add the user.
+
+Now, in your terminal session with your server (e.g. radius.example.com) issue a test:
+
+# radtest user1 user1pass 127.0.0.1 0 testing123
+
