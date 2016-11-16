@@ -6,6 +6,20 @@ play (){
     mpv --shuffle *
     }
 
+# Create dir and cd
+mkd() {
+    mkdir -p "$@"
+    cd "$@" || exit
+}
+
+mydu () {
+    local arg=-sh
+    if [[ -n "$@" ]]; then 
+        du $arg -- "$@"
+    else
+        du $arg -- .[^.]* *
+    fi
+}
 
 # Check system total boot time
 st () {
@@ -152,3 +166,18 @@ pass () {
 
 }
 
+myssh () {
+    eval $(ssh-agent)
+    ssh-add
+    ssh -A "$1"
+}
+
+update_hostness () {
+    cd /tmp
+    git clone https://github.com/cbednarski/hostess
+    cd hostess
+    make
+    make install
+    rm -rf hostness
+    cd -
+}

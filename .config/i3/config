@@ -221,6 +221,8 @@ bindsym XF86AudioPause exec "mpc pause"
 bar {
         
     status_command i3blocks
+    #status_command py3status -c ~/.i3/i3status.conf
+  
     position top
     font pango:Hack, FontAwesome 10
     separator_symbol        " " 

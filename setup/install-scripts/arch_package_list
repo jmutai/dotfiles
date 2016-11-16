@@ -20,6 +20,7 @@ echo ""
     btrfs-progs \
 	ccze \
 	chrony \
+    chromium \
 	compton \
     conky \
     cronie \
@@ -71,7 +72,6 @@ echo ""
 	mpv \
 	msmtp \
 	mtpfs  \
-	mutt \
 	ncmpcpp \
 	neomutt-git \
 	networkmanager \
@@ -101,6 +101,7 @@ echo ""
 	sysstat \
     startup-notification \
     screenfetch \
+    scrot \
 	termite-git \
 	termite-ranger-fix-git \
 	thunar \
@@ -123,7 +124,7 @@ echo ""
     vde2 \
     virt-install \
     virt-manager \
-    virtviewer \
+    virt-viewer \
     vundle \
 	w3m \
     wget \
@@ -134,5 +135,6 @@ echo ""
 	xorg-xinit \
 	xsel \
 	youtube-dl \
+    zenity \
 	zip \
 	zsh-completions \

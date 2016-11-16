@@ -1,7 +1,4 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =5
-let g:netrw_dirhist_1='/home/josepy/job'
-let g:netrw_dirhist_2='/home/josepy/job/kcb sec'
-let g:netrw_dirhist_3='/home/josepy/mygit/dotfiles/cheat-sheets/junos/JN0-102.txt'
-let g:netrw_dirhist_4='/home/josepy/mygit/docker/.git'
-let g:netrw_dirhist_5='/home/josepy/.compose/freeradius/db'
+let g:netrw_dirhist_cnt =2
+let g:netrw_dirhist_1='/home/josepy/mygit/dockerfiles/alpine-caddy'
+let g:netrw_dirhist_2='/home/josepy/mygit/dockerfiles/alpine-youtubedl'

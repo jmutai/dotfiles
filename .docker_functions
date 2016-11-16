@@ -13,12 +13,27 @@ dockpid (){
 docker inspect -f "{{ .State.Pid }}" $1
 }
 
-dockclean () {
-    docker rm $(docker ps -aq 2>/dev/null) 2>/dev/null
-    docker rm -v $(docker ps --filter status=exited -q 2>/dev/null) 2>/dev/null
-    docker rmi $(docker images --filter dangling=true -q 2>/dev/null) 2>/dev/null
-    sh ~/dockerfiles/docker-clean/docker-clean
+# Delete stopped container
+cont_del () {
+    local cont_name="$1"
+    local cont_state=`docker inspect --format "{{.State.Running}}" "$cont_name" 2>/dev/null`
+    if [[ "$state" == "false" ]]; then
+    docker rm "$cont_name"
+fi
 }
+
+# Clean docker environment
+dockclean () {
+    local images=`docker images --filter dangling=true -q 2>/dev/null`
+    local containers=`docker ps -aq 2>/dev/null`
+    local volumes=`docker ps --filter status=exited -q 2>/dev/null`
+    docker rmi "${images[@]}" 2>/dev/null
+    docker rm "${containers[@]}" 2>/dev/null
+    docker rm -v "${volumes[@]}" 2>/dev/null
+
+#sh ~/dockerfiles/docker-clean/docker-clean
+}
+
 # Delete images with none repo name
 imgrem () {
     old_image_ids=`docker  images  | grep none | awk '{print $3}'`
@@ -38,20 +53,25 @@ else
 fi
 }
 
-
+# Get docker container ip address
 dockip () {
     local cont=${1:-}
-    if [[  $cont == "" ]]; then
-        docker ps -a | grep minutes | awk '{print $1,$2}'
+    if [ -n "$cont" ]; then
+        docker inspect --format "{{.NetworkSettings.Networks.bridge.IPAddress}}" ${cont}
     else
-docker inspect --format "{{.NetworkSettings.Networks.bridge.IPAddress}}" ${cont}
-fi
+        echo ""
+        echo "Provide container name"
+    fi
 }
 
 # Function to remove running containers
-dockstop () {
+dockstop_all () {
     echo ""
     docker ps -qa | xargs -I {} docker stop {}
+}
+
+dockstop () {
+    docker stop "$1" 2>/dev/null
 }
 
 
@@ -70,13 +90,14 @@ caddy () {
 
 # Transmission container based on alpine
 transmission () { 
+    cont_del transmission
     docker run -d --name transmission \
         -p 9091:9091 \
         -p 51413:51413/tcp \
         -p 51413:51413/udp \
-        -v /home/josepy/Torrents/downloads:/transmission/downloads \
-        -v /home/josepy/Torrents/incomplete:/transmission/incomplete \
-        -v /home/josepy/Downloads:/transmission/watch \
+        -v "${HOME}"/Torrents/downloads:/transmission/downloads \
+        -v "${HOME}"/Torrents/incomplete:/transmission/incomplete \
+        -v "${HOME}"/Downloads:/transmission/watch \
         -e "USERNAME=admin" \
         -e "PASSWORD=password" \
         jmutai/transmission "$@"

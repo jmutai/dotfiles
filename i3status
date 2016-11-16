@@ -1,0 +1,34 @@
+order += "mpdstatus"
+order += "dropboxd_status"
+order += "yaweather"
+order += "volume master"
+order += "keyboard"
+order += "time"
+
+time {
+    format = : %a %d %b : %H⦂%M 
+    on_click 1 = "reload"
+    on_click 2 = "exec zenity --calendar"
+}
+
+volume master {
+    format = ": "+"%volume"
+    device = "default"
+    mixer = "Master"
+    mixer_idx = 0
+    on_click 1 = "exec pavucontrol"
+    on_click 2 = "exec amixer set Master toggle"
+    on_click 3 = "exec killall alsamixer"
+    on_click 4 = "exec amixer set Master 5%+; killall -s USR1 py3status"
+    on_click 5 = "exec amixer set Master 5%-; killall -s USR1 py3status"
+}
+
+mpdstatus {
+    format = : [[%artist% - ]%title%]]
+    color = true
+    color_play = #CED5D0
+    color_pause = #CED5D0
+    cache_timeout = 0
+    on_click 1 = "exec mpc toggle"
+    #on_click 3 = "exec mpc prev"
+}

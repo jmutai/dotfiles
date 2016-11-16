@@ -113,3 +113,11 @@ deb8 () {
 deb8stop () {
     sudo virsh shutdown debian8
 }
+
+
+core () {
+    sudo virsh shutdown coreos
+}
+coressh () {
+    ssh josepy@192.168.122.252
+}
