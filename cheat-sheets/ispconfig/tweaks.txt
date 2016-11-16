@@ -1,0 +1,9 @@
+title at the top
+# cd /usr/local/ispconfig/interface/web/themes/default/
+
+Edit the title tag in the main.tpl.htm file in 
+
+Remove powered by
+# cd template
+# vim main.tpl.htm 
+

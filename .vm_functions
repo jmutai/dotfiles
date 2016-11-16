@@ -76,12 +76,13 @@ snap () {
 
 # Start ispconfig server
 ispconfig () {
-    sudo virsh start debian8-ispconfig 2>/dev/null 
-    sleep 30
-    TERM=xterm 
-    ssh josepy@isp
+    sudo virsh start ispconfig 2>/dev/null 
 }
 
+ispssh () {
+    TERM=xterm 
+    ssh josepy@isp 2>/dev/null
+}
 # Start CentOS 7 server
 server () {
     sudo virsh start server 2>/dev/null
