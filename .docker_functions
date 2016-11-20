@@ -5,6 +5,13 @@ dock () {
    sudo systemctl start vsftpd
 } 
 
+dock_full_clean () {
+    sudo systemctl stop docker.service
+    sudo systemctl stop docker.socket
+    sudo rm -rf /var/lib/docker/
+    sudo btrfs subvolume list /var/lib/docker|awk '/ID/ {print "/"$9}'|xargs btrfs sub delete
+}
+
 nodock () {
    sudo systemctl stop  docker
 } 
@@ -30,6 +37,15 @@ dockclean () {
     docker rmi "${images[@]}" 2>/dev/null
     docker rm "${containers[@]}" 2>/dev/null
     docker rm -v "${volumes[@]}" 2>/dev/null
+
+    docker volume ls -qf dangling=true | xargs -r docker volume rm
+
+    # remove unused images:
+    docker images --no-trunc | grep '<none>' | awk '{ print $3 }' | xargs -r docker rmi
+ 
+    # remove unused volumes:
+    #sudo find '/var/lib/docker/volumes/' -mindepth 1 -maxdepth 1 -type d | grep -vFf <(
+    #sudo docker ps -aq | xargs docker inspect | jq -r '.[] | .Mounts | .[] | .Name | select(.)') | xargs -r rm -fr
 
 #sh ~/dockerfiles/docker-clean/docker-clean
 }
@@ -85,7 +101,7 @@ caddy () {
     -p 80:80 \
     -v $HOME/.static:/var/www/html \
     --name caddy \
-    caddy "$@"
+    jmutai/caddy "$@"
 }
 
 # Transmission container based on alpine

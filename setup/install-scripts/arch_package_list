@@ -53,6 +53,7 @@ echo ""
     imagemagick \
     iptables \
 	j4-dmenu-desktop \
+    jq \
 	libmtp \
 	libnotify \
     lxappearance \

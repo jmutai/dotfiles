@@ -124,7 +124,7 @@ install_date () {
          vboxnetadp \
          vboxnetflt \
          vboxpci 
-     virtualbox
+     virtualbox &
  }
 
 # Configure system wide proxy
@@ -180,4 +180,12 @@ update_hostness () {
     make install
     rm -rf hostness
     cd -
+}
+ 
+genpasswd() { 
+	local l=$1
+    if [ "$1" == "" ]; then 
+        l=30
+    fi
+    tr -dc A-Za-z0-9_ < /dev/urandom | head -c ${l} | xargs 
 }

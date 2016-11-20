@@ -3,9 +3,9 @@
 # Vm management
 # start vm management daemons
 vm () {
-    sudo systemctl start libvirtd.service
-    sudo systemctl start vsftpd.service
-    sudo systemctl start virtlogd.socket
+    sudo systemctl restart libvirtd.service
+    sudo systemctl restart vsftpd.service
+    sudo systemctl restart virtlogd.socket
     sudo mount -o loop ~/iso/CentOS-7-x86_64-Everything-1511.iso /srv/ftp/cent7
 
 }
@@ -109,7 +109,9 @@ rhev () {
 deb8 () {
     sudo virsh start debian8
 }
-
+deb8ssh () {
+    ssh josepy@wp
+}
 # Stop debian8 server
 deb8stop () {
     sudo virsh shutdown debian8
@@ -120,5 +122,5 @@ core () {
     sudo virsh shutdown coreos
 }
 coressh () {
-    ssh josepy@192.168.122.252
+    ssh -p 6999 josepy@coreos
 }
