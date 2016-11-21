@@ -73,14 +73,22 @@ fi
      }
 
 mylanip () {
-    if [[ "$1" == "" || "$2" == "" ]]; then
+    echo ""
+    echo -en "Con name: " 
+    read con_name
+    echo -en "IP Address: " 
+    read ip_address
+
+    if [[ "$con_name" == "" || "$ip_address" == "" ]]; then
         echo "
         No arguments given:
         Argument 1: Connection name
         Argument 2: ip/subnet
         "
     else
-    nmcli con mod "$1" ipv4.addresses "$2"  ipv4.method manual connection.autoconnect yes
+        echo ""
+    nmcli con mod "$con_name" ipv4.addresses "$ip_address"  ipv4.method manual connection.autoconnect yes
+    nmcli con up eno1
 fi
 } 
 

@@ -225,7 +225,7 @@ bar {
   
     position top
     font pango:Hack, FontAwesome 10
-    separator_symbol        " " 
+    separator_symbol  " " 
 
 
    #strip_workspace_numbers yes

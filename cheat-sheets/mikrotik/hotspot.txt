@@ -1,0 +1,66 @@
+Default settings
+/ip address add address=192.168.0.10/24 interface=ether1
+
+Configure Upstream DNS Server:
+/ip dns set servers=8.8.8.8 allow-remote-requests=yes
+
+Configure Default Route:
+/ip route add dst-address=0.0.0.0/0 gateway 192.168.0.1
+
+Configure interfaces
+
+ Create Loopback Bridge
+-  it is used simply as an interface to run the RADIUS server on
+/interface bridge add name=Loopback
+
+Add Loopback Bridge IP Address
+
+I use any unused private ip range for this, it is used simply as an interface to run the RADIUS server on.
+/ip address add address=10.10.10.1/32 interface=Loopback
+
+Create Hotspot Bridge
+/interface bridge add name=Hotspot
+
+Add Hotspot Bridge IP Address
+/ip address add address=192.168.5.1/24 interface=Hotspot
+
+Add Hotspot Ports to Bridge
+/interface bridge port add bridge=Hotspot interface=wlan1
+
+
+
+
+
+/interface print
+/ip hotspot setup 
+
+hotspot interface: Hotspot
+local address of network: 192.168.5.1/24
+masquerade network: yes
+address pool of network: 192.168.5.20-192.168.5.254
+select certificate: none 
+dns servers: 8.8.8.8 
+dns name: pepea.net
+name of local hotspot user: admin
+password for the user: Pepea321!
+
+> print
+
+DHCP Server
+/ip dhcp-server print
+
+
+NAT rule
+/ip firewall nat print
+
+
+
+
+
+
+/ip hotspot profile
+ 
+set default dns-name="" hotspot-address=0.0.0.0 html-directory=hotspot http-cookie-lifetime=3d http-proxy=0.0.0.0:0 login-by=cookie,http-chap name=default rate-limit="" smtp-server=0.0.0.0 split-user-domain=no use-radius=no
+
+add dns-name=login.pepea.net hotspot-address=192.168.5.1 html-directory=hotspot http-cookie-lifetime=1d http-proxy=0.0.0.0:0 login-by=cookie,http-chap name=hsprof1 rate-limit="" smtp-server=0.0.0.0 split-user-domain=no use-radius=no
+ 

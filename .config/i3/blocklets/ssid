@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
-echo "$(iw dev wlo1 link | grep SSID | cut -d " " -f 2- |cut -c 1-7)"
+echo "$(iw dev wlo1 link | grep SSID | cut -d " " -f 2)"
+#echo "$(iw dev wlo1 link | grep SSID | cut -d " " -f 2- |cut -c 1-8)"
+echo "$(iw dev wlo1 link | grep SSID | cut -d " " -f 2- |cut -c 1-8)"
 # [[ -z "$(iwgetid -r)" ]] || echo "$(iwgetid -r | cut -c 1-6) " 

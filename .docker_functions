@@ -31,14 +31,10 @@ fi
 
 # Clean docker environment
 dockclean () {
-    local images=`docker images --filter dangling=true -q 2>/dev/null`
-    local containers=`docker ps -aq 2>/dev/null`
-    local volumes=`docker ps --filter status=exited -q 2>/dev/null`
-    docker rmi "${images[@]}" 2>/dev/null
-    docker rm "${containers[@]}" 2>/dev/null
-    docker rm -v "${volumes[@]}" 2>/dev/null
-
-    docker volume ls -qf dangling=true | xargs -r docker volume rm
+    docker ps -aq | xargs -I {} docker rm {} 
+    docker ps --filter status=exited -q 2>/dev/null | xargs -I {} docker rm -v {}
+    docker images --filter dangling=true -q 2>/dev/null | xargs -I {} docker rmi {} 
+    docker volume ls -qf dangling=true | xargs -I {} docker volume rm {}
 
     # remove unused images:
     docker images --no-trunc | grep '<none>' | awk '{ print $3 }' | xargs -r docker rmi

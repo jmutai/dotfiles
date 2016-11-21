@@ -1,0 +1,4 @@
+ip hotspot walled-garden add dst-host=www.website.com
+/ip hotspot walled-garden ip add dst-address=192.168.2.2 action=accept
+OR
+/ip firewall nat add chain=pre-hotspot dst-address=192.168.2.2 action=accept
