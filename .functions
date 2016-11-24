@@ -167,10 +167,17 @@ addsshkey () {
 
 # Generate encryped password
 pass () {
-     mkpasswd --method=SHA-512 --rounds=4096
-     # the above command would create from stdin an SHA-512 password hash
-     #           with 4096 salt rounds
-     # python3 -c 'import crypt; print(crypt.crypt("nerdy@kim", crypt.mksalt(crypt.METHOD_SHA512)))'
+     echo -en "Enter password: "
+     read PW1
+
+     echo -en "Re-enter password : "
+     read PW2
+
+     if test "$PW1" == "$PW2"; then
+         python3 -c 'import crypt; print(crypt.crypt("${PW1}", crypt.mksalt(crypt.METHOD_SHA512)))'
+     else
+         echo "Passwords don't match"
+     fi
 
 }
 

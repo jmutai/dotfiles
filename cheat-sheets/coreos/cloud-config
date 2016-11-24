@@ -1,5 +1,9 @@
 #cloud-config
+hostname: coreos1
 coreos:
+  etcd: 
+  # Generate a new token for the cluster from https://discovery.etcd.io/new
+  discovery: https://discovery.etcd.io/e7c81ac07cd136709e462cfd8a7e0995 
   units:
     - name: etcd2.service
       command: start
@@ -7,7 +11,16 @@ coreos:
       command: start
     - name: iptables-restore.service
       enable: true
+      command: start
+
 write_files:
+  - path: /home/josepy/.toolboxrc
+    owner: josepy
+    content: |
+      TOOLBOX_DOCKER_IMAGE=index.example.com/debug
+      TOOLBOX_DOCKER_TAG=v1
+      TOOLBOX_USER=root
+
   - path: /var/lib/iptables/rules-save
     permissions: 0644
     owner: root:root
@@ -25,6 +38,7 @@ write_files:
       -A INPUT -p tcp -m tcp --dport 443 -m state --state NEW,ESTABLISHED -j ACCEPT
       -A OUTPUT -p tcp --sport 80 -m state --state ESTABLISHED -j ACCEPT
       -A OUTPUT -p tcp --sport 443 -m state --state ESTABLISHED -j ACCEPT
+      # Accept pings
       -A INPUT -p icmp -m icmp --icmp-type 0 -j ACCEPT
       -A INPUT -p icmp -m icmp --icmp-type 3 -j ACCEPT
       -A INPUT -p icmp -m icmp --icmp-type 11 -j ACCEPT
@@ -69,6 +83,8 @@ users:
     ssh-authorized-keys:
       - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDPkpo98jFG591oge6RaRAnlFkhG/jo1oGj5n945vREvZUh+pfTzisL404Q2uE8P/WdmEv+ecCMt21EY82/0a/W5bawwGvkoqWnTiWpUkgKvpjCZJBHxG0lME+FngtLuWd/31v3baX7rImdQMRXD0onKj4Tvf6070GziY+GPNHKhV40//tVk0KAfYuMmPlrk26ARIikbPcUMG2Sv3D57FaiA0hzoJsKIQoxfq0ix/WVcFJEYFNXoQ1ks7Js+L2lDR39WKf88V0+I9pjE5QJsWDgjkJ9jmKr93hrGD2jZM1QIgH6ZpS3iLGbpfpCM5LPJNzsLl9U+IqzexTq2Uyw9zvz josepy@arch
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
-    groups: sudo, docker
+    groups: 
+      - sudo
+      - docker
     shell: /bin/bash
 

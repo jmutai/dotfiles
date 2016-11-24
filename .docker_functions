@@ -1,9 +1,16 @@
 #!/bin/bash
+export DOCKER_REPO=jmutai
 
 dock () {
    sudo systemctl restart docker
    sudo systemctl start vsftpd
 } 
+
+images_backup () {
+    docker images | grep -v REPOSITORY | awk '{print $1}' \
+        | xargs -d "\n" -I {} docker save {} -o docker-images/{}.tar
+}
+
 
 dock_full_clean () {
     sudo systemctl stop docker.service
@@ -23,10 +30,10 @@ docker inspect -f "{{ .State.Pid }}" $1
 # Delete stopped container
 cont_del () {
     local cont_name="$1"
-    local cont_state=`docker inspect --format "{{.State.Running}}" "$cont_name" 2>/dev/null`
-    if [[ "$state" == "false" ]]; then
+    #local cont_state=`docker inspect --format "{{.State.Running}}" "$cont_name" 2>/dev/null`
+    #if [[ "$state" == "false" ]]; then
     docker rm "$cont_name"
-fi
+#fi
 }
 
 # Clean docker environment
@@ -48,21 +55,7 @@ dockclean () {
 
 # Delete images with none repo name
 imgrem () {
-    old_image_ids=`docker  images  | grep none | awk '{print $3}'`
-    for i in $old_image_ids; do
-        echo ""
-        echo -e "Removing old unused docker images in none repo...."
-        echo ""
-        docker rmi $i;
-    done
-# Check if it was successful
-if [[ "$?" -eq 0 ]]; then
-    echo ""
-    echo "*** All docker images in none repo removed ***" 
-else
-    echo ""
-    echo "Error,No docker images deleted..."
-fi
+    docker images | grep "^<none>" | awk '{print $3}' | xargs -I {} docker rmi {}
 }
 
 # Get docker container ip address
@@ -224,3 +217,35 @@ docker run -it --rm \
 }
 
 
+docknet () {
+    echo -en "Enter IP/SUBNET: "
+    read net_subnet
+    echo -en "Enter Network name: "
+    read net_name
+    if [[ "$net_name" == "" || "$net_subnet" == "" ]]; then
+       echo ""
+       echo "Provide subnet and network name"
+   else
+       docker network create \
+           --driver bridge \
+           --subnet "${net_subnet}" \
+           "${net_name}" 
+   fi
+   }
+
+
+spotify () {
+	cont_del spotify
+	docker run --rm   \
+		-v /etc/localtime:/etc/localtime:ro \
+		-v /tmp/.X11-unix:/tmp/.X11-unix \
+		-e DISPLAY=$DISPLAY \
+		-e QT_DEVICE_PIXEL_RATIO \
+		--security-opt seccomp:unconfined \
+		--device /dev/snd \
+		--device /dev/dri \
+		--group-add audio \
+		--group-add video \
+		--name spotify \
+		${DOCKER_REPO}/spotify
+}

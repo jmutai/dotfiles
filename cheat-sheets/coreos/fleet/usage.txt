@@ -16,3 +16,17 @@ fleetctl status hugo.service
 
 fleetctl destroy hugo.service
 
+
+Run a high availability service
+
+[X-Fleet]
+Conflicts=apache@*.service
+
+The Conflicts attribute tells fleet that these two services can’t be run on the same machine, giving us high availability.
+
+$ fleetctl start apache@1
+$ fleetctl start apache@2
+$ fleetctl list-units
+
+
+

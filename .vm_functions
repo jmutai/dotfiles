@@ -122,5 +122,6 @@ core () {
     sudo virsh shutdown coreos
 }
 coressh () {
+    export XTERM=xterm
     ssh -p 6999 josepy@coreos
 }

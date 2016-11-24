@@ -77,6 +77,13 @@ echo ""
 	neomutt-git \
 	networkmanager \
 	network-manager-applet \
+    nemo \
+    nemo-fileroller \
+    nemo-compare \
+    nemo-preview \
+    nemo-seahorse \
+    nemo-share \
+    nemo-terminal \
 	nitrogen \
 	offlineimap \
 	ohsnap \
