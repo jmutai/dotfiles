@@ -7,6 +7,8 @@ coreos:
   units:
     - name: etcd2.service
       command: start
+    - name: sshd.service
+      command: start
     - name: fleet.service
       command: start
     - name: iptables-restore.service
@@ -84,7 +86,10 @@ users:
       - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDPkpo98jFG591oge6RaRAnlFkhG/jo1oGj5n945vREvZUh+pfTzisL404Q2uE8P/WdmEv+ecCMt21EY82/0a/W5bawwGvkoqWnTiWpUkgKvpjCZJBHxG0lME+FngtLuWd/31v3baX7rImdQMRXD0onKj4Tvf6070GziY+GPNHKhV40//tVk0KAfYuMmPlrk26ARIikbPcUMG2Sv3D57FaiA0hzoJsKIQoxfq0ix/WVcFJEYFNXoQ1ks7Js+L2lDR39WKf88V0+I9pjE5QJsWDgjkJ9jmKr93hrGD2jZM1QIgH6ZpS3iLGbpfpCM5LPJNzsLl9U+IqzexTq2Uyw9zvz josepy@arch
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
     groups: 
-      - sudo
       - docker
+      - wheel
+      - rkt
+      - systemd-journal
+      - portage
     shell: /bin/bash
 

@@ -1,4 +1,17 @@
+
+
+#
+# User configuration sourced by interactive shells
+#
+
+
+# Source zim
+#if [[ -s ${ZDOTDIR:-${HOME}}/.zim/init.zsh ]]; then
+ # source ${ZDOTDIR:-${HOME}}/.zim/init.zsh
+#fi
+
 # Path to your oh-my-zsh installation.
+
 
   fpath=(~/.zsh/completion $fpath)
   autoload -Uz compinit && compinit -i
@@ -15,7 +28,7 @@
 ZSH_THEME="honukai"
 
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+#plugins=(git)
 
 # Scripts to source
 source  $ZSH/oh-my-zsh.sh
@@ -31,6 +44,3 @@ export ARCHFLAGS="-arch x86_64"
 
 # Ignoe hostory dups
 setopt HIST_IGNORE_ALL_DUPS
-
-
-
