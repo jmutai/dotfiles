@@ -1,0 +1,51 @@
+
+Install letsencrypt
+cd ~
+git clone https://github.com/letsencrypt/letsencrypt
+cd letsencrypt
+
+service apache2 stop
+
+Create SSL Certificate
+
+./letsencrypt-auto certonly
+
+
+Use next 4 commands if you are creating a SSL certificate for your ISPConfig Dashboard panel
+Backup original ISPConfig certificates
+
+mkdir /usr/local/ispconfig/interface/ssl/originals
+mv /usr/local/ispconfig/interface/ssl/isp* /usr/local/ispconfig/interface/ssl/originals/
+
+ln -s /etc/letsencrypt/live/rafikihost.co.ke/fullchain.pem /usr/local/ispconfig/interface/ssl/ispserver.crt
+ln -s /etc/letsencrypt/live/rafikihost.co.ke/privkey.pem /usr/local/ispconfig/interface/ssl/ispserver.key
+
+B) If you are creating a SSL certificate for one of your websites...
+
+ls /etc/letsencrypt/live/__DOMAIN__/
+
+and copy/paste the contents of the certificates into the fields (found in the SSL tab) in ISPConfig.
+
+Now go the the SSL tab. We need to copy the obtained certificates and keys to these fields:
+
+And always fire up Apache again ;-)
+
+service apache2 graceful
+
+SSL Key: privkey.pem
+Execute cat /etc/letsencrypt/live/wowdoge.com/privkey.pem  and copy the contents to the field in ISPConfig.
+
+SSL Certificate: cert.pem
+Execute cat etc/letsencrypt/live/wowdoge.com/cert.pem  and copy the contents to the field in ISPConfig.
+
+SSL Bundle: chain.pem
+Execute cat /etc/letsencrypt/live/wowdoge.com/chain.pem  and copy the contents to the field in ISPConfig.
+
+Adding SSL certificates and keysImportant: Select SSL Action ‘Save Certificate’
+
+
+Redirect http to https
+
+RewriteEngine on
+RewriteCond %{SERVER_PORT} !^443$
+RewriteRule ^.*$ https://%{SERVER_NAME}%{REQUEST_URI} [L,R=301]

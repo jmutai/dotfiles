@@ -1,0 +1,14 @@
+sshd (the server) closes the connection if it doesn't hear anything from the client for a while. You can tell your client to send a sign-of-life signal to the server once in a while.
+
+The configuration for this is in the file ~/.ssh/config. To send the signal every four minutes to remotehost, put the following in your ~/.ssh/config.
+
+Host remotehost
+  HostName remotehost.com
+  ServerAliveInterval 240
+This is what I have in my ~/.ssh/config.
+
+To enable it for all hosts use:
+
+Host *
+  ServerAliveInterval 240
+Also make sure to run chmod 600 ~/.ssh/config, because the config file must not be world-readable.

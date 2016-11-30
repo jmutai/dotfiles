@@ -2,6 +2,9 @@ $ hugo help
 $ hugo version
 
 $ hugo new site mysite
+or 
+$ hugo new site .
+
 $ cd mysite
 $ tree a
 

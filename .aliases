@@ -70,12 +70,16 @@ alias vdir='vdir --color=auto'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
+alias myio='iostat -d -x 2 5' #extended device utilization
+alias myps='ps -eo pmem,pcpu,rss,vsize,args | sort -k 1 -r | less'
+
+alias rafiki='ssh -X josepy@rafiki'
+
 
 alias sleep='sudo  /lib/systemd/systemd-sleep hybrid-sleep'
 
 # Docker aliases
 alias images='docker images'
-alias tip='dockip transmission'
 alias ts='docker stop transmission; docker ps'
 alias ds='docker-compose stop'
 alias volumes='docker volume ls'
@@ -87,3 +91,4 @@ alias ypa="youtube-dl  --write-auto-sub --ignore-errors --no-overwrites --embed-
     -o '%(playlist)s/%(title)s.%(ext)s'"
 alias yv="youtube-dl  --write-auto-sub --ignore-errors --no-overwrites --embed-subs -f 22 -o  '%(title)s.%(ext)s'"
 
+alias mt="mycp ~/mygit/dotfiles/cheat-sheets/hugo/front-matter.txt"

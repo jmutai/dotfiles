@@ -1,0 +1,13 @@
+
+> SSL key, a CSR, and a self-signed certificate 
+
+# ls -l /usr/local/ispconfig/interface/ssl/
+empty.dir  ispserver.crt  ispserver.csr  ispserver.key  ispserver.key.secure
+
+All we need in this tutorial is the private key (ispserver.key) and the CSR (ispserver.csr); we will replace ispserver.crt with the Class1 certificate from StartSSL. You can ignore ispserver.key.secure.
+It is also possible to create ispserver.key and ispserver.csr on the command line as follows:
+
+# cd /usr/local/ispconfig/interface/ssl/
+# openssl req -new -newkey rsa:4096 -days 365 -nodes -keyout ispserver.key -out ispserver.csr
+
+

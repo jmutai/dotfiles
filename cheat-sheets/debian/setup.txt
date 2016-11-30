@@ -1,0 +1,13 @@
+apt-get -y install git
+
+# visudo
+ user   ALL=(ALL)   ALL
+
+Cmnd_Alias SHUTDOWN = /sbin/halt, /sbin/shutdown, \
+/sbin/poweroff, /sbin/reboot, /sbin/init
+
+jose   ALL=(ALL)   ALL, !SHUTDOWN
+
+
+
+

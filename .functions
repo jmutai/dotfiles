@@ -69,7 +69,7 @@ fi
 # Remove transmission .torrent.added files under Downloads directory
 
     rmtor () {
-         find ~/Downloads -name "*torrent*.added" | xargs -I {}  rm -rf {}
+         find ~/Downloads -type f -name "*torrent*.added" -exec rm -rf {} \;
      }
 
 mylanip () {

@@ -7,3 +7,6 @@ Remove powered by
 # cd template
 # vim main.tpl.htm 
 
+Backup script
+http://www.eurosistems.ro/back-res
+

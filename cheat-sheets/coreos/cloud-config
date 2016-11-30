@@ -1,5 +1,5 @@
 #cloud-config
-hostname: coreos1
+hostname: coreos1.example.com
 coreos:
   etcd: 
   # Generate a new token for the cluster from https://discovery.etcd.io/new
@@ -11,6 +11,8 @@ coreos:
       command: start
     - name: fleet.service
       command: start
+    - name: docker.service
+      command: start
     - name: iptables-restore.service
       enable: true
       command: start
@@ -19,8 +21,8 @@ write_files:
   - path: /home/josepy/.toolboxrc
     owner: josepy
     content: |
-      TOOLBOX_DOCKER_IMAGE=index.example.com/debug
-      TOOLBOX_DOCKER_TAG=v1
+      TOOLBOX_DOCKER_IMAGE=centos
+      TOOLBOX_DOCKER_TAG=latest
       TOOLBOX_USER=root
 
   - path: /var/lib/iptables/rules-save

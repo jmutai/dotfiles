@@ -1,0 +1,5 @@
+systemctl stop clamav-freshclam.service
+systemctl stop clamav-daemon.socket 
+systemctl stop clamav-daemon.service 
+
+

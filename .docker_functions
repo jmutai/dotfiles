@@ -11,7 +11,9 @@ images_backup () {
         | xargs -d "\n" -I {} docker save {} -o docker-images/{}.tar
 }
 
-
+clean_btrfs () {
+   sudo  btrfs subvolume delete  /var/lib/docker/btrfs/subvolumes/*
+}
 dock_full_clean () {
     sudo systemctl stop docker.service
     sudo systemctl stop docker.socket
@@ -95,7 +97,7 @@ caddy () {
 
 # Transmission container based on alpine
 transmission () { 
-    cont_del transmission
+    cont_del transmission 2>/dev/null
     docker run -d --name transmission \
         -p 9091:9091 \
         -p 51413:51413/tcp \
