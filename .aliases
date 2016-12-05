@@ -73,6 +73,8 @@ alias egrep='egrep --color=auto'
 alias myio='iostat -d -x 2 5' #extended device utilization
 alias myps='ps -eo pmem,pcpu,rss,vsize,args | sort -k 1 -r | less'
 
+alias sshmacs='ssh -Q mac'
+
 alias rafiki='ssh -X josepy@rafiki'
 
 

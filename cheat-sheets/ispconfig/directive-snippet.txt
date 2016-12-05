@@ -1,0 +1,34 @@
+Name of the snippet: PHP for Gold Hosting, Nginx Wordpress Configuration
+Type: Apache,Nginx,PHP, Proxy
+Snippet: Configuration settings go here
+
+Examples:
+
+PHP
+
+memory_limit = 512M
+post_max_size = 100M
+upload_max_filesize = 100M
+max_execution_time = 1200
+max_input_time = 1200
+magic_quotes_gpc = Off
+file_uploads = Yes
+max_file_uploads = 20
+
+
+Nginx:
+
+client_max_body_size 20M;
+  location / {
+      try_files $uri $uri/  /index.php?$args
+}
+
+# Add trailing slash to */wp-admin requests.
+
+rewrite /wp-admin$ $scheme://$host$uri/ permanent;
+
+location ~* .(jpg|jpeg|png|gif|css|js|ico)$ {
+         expires max;
+         log_not_found off;
+}
+

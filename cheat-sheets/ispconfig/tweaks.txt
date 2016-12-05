@@ -1,5 +1,5 @@
 title at the top
-# cd /usr/local/ispconfig/interface/web/themes/default/
+# cd /usr/local/ispconfig/interface/web/themes/default/templates
 
 Edit the title tag in the main.tpl.htm file in 
 

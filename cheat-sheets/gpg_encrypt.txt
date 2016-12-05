@@ -1,0 +1,17 @@
+# Generate gpg key
+gpg --gen-key
+
+> Will ask for 
+    Real name: 
+    Email address: 
+    Confirm: O
+    Passphrase :
+
+>  USER-ID will be
+    Full name <email-address>
+
+# List Keys {{{
+
+gpg --list-keys 
+
+# }}}

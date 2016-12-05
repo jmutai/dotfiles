@@ -21,8 +21,7 @@ pacaur --needed --noconfirm --noedit -S \
 	numix-folders-git \
 	numix-frost-themes \
 	numix-icon-theme-git \
+    numix-circle-icon-theme-git \
 	numix-themes \
-	vertex-themes-git 
+	vertex-themes-git \
 
-# faba-icon-theme-git \
-# faba-mono-icons-git \
