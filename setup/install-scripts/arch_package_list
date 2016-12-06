@@ -67,6 +67,7 @@ echo ""
     xorg-xinit \
     opencl-nvidia \
 	maim \
+    masterpdfeditor \
 	mediainfo \
 	mingetty \
 	mlocate \

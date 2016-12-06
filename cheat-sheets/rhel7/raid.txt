@@ -1,0 +1,14 @@
+# df -h
+
+> Create a partition on new HDD and set RAID flag.
+
+parted --script /dev/sdb "mklabel gpt"
+parted --script /dev/sdc "mklabel gpt" 
+parted --script /dev/sdb "mkpart primary 0% 100%" 
+parted --script /dev/sdc "mkpart primary 0% 100%" 
+parted --script /dev/sdb "set 1 raid on"
+parted --script /dev/sdc "set 1 raid on"
+
+> Configure RAID 1.
+mdadm --create /dev/md0 --level=raid1 --raid-devices=2 /dev/sdb1 /dev/sdc1 
+
