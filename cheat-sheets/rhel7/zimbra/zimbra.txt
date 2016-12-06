@@ -1,0 +1,19 @@
+Set hostname
+
+# hostnamectl set-hostname mail.example.com
+# ip addr
+# echo "192.168.122.100  mail.example.com  mail " >> /etc/hosts
+
+Install required system packages:
+
+# yum -y install unzip wget  openssh-clients nmap-ncat  sysstat perl-core libaio libstdc++.so.6 
+
+Open ports
++Web server HTTP port:                 8080                          
+        +Web server HTTPS port:                8443                          
+        +Web server mode:                      https                         
+        +IMAP server port:                     7143                          
+        +IMAP server SSL port:                 7993                          
+        +POP server port:                      7110                          
+        +POP server SSL port:                  7995  
+

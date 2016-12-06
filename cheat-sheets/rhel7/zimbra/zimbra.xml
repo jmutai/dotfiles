@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<service>
+  <short>Zimbra Collaborative Suite</short>
+  <description>.</description>
+  <port protocol="tcp" port="80"/>
+  <port protocol="tcp" port="443"/>
+  <port protocol="tcp" port="8443"/>
+  <port protocol="tcp" port="7143"/>
+  <port protocol="tcp" port="7110"/>
+  <port protocol="tcp" port="7071"/>
+  <port protocol="tcp" port="8080"/>
+  <port protocol="tcp" port="7993"/>
+  <port protocol="tcp" port="7995"/>
+</service>

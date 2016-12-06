@@ -12,3 +12,24 @@ parted --script /dev/sdc "set 1 raid on"
 > Configure RAID 1.
 mdadm --create /dev/md0 --level=raid1 --raid-devices=2 /dev/sdb1 /dev/sdc1 
 
+> show status
+# cat /proc/mdstat 
+
+> After few hours later, status turns like follows if syncing finished
+# cat /proc/mdstat 
+
+vi /etc/sysconfig/raid-check
+
+# line 57: add RAID devices which you'd like to check by Cron
+CHECK_DEVS="md0"
+
+>   For example, if a member HDD in RAID array would be failure, re-configure RAID 1 like follows.
+
+: the status is like follows in failure
+# cat /proc/mdstat 
+
+> after swapping new disk, re-configure like follows
+
+#  mdadm --manage /dev/md0 --add /dev/sdc1 
+# cat /proc/mdstat
+
