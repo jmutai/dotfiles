@@ -58,6 +58,7 @@ echo ""
 	libmtp \
 	libnotify \
     lxappearance \
+    lshw \ 
 	lm_sensors \
     nvidia \
     nvidia-utils \

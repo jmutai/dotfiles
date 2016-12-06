@@ -196,11 +196,26 @@ update_hostness () {
     rm -rf hostness
     cd -
 }
- 
-genpasswd() { 
-	local l=$1
-    if [ "$1" == "" ]; then 
-        l=30
-    fi
-    tr -dc A-Za-z0-9_ < /dev/urandom | head -c ${l} | xargs 
+
+nouser () {
+    sudo find / -nouser -o -nogroup 2>/dev/null 
+}
+
+myhugo () {
+    USER=josepy
+    HOST=rafiki
+    DIR=~/public # might sometimes be empty!
+    
+    hugo && rsync -avz --delete public/ ${USER}@${HOST}:${DIR}
+    
+    exit 0
+}
+
+myrsync () {
+    rsync -avz -e "ssh -p $1" josepy@coreos:/path/to/files/ /local/path/
+}
+
+myfind () {
+    local f_size=${1}
+    sudo find / -type f  -size +"${f_size}" -exec ls -lsh {} \; 2>/dev/null
 }

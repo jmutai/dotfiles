@@ -72,10 +72,12 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 alias myio='iostat -d -x 2 5' #extended device utilization
 alias myps='ps -eo pmem,pcpu,rss,vsize,args | sort -k 1 -r | less'
-
+alias lsconf='sudo find /etc -name "*.conf" | xargs ls –l'
+alias mywget='cat urls.txt | xargs wget -c'
 alias sshmacs='ssh -Q mac'
 
 alias rafiki='ssh -X josepy@rafiki'
+alias cdr='cd /srv/http/rafikihost'
 
 
 alias sleep='sudo  /lib/systemd/systemd-sleep hybrid-sleep'
@@ -94,3 +96,4 @@ alias ypa="youtube-dl  --write-auto-sub --ignore-errors --no-overwrites --embed-
 alias yv="youtube-dl  --write-auto-sub --ignore-errors --no-overwrites --embed-subs -f 22 -o  '%(title)s.%(ext)s'"
 
 alias mt="mycp ~/mygit/dotfiles/cheat-sheets/hugo/front-matter.txt"
+alias apache='sudo systemctl restart  httpd.service'

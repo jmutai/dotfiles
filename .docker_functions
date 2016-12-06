@@ -88,11 +88,13 @@ dockdumpsql () {
 }
 # Caddy web server alpine based container
 caddy () {
-    docker run -d  \
+    cont_del caddy 2>/dev/null
+    docker run  \
     -p 80:80 \
-    -v $HOME/.static:/var/www/html \
+    -p 443:443 \
+    -v /srv/http/jmutai:/www/html/ \
     --name caddy \
-    jmutai/caddy "$@"
+    jmutai/caddy  "$@"
 }
 
 # Transmission container based on alpine
@@ -237,11 +239,13 @@ docknet () {
 
 
 spotify () {
-	cont_del spotify
+    xhost +
+	cont_del spotify 2>/dev/null
 	docker run --rm   \
 		-v /etc/localtime:/etc/localtime:ro \
 		-v /tmp/.X11-unix:/tmp/.X11-unix \
 		-e DISPLAY=$DISPLAY \
+        --net host \
 		-e QT_DEVICE_PIXEL_RATIO \
 		--security-opt seccomp:unconfined \
 		--device /dev/snd \
