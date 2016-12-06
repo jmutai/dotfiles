@@ -1,0 +1,47 @@
+ Configure local DNS Server
+
+Zimbra needed lookup to MX records on domain that used. For that purpose, we can configure dns server on machine of Zimbra mail server
+
+Open file /etc/named.conf and add any on listen-on port 53 and allow-query as follows
+
+listen-on port 53 { 127.0.0.1; any; };
+allow-query     { localhost; any; };
+
+Create a zone on the bottom of file named.conf as follows
+
+zone "example.com" IN {
+type master;
+file "db.example.com";
+allow-update { none; };
+};
+
+Create database for new zone has been created on folder /var/named/
+
+touch /var/named/db.example.com
+chgrp named /var/named/db.example.com
+vi /var/named/db.example.com
+
+fill as follows
+
+$TTL 1D
+@       IN SOA  ns1.example.com. root.example.com. (
+                                        0       ; serial
+                                        1D      ; refresh
+                                        1H      ; retry
+                                        1W      ; expire
+                                        3H )    ; minimum
+@       IN      NS      ns1.example.com.
+@       IN      MX      0 mail.example.com.
+ns1     IN      A       192.168.26.11
+mail    IN      A       192.168.26.11
+
+# Restart Service & Check results configuring DNS Server
+
+service named restart
+systemctl enable named
+nslookup mail.example.com
+dig example.com mx
+
+If results from above command as follows, your configuration dns has been success
+
+# nslookup mail.example.com

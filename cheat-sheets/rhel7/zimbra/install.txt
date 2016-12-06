@@ -1,12 +1,40 @@
+Configure ip address
+
+# nmcli con add type ethernet con-name eth0 ifname eth0 ip4 192.168.122.120/24 gw4 192.168.122.1 
+
+or
+
+vi /etc/sysconfig/network-scripts/ifcfg-eth0
+DEVICE=eth0
+ONBOOT=yes
+NM_CONTROLLED=no
+BOOTPROTO=none
+IPADDR=192.168.122.120
+NETMASK=255.255.255.0
+DNS1=192.168.122.1
+GATEWAY=192.168.122.1
+DNS2=192.168.122.1
+USERCTL=no
+
 Set hostname
 
 # hostnamectl set-hostname mail.example.com
 # ip addr
 # echo "192.168.122.100  mail.example.com  mail " >> /etc/hosts
 
+Host ip: 192.168.122.120, 
+    fqdn: mail.example.com
+
+# vim /etc/resolv.conf
+
+search example.com
+nameserver 192.168.122.120
+nameserver 192.168.122.1
+nameserver 8.8.8.8
+
 Install required system packages:
 
-# yum -y install unzip wget  openssh-clients nmap-ncat  sysstat perl-core libaio libstdc++.so.6 
+# yum -y install unzip wget  openssh-clients nmap-ncat  sysstat perl-core libaio libstdc++.so.6 bind bind-utils 
 
 Open ports
 +Web server HTTP port:                 8080                          
@@ -16,4 +44,11 @@ Open ports
         +IMAP server SSL port:                 7993                          
         +POP server port:                      7110                          
         +POP server SSL port:                  7995  
+
+Access Admin console
+> https://ip:7071
+
+Uninstall
+
+# ./install.sh -u
 
