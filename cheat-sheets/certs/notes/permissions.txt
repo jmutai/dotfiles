@@ -1,0 +1,753 @@
+Objectives:
+
+    File/Directory Permissions
+
+    Ownership
+
+    Special Permissions
+
+    Default File Permissions
+
+    POSIX ACL Concepts
+
+    File System Mount Option
+
+    ACL Permissions
+
+    File ACLs
+
+    Directory ACLs
+
+    ACL Mask
+
+    ACL Permission Precedence
+
+    ACL File Permissions
+
+    getfacl as Input
+
+    Explicit ACL Mask
+
+    Recursive ACL Modifications
+
+    ACL Deletion
+
+    Default ACL Permissions
+
+
+File/Directory Permissions
+
+    To change permissions from command line, use chmod
+
+        Short for change mode
+
+        Permissions are also called mode of a file
+
+    chmod takes permission instruction followed by list of files or directories to change
+
+    Permission instruction: Symbolic or numeric
+
+Symbolic Method
+
+chmod WhoWhatWhich file|directory
+
+    Letters represent permission groups:
+
+        Who: u (user), g (group), o (other), a (all)
+
+    Change existing permission set or add new set:
+
+        What: + (add), - (remove), = (set exactly)
+
+    Letters represent actual permissions:
+
+        Which: r (read), w (write), x (execute)
+
+Permissions Command Examples
+
+    To remove read and write permission for group and other on file1:
+
+    [student@desktop1$ chmod go-rw file1
+
+    To add execute permission for everyone on file2:
+
+    [student@desktop1$ chmod a+x file2
+
+    To set read, write, and execute permission for user; read and execute for group; and no permission for other, on sampledir:
+
+-R Option
+
+    Use to recursively set permissions on entire directory tree
+
+    Use X permissions (not x)
+
+        Indicates setting permissions on directories, not files
+
+        Example: Set read and write access on demodir and children for group owner
+
+        [student@desktop1# chmod -R g+rwX demodir
+
+Ownership
+
+    User who creates file is owner of file
+
+    Owner’s primary group has group ownership of file
+
+        Often owner is only member of group
+
+    May need to change owner or group to grant access to file
+
+Change File Ownership
+
+    To change owner, use chown
+
+        Example: Change owner of file foofile to student
+
+        [root@desktop1 ~]# chown student foofile
+
+    To recursively change ownership of entire directory tree, use chown with -R option
+
+        Example: Grant ownership of foodir and all files and subdirectories to student
+
+        [root@desktop1 ~]# chown -R student foodir
+
+Change Group Ownership
+
+    To change group ownership of file, use chown
+
+    Precede group name with :
+
+        Example: Change group foodir to admins
+
+        [root@desktop1 ~]# chown :admins foodir
+
+Change Both File and Group Ownership
+
+    To change owner and group at same time, use chown
+
+    Use syntax owner:group
+
+        Example: Change owner of foodir to visitor and group to guests
+
+        [root@desktop1 ~]# chown visitor:guests foodir
+
+    Only root can change file ownership
+
+    root or file owner can set group ownership
+
+        root can grant ownership to any group
+
+        Non-root can grant ownership to groups to which they belong
+
+Use chgrp
+
+    To change group ownership, can use chgrp
+
+    Works same as chown, including use of -R
+
+For more info on permissions and ownership, see the following man pages: ls(1), chmod(1), chown(1), and chgrp(1).
+
+Special Permissions
+
+setuid Permissions
+
+    Runs command as user or group of file, not user that ran command
+
+        Example: passwd command
+
+        [student@desktop1$ ls -l /usr/bin/passwd
+        -rwsr-xr-x. 1 root root 35504 Jul 16  2010 /usr/bin/passwd
+
+    setuid permissions use s in place of x
+
+        If no owner execute permissions, S replaces x
+
+Sticky Permissions
+
+    Sets restriction on deletion of files
+
+        Only file owner and root can delete files in directory
+
+        Example: /tmp
+
+        [student@desktop1$ ls -ld /tmp
+        drwxrwxrwt. 39 root root 4096 Feb  8 20:2 /tmp
+
+    sticky permissions use t in place of x
+
+        If no owner execute permissions, T replaces x
+
+setgid Permissions
+
+    Indicates files in directory inherit group affiliation from directory, not from creating user
+
+    Used on group collaborative directories to change file from default private group to shared group
+
+    Can spot setgid permissions by s in place of x
+
+        If no group execute permissions, S replaces x
+
+u+s (setuid) 
+    Effect on files: File executes as user that owns file, not user that ran file
+    Effect on directories: No effect 
+
+g+s (setgid)
+        Files: File executes as group that owns file
+        Directory: Group owner of newly created files in directory is same group owner as directory
+
+o+t (sticky)
+    Files: No effect
+    Directories: Users with write permissions on directory can remove files they own; they cannot remove or force saves to files owned by other users
+
+Setting Special Permissions
+
+    Symbolically
+
+        setuid = u+s
+
+        setgid = g+s
+
+        sticky = o+t
+
+            Example: Add setgid on directory
+
+            [root@desktop1 ~]# chmod g+s directory
+
+    Numerically (fourth preceding digit)
+
+        setuid = 4
+
+        setgid = 2
+
+        sticky = 1
+
+            Example: Set setgid, read/write/execute for user and group on directory
+
+            [root@desktop1 ~]# chmod 2770 directory
+
+Default File Permissions
+
+    Default file permissions set by processes that create them
+
+        Example: Text editors create files that are readable and writeable, but not executable
+
+    mkdir creates directories with all permissions set: read, write, execute
+
+        Permissions typically not set when creating files and directories
+
+        Some permissions cleared by umask of shell process
+
+    umask without arguments displays current value of shell’s umask:
+
+    [student@desktop1$ umask
+    0002
+
+umask
+
+    umask - Octal bitmask used to clear permissions of files and directories that process creates
+
+    If bit is set in umask, corresponding permission is cleared in files
+
+        Example: umask 0002 clears write bit for other users
+
+            Leading zeros indicate special, user, and group permissions not cleared
+
+        umask 077 clears all group and other permissions of newly created files
+
+    umask with single numeric argument changes umask of current shell
+
+        Numeric argument indicates new umask value
+
+        If fewer than three digits, leading zeros assumed
+
+    Default umask values for Bash shell users defined in /etc/profile and /etc/bashrc
+
+    Can override system defaults in .bash_profile and .bashrc
+
+Step 1: Create new file and directory
+
+    Observe how default umask affects permissions
+
+    [student@desktop1$ touch newfile1
+    [student@desktop1$ ls -l newfile1
+    -rw-rw-r--. 1 STU STU 0 May  9 01:4 newfile1
+    [student@desktop1$ mkdir newdir1
+    [student@desktop1$ ls -ld newdir1
+    drwxrwxr-x. 2 STU STU 0 May  9 01:4 newdir1
+
+Step 2: Set umask value to 0 and create new file and directory
+
+    umask 0 does not mask any permissions of new files
+
+    Observe how new umask affects permissions
+
+    [student@desktop1$ umask 0
+    [student@desktop1$ touch newfile2
+    [student@desktop1$ ls -l newfile2
+    -rw-rw-rw-. 1 STU STU 0 May  9 01:4 newfile2
+    [student@desktop1$ mkdir newdir2
+    [student@desktop1$ ls -ld newdir2
+    drwxrwxrwx. 2 STU STU 0 May  9 01:4 newdir2
+
+Step 3: Set umask value to 007
+
+    Masks all other permissions of new files
+
+    [student@desktop1$ umask 007
+    [student@desktop1$ touch newfile3
+    [student@desktop1$ ls -l newfile3
+    -rw-rw----. 1 STU STU 0 May  9 01:5 newfile3
+    [student@desktop1$ mkdir newdir3
+    [student@desktop1$ ls -ld newdir3
+    drwxrwx---. 2 STU STU 0 May  9 01:4 newdir3
+
+Step 4: Set umask value to 027
+
+    Masks write access for group members and all other permissions of new files
+
+    [student@desktop1$ umask 027
+    [student@desktop1$ touch newfile4
+    [student@desktop1$ ls -l newfile4
+    -rw-r-----. 1 STU STU 0 May  9 01:5 newfile4
+    [student@desktop1$ mkdir newdir4
+    [student@desktop1$ ls -ld newdir4
+    drwxr-x---. 2 STU STU 0 May  9 01:4 newdir4
+
+Step 5: Log in as root to change default umask for unprivileged users
+
+    Prohibit all access for users not in their group
+
+    Modify /etc/bashrc and /etc/profile to change default umask for Bash shell users
+
+    Default umask for unprivileged users is 0002
+
+    Locate 0002 values and set umask to 007 for unprivileged users
+
+    [root@desktop1 ~]# less /etc/bashrc
+        # You could check uidgid reservation validity in
+        # /usr/share/doc/setup-*/uidgid file
+        if [ $UID -gt 199 ] && [ "`id -gn`" = "`id -un`" ]; then
+           umask 002
+        else
+           umask 022
+        fi
+
+        # Only display echos from profile.d scripts if we are no login shell
+    [root@desktop1 ~]# vim /etc/bashrc
+    [root@desktop1 ~]# less /etc/bashrc
+        # You could check uidgid reservation validity in
+        # /usr/share/doc/setup-*/uidgid file
+        if [ $UID -gt 199 ] && [ "`id -gn`" = "`id -un`" ]; then
+           umask 007
+        else
+           umask 022
+        fi
+
+        # Only display echos from profile.d scripts if we are no login shell
+    [root@desktop1 ~]# less /etc/profile
+        # You could check uidgid reservation validity in
+        # /usr/share/doc/setup-*/uidgid file
+        if [ $UID -gt 199 ] && [ "`id -gn`" = "`id -un`" ]; then
+            umask 002
+        else
+            umask 022
+        fi
+
+        for i in /etc/profile.d/*.sh ; do
+    [root@desktop1 ~]# vim /etc/profile
+    [root@desktop1 ~]# less /etc/profile
+        # You could check uidgid reservation validity in
+        # /usr/share/doc/setup-*/uidgid file
+        if [ $UID -gt 199 ] && [ "`id -gn`" = "`id -un`" ]; then
+            umask 007
+        else
+            umask 022
+        fi
+
+        for i in /etc/profile.d/*.sh ; do
+
+Step 6: Log back in as student
+
+    Confirm that umask changes are persistent
+
+    [student@desktop1$ umask
+    0007
+
+    Other shells may have different system default initialization files
+
+For more info on file permissions, see the following man pages: bash(1), ls(1), chmod(1), and umask(1).
+
+
+POSIX ACL Concepts
+
+    Access Control Lists (ACLs): Provide fine-grained access control to files and directories
+
+    Can grant permissions to:
+
+        Named users or named groups
+
+        Users and groups identified by a UID or GUID
+
+        File owner, group owner, other
+
+    Same r, w, x permission flags
+
+    File owner can set ACLs on files or directories
+
+    New files and subdirectories can inherit ACL settings from parent default ACLs
+
+    Parent hierarchy needs other execute permission to give access to named users and named groups
+
+File System Mount Option
+
+    Need to mount file system with ACL support enabled
+
+    XFS® file systems have built-in ACL support
+
+    Ext4 file systems in Red Hat Enterprise Linux 7 have acl enabled
+
+ACL Permissions
+
+    ls -l outputs minimal ACL setting details:
+
+    [student@server1 steamies]$ ls -l roster.txt
+    -rwxrw----+ 1 student controller 130 Mar 19 23:6 roster.txt
+
+    + indicates ACL settings associated with this file
+
+    user: Shows user ACL settings
+
+        Same as standard user file settings: rwx
+
+    group: Shows ACL mask settings
+
+        Not group owner settings: rw
+
+    other: Shows other ACL settings
+
+        Same as standard other file settings: no access
+
+    Using chmod to change group permissions on file with ACL does not change group owner permissions, but does change ACL mask
+
+        To change file’s group owner permissions:
+        setfacl -m g::perms file
+
+File ACLs
+
+    To display ACL settings on a file, use getfacl file :
+
+    [student@server1 steamies]$ getfacl roster.txt
+    # file:roster.txt
+    # owner:student
+    # group:controller
+    user:rwx
+    user:ames:---
+    user:005:rwx       #effective:rw-
+    group:rwx          #effective:rw-
+    group:odor:r--
+    group:210:rwx      #effective:rw-
+    mask:rw-
+    other:---
+
+
+Opening Comment Entries
+
+# file:roster.txt
+# owner:student
+# group:controller
+
+User Entries
+
+user:rwx 
+user:ames:--- 
+user:005:rwx       #effective:rw- 
+
+Group Entries
+
+group:rwx          #effective:rw- 
+group:odor:r-- 
+group:210:rwx      #effective:rw-  
+
+Mask Entry
+
+mask:rw-
+
+Other Entry
+
+other:---
+
+Directory ACLs
+
+    To display ACL settings on a directory, use getfacl /directory:
+
+    [student@server1 steamies]$ getfacl .
+
+
+    Default entries do not include named user or named group
+
+        Initial ACL entries not added automatically to new files or subdirectories
+
+        Limits entries to files and subdirectories on which they already have ACLs, or if owner adds ACL using setfacl
+
+        Can still create files and subdirectories
+
+    Can use output from getfacl as input to setfacl
+
+ACL Mask
+
+    ACL mask: Defines maximum permissions granted to named users, group owner, named groups
+
+    Does not restrict permissions of file owner or other users
+
+    All files and directories that implement ACLs have ACL mask
+
+    To view mask, use getfacl
+
+    To set mask, use setfacl
+
+    Mask automatically calculated and added if not set
+
+        Can inherit from parent default mask setting
+
+    When you add, modify, or delete affected ACL, mask recalculates by default
+
+
+ACL Permission Precedence
+
+    Process running as user that owns file: File’s user ACL permissions apply
+
+    Process running as user listed in named user ACL entry: Named user ACL permissions apply (if mask permits)
+
+    Process running as group that matches group owner of file, or as group with explicit named group ACL entry: Matching ACL permissions apply (if mask permits)
+
+    Otherwise: File’s other ACL permissions apply
+
+
+ACL File Permissions
+
+    To add, modify, or remove standard ACLs, use setfacl
+
+    ACLs use normal r, w, x, - representation for permissions
+
+    X indicates:
+
+        Set execute permission on directories, not files
+
+        Unless file already has relevant execute permission
+
+        Same behavior as chmod
+
+Add or Modify an ACL
+
+    Options for adding or replacing ACLs:
+
+        Set via command line using -m
+
+        Pass in via file using -M
+
+            Use - instead of file name for stdin
+
+    Other ACL entries on file or directory remain untouched
+
+    Use --set or --set-file to completely replace ACL settings on file
+
+    If ACL add does not include file owner, group owner, or other permissions:
+
+        System uses base ACLs (current standard file permissions)
+
+            Base ACLS cannot be deleted
+
+        System calculates and adds new mask value
+
+Add or Modify a User or Named User ACL
+
+[student@server1 ~]$ setfacl -m u:name:rX file
+
+    If name left blank, applies to file owner
+
+    Otherwise name can be username or UID value
+
+    ACL and standard file owner permissions are equivalent
+
+        Using chmod or setfacl on file owner permissions is equivalent
+
+        chmod does not effect named users
+
+Add or Modify a Group or Named Group ACL
+
+[student@server1 ~]$ setfacl -m g:ame:rw file
+
+    If name left blank, applies to group owner
+
+    Otherwise name can be group name or GID value for named group
+
+    chmod does not effect group permissions for files with ACL settings
+
+        Updates ACL mask
+Add or Modify the Other ACL
+
+[student@server1 ~]$ setfacl -m o::- file
+
+    Other accepts permission settings only
+
+        Commonly set to -
+
+        Can specify any standard permission
+
+    ACL and standard other permissions are equivalent
+
+        Using chmod or setfacl on other permissions is equivalent
+
+Add Multiple Entries
+
+    Can add multiple entries in same command
+
+    Comma-separate each entry:
+
+    [student@server1 ~]$ setfacl -m u:rwx,g:sodor:rX,o::- file
+
+    In this example:
+
+        File owner: Read, write, execute
+
+        Named group sodor: Read-only and conditional execute
+
+        All other users: No permissions
+
+        Group owner: Maintains existing file or ACL permissions
+
+        Other named entries: Unchanged
+
+getfacl as Input
+
+    Can use output from getfacl as input to setfacl:
+
+    [student@server1 ~]$ getfacl file-A | setfacl --set-file=- file-B
+
+        --set-file accepts input from file or stdin
+
+        - specifies use of stdin
+
+        file-B has same ACL settings as file-A
+
+
+Explicit ACL Mask
+
+    Can explicitly set ACL mask on file or directory
+
+    Limits maximum permissions for named users, group owner, and named groups
+
+    Restricts permissions that exceed mask
+
+    No impact on permissions less permissive than mask
+
+    [student@server1 ~]$ setfacl -m m:r file
+
+        Adds mask value that restricts named users, group owner, and named groups to read-only permission
+
+        No impact to file owner and other users
+
+    getfacl displays effective comment beside entries restricted by mask setting
+
+    By default, ACL mask recalculates each time ACL is modified or deleted
+
+        Potentially resets previous explicit mask setting
+        To avoid recalculation, use -n or include mask setting (-m m::perms) with setfacl that modifies mask-affected ACL
+
+Recursive ACL Modifications
+
+    To apply ACL recursively to directory structure and files, use -R
+
+    Can use X with recursion
+
+        Files with execute permission retain setting
+
+        Sets execute permissions for directories to allow directory search
+
+    Recommended: Use X when non-recursively setting ACLs
+
+        Prevents administrator from accidentally adding execute permissions to regular file
+
+        [student@server1 ~]$ setfacl -R -m u:ame:rX directory
+
+        Adds username to directory, existing files, and subdirectories
+
+        Grants read-only and conditional execute
+
+ACL Deletion
+
+    Deletion is same as modify, but do not specify :perms
+
+    [student@server1 ~]$ setfacl -x u:name,g:name file
+
+        Removes named user and named group from list of file or directory ACLs
+
+        Other ACLs remain active
+
+    Can use delete (-x) and modify (-m) in same setfacl
+
+    Can delete mask only if no other ACLs set
+
+        Base ACLs cannot be deleted
+
+        Must delete mask last
+
+    File no longer has ACLs
+
+    ls -l does not show + next to permissions string
+
+    To delete all ACLs on file or directory (including default ACLs on directories):
+
+[student@server1 ~]$ setfacl -b file
+
+
+Default ACL Permissions
+
+    Can set default ACLs on directory
+
+        New files and subdirectories automatically inherit
+
+    Can set default ACL permissions for each standard ACL settings, including default mask
+
+    Directory still requires standard ACLs for access control
+
+        Default ACLs do not implement access control for directory
+
+        Only provide ACL permission inheritance support
+
+        [student@server1 ~]$ setfacl -m d:u:name:rx directory
+
+            Adds default named user (d:u:name) with read-only permission and execute permission on subdirectories
+
+Using setfacl
+
+    Same as for standard ACLs
+
+        Preface with d: or use -d option
+
+    When setting default ACLs on directory, include execute permission
+
+        Ensures users can access contents of new subdirectories created in directory
+
+        Users do not automatically get execute permission set on newly created regular files
+
+            ACL mask of a new regular file is rw-
+
+    New files and subdirectories get owner UID and primary group GID values set from creating user
+
+        Exception: When parent directory setgid is enabled, primary group GID is same as parent directory GID
+
+Deleting Default ACLs
+
+    Same as deleting standard ACL
+
+        Preface with d: or use -d option
+
+        [student@server1 ~]$ setfacl -x d:u:name directory
+
+        Removes default ACL added previously
+
+    To delete all default ACLs on directory, use setfacl -k /directory
+
+    To delete all ACLs on directory, use setfacl -b /directory
+

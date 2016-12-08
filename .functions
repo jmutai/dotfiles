@@ -205,10 +205,8 @@ myhugo () {
     USER=josepy
     HOST=rafiki
     DIR=~/public # might sometimes be empty!
-    
+    rm -rf public
     hugo && rsync -avz --delete public/ ${USER}@${HOST}:${DIR}
-    
-    exit 0
 }
 
 myrsync () {

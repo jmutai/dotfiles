@@ -1,0 +1,415 @@
+SELinux Permissions
+
+Enabling and Monitoring Security Enhanced Linux (SELinux)
+
+Module Topics
+
+    Enabling and Monitoring Security Enhanced Linux (SELinux)
+
+    Basic SELinux Security Concepts
+
+    SELinux Modes
+
+    SELinux Booleans
+
+    Changing SELinux Modes
+
+    Setting the Default SELinux Mode
+
+    Initial SELinux Context
+
+    Changing the SELinux Context of a File
+
+    Defining SELinux Default File Context Rules
+
+    Changing SELinux Booleans
+
+    SELinux Booleans
+
+    Troubleshooting SELinux Issues
+
+
+Enabling and Monitoring Security Enhanced Linux (SELinux)
+
+    To display current SELinux mode, use getenforce
+
+        Determines whether SELinux rules are applied
+
+    To display SELinux context labels, use -Z option to ls and ps
+
+    To display SELinux Booleans and values, use getsebool -a
+
+
+Basic SELinux Security Concepts
+
+    SELinux: Additional layer of system security
+
+    Primary goal: Protect user data from compromised system services
+
+    Most Linux administrators familiar with discretionary access control
+
+        Standard user/group/other permission security model
+
+    SELinux’s additional security layer:
+
+        Object-based
+
+        Controlled by sophisticated rules: Mandatory access control
+
+
+Basic SELinux Security Concepts
+Apache Without SELinux
+
+    Must open firewall ports to allow anonymous web server access
+
+    Opens system to malicious security exploit
+
+    Permits access to user and group permissions
+
+        Read access to document root /var/www/html
+
+        Write access to /tmp, /var/tmp, any other world-writable files/directories
+
+Apache With SELinux
+
+    SELinux security rules determine which process can access which files, directories, ports
+
+    Every file, process, directory, port has SELinux context
+
+        Context: Name SELinux policy uses to determine whether process can access file, directory, port
+
+        Default: Policy does not allow interaction unless rule grants access
+
+
+SELinux Label Contexts
+
+    User
+
+    Role
+
+    Type
+
+    Sensitivity
+
+    Targeted policy bases rules on type context
+
+        Names usually end with _t
+
+    Type context for:
+
+        Web server: httpd_t
+
+        Files/directories in /var/www/html: httpd_sys_content_t
+
+        Files/directories normally in /tmp and /var/tmp: tmp_t
+
+        Web server ports: http_port_t
+
+SELinux Policy Rules
+
+    Permit Apache (web server process httpd_t) to access files/directories with context in /var/www/html and other web server directories (httpd_sys_content_t)
+
+    Contain no-allow rule for files in /tmp and /var/tmp
+
+        Malicious user cannot access /tmp directory
+
+    Contain rules for remote file systems
+
+        Files on these systems are labeled with same context
+
+Command Options
+
+[root@server1 ~]# ps axZ
+[root@server1 ~]# systemctl start httpd
+[root@server1 ~]# ps -ZC httpd
+[root@server1 ~]# ls -Z /home
+[root@server1 ~]# ls -Z /var/www
+
+SELinux Modes
+
+    Can use SELinux modes to temporarily disable SELinux protection
+
+        Good for troubleshooting
+
+Enforcing Mode
+
+    SELinux denies access to web server attempting to read files with tmp_t context
+
+    SELinux both logs and protects
+
+Permissive Mode
+
+    Can use to troubleshoot
+
+    SELinux allows all interactions
+
+    Logs interactions it would have denied in enforcing mode
+
+    Use to allow temporary access to content SELinux is restricting
+
+    No reboot required to go from enforcing to permissive or back
+
+Disabled Mode
+
+    Completely disables SELinux
+
+    System reboot required to disable or go from disabled mode to enforcing or permissive mode
+
+    Recommended: Use permissive rather than disabled mode
+
+    In permissive mode, Kernel automatically maintains SELinux file system labels
+
+        Avoids expensive file system relabeling when system is rebooted
+
+    To display current SELinux mode:
+
+    [root@server1 ~]# getenforce
+    Enforcing
+
+
+SELinux Booleans
+
+    SELinux Booleans: Switches that change behavior of SELinux policy
+
+        Rules you can enable/disable
+
+        Can use to tune policy to make selective adjustments
+
+    Use getsebool to display SELinux Booleans and current values
+
+    Use -a to list all Booleans:
+
+    [root@server1 ~]# getsebool -a
+    abrt_anon_write --> off
+    allow_console_login --> on
+    allow_corosync_rw_tmpfs --> off
+    [... Output omitted ...]
+
+    Many Boolean names changed from Red Hat Enterprise Linux 6 to Red Hat Enterprise Linux 7.
+
+For more info on SELinux concepts, modes, and Booleans, see the following man pages: selinux(8), getenforce(8), ls(1), ps(1), and getsebool(8).
+
+Changing SELinux Modes
+setenforce Command
+
+    Can use SELinux modes to temporarily disable SELinux protection
+
+        Can change modes temporarily between enforcing and permissive mode
+
+        Can also set default SELinux mode determined at boot time
+
+    Use setenforce command to modify current SELinux mode:
+
+    [root@server1 ~]# getenforce
+    Enforcing
+    [root@server1 ~]# setenforce
+    usage: setenforce [ Enforcing | Permissive | 1 | 0 ]
+    [root@server1 ~]# setenforce 0
+    [root@server1 ~]# getenforce
+    Permissive
+    [root@server1 ~]# setenforce Enforcing
+    [root@server1 ~]# getenforce
+    Enforcing
+
+Passing Parameters
+
+    Can also pass parameter to kernel at boot time
+
+    Passing enforcing=0 causes system to boot into permissive mode
+
+        Value 1 specifies enforcing mode
+
+    Passing selinux=0 disables SELinux
+
+        Value 1 enables SELinux
+
+
+Setting the Default SELinux Mode
+
+    To determine SELinux mode at boot time, use /etc/selinux/config
+
+    Passing selinux= and/or enforcing= overrides default values specified in /etc/selinux/config
+
+For more info on changing SELinux modes, see these man pages: getenforce(1), setenforce(1), and selinux_config(5).
+
+
+Initial SELinux Context
+
+    SELinux context of file’s parent directory determines file’s initial SELinux context
+
+        Parent directory context assigned to new file
+
+        Works for vim, cp, touch
+
+    If file is created elsewhere and permissions are preserved (mv or cp -a), original SELinux context does not change
+
+    [root@server1 ~]# ls -Zd /var/www/html/
+    drwxr-xr-x. root root system_u:bject_r:httpd_sys_content_t:s0 /var/www/html/
+    [root@server1 ~]# touch /var/www/html/index.html
+    [root@server1 ~]# ls -Z /var/www/html/index.html
+
+
+Changing the SELinux Context of a File
+
+    Two commands to change file’s SELinux context:
+
+        To change file context to context specified as argument to command, use chcon
+
+            Often use -t to specify context type component only
+
+        As the preferred method, use restorecon
+
+            Does not explicitly specify context
+
+            Uses rules in SELinux policy to determine file’s context
+
+    Do not use chcon
+
+        Can make mistakes specifying context
+
+        File contexts revert to default context if file systems are relabeled at boot time
+
+[root@server1 ~]# mkdir /virtual
+[root@server1 ~]# ls -Zd /virtual
+
+Defining SELinux Default File Context Rules
+
+    To display or modify rules that restorecon uses to set default file contexts, use semanage fcontext
+
+    Uses extended regular expressions to specify path and file names.
+
+        (/.*)? most common extended regular expression
+
+            Means "optionally, match / followed by any number of characters"
+
+            Matches directory listed before expression and everything in directory recursively
+
+    restorecon part of policycoreutil package
+
+    semanage part of policycoreutil-python package
+
+    [root@server1 ~]# touch /tmp/file1 /tmp/file2
+
+[root@server1 ~]# restorecon -Rv /var/www/
+
+
+SELinux Booleans
+
+    SELinux Booleans: Switches that change behavior of SELinux policy
+
+        Can enable or disable rules
+
+        Use to tune policy to make selective adjustments
+
+    selinux-policy-devel package provides *_selinux(8) man pages
+
+        Explain purpose of Booleans available for various services
+
+        To list documents, use man -k '_selinux'
+
+Commands
+
+    To display SELinux Booleans, use getsebool
+
+    To modify Booleans, use setsebool
+
+    To make SELinux policy to modification persistent, use setsebool -P
+
+    To show whether Boolean is persistent, with description, use semanage boolean -l
+
+    [root@server1 ~]# getsebool -a
+    abrt_anon_write --> off
+    abrt_handle_event --> off
+    abrt_upload_watch_anon_write --> on
+    antivirus_can_scan_system --> off
+    antivirus_use_jit --> off
+    ...
+    [root@server1 ~]# getsebool httpd_enable_homedirs
+    httpd_enable_homedirs --> off
+    [root@server1 ~]# setsebool httpd_enable_homedirs on
+    [root@server1 ~]# semanage boolean -l | grep httpd_enable_homedirs
+    httpd_enable_homedirs          (on   ,  off)  Allow httpd to enable homedirs
+    [root@server1 ~]# getsebool httpd_enable_homedirs
+    httpd_enable_homedirs --> on
+    [root@server1 ~]# setsebool -P httpd_enable_homedirs on
+    [root@server1 ~]# semanage boolean -l | grep httpd_enable_homedirs
+    httpd_enable_homedirs          (on   ,   on)  Allow httpd to enable homedirs
+
+
+Use semanage boolean -l -C to list only local modifications to SELinux Booleans:
+
+[root@server1 ~]# semanage boolean -l -C
+
+For more info on SELinux Booleans, see these man pages: booleans(8), getsebool(8), setsebool(8), semanage(8), semanage-boolean(8).
+
+
+Troubleshooting SELinux Issues
+
+    SELinux may be doing its job correctly.
+
+    Most common issue: Incorrect file context
+
+        Can occur when file created in location with one file context is moved to place expecting different context is expected
+
+        Can usually run restorecon to correct issue
+
+    Another possible remedy: Adjustment of a Boolean
+
+        For example, need to turn on ftpd_anon_write Boolean to allow anonymous FTP users to upload files to server
+
+    SELinux policy may have bug that prevents legitimate access
+
+        Rare occurrence
+
+        Contact Red Hat support to report bug
+
+Monitoring SELinux Violations
+
+    Must install setroubleshoot-server package to send SELinux messages to /var/log/messages
+
+    setroubleshoot-server
+
+        Listens for audit messages in /var/log/audit/audit.log
+
+        Sends summary to /var/log/messages
+
+    Summary includes unique identifiers (UUIDs) for SELinux violations
+
+        To produce report for specific incident, use sealert -l UUID
+
+        To produce reports for all incidents in file, use sealert -a /var/log/audit/audit.log
+
+
+Monitoring SELinux Violations
+Sample Command Sequence
+
+[root@server1 ~]# touch /root/file3
+[root@server1 ~]# mv /root/file3 /var/www/html
+[root@server1 ~]# systemctl start httpd
+[root@server1 ~]# curl http://localhost/file3
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<html><head>
+<title>403 Forbidden</title>
+</head><body>
+<h1>Forbidden</h1>
+<p>You don't have permission to access /file3
+on this server.</p>
+</body></html>
+
+Monitoring SELinux Violations
+Viewing Log Files
+
+    Contents of file3 are expected
+
+    Web server returns permission denied error
+
+    Inspect /var/log/audit/audit.log and /var/log/messages for information about error:
+
+    [root@server1 ~]# tail /var/log/audit/audit.log
+
+Monitoring SELinux Violations
+sealert
+
+[root@server1 ~]# sealert -l 613ca624-248d-48a2-a7d9-d28f5bbe2763
+
+

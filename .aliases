@@ -78,6 +78,7 @@ alias sshmacs='ssh -Q mac'
 
 alias rafiki='ssh -X josepy@rafiki'
 alias cdr='cd /srv/http/rafikihost'
+alias site='cd ~/mysites/jmutai.com/'
 
 
 alias sleep='sudo  /lib/systemd/systemd-sleep hybrid-sleep'
@@ -95,5 +96,4 @@ alias ypa="youtube-dl  --write-auto-sub --ignore-errors --no-overwrites --embed-
     -o '%(playlist)s/%(title)s.%(ext)s'"
 alias yv="youtube-dl  --write-auto-sub --ignore-errors --no-overwrites --embed-subs -f 22 -o  '%(title)s.%(ext)s'"
 
-alias mt="mycp ~/mygit/dotfiles/cheat-sheets/hugo/front-matter.txt"
 alias apache='sudo systemctl restart  httpd.service'

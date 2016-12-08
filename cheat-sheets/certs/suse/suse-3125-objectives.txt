@@ -1,0 +1,73 @@
+Course 3125
+
+SUSE Linux Enterprise Server 12 Advanced Administration
+
+Key Objectives
+The goal of this course is to enable the SLES 12 administrator to
+
+Use the Shell efficiently and create Shell scripts
+Configure IPv6 and manage specialized network configuration setups
+Manage Storage
+Manage Processes, the boot process, and Systemd
+Configure common network services
+Establish server health and troubleshoot problems
+
+Course Outline
+
+
+1. Identity and Security
+
+Delegation of Privilege (sudo/polkit)
+ACLs
+AppArmor
+
+
+2. Advanced Network Configuration
+
+Bonding
+VLAN
+IPv6
+
+
+3. Manage Storage
+
+iSCSI
+MPIO
+
+
+4. Monitoring and Troubleshooting
+
+Configure System Logging
+Backup/Recovery, Snapper
+Establish Server Health
+Troubleshooting
+
+
+5. Advanced System Administration
+
+Configure systemd
+Understand AutoYaST
+
+
+6. Network Services
+
+SSH
+xinetd
+NFSv4
+Apache2
+Samba 4
+
+7. Shell Scripting
+
+Elements of Shell Scripts
+Control Structures
+Interactive Scripts
+Course Prerequisites
+Before attending this course, it is highly recommended that students have a good working knowledge of Linux and should be able to:
+
+Perform partitioning and file system setup and maintenance
+Perform system configuration including network setup and user management
+Manage software packages
+Work on the command line including file management and text editing
+
+
