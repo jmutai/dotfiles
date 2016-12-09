@@ -64,6 +64,7 @@ alias pacfix='sudo rm -f /var/lib/pacman/db.lck'
 alias dockvim='vim ~/mygit/dotfiles/.docker_functions'
 
 # system
+alias failed='systemctl --failed --type=service'
 alias ls='ls --color=auto'
 alias dir='dir --color=auto'
 alias vdir='vdir --color=auto'

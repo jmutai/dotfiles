@@ -1,1 +1,913 @@
-#
+Service Management and Boot Troubleshooting
+
+Module Topics
+
+    Introduction to systemd
+
+    Service States
+
+    Listing Unit Files With systemctl
+
+    Controlling System Services
+
+    Summary of systemctl Commands
+
+    Red Hat Enterprise Linux Boot Process
+
+    Boot, Reboot, and Shut Down
+
+    Selecting a systemd Target
+
+    Recovering the Root Password
+
+    Using journalctl
+
+    Diagnose and Repair systemd Boot Issues
+
+    Repairing File System Issues at Boot
+
+
+Introduction to systemd
+
+    systemd System and Service Manager System: Manages startup and server processes
+
+        Provides method for activating system resources, server daemons, other processes
+
+    Daemons: Processes that wait or run in background performing various tasks
+
+        Typically start automatically at boot time and continue to run until shutdown or until manually stopped
+
+        Names generally end in d
+
+    Socket: Used by daemon to listen for connections
+
+        Primary communication channel with local or remote clients
+
+        May be created by daemons or separated from daemon and created by another process
+
+        Passed to daemon when client established connection
+
+    Service: Often refers to one or more daemons
+
+        Starting/stopping service may instead make one-time change to system state
+
+        Does not involve leaving daemon process running afterward
+
+        Called oneshot
+
+
+A Bit of init History
+
+    init process has been process ID 1 of Linux and UNIX systems for many years
+
+        Responsible for activating other system services
+
+        Origin of term init system
+
+    System V and LSB init scripts started frequently used daemons on systems at boot time
+
+        Shell scripts
+
+        May vary from one distribution to another
+
+    Other services such as initd or xinetd started less frequently used daemons on demand
+
+        Listen for client connections
+
+        Have several limitations that systemd addresses
+
+    systemd, new init system, is process ID 1 in Red Hat Enterprise Linux 7
+
+    Features include:
+
+        Parallelization capabilities
+
+        On-demand starting of daemons
+
+        Automatic service dependency management
+
+        Method of tracking related processes together
+
+    systemd uses shell-based service scripts for few legacy services only
+
+        Configuration files with shell variables being replaced
+
+        Those still in use included as systemd environment files and read as NAME=VALUE pairs
+
+        No longer sourced as shell script
+
+systemctl and systemd Units
+
+    To manage different types of systemd objects (units), use systemctl
+
+    To display list of available unit types, use systemctl -t help
+
+        systemctl may abbreviate unit names, process tree entries, and unit descriptions unless run with -l
+
+    Common unit types:
+
+
+
+
+Unit Type
+Extension
+Description
+
+Service
+
+.service
+    
+    Represent system services
+
+    Use to start frequently accessed daemons, such as web server
+
+Socket
+    
+
+.socket
+    
+
+    Represent inter-process communication (IPC) sockets
+
+    Control of socket passed to daemon or newly started service when client connection made
+
+    Use to delay service start at boot time and start less frequently used services on demand
+
+    Similar to services that use xinetd superserver to start on demand
+
+Path
+
+.path
+    
+
+    Use to delay service activation until specific file system change occurs
+
+    Commonly use for services which that spool directories, such as printing system
+
+Service States
+
+    To view service status, use systemctl status name.type
+
+    If you do not provide unit type, systemctl shows status of service unit
+
+    [root@server1 ~]# systemctl status sshd.service
+
+Keywords
+
+    Output includes keywords indicating service state
+
+    
+
+
+loaded
+Unit configuration file processed
+
+
+active (running)
+Running with one or more continuing processes
+
+active (exited)
+Successfully completed one-time configuration
+
+active (waiting)
+Running but waiting for event
+
+inactive
+Not running
+
+enabled
+Will start at boot time
+
+disabled
+Will not start at boot time
+
+static
+Cannot be enabled, but may be started by enabled unit automatically
+
+    systemctl status NAME replaces service NAME status used in previous versions of Red Hat Enterprise Linux
+
+Listing Unit Files With systemctl
+
+    Query state of all units to verify system startup:
+
+    [root@server1~]# systemctl
+
+    Query service unit state only:
+
+    [root@server1~]# systemctl --type=service
+
+    Investigate any units in failed or maintenance state:
+
+        Optionally, add -l to show full output
+
+        [root@server1~]# systemctl status rngd.service -l
+
+    Use alternate commands to show active and enabled states:
+
+    [root@server1~]# systemctl is-active sshd
+    [root@server1~]# systemctl is-enabled sshd
+
+    To list active state of all loaded units:
+
+        Optionally, limit unit type
+
+        To add inactive units, use --all
+
+        [root@server1~]# systemctl list-units --type=service
+        [root@server1~]# systemctl list-units --type=service --all
+
+    View enabled and disabled settings for all units:
+
+        Optionally, limit unit type
+
+        [root@server1~]# systemctl list-unit-files --type=service
+
+    View only failed services:
+
+    [root@server1~]# systemctl --failed --type=service
+For more information, see:
+
+    systemd(1), systemd.unit(5), systemd.service(5), systemd.socket(5), and systemctl(1) man pages
+
+    Red Hat Enterprise Linux System Administrator’s Guide, Managing Services with systemd chapter, at http://docs.redhat.com/
+
+Controlling System Services
+Starting and Stopping System Daemons on a Running System
+
+    Configuration file changes or service updates may require service restart
+
+    Can stop service no longer used may before removing software
+
+    Can manually start infrequently used service when needed
+
+    View service status:
+
+    [root@server1~]# systemctl status sshd.service
+
+    Verify that process is running:
+
+    [root@server1~]# ps -up PID
+
+    Stop service and verify status:
+
+    [root@server1~]# systemctl stop sshd.service
+    [root@server1~]# systemctl status sshd.service
+
+    Start service and view status:
+
+        Process ID changes
+
+        [root@server1~]# systemctl start sshd.service
+        [root@server1~]# systemctl status sshd.service
+
+    Stop and start service in single command:
+
+    [root@server1~]# systemctl restart sshd.service
+    [root@server1~]# systemctl status sshd.service
+
+    Read and reload configuration file without complete stop and start:
+
+        Process ID does not change
+
+        [root@server1~]# systemctl reload sshd.service
+        [root@server1~]# systemctl status sshd.service
+Unit Dependencies
+
+    Can start services as dependencies of other services
+
+    If socket unit is enabled and service unit with same name is not, service starts automatically when request is made on network socket
+
+    Path units can trigger services when file system condition is met
+
+        Example: File placed into print spool directory starts cups print service:
+
+        [root@server1~]# systemctl stop cups.service
+        Warning:Stopping cups, but it can still be activated by:
+          cups.path
+          cups.socket
+
+    To completely stop system printing services, stop all three units
+
+    Disabling service disables dependencies
+
+    To print other units that must be started if specified unit is started, use systemctl list-dependencies UNIT
+
+        Other unit may need to be running before or after specified unit starts
+
+    To show units that depend on specified unit to run, use --reverse
+
+Masking Services
+
+    System may have conflicting services installed
+
+    Masking service prevents administrator from accidentally starting service
+
+        Creates link in configuration directories
+
+        If service is started, nothing happens
+
+        [root@server1~]# systemctl mask network
+        ln -s '/dev/null' '/etc/systemd/system/network.service'
+        [root@server1~]# systemctl unmask network
+        rm '/etc/systemd/system/network.service'
+
+    Disabled service does not start automatically but can be started manually
+
+    Cannot start masked service manually or automatically
+Enabling System Daemons to Start or Stop at Boot
+
+    Starting service on running system does not guarantee service will start when system reboots
+
+    Stopping service on running system does not keep it from starting when system reboots
+
+    To start services at boot time, create links in systemd configuration directories
+
+        Create and remove links with systemctl commands
+    View service status:
+
+    [root@server1~]# systemctl status sshd.service
+
+    Disable service and verify status:
+
+        Disabling does not stop the service
+
+        [root@server1~]# systemctl disable sshd.service
+        [root@server1~]# systemctl status sshd.service
+
+    Enable service and verify status:
+
+    [root@server1~]# systemctl enable sshd.service
+    [root@server1~]# systemctl is-enabled sshd.service
+
+
+Summary of systemctl Commands
+View detailed information about unit state
+    
+
+systemctl status UNIT
+
+Stop service on running system
+    
+
+systemctl stop UNIT
+
+Start service on running system
+    
+
+systemctl start UNIT
+
+Restart service on running system
+    
+
+systemctl restart UNIT
+
+Reload configuration file of running service
+    
+
+systemctl reload UNIT
+
+Completely disable service from being started, both manually and at boot
+    
+
+systemctl mask UNIT
+
+Make masked service available
+    
+
+systemctl unmask UNIT
+
+Configure service to start at boot time
+    
+
+systemctl enable UNIT
+
+Disable service from starting at boot time
+    
+
+systemctl disable UNIT
+
+List units required and wanted by specified unit
+    
+
+systemctl list-dependencies UNIT
+
+For more information, see:
+
+    systemd(1), systemd.unit(5), systemd.service(5), systemd.socket(5), and systemctl(1) man pages
+
+    Red Hat Enterprise Linux System Administrator’s Guide, Managing Services with systemd chapter, at http://docs.redhat.com/
+
+
+
+Red Hat Enterprise Linux 7 Boot Process
+
+    Modern computer systems are complex combinations of hardware and software
+
+    Moving from powered-down state to running requires large number of pieces to work together
+
+    Following slides show tasks involved for physical x86_64 system booting Red Hat Enterprise Linux 7
+
+        List for x86_64 virtual machines roughly the same, but hypervisor in software handles some hardware-specific steps
+
+
+    Machine is powered on
+
+        System firmware (UEFI or BIOS) runs Power On Self Test (POST), starts hardware initialization
+
+        To configure, use system BIOS/UEFI configuration screens
+
+        Typically reach by pressing key combination during boot process
+
+    System firmware searches for bootable device:
+
+        UEFI: Configured in UEFI boot firmware
+
+        BIOS: By searching for Master Boot Record (MBR) on all disks, in order configured in BIOS
+
+        To configure, use system BIOS/UEFI configuration screens
+
+        Typically reach by pressing key combination during boot process
+
+    System firmware reads boot loader from disk, then passes system control to boot loader
+
+        Typically grub2 on Red Hat Enterprise Linux 7 system
+
+        To configure, use grub2-install
+
+    Boot loader loads configuration from disk and presents user with menu of possible boot configurations
+
+        To configure, use:
+
+            /etc/grub.d/
+
+            /etc/default/grub
+
+            /boot/grub2/grub.cfg (not manually)
+    After user choice or automatic timeout, boot loader loads configured kernel and initramfs and places them in memory
+
+        initramfs: gzip-ed cpio archive containing kernel modules for hardware necessary at boot, init scripts, more
+
+        Contains entire usable system on Red Hat Enterprise Linux 7
+
+        To configure, use /etc/dracut.conf
+
+    Boot loader gives kernel system control
+
+        Passes options specified on kernel command line in boot loader and location of initramfs
+
+        To configure, use:
+
+            /etc/grub.d/
+
+            /etc/default/grub
+
+            /boot/grub2/grub.cfg (not manually)
+    Kernel initializes hardware for which it can find driver in initramfs, then executes /sbin/init from initramfs as PID 1
+
+        On Red Hat Enterprise Linux 7, the initramfs contains:
+
+            Working copy of systemd as /sbin/init
+
+            udev daemon
+
+        To configure, use init=
+
+    systemd instance from initramfs executes units for initrd.target
+
+        Includes mounting root file system on /sysroot.
+
+        To configure, use /etc/fstab
+
+    Kernel root file system switched from initramfs root file system to system root file system previously mounted on /sysroot
+
+        systemd re-executes itself using copy of systemd installed on system
+
+    systemd looks for default target, then starts/stops units to comply with target configuration
+
+        Solves dependencies between units automatically
+
+        systemd target is set of units that should be activated to reach desired system state
+
+        Targets typically include text-based or graphical login
+
+        To configure, use:
+
+            /etc/systemd/system/default.target
+
+            /etc/systemd/system/
+
+
+Boot, Reboot, and Shut Down
+
+    To power off or reboot running system from command line, use systemctl
+
+        To stop all running services, unmount all file systems (or remount them read-only), and power down system, use systemctl poweroff
+
+        To stop all running services, unmount all file systems, and reboot system, use systemctl reboot
+
+    poweroff and reboot commands still exist
+
+        In Red Hat Enterprise Linux 7 they are symbolic links to systemctl
+
+    systemctl halt and halt can also stop system
+
+        Do not power off system
+
+        Bring system down to point where it is safe to manually power off
+
+
+Selecting a systemd Target
+
+    systemd target: Set of systemd units to start to reach desired state
+
+    Most important targets:
+
+raphical.target
+    
+
+System supports multiple users, graphical and text-based logins
+
+multi-user.target
+    
+
+System supports multiple users, text-based logins only
+
+rescue.target
+    
+
+sulogin prompt, basic system initialization completed
+
+emergency.target
+    
+
+sulogin prompt, initramfs pivot complete, system root mounted on / read-only
+
+
+Viewing Target Dependencies
+
+    Target can be part of another target
+
+        Example: graphical.target includes multi-user.target, which depends on basic.target and others
+
+    To view dependencies from command line:
+
+    [root@server1~]# systemctl list-dependencies graphical.target | grep target
+
+    To view all available targets:
+
+    [root@server1~]# systemctl list-units --type=target --all
+
+    To view all targets installed on disk:
+
+    [root@server1~]# systemctl list-unit-files --type=target --all
+
+Selecting a Target at Runtime
+
+    To switch to different target on running system, use systemctl isolate:
+
+    [root@server1~]# systemctl isolate multi-user.target
+
+    Isolating target:
+
+        Stops all services not required by target and dependencies
+
+        Starts any required services not yet started
+
+    Can isolate only targets that have AllowIsolate=yes set in unit files
+
+etting a Default Target
+
+    After system starts and control passes initramfs to systemd, systemd tries to activate default.target
+
+        default.target normally symbolic link to graphical.target or multi-user.target
+
+    systemctl tool includes two commands to manage link:
+
+        get-default
+
+        set-default
+
+        [root@server1~]# systemctl get-default
+        multi-user.target
+        [root@server1~]# systemctl set-default graphical.target
+        rm '/etc/systemd/system/default.target'
+        ln -s '/usr/lib/systemd/system/graphical.target' '/etc/systemd/system/default.target'
+        [root@server1~]# systemctl get-default
+        graphical.target
+    To select different target at boot time, append systemd.unit= to kernel command line from boot loader
+
+        Example: To boot system into rescue shell:
+
+        systemd.unit=rescue.target
+
+        Do this from interactive boot loader menu before starting
+
+    Configuration change affects single boot only
+
+        Useful tool for troubleshooting boot process
+
+Selecting a systemd Target
+
+    (Re)boot system
+
+    Interrupt boot loader menu countdown by pressing any key
+
+    Move cursor to entry to be started
+
+    To edit current entry, press e
+
+    Move cursor to line starting with linux16
+
+        This is kernel command line
+
+    Append systemd.unit=desired.target
+
+    Press Ctrl+x to boot with changes
+
+For more information on the Red Hat Enterprise Linux boot process, see:
+
+    bootup(7), dracut.bootup(7), systemd.target(5), systemd.special(7), sulogin(8), and systemctl(1) man pages
+
+    GNU GRUB Manual, info grub2
+
+
+Recovering the Root Password
+
+    Important to be able to recover root password
+
+    If logged in (as unprivileged user with full sudo access or as root), task is trivial
+
+    If not logged in, task is more involved
+
+    Number of methods to set new root password:
+
+        Example:
+
+            Boot system using live CD
+
+            Mount root file system
+
+            Edit /etc/shadow
+
+    Method described here does not require external media
+
+    Can have scripts run from initramfs pause, provide root shell, and continue when shell exits
+
+    Used mostly for debugging
+
+    Can use to recover lost root password:
+
+        Reboot system
+
+        Interrupt boot loader countdown by pressing any key
+
+        Move cursor to entry needing to be booted
+
+        To edit selected entry, press e
+
+        Move cursor to kernel command line
+
+            Line starts with linux16
+
+        Append systemd.unit=rescue.target
+
+            This breaks just before initramfs hands control to actual system
+
+            initramfs prompt appears on console specified last on kernel command line
+
+        To boot with changes, press Ctrl+x
+
+console= Arguments
+
+    Prebuilt images may place multiple console= arguments to kernel to support implementation scenarios
+
+    Caveat with systemd.unit=rescue.target:
+
+        Many kernel messages will be sent to all consoles
+
+        Prompt ultimately uses whichever console is last
+
+    If you do not get prompt, may want to temporarily reorder console= arguments
+
+
+Recovering Password Without SELinux Context
+
+    root shell is presented with root file system for actual system mounted read-only on /sysroot
+
+    SELinux not enabled at this point
+
+    Any new files created do not have SELinux context assigned
+
+    Tools such as passwd first create file, then move it in place of file they intend to edit
+
+        Effectively creates new file without SELinux context
+
+    Remount /sysroot as read-write:
+
+    switch_root:# mount -oremount,rw /sysroot
+
+    Switch into chroot jail, where /sysroot is treated as root of file system tree:
+
+    switch_root:# chroot /sysroot
+
+    Set new root password:
+
+    sh-4.2# passwd root
+
+    Make sure all unlabeled files get relabeled during boot:
+
+    sh-4.2# touch /.autorelabel
+
+    Type exit twice:
+
+        First exits chroot jail
+
+        Second exits initramfs debug shell
+
+            System continues booting, performs full SELinux relabel, and reboots
+
+    Can be useful to look at previous (failed) boot logs
+
+    If journald log is persistent, can use journalctl to look at logs
+
+    To make sure persistent journald logging is enabled:
+
+    [root@server1~]# mkdir -p -m2775 /var/log/journal
+    [root@server1~]# chown :ystemd-journal /var/log/journal
+    [root@server1~]# killall -USR1 systemd-journald
+
+    To inspect log files for previous boot, use -b option to journalctl
+
+        Without arguments, -b filters output to messages pertaining to this boot
+
+        With negative number as argument, `b filters on previous boots
+
+        [root@server1~]# journalctl -b-1 -p err
+
+        Shows all messages rated as error or worse from previous boot
+
+
+Diagnose and Repair systemd Boot Issues
+Early Debug Shell
+
+    Running systemctl enable debug-shell.service spawns root shell on TTY9 early during boot sequence
+
+        Shell automatically logged in as root
+
+        Can use other debugging tools while system is still booting
+
+    Remember to disable debug-shell.service service when done debugging
+
+        Leaves unauthenticated root shell open to anyone with local console access
+
+Emergency and Rescue Targets
+
+    Appending systemd.unit=rescue.target or systemd.unit=emergency.target to kernel command line from boot loader spawns system into special rescue or emergency shell
+
+        Shells require root password
+
+        emergency target keeps root file system mounted read-only
+
+        rescue.target waits for sysinit.target to complete first so more of system will be initialized
+
+    Can use shells to fix issues that prevent system from booting normally
+
+        Examples: Dependency loop between services, incorrect entry in /etc/fstab
+
+    Exiting from shells continues regular boot process
+
+
+Stuck Jobs
+
+    During startup, systemd spawns number of jobs
+
+    If some cannot complete, they block other jobs from running
+
+    To inspect current job list, use systemctl list-jobs
+
+    Any running jobs must complete before waiting jobs can continue
+
+    
+
+For more information on repairing common boot issues, see:
+
+    dracut.cmdline(7), systemd-journald(8), journalctl(1), sushell(8), and systemctl(1) man pages
+
+    /usr/lib/systemd/system/debug-shell.service
+
+    /etc/fstab errors and corrupt file systems can stop system from booting
+
+    systemd generally continues to boot after timeout or drops to emergency repair shell that requires root password
+
+    Common errors and results:
+
+Corrupt file system
+    
+
+systemd attempts fsck. If problem is too serious for automatic fix, user is prompted to run fsck manually from emergency shell.
+
+Non-existent device/UUID referenced in /etc/fstab
+    
+
+systemd waits for set amount of time, waiting for device to become available. If device does not become available, user is dropped to emergency shell after timeout.
+
+Non-existent mount point in /etc/fstab
+    
+
+systemd creates mount point if possible; otherwise, drops to emergency shell.
+
+Incorrect mount option specified in /etc/fstab
+    
+
+User dropped to emergency shell.
+
+
+Repairing File System Issues at Boot
+
+    To diagnose and fix issue, can also use emergency.target
+
+        No file systems are mounted before emergency shell is displayed
+
+    When using automatic recovery shell during file system issues, remember to issue systemctl daemon-reload after editing /etc/fstab
+
+        Without reload, systemd continues using old version
+
+For more information on repairing file system issues at boot, see the following man pages: systemd-fsck(8), systemd-fstab-generator(3), and systemd.mount(5).
+
+
+Repairing Boot Loader Issues
+
+    grub2: Boot loader used by default on Red Hat Enterprise Linux 7
+
+        Second major version of GRand Unified Bootloader
+
+        Can use to boot on BIOS and UEFI systems
+
+        Supports booting almost any operating system that runs on modern hardware
+
+    /boot/grub2/grub.cfg: Main configuration file for grub2
+
+        Do not edit this file directly
+
+        Use grub2-mkconfig to generate configuration using set of different configuration files, and list of installed kernels.
+
+    grub2-mkconfig looks at /etc/default/grub for options such as default menu timeout and kernel command line
+
+    Then uses set of scripts in /etc/grub.d/ to generate configuration file
+
+Making Permanent Changes
+
+    To make permanent changes to boot loader configuration:
+
+        Edit configuration files listed previously
+
+        Then run:
+
+        [root@server1~]# grub2-mkconfig > /boot/grub2/grub.cfg
+
+    For major changes, can run command without redirection to inspect results first
+
+Important Directives
+
+    To troubleshoot broken grub2 configuration, need to understand /boot/grub2/grub.cfg syntax
+
+        Bootable entries encoded inside menuentry blocks
+
+        In blocks, linux16 and initrd16 lines point to:
+
+            Kernel to load from disk
+
+            Kernel command line
+
+            initramfs to load
+
+        During interactive editing at boot, can use Tab completion to find files
+
+        set root lines do not point to root file system for Red Hat Enterprise Linux 7
+
+            Instead point to file system from which grub2 should load kernel and initramfs files
+
+        Syntax is harddrive,partition, where:
+
+            hd0 is first hard drive in system, hd1 second, etc.
+
+            Partitions indicated as msdos1 for first MBR partition or gpt1 for first GPT partition
+
+Reinstalling the Boot Loader
+
+    If boot loader becomes corrupted, use grub2-install to reinstall
+
+        BIOS: Provide disk where grub2 should be installed in MBR as argument
+
+        UEFI: No argument necessary if EFI system partition mounted on /boot/efi
+
+    
+
+For more information on repairing boot loader issues, see the following sections in the GNU GRUB Manual:
+
+    info grub2
+
+    info grub2-install
+
+    Chapter 28: "Invoking grub2-install"
+

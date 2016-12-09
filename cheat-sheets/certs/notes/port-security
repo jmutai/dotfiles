@@ -1,0 +1,431 @@
+Module Topics
+
+    Rich Rules
+
+    Masquerading and Port Forwarding
+
+    SELinux Port Labeling
+
+Rich Rules
+Direct Rules
+
+    Allow inserting hand-coded {ip,ip6,eb}tables rules into zones managed by firewalld
+
+    Powerful, expose netfilter kernel features, but can be hard to manage
+
+    Not as flexible as standard rules and rich rules
+
+    Unless explicitly inserted into zone managed by firewalld, direct rules are parsed before firewalld rules
+
+        Example: Add direct rules to blacklist an IP range
+
+        [root@server1 ~]# firewall-cmd --direct --permanent --add-chain ipv4 raw blacklist
+        [root@server1 ~]# firewall-cmd --direct --permanent --add-rule ipv4 raw PREROUTING 0 -s 192.168.0.0/24 -j blacklist
+        [root@server1 ~]# firewall-cmd --direct --permanent --add-rule ipv4 raw blacklist 0 -m limit --limit 1/min -j LOG --log-prefix "blacklisted "
+        [root@server1 ~]# firewall-cmd --direct --permanent --add-rule ipv4 raw blacklist 1 -j DROP
+
+    
+
+For more info, see the firewall-cmd(1) and firewalld.direct(5) man pages.
+
+Rich Rules
+
+    Way to express custom firewall rules not covered by basic firewalld syntax
+
+        Example: Allow connections to service only from single IP address instead of all IP addresses routed through zone
+
+    Use rich rules to configure:
+
+        Basic allow/deny rules
+
+        Logging to syslog and auditd
+
+        Port forwards, masquerading, and rate limiting
+
+    Basic rich rule syntax:
+
+    rule
+      [source]
+      [destination]
+      service|port|protocol|icmp-block|masquerade|forward-port
+      [log]
+      [audit]
+      [accept|reject|drop]
+
+    Most rule elements can take additional arguments in form option=value
+
+    For more info on rich rules syntax, see the firewalld.richlanguage(5) man page.
+
+Rule Ordering
+
+    Rule order impacts how firewall behaves
+
+    Basic order inside zone is same for all zones:
+
+        Port forwarding and masquerading rules
+
+        Logging rules
+
+        Deny rules
+
+        Allow rules
+
+    In all cases, first match wins
+
+    Packet not matched by rule is typically denied
+
+        Zones might have different default
+
+        Example: trusted zone accepts unmatched packets
+
+    After matching logging rule, packet is processed as normal
+
+Direct Rule Parsing
+
+    Direct rules are exception to "first match wins"
+
+    Most direct rules are parsed before other processing by firewalld
+
+    Direct rule syntax allows inserting any rule anywhere in any zone
+
+Testing and Debugging
+
+    Can add most rules to runtime configuration with timeout
+
+    When rule with timeout is added, timer starts countdown for rule
+
+    When timer reaches zero seconds, rule is removed from runtime configuration
+
+    Timeouts are useful on remote firewalls when testing complicated rule sets
+
+    If rule works, can add rule again
+
+        Add with --permanent or no timeout
+
+    If rule does not work, rule is removed automatically
+
+    To add timeout to runtime rule, add --timeout=<TIMEINSECONDS> to end of firewall-cmd that enables rule
+
+Working With Rich Rules
+
+    Can use firewall-cmd options with --permanent and --zone=<ZONE>
+
+
+--add-rich-rule='<RULE>'
+    
+
+Adds <RULE> to specified zone, or default zone if no zone specified.
+
+--remove-rich-rule='<RULE>'
+    
+
+Removes <RULE> to specified zone, or default zone if no zone specified.
+
+--query-rich-rule='<RULE>'
+    
+
+Queries if <RULE> was added to specified zone, or default zone if no zone specified. Returns 0 if rule is present; 1 otherwise.
+
+--list-rich-rules
+    
+
+Outputs all rich rules for specified zone, or default zone if no zone specified.
+
+Rich Rules Examples
+
+    Reject all traffic from IP address 192.168.0.11 in classroom zone
+
+    [root@server1 ~]# firewall-cmd --permanent --zone=classroom --add-rich-rule='rule family=ipv4 source address=192.168.0.11/32 reject'
+
+        When using source or destination with address option, set family= option of rule to either ipv4 or ipv6
+
+    Allow 2 new connections to ftp per minute in default zone
+
+    [root@server1 ~]# firewall-cmd --add-rich-rule='rule service name=ftp limit value=2/m accept'
+
+        Change made in runtime configuration only
+
+    Drop all incoming IPsec esp protocol packets from anywhere in default zone
+
+    [root@server1 ~]# firewall-cmd --permanent --add-rich-rule='rule protocol value=esp drop'
+
+    Accept all TCP packets on ports 7900, up to and including port 7905, in vnc zone for 192.168.1.0/24 subnet
+
+    [root@server1 ~]# firewall-cmd --permanent --zone=vnc --add-rich-rule='rule family=ipv4 source address=192.168.1.0/24 port port=7900-7905 protocol=tcp accept'
+
+Logging With Rich Rules
+
+    When debugging or monitoring firewall, use log of accepted and rejected connections
+
+    firewalld can log to syslog or send messages to kernel audit subsystem, managed by auditd
+
+    In both cases, logs can be rate limited
+
+        Ensures log files do not fill too fast or use too much disk space
+
+    Basic rich rule syntax for logging to syslog:
+
+    log [prefix="<PREFIX TEXT>" [level=<LOGLEVEL>] [limit value="<RATE/DURATION>"]
+
+        <LOGLEVEL> is emerg, alert, crit, error, warning, notice, info, or debug
+
+        <DURATION> can be s for seconds, m for minutes, h for hours, or d for days
+
+    Example: Limit log messages to maximum of 3 per minute:
+
+    limit value=3/m
+
+    Basic syntax for logging to audit subsystem:
+
+    audit [limit value="<RATE/DURATION>"]
+
+    Rate limiting is configured same as syslog logging
+
+        Example: Accept new connections to ssh from work zone, log new connections to syslog at notice level, with maximum of 3 message per minute
+
+        [root@server1 ~]# firewall-cmd --permanent --zone=work --add-rich-rule='rule service name="ssh" log prefix="ssh " level="notice" limit value="3/m" accept
+
+        Example: Reject new IPv6 connections to DNS from subnet 2001:db8::/64 in default zone for next 5 minutes, log rejected connections to audit system with maximum of 1 message per hour
+
+        [root@server1 ~]# firewall-cmd --add-rich-rule='rule family=ipv6 source address="2001:db8::/64" service name="dns" audit limit value="1/h" reject' --timeout=300
+
+For more info, see these man pages: firewalld.richlanguage(5), firewall-cmd(1), and firewalld.direct(5).
+
+Masquerading and Port Forwarding
+Network Address Translation
+
+    firewalld supports two types of Network Address Translation (NAT):
+
+        Masquerading
+
+        Port forwarding
+
+    Use regular firewall-cmd rules for basic configuration
+
+    Use rich rules for advanced forwarding configuration
+
+    Both forms of NAT modify packet before sending it on
+
+        Example: Change source or destination
+
+Masquerading
+
+    System forwards packets not addressed to itself to recipient **Changes source address of packets to its own public IP address
+
+    When answers to packets come in, firewall modifies destination address to address of original host and sends the packet on
+
+    Used on edge of network to provide Internet access to internal network
+
+    Masquerading is form of NAT
+
+    Masquerading can be used only with IPv4, not IPv6.
+
+
+Masquerading and Port Forwarding
+
+How Masquerading Works
+
+    Machine behind firewall sends packet to address outside of local network.
+
+    Because destination address is not on local subnet, packet is routed to default gateway on source machine.
+
+    Firewall accepts packet, changes source address to external IP for firewall, stores reference to connection in connection state table, and then passes packet to router on Internet, based on routing table.
+
+How Masquerading Works
+
+    Machine behind firewall sends packet to address outside of local network.
+
+    Because destination address is not on local subnet, packet is routed to default gateway on source machine.
+
+    Firewall accepts packet, changes source address to external IP for firewall, stores reference to connection in connection state table, and then passes packet to router on Internet, based on routing table.
+
+    Answer to packet comes back from Internet. Router looks up connection in connection state table, then changes destination address to original sender, and passes packet on.
+
+    Original sender receives answer to request.
+
+Configuring Masquerading
+
+    To configure zone masquerading, use this firewall-cmd syntax:
+
+    [root@server1 ~]# firewall-cmd --permanent --zone=<ZONE> --add-masquerade
+
+        Masquerades packets not addressed to firewall itself
+
+            Packets sent to firewall from clients defined in sources for zone (both interfaces and subnets)
+
+    To gain more control over which clients are masqueraded, use rich rule:
+
+    [root@server1 ~]# firewall-cmd --permanent --zone=<ZONE> --add-rich-rule='rule family=ipv4 source address=192.168.0.0/24 masquerade'
+
+Port Forwarding
+
+    Forwards traffic to single port
+
+        Either different port on same machine or port on different machine
+
+    Used to hide server behind another machine
+
+    Used to provide access to service on alternate port
+
+    When configured to forward packets to a different machine, replies from other machine are sent directly to original client
+
+        Results in invalid connection on most configurations
+
+        Machine that is forwarded to must be masqueraded through firewall that performed port forwarding
+
+        Common configuration is to forward port from firewall machine to machine already masqueraded behind firewall
+
+
+Port Forwarding Example
+
+    Assumptions:
+
+        Machine with IP address 10.0.0.100 behind firewall is running web server on port 8080/TCP
+
+        Firewall is configured to forward traffic coming in on port 80/TCP on its external interface to port 8080/TCP on that machine
+
+    Process:
+
+        Client from Internet sends packet to port 80/TCP on external interface of firewall.
+
+        Firewall changes destination address and port of packet to 10.0.0.100 and 8080/TCP and forwards it.
+
+            Source address and port remain unchanged.
+
+        Machine behind firewall sends response to this packet.
+
+            Because machine is masqueraded (and firewall is configured as default gateway), packet is sent to original client
+
+            Appears to come from external interface on firewall
+
+
+Configuring Port Forwarding
+
+    To configure port forwarding with regular firewall-cmd commands:
+
+    [root@server1 ~]# firewall-cmd --permanent --zone=<ZONE> --add-forward-port=port=<PORTNUMBER>:proto=<PROTOCOL>[:toport=<PORTNUMBER>][:toaddr=<IPADDR>]
+
+        Both toport= and toaddr= are optional, but at least one must be specified
+
+        Example: To forward incoming connections on port 513/TCP on firewall to port 132/TCP on machine with IP address 192.168.0.254 for clients from public zone:
+
+        [root@server1 ~]# firewall-cmd --permanent --zone=public --add-forward-port=port=513:proto=tcp:toport=132:toaddr=192.168.0.254
+
+    To gain more control over port forwarding rules, use rich rules:
+
+    forward-port port=<PORTNUM> protocol=tcp|udp [to-port=<PORTNUM>] [to-addr=<ADDRESS>]
+
+        Example: To forward traffic from 192.168.0.0/26 in work zone to port 80/TCP to port 8080/TCP on firewall:
+
+        [root@server1 ~]# firewall-cmd --permanent --zone=work --add-rich-rule='rule family=ipv4 source address=192.168.0.0/26 forward-port port=80 protocol=tcp to-port=8080'
+
+    For more info, see the firewalld.richlanguage(5) and firewall-cmd(1) man pages.
+
+SELinux Port Labeling
+SELinux Port Labeling
+
+    SELinux does more than file and process labeling
+
+    SELinux policy enforces network traffic
+
+    SELinux labels network ports to control network traffic
+
+        Example: In targeted policy, port 22/TCP has label ssh_port_t
+
+    Whenever process wants to listen on port:
+
+        SELinux checks if label associated with process (domain) is allowed to bind port label
+
+        Can stop rogue service from taking over ports used by legitimate network services
+
+SELinux Port Labeling
+Managing SELinux Port Labeling
+
+    When admin rusn service on non-standard port, SELinux port labels typically need to be updated
+
+    targeted policy may have already labeled port with type that can be used
+
+        Example: Port 8008/TCP is often used for web applications
+
+            Port is already labeled http_port_t
+
+            Default web server port type
+
+Listing Port Labels
+
+    To view current port label assignments, use semanage with port subcommand
+
+    To list all current assignments, use -l
+
+        Use form port_label_t tcp|udp comma,separated,list,of,ports
+
+        [root@server1 ~]# semanage port -l
+        ...
+        http_cache_port_t       tcp   8080, 8118, 8123, 10001-10010
+        http_cache_port_t       udp   3130
+        http_port_t             tcp   80, 81, 443, 488, 8008, 8009, 8443, 9000
+        ...
+
+    To view only local changes to policy, add -C
+
+    Port label can appear twice in output, once for TCP and once for UDP
+
+    Can also use system-config-selinux graphical tool
+
+        Part of policycoreutils-gui package
+
+Managing Port Labels
+
+    To assign new port labels, remove port labels, or modify existing ones, use semanage
+
+    Only local modifications can be removed or modified
+
+        To allow service to bind to port label normally associated with another service, you must write a small policy module
+
+        Cannot remove port label from policy without overriding policy module that provided that label
+
+    To add port to existing port label (type):
+
+    [root@server1 ~]# semanage port -a -t port_label -p tcp|udp PORTNUMBER
+
+        Example: To allow gopher service to listen on port 71/TCP:
+
+        [root@server1 ~]# semanage port -a -t gopher_port_t -p tcp 71
+
+targeted Policy
+
+    targeted policy ships with many port types
+
+    selinux-policy-devel package contains per-service documentation on SELinux types, Booleans, and port types in service-specific SELinux man pages
+
+    To install these man pages, if needed:
+
+    [root@server1 ~]# yum -y install selinux-policy-devel
+    [root@server1 ~]# mandb
+    [root@server1 ~]# man -k _selinux
+
+Removing Port Labels
+
+    Syntax to remove custom port label is same as to add
+
+        Use -a instead of -d
+
+        Example: To remove binding of port 71/TCP to gopher_port_t:
+
+        [root@server1 ~]# semanage port -d -t gopher_port_t -p tcp 71
+
+Modifying Port Bindings
+
+    Can modify port label if wrong type or requirements change
+
+    More efficient than removing old binding and adding new one
+
+    To make modifications, use -m
+
+        Example: To modify port 71/TCP from gopher_port_t to http_port_t:
+
+        [root@server1 ~]# semanage port -m -t http_port_t -p tcp 71
+
+For more info, see these man pages: semanage(8), semanage-port(8), *_selinux(8), and system-config-selinux(8).
+
+

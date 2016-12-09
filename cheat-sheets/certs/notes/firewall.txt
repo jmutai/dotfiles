@@ -1,0 +1,293 @@
+Firewall Configuration
+
+Module Topics
+
+    netfilter
+
+    firewalld
+
+    Predefined Zones
+
+    Predefined Services
+
+    Firewall Configuration Methods
+
+    firewall-config
+
+    firewall-cmd
+
+netfilter
+
+    Linux kernel includes netfilter subsystem
+
+    Allows kernel modules to inspect incoming, outgoing and forwarded packets
+
+    Can modify, drop, or reject packets in programmatic way before reaching user space components
+
+    Main building block for firewall on Red Hat Enterprise Linux 7
+
+    Other programs interact with netfilter, such as:
+
+        iptables
+
+        ip6tables for IPv6
+
+        ebtables for software bridges
+
+firewalld
+
+    New method of interacting with netfilter
+
+    System daemon can configure and monitor system firewall rules
+
+    Applications can request ports to be opened using DBus messaging system
+
+        Feature can be disabled or locked down
+
+    Covers IPv4, IPv6, and potentially ebtables settings
+
+    Install package part of basic install
+
+        Not part of minimal install
+
+    Classifies and diverts network traffic into zones
+
+        Zones have own firewall rules
+
+        Zones have own list of ports and services to be opened or closed
+
+    Can use NetworkManager for machines that regularly change networks
+    Customize zone rules for each connection
+
+    firewalld checks source address of every incoming packet
+
+        If source address is tied to specific zone, zone’s rules are parsed
+
+        If source address is not tied to zone, uses zone for incoming network interface
+
+            If network interface is not tied to a zone, uses default zone
+
+    Default zone is not separate zone
+
+        It is another zone specified as default
+
+        public zone is used by default
+
+        System admin can change default zone
+
+    Most zones permit traffic which matches specific ports/protocols ("631/udp") or predefined services ("ssh")
+
+        Non-matching traffic is rejected
+
+        Trusted zone is one exception
+
+            Permits all traffic by default
+
+trusted
+    
+
+Allow all incoming traffic.
+
+home
+    
+
+Reject incoming traffic unless related to outgoing traffic or matching the ssh, mdns, ipp-client, samba-client, or dhcpv6-client predefined services.
+
+internal
+    
+
+Reject incoming traffic unless related to outgoing traffic or matching the ssh, mdns, ipp-client, samba-client, or dhcpv6-client predefined services (same as the home zone to start with).
+
+work
+    
+
+Reject incoming traffic unless related to outgoing traffic or matching the ssh, ipp-client, or dhcpv6-client predefined services.
+
+public
+    
+
+Reject incoming traffic unless related to outgoing traffic or matching the ssh or dhcpv6-client predefined services. The default zone for newly-added network interfaces.
+
+external
+    
+
+Reject incoming traffic unless related to outgoing traffic or matching the ssh predefined service. Outgoing IPv4 traffic forwarded through this zone is masqueraded to look like it originated from the IPv4 address of the outgoing network interface.
+
+dmz
+    
+
+Reject incoming traffic unless related to outgoing traffic or matching the ssh predefined service.
+
+block
+    
+
+Reject all incoming traffic unless related to outgoing traffic.
+
+drop
+    
+
+Drop all incoming traffic unless related to outgoing traffic. Do not even respond with ICMP errors.
+
+
+Predefined Services
+
+ssh
+    
+
+Local SSH server. Traffic to 22/tcp.
+
+dhcpv6-client
+    
+
+Local DHCPv6 client. Traffic to 546/udp on the fe80::/64 IPv6 network.
+
+ipp-client
+    
+
+Local IPP printing. Traffic to 631/udp.
+
+samba-client
+    
+
+Local Windows file and print sharing client. Traffic to 137/udp and 138/udp.
+
+mdns
+    
+
+Multicast DNS (mDNS) local-link name resolution. Traffic to 5353/udp to the 224.0.0.251 (IPv4) or ff02::fb (IPv6) multicast addresses.
+    
+
+    To see a complete list of predefined services, use firewall-cmd --get-services
+
+    Configuration files that define which services are included in firewalld package are in /usr/lib/firewalld/services
+
+        Format defined by firewalld.zone(5)
+
+    System administrators new to firewalld should either:
+
+        Use predefined services
+
+        Explicitly specify port/protocol to permit
+
+    To review predefined services and define additional services, use firewall-config graphical tool
+
+
+Firewall Configuration Methods
+
+    Directly edit configuration files in /etc/firewalld/
+
+    Use graphical firewall-config tool
+
+    Use firewall-cmd from command line
+
+firewall-config
+
+    Graphical tool for altering and inspecting firewalld configuration
+
+        Supports running, in-memory configuration
+
+        Supports persistent, on-disk configuration
+
+    Install firewall-config tool from firewall-config package
+
+    Launch in two ways:
+
+        From command line as firewall-config
+
+        From Applications menu under Applications → Sundry → Firewall
+
+    Prompts unprivileged users for root password to continue
+
+firewall-cmd
+
+    Command-line client to interact with firewalld
+
+    Install with main firewalld package
+
+    Can perform same actions as firewall-config
+
+
+firewall-cmd
+
+--get-default-zone
+    
+
+Query the current default zone.
+
+--set-default-zone=<ZONE>
+    
+
+Set the default zone. This changes both the runtime and the permanent configuration.
+
+--get-zones
+    
+
+List all available zones.
+
+--get-active-zones
+    
+
+List all zones currently in use (have an interface or source tied to them), along with their interface and source information.
+
+--add-source=<CIDR> [--zone=<ZONE>]
+    
+
+Route all traffic coming from the IP address or network/netmask <CIDR> to the specified zone. If no --zone= option is provided, the default zone will be used.
+
+--remove-source=<CIDR> [--zone=<ZONE>]
+    
+
+Remove the rule routing all traffic coming from the IP address or network/netmask <CIDR> from the specified zone. If no --zone= option is provided, the default zone will be used.
+
+--add-interface=<INTERFACE> [--zone=<ZONE>]
+    
+
+Route all traffic coming from <INTERFACE> to the specified zone. If no --zone= option is provided, the default zone will be used.
+
+--change-interface=<INTERFACE> [--zone=<ZONE>]
+    
+
+Associate the interface with <ZONE> instead of its current zone. If no --zone= option is provided, the default zone will be used.
+
+--list-all [--zone=<ZONE>]
+    
+
+List all configured interfaces, sources, services, and ports for <ZONE>. If no --zone= option is provided, the default zone will be used.
+
+--list-all-zones
+    
+
+Retrieve all information for all zones. (Interfaces, sources, ports, services, etc.)
+
+--add-service=<SERVICE> [--zone=<ZONE>]
+    
+
+Allow traffic to <SERVICE>. If no --zone= option is provided, the default zone will be used.
+
+--add-port=<PORT/PROTOCOL> [--zone=<ZONE>]
+    
+
+Allow traffic to the <PORT/PROTOCOL> port(s). If no --zone= option is provided, the default zone will be used.
+
+--remove-service=<SERVICE> [--zone=<ZONE>]
+    
+
+Remove <SERVICE> from the allowed list for the zone. If no --zone= option is provided, the default zone will be used.
+
+--remove-port=<PORT/PROTOCOL> [--zone=<ZONE>]
+    
+
+Remove the <PORT/PROTOCOL> port(s) from the allowed list for the zone. If no --zone= option is provided, the default zone will be used.
+
+--reload
+    
+
+Drop the runtime configuration and apply the persistent configuration.
+
+root@server1 ~]# firewall-cmd --set-default-zone=dmz
+[root@server1 ~]# firewall-cmd --permanent --zone=internal --add-source=192.168.0.0/24
+[root@server1 ~]# firewall-cmd --permanent --zone=internal --add-service=mysql
+[root@server1 ~]# firewall-cmd --reload
+
+
+

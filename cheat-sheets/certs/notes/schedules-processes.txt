@@ -1,0 +1,218 @@
+Module Topics
+
+    System cron Jobs
+
+    Managing Temporary Files With systemd-tmpfiles
+
+System cron Jobs
+
+    Not defined using crontab
+
+    Configured in a set of configuration files
+
+    Configuration files have extra field between Day-of-Week and Command fields
+
+        Specifies user under which to run job
+
+etc/crontab has useful syntax diagram in comments:
+
+ # For details see man 4 crontabs
+
+# Example of job definition:
+# .---------------- minute (0 - 59)
+# |  .------------- hour (0 - 23)
+# |  |  .---------- day of month (1 - 31)
+# |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...
+# |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
+# |  |  |  |  |
+# *  *  *  *  * user-name  command to be executed
+
+    System cron jobs defined in:
+
+        /etc/crontab
+
+        /etc/cron.d/*
+
+    Packages that install cron jobs should place file in /etc/cron.d/
+
+        Admins can use this location to:
+
+            Group related jobs in single file
+
+            Push jobs using configuration management system
+
+Predefined Jobs
+
+    Run every hour, day, week, and month
+
+    Execute all scripts placed in /etc/cron.hourly/, /etc/cron.daily/, /etc/cron.weekly/, and /etc/cron.monthly/
+
+        Directories must contain scripts not cron configuration files
+
+    Hourly scripts execute using run-parts from job defined in /etc/cron.d/0hourly
+
+    Daily, weekly, and monthly jobs execute using run-parts from /etc/anacrontab configuration file
+
+        File parsed by regular crond daemon
+
+        Ensures important jobs always run
+
+Syntax of /etc/anacrontab
+
+    Different from other cron configuration files
+
+    Contains four fields per line:
+
+Delay in minutes
+    
+
+Amount of time cron daemon should wait before starting job
+
+Job identifier
+    
+
+    Name of file in /var/spool/anacron/ that checks if job has run
+
+    Updates timestamp on file when cron starts job from /etc/anacrontab
+
+    Uses timestamp to check when job was last run
+
+Command  Command to execute
+
+For more info on system cron jobs, see these man pages: crond(8), crontab(1), and crontab(5), anacron(8), and anacrontab(5).
+
+
+Managing Temporary Files With systemd-tmpfiles
+
+    Modern systems require temporary files and directories, such as:
+
+        Highly user-visible /tmp
+
+        Task-specific daemons
+
+        User-specific volatile directories /run
+
+            Volatile directory exists only in memory
+
+            Content disappears after system reboots or loses power
+
+    Temporary directories and files must be created when they do not exist
+
+        Daemons and scripts rely on their presence
+
+    Old files must also be purged
+
+        Take up space
+
+        Might provide faulty information
+
+    Historically:
+
+        RPM packages and SystemV init-scripts created directories
+
+        tmpwatch removed old, unused files
+
+    Red Hat Enterprise Linux 7:
+
+        systemd-tmpfiles provides structured and configurable method to manage temporary directories and files
+
+        When systemd starts system, systemd-tmpfiles-setup is one of first services launched
+
+            Runs systemd-tmpfiles --create --remove
+
+            Reads configuration files from /usr/lib/tmpfiles.d/*.conf, /run/tmpfiles.d/*.conf, and /etc/tmpfiles.d/*.conf
+
+            Removes files and directories marked for deletion in those configuration files
+
+            Creates files and directories marked for creation
+
+            Fixes permissions as specified
+
+Regular Cleaning
+
+    Use systemd timer unit to clean stale data in long-running systems
+
+        Calls systemd-tmpfiles --clean at regular interval
+
+        Special systemd service with [Timer] block
+
+            Indicates how often specified service should start
+
+            [Timer]
+            OnBootSec=15min
+            OnUnitActiveSec=1d
+
+    systemd-tmpfiles --clean parses same configuration files as systemd-tmpfiles --create
+
+        Purges files and directories versus creates
+
+        Linux files follow POSIX standard with three timestamps:
+
+            atime: Last time file accessed
+
+            mtime: Last time file modified
+
+            ctime: Last time file status changed
+
+        Files are considered unused if all three timestamps are older than systemd-tmpfiles maximum age
+
+    To see all three timestamps for a file, use stat
+
+    To display mtime, use ls -l
+
+systemd-tmpfiles configuration files
+
+    Configuration file format detailed in tmpfiles.d man page
+
+    Basic syntax consists of seven columns: Type, Path, Mode, UID, GID, Age, and Argument.
+
+        Type refers to action systemd-tmpfiles should take
+
+            Use d to create a directory if it does not yet exist
+
+            Use Z to recursively restore SELinux contexts and file permissions and ownership
+
+    A few examples:
+
+    d /run/systemd/seats 0755 root root -
+
+    D /home/student 0700 student student 1d
+
+    L /run/fstablink - root root - /etc/fstab
+
+
+Configuration File Precedence
+
+    Configuration files can live in three places:
+
+/etc/tmpfiles.d/*.conf
+    
+
+    Files meant for administrators to configure custom temporary locations
+
+    Can override vendor-provided defaults
+
+/run/tmpfiles.d/*.conf
+    
+
+    Files are volatile
+
+    Normally used by daemons to manage their own runtime temporary files
+
+/usr/lib/tmpfiles.d/*.conf
+    
+
+    Files provided by relevant RPM packages
+
+    Administrators should not edit these files
+
+    If file in /run/tmpfiles.d/ has same name as file in /usr/lib/tmpfiles.d/, then file in /run/tmpfiles.d/ is used
+
+    If file in etc/tmpfiles.d/ has same name as file in /run/tmpfiles.d/ or /usr/lib/tmpfiles.d/, then file in /etc/tmpfiles.d/ is used
+
+    To override vendor-provided settings, copy relevant file to /etc/tmpfiles.d/ and edit it
+
+    To apply commands from only one configuration file, specify name of configuration file on command line
+
+
+
