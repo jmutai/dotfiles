@@ -1,0 +1,607 @@
+Red Hat Satellite 6 FASTRAX
+
+Introduction
+
+Module Topics
+
+    Course Overview
+
+    Assumptions
+
+    Training Environment
+
+Course Overview
+
+    Overview of Red Hat® Satellite
+
+    Architecture
+
+    Transition from Red Hat Satellite 5 to Red Hat Satellite 6
+
+    Hands-on Satellite 6 demo lab
+
+
+Assumptions
+
+    You want to learn how to present and demo Red Hat Satellite 6.
+
+    You know how to use Red Hat Enterprise Linux®.
+
+    You can write some form of code.
+
+    You have your own computer.
+
+    You have an SSH client installed on your computer.
+
+Training Environment
+
+    The class uses a central cloud-based environment.
+
+    You provision the following two virtual machines:
+
+        Server – A Satellite 6.x server
+
+        Client – A Red Hat Enterprise Linux 6.5 minimal installation to be configured as a managed Satellite client
+
+    Red Hat Enterprise Linux is preinstalled upon deployment.
+
+    You will receive connection details via email after provisioning the environment.
+
+    Make sure you read the email and understand how to connect to your server and client.
+
+
+Overview
+Module Topics
+
+    Rising Cost of IT
+- Complexity and costs grows over time
+- Operational expenses account for over 50% of overall IT infra costs
+- More comnplexity = Higher operational costs
+
+    Cost of Complexity
+- Variety of OS and versions, h/w configs
+
+    Simplifed Infrastructure for Higher Efficiency
+
+- Standardized operating environment
+- Standard operationg process
+- Standard management toolset
+
+    Benefits of Standardized Operating Environment
+
+    Simplified infrastructure
+    Easier management and administration
+    Less downtime
+    Increased automation and efficiency
+    Higher productivity
+    Benefits of Simplicity
+
+    Standardizing on Red Hat Technologies
+
+    Red Hat Satellite Overview
+
+
+    Provisioning
+    Provision to bare-metal, private, and public clouds
+    Federate content delivery
+    Discover non-provisioned hosts
+
+
+    Configuration, Software, and Subscription Management
+    Define desired state of systems
+    Enforce compliance to configuration standards
+    Audit and report when changes are made
+
+Software Management
+
+    Define and manage standard operating environments
+    Respond quickly to security vulnerabilities (Heartbleed/ShellShock)
+    Deploy scalable and secure patching policies
+    Manage releases centrally
+
+
+Subscription Management
+
+    Centrally governed subscription usage
+    Accurate inventory and utilization information
+    Helps “buy-up, re-up, true-up”
+    Reporting
+
+    Define desired state of systems
+
+    Enforce compliance to configuration standards
+
+    Audit and report when changes are made
+
+    Red Hat Satellite Components
+
+    Red Hat Satellite 6 High-Level Topology
+
+
+
+Redhat satellite components
+
+Satellite server
+- Multi-tenant
+- On premise repository management
+- User and group role-based access control (RBAC)
+- Powerful user interfaces (GUI,API & CLI)
+- Advanced subscription management
+
+Satellite Capsule Server
+- Federated services
+- Automated provisioning
+- Discovery of new physical and virtual machines
+
+Smart Management
+- Required for each subscription managed via Satellite
+
+
+
+Architecture
+
+Module Topics
+
+    Red Hat Satellite Design Center
+
+    Macro Trends Driving New Solutions
+
+    What is Satellite 6?
+
+    Red Hat Satellite 5 Versus 6
+
+    What Comes in the Box?
+
+    Lifecycle Management
+
+    Modular Content View Deployment
+
+    Provisioning
+
+    Discovery
+
+    Subscription Management
+
+    Interfaces (GUI, CLI, API)
+
+    Transitioning to Satellite 6
+
+    Satellite 6 Releases to Date
+
+    What is New in Satellite 6.1?
+
+
+Red Hat Satellite Design Center
+
+    Tackles the most daunting tasks in Linux system management
+
+    10 years of experience with:
+
+        Managing and optimizing builds for Red Hat and custom content
+
+        Exercising the deployment lifecycle for applications and the operating system
+
+        Provisioning, configuring, and updating bare-metal, virtual, and cloud infrastructures
+
+Macro Trends Driving New Solutions
+
+    Datacenters are rapidly trending towards hyperscale
+
+    Hybrid clouds are making legacy approaches obsolete
+
+    DevOps models mandate agile deployment and configuration of application stacks
+
+    Complexity is increasing
+
+        Governance, security, and cost control remain important
+
+    Innovation has outpaced commercial solutions
+
+        Adds risk and complexity for IT
+
+
+What is Satellite 6?
+
+    New modern design, cutting-edge open source software
+
+    Designed for software lifecycle (SLC) management
+
+    Bare-metal, virtual machine, and cloud deployment
+
+    Key components built on mature open source projects
+
+Puppet: Configuration Management
+Provisioning: FOREMAN
+Pulp: Repository mgt
+Katello: Content/lifecycle mgt
+Candlepin: Subscription mgt
+
+
+Red Hat Satellite 5 Versus 6
+
+Satellite 5
+    Provision systems
+
+    Configuration management
+
+    Automated software distribution
+
+    Lifecycle management <1>
+
+    Drift reporting
+
+
+Satellite 6
+
+    Provision to bare metal, private, and public clouds
+
+    Declarative configuration management
+
+    Automated software distribution
+
+    Lifecycle management
+
+    Drift remediation
+
+    Simplified content management
+
+    Federated services and management
+
+    Red Hat subscription management
+
+    Localization
+
+Satellite 5 provided lifecycle management via channel-cloning.
+
+
+What Comes in the Box?
+Red Hat Satellite Server
+
+    Multi-tenant
+
+    On-premise repository management
+
+    User and group role-based access control (RBAC) with external directories
+
+    Powerful graphical user interface (GUI), command-line interface (CLI), and application programming interfaces (API)
+
+    Advanced subscription management
+
+What Else Comes in the Box?
+Red Hat Satellite Capsule Server
+
+    Federated services
+
+    Automated provisioning
+
+    Discovery of new physical and virtual machines
+
+    Everything except the user interface (UI is part of Satellite Server)
+
+Subscription Management
+
+    Subscription accounting (including virtualized)
+
+    End-to-end subscription consumption visibility
+
+    Built-in reporting engine
+
+GUI, API, CLI
+
+    Modern architecture
+
+    API-first
+
+    Enables advanced integration
+
+
+
+What is New in Satellite 6.1?
+
+    OpenSCAP
+
+    Customer Portal ISO downloads
+
+    Enhanced subscription reporting
+
+    Errata management
+
+    Capsule communication enhancements
+
+    Discovery policy engine
+
+    Advanced networking support
+
+    Docker image management
+
+
+Transition
+
+Module Topics
+
+    History of Satellite 5 and 6
+
+    Transitioning From Satellite 5 to 6
+
+    Things to Consider
+
+    Enabling Resources
+
+    Business Prerequisites
+
+    Transition Strategies
+
+    Export and Import Processes
+
+    Client Migration
+
+
+ 
+Red Hat Satellite 6 FASTRAX
+Transition
+
+Module Topics
+
+    History of Satellite 5 and 6
+
+    Transitioning From Satellite 5 to 6
+
+    Things to Consider
+
+    Enabling Resources
+
+    Business Prerequisites
+
+    Transition Strategies
+
+    Export and Import Processes
+
+    Client Migration
+
+Satellite 5
+
+    Available since 2002
+
+    2002 technologies
+
+    Limited flexibility given the changing IT landscape
+
+Satellite 6
+
+    General availability 2014
+
+    2014 technologies
+
+    Meets the needs of new computing models and technologies
+
+
+Transitioning From Satellite 5 to 6
+
+    Dramatic technology upgrades require detailed attention
+
+    Satellite 5 to 6 is more of a transition than a traditional upgrade
+
+        Stand up
+
+        Duplicate
+
+        Migrate
+
+        Decommission and archive
+
+    Customer sets upgrade pace: days, weeks, or months
+
+
+Things to Consider
+Architecture: Satellite Proxy Server and Satellite Capsule Server
+
+    Satellite Capsule Server does more than Satellite Proxy Server did.
+
+    Having one Satellite 5.x server and four Proxy servers does not mean that you should deploy one Satellite 6.x server and four Capsule servers.
+
+        Not a one-to-one correspondence between Proxy Servers and Capsule Servers
+
+        Installations may require more or fewer Capsule servers than Proxy servers
+
+
+Standard Operating Environment (SOE)
+
+    Is your SOE worth transitioning in full or in part?
+
+    Do you like the setup of your organizations, users, content, kickstarts, system groups, etc.?
+
+    Are there other aspects of your SOE you want to assess?
+
+
+Managed Systems
+
+    Can your systems be migrated to Satellite 6?
+
+        Red Hat Enterprise Linux 4 and below cannot be migrated.
+
+        Red Hat Enterprise Linux 5 must be upgraded to 5.7 or higher before migration.
+
+    Does your organization’s change management allow you to migrate all systems?
+
+        Will some systems "die on the vine"?
+
+
+Enabling Resources
+Documentation
+
+    Traditional documentation
+
+    Knowledgebase articles
+
+    Recommended practices
+
+People
+
+    Support and consulting services
+
+    Red Hat Training
+
+Tools
+
+    Duplicate operational objects and constructs with minimal errors
+
+    Automate repetitive and long-running processes
+
+
+Business Prerequisites
+
+    Visit https://access.redhat.com/products/red-hat-satellite and search for "Transitioning From Red Hat Satellite 5 to Version 6."
+
+    Request transition subscriptions to facilitate the migration.
+
+    After receiving the request, Red Hat:
+
+        Validates that the account has valid subscriptions.
+
+        Grants a Satellite and Capsule transition subscription for each valid Satellite and Proxy subscription.
+
+    Transition subscriptions expire in 1 year.
+
+    Free subscriptions are to be used only to transition.
+
+    Download the transition application: https://access.redhat.com/articles/1187643
+
+    Acquire a Satellite 6 manifest and put some subscriptions in the manifest.
+
+
+Passive Transition Strategy
+
+    Satellite 6 is treated as new technology, with little to no transition.
+
+    SOE models are similar to Satellite 5, but use Satellite 6 as an opportunity to rethink IT infrastructure models and processes.
+
+    Existing systems are left on Satellite 5 until they are retired because:
+
+        They are known to be good (if not broken, do not fix it)
+
+        They cannot be transitioned from Red Hat Enterprise Linux 4 or earlier
+
+    New systems are deployed on Satellite 6.
+
+    Timeline: Satellite 5 and Satellite 6 will coexist.
+
+
+Active Transition Strategy
+
+    Satellite 6 is an upgrade.
+
+        An attempt is made to transition SOEs and workloads as closely as possible.
+
+    Most, or all, systems move from Satellite 5 to Satellite 6.
+
+    The goal is a single new Satellite 6 implementation.
+
+    There are two SOE options:
+
+        If the Satellite 5 SOE is good, model the Satellite 6 on it and move systems to it.
+
+        If the Satellite 5 SOE is outdated, treat Satellite 6 as new technology, build a new SOE, and move only systems from Satellite 5 to 6.
+
+    Timeline: Satellite 5 exists only for the duration of the transition.
+
+Many customers combine the passive and active approaches
+
+
+Export Process
+
+[Satellite 5]
+
+# spacewalk-export
+
+
+Import Process
+
+    Organizations, including a manifest if one exists
+
+    Users
+
+    System groups as host collections
+
+    Custom channels and cloned channels as content views
+
+    Activation keys
+
+    Kickstart snippets as template snippets
+
+    Configuration files to Puppet modules
+
+    System profiles as content hosts
+
+    Repositories
+
+
+Order counts…
+
+    Import entities in this order:
+
+        Organizations
+
+        Subscriptions
+
+        Repositories
+
+    Use the hammer import all --dry-run command to list the available entities and the order in which they should be imported.
+
+
+[Satellite 6]
+
+# hammer shell
+hammer> import organization --csv-file /tmp/exports/users.csv --upload-manifests-from /root/manifests --verbose
+
+# hammer import repository-enable --csv-file /tmp/exports/channels.csv --synchronize
+
+
+Client Migration
+
+Prerequisites
+
+    Hammer import content-host command has completed (to migrate system profiles)
+
+    Profile transition RPM is created
+
+    The sat5to6 script exists on each client system
+
+sat5to6 script
+
+    Query its Satellite 5 parent for a consumer-id
+
+    Load appropriate PEM files onto the client machines
+
+    Register itself to a specified Satellite 6 instance, attaching to the content-host UUID
+
+    Manage the left-behind Satellite 5 profile:
+
+        keep - Leave the Satellite 5 profile alone
+
+        unentitle - Leave the profile but remove all subscriptions and entitlements (default)
+
+        purge - Delete the profile entirely
+
+
+[Satellite 6]
+
+# cd /tmp
+# tar xvzf spacewalk_export.tar.gz
+# cd /root
+# mkdir manifests
+# cd manifests
+# scp -r user@machine:/tmp/manifests .
+# hammer import all --manifest-directory /root/manifests --wait --synchronize --no-async
+...wait for reposync here...
+# rpmbuild -ba --define "_topdir /root/content-hosts" /root/content-hosts/SPECS/system-profile-transition-*.spec
+# scp /root/content-hosts/RPMS/noarch/system-profile-transition-*.rpm root@SAT-5.6:/tmp
+
+
+[Client]
+
+# yum install subscription-manager-migration
+# yum install https://SAT6/pub/katello-ca-consumer-latest.noarch.rpm
+# sat5to6 --registration-state unentitle  --legacy-user <SAT-56-org-admin> --legacy-password <SAT-5.6-org-admin-pwd> --destination-user <SAT6-admin-login> --destination-password <SAT6-admin-pwd>
+
+    The client tools are in the RHN Tools channels.
+

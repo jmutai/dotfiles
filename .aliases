@@ -80,6 +80,8 @@ alias sshmacs='ssh -Q mac'
 alias rafiki='ssh -X josepy@rafiki'
 alias cdr='cd /srv/http/rafikihost'
 alias site='cd ~/mysites/jmutai.com/'
+alias notes='cd ~/mygit/dotfiles/cheat-sheets/certs/notes/'
+alias virt='sudo mount /dev/sdb6 /home/josepy/Desktop/virt/'
 
 
 alias sleep='sudo  /lib/systemd/systemd-sleep hybrid-sleep'

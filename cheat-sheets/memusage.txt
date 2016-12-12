@@ -1,0 +1,12 @@
+$ free
+              total       used        free    shared    buffers    cached
+Mem:        4040360    4012200       28160         0     176628   3571348
+-/+ buffers/cache:      264224     3776136
+Swap:       4200956      12184     4188772
+$
+
+In this example the total amount of available memory is 4040360 KB. 264224 KB are used by processes and 3776136 KB are free for other applications. Do not get confused by the first line which shows that 28160KB are free! If you look at the usage figures you can see that most of the memory use is for buffers and cache. Linux always tries to use RAM to speed up disk operations by using available memory for buffers (file system metadata) and cache (pages with actual contents of files or block devices).
+
+ This helps the system to run faster because disk information is already in memory which saves I/O operations. If space is needed by programs or applications like Oracle, then Linux will free up the buffers and cache to yield memory for the applications. If your system runs for a while you will usually see a small number under the field "free" on the first line.
+
+

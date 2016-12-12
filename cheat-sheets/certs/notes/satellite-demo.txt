@@ -1,0 +1,796 @@
+Demo lab topics:
+
+    Server configuration
+
+    Client configuration
+
+    Satellite Server access
+
+    Organizations and locations
+
+    Repositories
+
+    Content synchronization
+
+    Environment management
+
+    Subscription management
+
+    Content management
+
+    Reports
+
+
+Manage Red Hat Repositories
+
+Red Hat content is a special citizen within Satellite 6, and its product repositories have their own section within the UI.
+
+    With the cursor, hover over Content, and then click Red Hat Repositories.
+
+    If not already selected click the RPMs tab.
+
+    Expand the Red Hat Enterprise Linux Server drop-down list and then expand Red Hat Enterprise Linux 7 Server (RPMs)
+        Under each entry, notice that the box is checked to subscribe the Satellite Server to these repositories. Do not check or uncheck anything.
+
+    Expand the Red Hat Satellite Tools 6.1 (for RHEL 7 Server) (RPMs). This channel provides the Satellite 6 client for Red Hat Enterprise Linux.
+
+    Click the Kickstarts tab.
+
+    Expand Red Hat Enterprise Linux Server then expand Red Hat Enterprise Linux 7 Server (Kickstart). You will see that the latest Kickstart channel is already synchronized.
+
+    Click the Other tab.
+
+    Expand Red Hat Software Collections for RHEL Server, and then expand Red Hat Software Collections RPMs for Red Hat Enterprise Linux 7 Server. Note that the Satellite Server is subscribed to this repository as well.
+
+
+Content Synchronization Status
+
+You can monitor synchronization status.
+
+    Hover over Content, and then click Sync Status.
+
+    Click Expand All.
+
+Here you can see that the synchronization was already completed for this environment.
+    This is a static demo. Please do not synchronize content in this environment.
+
+
+Satellite 6 Managed Hosts
+
+Moving forward, be sure to pay attention to which host the labs require you to run steps on.
+3.1. Log In to the Red Hat Enterprise Linux Client
+
+    From your workstation machine (not the Satellite Server), use SSH to connect to your client host at client.example.com as root.
+
+    [root@workstation-GUID ~]# ssh root@client.example.com
+
+        The password is r3dh4t1!
+
+
+Manage Subscriptions with Satellite
+
+    To get your subscription details:
+
+    # subscription-manager list --consumed
+
+
+
+Content Hosts
+
+Find the managed host in the Satellite web UI.
+
+    Make sure you are in the Default_Organization@Default_Location context in the upper-left corner.
+
+    Click Hosts → Content Hosts. You should see client.example.com listed.
+
+    Click the client system’s link.
+
+    In the Details tab under Environment select Library.
+
+    In the Content View pulldown select Default Organization View then click Save.
+        You have moved your client into a new content view with a different list of repositories, more on this later.
+
+
+    Click the Subscriptions → Subscriptions tab.
+        Under the Add tab, you can add additional subscriptions via the web UI.
+
+    Look around at the other tabs to familiarize yourself with the information provided.
+
+3.4. Manage the Client’s Repositories
+
+    On the client host, get a list of available repositories:
+
+    # subscription-manager repos
+
+
+Disable the rhel-7-server-satellite-tools-6.1-rpms repository:
+
+# subscription-manager repos --disable rhel-7-server-satellite-tools-6.1-rpms
+
+Get a list of repos with yum:
+
+# yum repolist
+
+Enable the rhel-7-server-satellite-tools-6.1-rpms repository:
+
+# subscription-manager repos --enable rhel-7-server-satellite-tools-6.1-rpms
+
+
+Get a list of repos with yum:
+
+# yum repolist
+
+
+Manage the Client’s Packages
+
+    Search for the xterm package to make sure it is available:
+
+    # yum search xterm
+
+
+As an example, install the xterm package:
+
+# yum -y install xterm
+
+Log in to the Satellite UI.
+
+Click Hosts → Content Hosts.
+
+Click the client system’s link.
+
+Click the Packages tab.
+
+In the Installed Packages section type gcc where the word Filter appears.
+
+You should only see one installed package named libgcc.
+
+In the Package Actions section, make sure the dropdown is set to Package Install.
+
+In the Package/Group Name text box enter gcc then click Perform.
+
+When the progress bar is complete click the Packages tab again and check to see if the gcc package was installed. + You may have to reload your web browser to see the new package list.
+
+You should see the gcc installed with a lot of other dependencies such as gcc-c++ and so on.
+
+
+
+
+Errata
+
+You can apply errata from the Satellite GUI or by using yum update on the client system command line.
+
+    Log in to the Satellite UI.
+
+    Click Hosts → Content Hosts.
+
+    Click the client system’s link.
+
+    Click the Errata tab. You should see applicable errata in the resulting table.
+
+    Click RHSA-2016:0532 take note of the packages that need to be updated in the Packages section. One of the packages to be updated is krb5-libs-1.13.2-12.el7_2.x86_64.
+
+    Click the Packages tab.
+
+    In the Installed Packages section enter krb5-libs where you see the word Filter.
+
+    Note that the installed package is krb5-libs-1.13.2-10.el7.x86_64. This differs from the package that will be applied by the errata.
+
+    Click the Errata tab again.
+
+    Check RHSA-2016:0532 then click Apply Selected then click Apply again in the pop up window.
+
+    Wait for the progress bar to complete.
+
+    Click the Packages tab.
+
+    In the Installed Packages section enter krb5-libs where you see the word Filter.
+
+    Note that the installed package is now updated to krb5-libs-1.13.2-12.el7_2.x86_64.
+
+    Click the Errata tab, notice that RHSA-2016:0532 has disappeared because it has been applied.
+
+    Click the errata RHSA-2016:0534.
+
+    Note that one of the packages to be updated is mariadb.
+
+    Log into the client system as root and run the following command:
+
+    # yum -y install mariadb
+
+    Reload the web browser. In the Errata tab, you should notice that RHSA-2016:0534 is no longer in the list of Installable Errata.
+
+
+
+Products
+
+Adding custom software to Satellite 6 involves adding a product. Satellite 6 uses the concept of products, each of which can contain many repositories. One example of a product is a monitoring suite like HP OpenView. OpenView itself may have a few RPMs, but some of its dependencies may lie outside of Red Hat Enterprise Linux. Or, as another example, Dell provides RPMs including drivers and libraries for some of its various hardware. In these cases, multiple yum repositories might be available
+that you could find useful.
+
+In many cases, organizations may have existing processes to create and populate yum repositories—for example, an automated process that builds an internal RPM and makes it available in a yum repository. Satellite can automatically sync yum repositories.
+
+Here we pre-created a product called Satellite Class. This product contains some Puppet content that you will use later.
+
+    Log in to your Satellite web UI.
+
+    Click Content → Products.
+
+    Click Satellite Class.
+
+    Click the Repositories tab.
+
+    Click the Simple Modules repository.
+
+    Note that the repository consists of two Puppet modules under Content Counts column.
+
+    Click the number 2 and note that the repository contains the motd and ntp puppet modules.
+
+    Click Content → Products.
+
+    Click the Wordpress product then click the Wordpress Puppet Modules repository.
+
+    Note that five Puppet modules are loaded in this repository under Content Counts.
+
+    Click the number 5 to see the 5 available puppet modules.
+
+3.8. View Host Subscriptions in the UI
+
+Satellite 6 uses the concept of Subscriptions to provide access to repositories. If a system is consuming a product subscription, it has access to all of the repositories that product provides.
+
+    Click Hosts → Content Hosts
+
+    Click your client system’s link.
+
+    Click the Subscriptions → Subscriptions tab.
+
+    Under List/Remove, confirm that the basic Red Hat Enterprise Linux and additional Satellite class repositories are subscribed.
+
+4. Content Views
+
+Satellite 6 is unique in that it is created with lifecycle management as a first-class citizen. In Satellite 5, you achieve software lifecycle management by applying process to the technology available (channel cloning via defined human/automated process). In Satellite 6, Red Hat built software lifecycle management into the system via lifecycle environments.
+4.1. Access Lifecycle Environments
+
+    To access lifecycle environments, click Content → Lifecycle Environments.
+
+    Note that the environment path is Library → Development → Production.
+
+Looking at this page, you can see that, out of the box, Red Hat has a defined lifecycle environment path that begins from the library. You can think of the library as similar to Red Hat channels in Satellite 5. All content is initially synchronized into the library. From there, it must be published (to make it available) and then promoted (to push it forward into the next environment). The library is a special environment in this regard.
+
+Although you can have systems attached to the library and use views published into the library, Red Hat does not recommend this practice.
+
+For the purposes of standardized proofs-of-concept (POCs) and the simplicity of this training, here you have only one lifecycle environment path consisting of two environments: development and production.
+4.2. Access Content Views and Definitions
+
+Content views can be a little difficult to understand at first, but customers have been asking for them for a while. With Satellite 5, it was often difficult to create a channel that contained specific software as a subset of the original channel. It was also difficult to deal with parent and child channels as a group when it came to cloning or not cloning.
+
+Content views aim to change all that, by providing intelligent options for filtering RPMs, Puppet modules, and more.
+
+Here you can see a view that initially contains your message of the day (motd) module and the required Red Hat Enteprise Linux products:
+
+    Make sure you are in the Default_Organization@Default_Location context in the upper-left corner of the screen.
+
+    Click Content → Content Views.
+
+    Click RHEL 7 SOE → Yum Content → Repositories.
+
+    In the Repository Selection area, note that the following repositories are part of the content view:
+
+        Red Hat Enterprise Linux 7 Server Kickstart x86_64 6Server
+
+        Red Hat Enterprise Linux 7 Server RPMs x86_64 6Server
+
+        Red Hat Satellite Tools 6.1 for RHEL 7 Server RPMs x86_64
+
+    Click the Puppet Modules tab.
+
+You can see that this view contains the base Red Hat Enterprise Linux kickstart and base channel, the Satellite Client, and the motd puppet module.
+
+You can combine this view with others to form a composite view, and use that view for systems in a host group to ensure they are configured correctly: software, services, configuration files, etc. You will work with composite views later.
+4.3. Access Content View Versions and Published Status
+
+    While still in the RHEL 7 SOE content view, click the Versions tab.
+
+Here you can see that version 1.0 of this content view is published to Library and Development.
+
+A published content view essentially makes Red Hat Enterprise Linux 6 Server (the latest bits) available to systems that are attached to the library environment and configured to use this view.
+
+To make this content available for systems in "downstream" or "later" lifecycle environments, such as development or production, you use content view promotion.
+4.4. Content View and Lifecycle Environment Promotion
+
+The concept of promotion of a content view is closely tied to both the software lifecycle (SLC) and lifecycle environments/lifecycle environment paths concepts. In theory, each lifecycle environment comes "chronologically" after the one before it. For example:
+
+Library → Development → Production
+
+Our Red Hat Enterprise Linux standard operating environment has already been promoted into development. Our client system is currently in the default Library environment because we moved it there earlier. We will have to move it to Development environment so that it can use the RHEL 7 SOE content view.
+
+Let’s see what promotion looks like:
+
+    In the row with the Version link click the Promote button.
+
+    Check the Production checkbox.
+
+    Click Promote Version.
+        You can continue while this process runs, it will take several minutes to complete.
+
+    Click Hosts → Content Hosts.
+
+    Click the client system’s link.
+
+    In the Content Host Content section under Environment check the Development checkbox to move this system into the Development environment.
+
+    Wait a few seconds for the Content View dropdown to appear.
+
+    Make sure RHEL 7 SOE is selected then click Save.
+
+    Log into the client system via SSH.
+
+    Get a list of repositories, you will notice that the available repositories have changed as the RHEL6 SOE does not have the same repos.
+
+    # subscription-manager repos
+
+    Sample Output
+
+    2 local certificates have been deleted.
+    +----------------------------------------------------------+
+        Available Repositories in /etc/yum.repos.d/redhat.repo
+    +----------------------------------------------------------+
+    Repo ID:   rhel-7-server-rpms
+    Repo Name: Red Hat Enterprise Linux 7 Server (RPMs)
+    Repo URL:  https://sat.example.com/pulp/repos/Default_Organization/Development/R
+               HEL_7_SOE/content/dist/rhel/server/7/7Server/$basearch/os
+    Enabled:   1
+
+    Repo ID:   rhel-7-server-satellite-tools-6.1-rpms
+    Repo Name: Red Hat Satellite Tools 6.1 (for RHEL 7 Server) (RPMs)
+    Repo URL:  https://sat.example.com/pulp/repos/Default_Organization/Development/R
+               HEL_7_SOE/content/dist/rhel/server/7/7Server/$basearch/sat-tools/6.1/
+               os
+    Enabled:   1
+
+        Notice how the Repo URLs now include the SOE name.
+
+    In the Satellite UI, go to Hosts → Content Hosts and select the client.
+
+    Click the Subscriptions → Subscriptions tab.
+
+    The Subscription Details section should have a green and valid status.
+
+    If it is not valid you can wait a while and refresh or force a resubscription by clicking the Run Auto-Attach button.
+
+5. Puppet Client
+5.1. Configure Puppet in the UI
+
+Your training environment is preconfigured with Puppet on your client system. Here you can set up the motd:
+
+    Click Hosts → All Hosts.
+
+    Click your client system link. This displays the Puppet details page about a system. You will learn more about it later. For now, note the following settings:
+
+        Host group: RHEL7 SOE GROUP
+
+        Puppet environment: KT_Default_Organization_Development_RHEL_7_SOE_2
+
+5.2. Understand Host Group Basics
+
+Remember that a system belongs to a host group, and that the host group has an environment and a content view associated with it.
+
+    Content View - Determines what content (packages, Puppet modules and their versions) is available
+
+    Environment - The current SLC "point in time" for a system
+
+    Host Group - Based on the environment and available content, what actually gets applied to a system
+
+Within the host group’s configuration, you select the environment and content view and then choose the Puppet classes. Choosing Puppet classes effectively controls the software and configuration on a system.
+
+Here you look inside the motd module:
+
+class motd ($message = 'This is the default message') {
+
+  file { '/etc/motd':
+    content => "$message \n",
+  }
+
+}
+
+This module puts "This is the default message" into /etc/motd. This tool can be very powerful.
+
+Your training environment includes a host group named Base to apply this module.
+
+    Click Configure → Host Groups.
+
+    Click RHEL7 SOE GROUP. Confirm the following settings:
+
+        Lifecycle Environment - Development.
+
+        Puppet Environment - KT_Default_Organization_Development_RHEL_7_SOE_2.
+
+        Puppet CA and Puppet Master - sat.example.com.
+
+    Click the Puppet Classes tab. Note that the motd class is included.
+
+5.3. Run Puppet The First Time
+
+    Log into your client system as root.
+
+    Run Puppet in noop (no operation) mode:
+
+    # puppet agent --test --noop --onetime
+
+    You should see something like the following (with some highlighted Warnings and Errors):
+
+    Warning: Local environment: "production" doesn't match server specified node environment "KT_Default_Organization_Development_RHEL_7_SOE_2", switching agent to "KT_Default_Organization_Development_RHEL_7_SOE_2".
+    Info: Retrieving plugin
+    Info: Caching catalog for client.example.com
+    Info: Applying configuration version '1460658384'
+    Notice: /Stage[main]/Motd/File[/etc/motd]/content:
+    --- /etc/motd   2016-04-13 22:04:03.841890791 -0400
+    +++ /tmp/puppet-file20160414-2407-1khmahf       2016-04-14 14:26:24.683592404 -0400
+    @@ -1 +1 @@
+    -WARNING this system is for approved usage only.  If you are not authorized by its owners to access this system log off now.  All activities on this system are monitored.  Usage of this system implies that you understand there is no right to privacy in regard to your activity on this system.
+    +This is the default message
+
+    Notice: /Stage[main]/Motd/File[/etc/motd]/content: current_value {md5}f66a2a83360077a912b79aa02f8025ad, should be {md5}c01d1bd4d04a962e8364a4fb55e59f05 (noop)
+    Notice: Class[Motd]: Would have triggered 'refresh' from 1 events
+    Notice: Stage[main]: Would have triggered 'refresh' from 1 events
+    Notice: Finished catalog run in 0.12 seconds
+
+    Consider what these results reveal. First, the default Puppet agent configuration operates in the production environment. The Puppet master indicates that you are in the KT_Default_Organization_Development_RHEL_7_SOE_2 environment. This naming is an artifact of how Pulp works behind the scenes.
+
+    The Puppet master then delivers a catalog to run. The results display a notice about /etc/motd and some diff output. Puppet looked at the md5sum of the existing /etc/motd and saw that it did not match what the manifest thinks it should be. Therefore, Puppet knows a change needs to take place.
+
+    Above +This is the default message, Puppet showed the difference between the current /etc/motd and what it should be. It also provided information about some refresh events. These are beyond the scope of this training course.
+
+    View the contents of /etc/motd. You should see the OPENTLC warning message:
+
+    # cat /etc/motd
+
+    OPENTLC motd
+
+    WARNING this system is for approved usage only.  If you are not authorized by
+    its owners to access this system log off now.  All activities on this system are
+    monitoried.  Usage of this system implies that you understand there is no right
+    to privacy in regard to your activity on this system.
+
+    Because you ran Puppet in --noop mode, it performed no operation. Run it again without --noop. You will see the following results:
+
+    # puppet agent --test --onetime
+
+    Puppet Output
+
+    Warning: Local environment: "production" doesn't match server specified node environment "KT_Default_Organization_Development_RHEL_7_SOE_2", switching agent to "KT_Default_Organization_Development_RHEL_7_SOE_2".
+    Info: Retrieving plugin
+    Info: Caching catalog for client.example.com
+    Info: Applying configuration version '1460659123'
+    Notice: /Stage[main]/Motd/File[/etc/motd]/content:
+    --- /etc/motd   2016-04-13 22:04:03.841890791 -0400
+    +++ /tmp/puppet-file20160414-2541-gmz8nx        2016-04-14 14:38:43.592328150 -0400
+    @@ -1 +1 @@
+    -WARNING this system is for approved usage only.  If you are not authorized by its owners to access this system log off now.  All activities on this system are monitored.  Usage of this system implies that you understand there is no right to privacy in regard to your activity on this system.
+    +This is the default message
+
+    Info: /Stage[main]/Motd/File[/etc/motd]: Filebucketed /etc/motd to puppet with sum f66a2a83360077a912b79aa02f8025ad
+    Notice: /Stage[main]/Motd/File[/etc/motd]/content: content changed '{md5}f66a2a83360077a912b79aa02f8025ad' to '{md5}c01d1bd4d04a962e8364a4fb55e59f05'
+    Notice: Finished catalog run in 0.17 seconds
+
+    Run the cat command to see the contents of /etc/motd:
+
+    # cat /etc/motd
+
+    Updated motd
+
+    This is the default message
+
+    Observe that when you run Puppet without --noop, the configuration change is audited.
+
+5.4. Run Puppet Reports
+
+    Log in to the Satellite web interface.
+
+    Go to Hosts → All hosts.
+
+    Click the client system’s link'.
+
+    In the Details section, click Reports. You should see a list of reports.
+
+    Click the report at the top that has a number greater than 0 in the Applied column.
+
+    You will see the information about what happened on your system. If you had not run with --test mode, the system would not have recorded any of the information items. However, even without these items, the report would still contain very valuable information about the status of your system—for example, the fact that Puppet changed the motd file and NTP configuration.
+
+    Click the View Diff link and examine the output for the MOTD configuration.
+
+    Click Close.
+
+You are starting to see the power of Puppet and its use with Satellite. You can also leverage another powerful feature of Red Hat’s external node classifier (ENC): Foreman (Staypuft).
+6. Smart Variables and Smart Class Parameters
+
+Recall the following code from the motd Puppet module:
+
+class motd ($message = 'This is the default message') {
+
+  file { '/etc/motd':
+    content => "$message \n",
+  }
+
+}
+
+The first line declares the motd class and involves the use of a parameter message, in this case. This is called a parameterized class. Most published Puppet modules of any quality involve parameterized classes, because these classes make the modules useful.
+
+In the case of Foreman (Staypuft) and Satellite 6, smart class parameters are one way you can pass specific parameters into a system. You could not parameterize classes until Puppet 2.6.5+. Foreman has existed for quite some time, and you will also see smart variables in the UI. If you use a module that does have variables inside but does not use parameterized classes, a smart variable would be the only way you can do the override.
+
+Generally speaking, as a best practice Red Hat recommends parameterizing all classes, and, in some cases, having a dedicated class that provides default values. These tasks, however, are outside the scope of this course.
+6.1. Use a Smart Class Parameter to Override $message
+
+    Click Configure → Puppet Classes
+
+    Click motd.
+
+    Click the Smart Class Parameter tab.
+
+    Click the message link on the left.
+
+    Check the Override box.
+
+    For Default value enter Welcome to OPENTLC.
+
+    Scroll down and click Submit at the bottom left.
+
+What you have done thus far is configure the message class parameter to have a different value.
+    Technically speaking, having anything related to "welcome" in the motd could have legal implications with regards to hackers and intruders, but this is just for testing purposes.
+6.2. View How the Change Impacts the Client System
+
+    Log in to your client system as root.
+
+    Run Puppet again in --noop mode:
+
+    # puppet agent --test --noop --onetime
+
+    You should see something like the following:
+
+    Warning: Local environment: "production" doesn't match server specified node environment "KT_Default_Organization_Development_RHEL_7_SOE_2", switching agent to "KT_Default_Organization_Development_RHEL_7_SOE_2".
+    Info: Retrieving plugin
+    Info: Caching catalog for client.example.com
+    Info: Applying configuration version '1460659697'
+    Notice: /Stage[main]/Motd/File[/etc/motd]/content:
+    --- /etc/motd   2016-04-14 14:38:43.701328111 -0400
+    +++ /tmp/puppet-file20160414-2674-ag5l99        2016-04-14 14:48:17.429113026 -0400
+    @@ -1 +1 @@
+    -This is the default message
+    +Welcome to OPENTLC
+
+    Notice: /Stage[main]/Motd/File[/etc/motd]/content: current_value {md5}c01d1bd4d04a962e8364a4fb55e59f05, should be {md5}3e8d2e839d291050895b8bc5dd27d350 (noop)
+    Notice: Class[Motd]: Would have triggered 'refresh' from 1 events
+    Notice: Stage[main]: Would have triggered 'refresh' from 1 events
+    Notice: Finished catalog run in 0.13 seconds
+
+    Here again, you see that Puppet thinks the content of the /etc/motd file should be different—and that this time, it should have your new welcome message. If you cat the /etc/motd file, you see that the file still has not changed. The reason is that you ran Puppet in --noop mode again.
+
+    This is extremely powerful. By changing one setting in the Satellite 6 interface, you could ultimately affect tens of thousands of systems on their next Puppet run, assuming they were running Puppet automatically and/or the agent service was running.
+
+    Using what you have learned, run Puppet again without --noop to apply your change.
+
+    Examine the system report, and check /etc/motd on the client system to see if it changed.
+
+    Take some time to also look at the various Puppet agent options:
+
+    # puppet agent --help
+
+    You will see an explanation of what --test actually does, along with descriptions for various other options that the agent can take. The --onetime flag causes Puppet not to run as a daemon. This prevents the system from inadvertently pushing changes to Puppet while you are testing.
+
+7. Foreman (Staypuft) Provisioning
+7.1. Provisioning Templates
+
+The Foreman the provisioning process essentially contains two parts: the pre-boot execution environment (PXE) process and the actual kickstart. Foreman (Staypuft) refers to these, respectively, as:
+
+You first need to make sure the PXE templates are associated with your operating system:
+
+    Select the Default_Organization@Default_Location context.
+
+    Click Hosts → Provisioning templates.
+
+    Locate Kickstart default iPXE and click it.
+
+    Click the Association tab.
+
+    You should see RHEL Server 7.2 under Selected items.
+        Do not make any changes if it is under selected items.
+
+    Locate Kickstart default PXELinux and click it.
+
+    Click the Association tab.
+
+    You should see RHEL Server 7.2 under Selected items.
+        Do not make any changes if it is under selected items.
+
+    The OS association makes the Kickstart default iPXE template available to systems provisioning against the Red Hat Enterprise Linux Server operating system. The template is also available to systems that PXEboot.
+
+    The next step is to make sure you have a kickstart template associated with your operating system.
+
+7.2. Operating System Configuration
+
+You can treat each operating system major or minor release independently for provisioning and other purposes. Because you are going to be operating in an SOE-type environment, you can simply make changes to RedHat 7.2.
+
+    Click Hosts → Operating Systems.
+
+    Click RedHat 7.2.
+
+    Click the Partition Table tab.
+
+    The Kickstart default provided by Foreman (Staypuft) uses autopart, which you can use for now.
+
+    Click the Installation Media tab.
+
+    Make sure that the Default_Organization/Library/Red_Hat_Server/Red_Hat_Enterprise_Linux_7_Server_Kickstart_x86_64_7_2 box is checked
+
+    Click the Templates tab.
+
+    Confirm that the following values are selected:
+
+        PXELinux - Kickstart default PXELinux
+
+        iPXE - Kickstart default iPXE
+
+        provision - Satellite Kickstart Default
+
+        At this point, you have made sure that everything is associated or published. You also have promoted development media with a Red Hat Enterprise Linux operating system that has your specific partitioning, provisioning, and PXE templates.
+
+7.3. Subnet Configuration
+
+Provisioning systems also requires defining the subnet(s) on which systems will be provisioned.
+
+    Define the subnet:
+
+        Click Infrastructure → Subnets.
+
+        Click VM-Net.
+
+        On the Subnet tab, confirm that the configuration is set to the following:
+
+            Name: VM-Net
+
+            Network address: 192.168.0.0
+
+            Network mask: 255.255.0.0
+
+            Gateway address: 192.168.0.2
+
+            Primary DNS server: 192.168.0.1
+
+            Start of IP range: 192.168.100.100
+
+            End of IP range: 192.168.100.110
+
+    On the Domains tab, make sure that the example.com box is checked.
+
+    On the Capsules tab, make sure that both DHCP Capsule and TFTP Capsule are set to sat.example.com.
+
+    On the Locations tab, make sure Default_Location appears under Selected items on the right.
+
+    On the Organizations tab, make sure Default_Organization appears under Selected items on the right.
+
+7.4. Activation Keys
+
+As in Satellite 5, in Satellite 6 you can use activation keys for registration to assign a system to the following:
+
+    Repositories and subscriptions
+
+    System groups
+
+    Environments
+
+    Content views
+
+For this lab, an activation key was created for you.
+
+    Make sure the activation key is set up correctly:
+
+        Click Content → Activation Keys.
+
+        Click Satellite-SOE.
+
+        Make sure that the Development environment is selected and that the content view is set to RHEL 7 SOE.
+
+        Click the Subscriptions tab.
+
+        On the List/Remove tab, confirm that the following appear:
+
+            Red Hat Enterprise Linux Server, Standard (Physical or Virtual Nodes)
+
+            Satellite Class
+
+    Click Configure → Host Groups.
+
+    Click your RHEL7 SOE GROUP host group.
+
+    Click the Activation Keys tab.
+
+    In the Activation keys box make sure Satellite-SOE is selected.
+
+    Click Submit.
+
+    You have now confirmed that the activation key is associated with your host group. If you look at the kickstart you see it contains a line that calls the RHSM snippet:
+
+    <%= snippet 'subscription_manager_registration' %>
+
+7.5. Open PXE Client Console
+
+    If you are going through Satellite FASTRAX on OPENTLC go to:
+
+    https://www.opentlc.com/opentlc-status
+
+    If you are going through the Satellite Demo on RHPDS go to:
+
+    https://www.opentlc.com/rhpds-status
+
+    Log into the status page with your OPENTLC SSO credentials.
+
+    Look for your Lab or Demo Environment and click the blue + icon to the right of it.
+
+    Scroll down to the VM with the VM Name PXEClient.
+
+    Click the link for the VM entitled Click here for console.
+
+    Provide your OPENTLC Credentials.
+
+    Keep this window open separately.
+
+7.6. Create a Foreman (Staypuft) Host
+
+To provision a system with Satellite 6, you first need to define that system by creating a host in Foreman (Staypuft). Foreman (Staypuft) uses iPXE, which leverages HTTP (as opposed to TFTP) as its transport protocol. When you define your host, you need to feed it a MAC address so that the Foreman (Staypuft) server knows which system is making the provisioning request. This is very similar to how TFTP/PXE looks for the incoming MAC address to determine what to serve the client.
+
+    Click Hosts → New host.
+
+    On the Host tab, set the following:
+
+        Name: pxeclient
+
+        Organization: Default Organization
+
+        Location: Default Location
+
+        Host Group: RHEL7 SOE GROUP
+
+        Lifecycle Environment: Development
+
+        Content View: RHEL 7 SOE
+
+        Content Source, Puppet CA, and master: Make sure your Satellite Server is selected
+
+    On the Network tab, set the following:
+
+        Domain: example.com
+
+        MAC address: 2c:c2:60:3f:39:20
+
+        Subnet: VM-Net
+
+        IP address: 192.168.100.100
+
+    On the Operating System tab, set the following:
+
+        Architecture: x86_64
+
+        Operating system: RedHat 7.2
+
+        Partition table: Kickstart default
+
+        Root password: r3dh4t1!
+
+    Click Submit.
+
+    Watch the PXE Client console you opened in the last section. It will eventually restart itself and start building if all went well.
+        You can click the Ctrl-Alt-Delete button in the console to restart the host immediately. (Do not use the keyboard to send the Ctrl-Alt-Delete!)
+        In a separate browser window you can monitor Hosts → All Hosts. Here you can monitor the icon to the left of pxeclient.example.com, it will change as the build progresses and completes (you will have to refresh the browser to see this.) Once the icon changes to a blue A, it has completed.
+        This process can take about 20 minutes because it is a nested virtualization cloud based VM. This should not reflect on build speeds in a real life scenario.
+
+    After the system is built, you can log into the console as user root with password r3dh4t1!
+
+    Look for the following on the newly built system:
+
+        Puppet reports for the system should find that motd was configured. If you set up the puppet class correctly, /etc/motd should say Welcome to OPENTLC.
+
+        The system should have an ip of 192.168.100.100 and you should be able to ssh to it as root from the workstation host. (ssh root@192.168.100.100)
+
+        The system should be subscribed to the RHEL and Satellite Client software channels via subscription-manager (yum repolist)
+
+        The goferd and puppet services should be enabled and running (systemctl status puppet goferd)
+
+

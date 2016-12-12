@@ -1,0 +1,1024 @@
+Module Topics
+
+    What Is NFS?
+
+    NFS Exports
+
+    Kerberos-Enabled NFS Exports
+
+    Kerberos-Enabled NFS Server
+
+    SELinux and Labeled NFS
+
+    What Is SMB?
+
+    SMB File Sharing With Samba
+
+    Preparing Directories for Sharing
+
+    SELinux Contexts and Booleans
+
+    Configuring /etc/samba/smb.conf
+
+    Validating /etc/samba/smb.conf
+
+    Preparing Samba Users
+
+    Starting Samba
+
+    Mounting SMB File Systems
+
+    Multiuser Mounts With Samba
+
+
+
+What Is NFS?
+
+    Network File System (NFS): Network file system commonly used by UNIX systems and network-attached storage devices
+
+        Lets multiple clients share access to files over network
+
+        Provides access to shared directories/files from client systems
+
+    NFS protocol transmits data in clear text over network.
+
+    Server relies on client to identify users
+
+    Do not export directories with sensitive information without Kerberos authentication and encryption
+
+
+NFS Exports
+
+    NFS server installation requires nfs-utils package
+
+        Provides necessary utilities to export directory with NFS to clients
+
+    /etc/exports: Configuration file for NFS server exports
+
+        Lists directory to share to client hosts over network
+
+        Indicates hosts/networks that can access export
+
+    Instead of adding information required for exporting directories to /etc/exports
+
+        Can add *.exports file to /etc/exports.d/ directory holding configuration of exports
+
+    Red Hat Enterprise Linux 7 does not support exporting same directory with NFS and Samba
+
+        NFS and Samba use different file locking mechanisms
+
+        Can cause file corruption
+
+
+Listing Clients as DNS-Resolvable Host Name
+
+    DNS-resolvable host name
+
+        Example: /myshare exported and can be mounted by server0.example.com:
+
+        /myshare server0.example.com
+
+    DNS-resolvable host name with wildcards
+
+        Use * for multiple characters
+
+        Use ? for single character
+
+        Example: Allow all subdomains in example.com to access NFS export:
+
+        /myshare *.example.com
+
+    DNS-resolvable host name with character class lists in square brackets
+
+        Example: server0.example.com through server20.example.com have access to NFS export:
+
+        /myshare server[0-20].example.com
+
+
+
+Listing Clients as IPv4 Address or Network
+
+    IPv4 address
+
+        Example: Allow access to /myshare from 192.168.0.1:
+
+        /myshare 192.168.0.1
+
+    IPv4 network
+
+        Example: Use /etc/exports to access to /myshare from 192.168.0.0/16:
+
+        /myshare 192.168.0.0/16
+
+
+
+Listing Clients as IPv6 Address or Network
+
+    IPv6 address without square brackets
+
+        Example: Allow client with IPv6 address 2000:472:18:b51:c32:a21 access to /myshare:
+
+        /myshare 2000:472:18:b51:c32:a21
+
+    IPv6 network without square brackets
+
+        Example: All IPv6 network 2000:472:18:b51::/64 access to NFS export:
+
+        /myshare 2000:472:18:b51::/64
+
+    To export directory to multiple hosts simultaneously:
+
+        Specify multiple targets with options
+
+        Separate by spaces following directory to export
+
+        /myshare *.example.com 192.168.0.0/16
+
+
+NFS Exports
+Specifying Export Options
+
+    Specify export options in round brackets as comma-separated list followed by client definition
+
+
+ro
+    
+Read-only
+
+    Default setting
+
+    Can explicitly specify it with entry
+
+    Restricts NFS clients to read-only on NFS share
+
+    
+
+    State ro for server0.example.com:
+
+    /myshare desktop0.example.com(ro)
+
+
+rw
+    
+Read-Write
+
+    Allows read and write access for NFS clients
+
+    
+
+    desktop0.example.com can access NFS export read-only
+
+    server[0-20].example.com has read-write access to NFS share
+
+    /myshare desktop0.example.com(ro) server[0-20].example.com(rw)
+
+
+no_root_squash
+    
+Disable root Squash
+
+    Default: NFS server treats root on NFS client as user nfsnobody
+
+    If root attempts to access file on mounted export, server treats it as access by user nfsnobody
+
+    Can be problematic if diskless client uses NFS export as / and root needs to be treated as root
+
+    To disable, server needs to add no_root_squash to export options in /etc/exports
+
+    
+
+    Allow diskless.example.com read-write and real root user access to /myshare:
+
+    /myshare diskless.example.com(rw,no_root_squash)
+
+    Configuration is not secure
+
+    Better done in conjunction with Kerberos authentication and integrity checking
+
+
+
+Configuration Steps 1-5
+
+    Start NFS service on server1:
+
+    [root@server1 ~]# systemctl start nfs-server
+
+    Enable NFS service to start at boot on server1:
+
+    [root@server1 ~]# systemctl enable nfs-server
+
+    Create /myshare to share with NFS on server1:
+
+    [root@server1 ~]# mkdir /myshare
+
+    Export /myshare directory on server1 to desktop1 client as read- and write-enabled share:
+
+        Add following line to /etc/exports on server1
+
+        /myshare desktop1.example.com(rw)
+
+    Save file and then apply changes:
+
+    [root@server1 ~]# exportfs -r
+
+
+Configuration Steps 6-9
+
+    Configure firewalld to enable access to NFS exports immediately:
+
+        NFS port 2049/TCP for nfsd must be open on server
+
+        [root@server1 ~]# firewall-cmd --permanent --add-service=nfs
+
+    Reload firewalld rules to apply new rules:
+
+    [root@server1 ~]# firewall-cmd --reload
+
+    Use /mnt/nfsexport on desktop1 to mount NFS-exported directory:
+
+    [root@desktop1 ~]# mkdir /mnt/nfsexport
+
+    On desktop1, mount share on /mnt/nfsexport:
+
+    [root@desktop1 ~]# mount server1.example.com:/myshare /mnt/nfsexport
+
+    For more info on exporting the NFS file system, see these man pages: nfs(5), mount(8), mount.nfs(8), exportfs(8), and exports(5).
+
+
+Kerberos-Enabled NFS Exports
+
+    NFS server does not require authentication
+
+        By default, enforces access restriction based on IP address or client host name only
+
+    NFS server provides options to secure access to files using:
+
+        none
+
+        sys
+
+        krb5
+
+        krb5i
+
+        krb5p
+
+    NFS server can choose to offer single or multiple methods for each exported share
+
+    NFS clients must connect to exported share using method mandated for that share
+            Specified as mount option sec=method
+
+
+none
+    
+
+    Anonymous access to files
+
+    Writes to server allocated UID/GID nfsnobody
+
+    Requires SELinux Boolean nfsd_anon_write to be active
+
+sys
+    
+
+    File access based on standard Linux file permissions for UID and GID values
+
+    If not specified, is default
+
+    NFS server trusts any UID sent by client
+
+krb5
+    
+
+    Clients must prove identity using Kerberos
+
+    Then standard Linux file permissions apply
+
+    UID/GID determined based on Kerberos principal from accessing user
+
+`krb5i
+    
+
+    Adds cryptographically strong guarantee that data in each request not tampered with
+
+    UID/GID determined based on Kerberos principal from accessing user
+
+krb5p
+    
+
+    Adds encryption to all requests between client and server
+
+    Prevents data exposure on network
+
+    Has performance impact but provides most security
+
+    UID/GID determined based on Kerberos principal from accessing user
+
+
+Security Option Requirements
+
+    To use security options that use Kerberos server:
+
+        nfs-secure-server needs to be running
+
+        nfs-server service must be running on system exporting NFS shares
+
+    Client requires nfs-secure to run to help with Kerberos authentication
+
+    Kerberos options require /etc/krb5.keytab and additional authentication configuration
+
+        /etc/krb5.keytab normally provided by authentication/security administrator
+
+    Request keytab that includes:
+
+        Host principal
+
+        nfs principal
+
+        Both
+
+
+Configuration Steps 1-4
+
+    Install keytab provided at http://​classroom.example.com/pub/keytabs/server1.example.com.keytab on server1 system:
+
+    [root@server1 ~]# wget -O /etc/krb5.keytab http://classroom.example.com/pub/keytabs/server1.example.com.keytab
+
+    Start nfs-secure-server on server1:
+
+    [root@server1 ~]# systemctl start nfs-secure-server
+
+    Enable nfs-secure-server to start at system boot on server1:
+
+    [root@server1 ~]# systemctl enable nfs-secure-server
+
+    Create /securedexport directory on server1:
+
+        Used as NFS export
+
+        [root@server1 ~]# mkdir /securedexport
+
+
+Configuration Steps 5-8
+
+    Add /securedexport to /etc/exports to export with NFS:
+
+        Enable krb5p security to secure access to NFS share
+
+        Allow read and write access to exported directory from all subdomains of example.com
+
+        [root@server1 ~]# echo '/securedexport *.example.com(sec=krb5p,rw)' >>/etc/exports
+
+    After /etc/exports saved, apply changes:
+
+    [root@server1 ~]# exportfs -r
+
+    Configure firewalld to enable access to NFS exports immediately:
+
+        NFS port 2049/TCP for nfsd must be open on server
+
+        [root@server1 ~]# firewall-cmd --permanent --add-service=nfs
+
+    Reload firewalld rules so new rule gets applied:
+
+    [root@server1 ~]# firewall-cmd --reload
+
+
+Configuration Steps 9-10
+
+    Install provided keytab on desktop1:
+
+        desktop1 acts as NFS client
+
+        Mount krb5p-secured share on desktop1
+
+        [root@desktop1 ~]# wget -O /etc/krb5.keytab http://classroom.example.com/pub/keytabs/desktop1.example.com.keytab
+
+    start and enable nfs-secure to ensure always available on desktop1
+
+        NFS uses nfs-secure on client side to help manage communication with server when connecting to Kerberos-secured shares
+
+        nfs-secure must be running to use secured NFS shares
+
+        [root@desktop1 ~]# systemctl enable nfs-secure
+        ln -s '/usr/lib/systemd/system/nfs-secure.service'  ...
+        [root@desktop1 ~]# systemctl start nfs-secure
+
+            
+
+        nfs-secure is part of nfs-utils package. It should be installed by default. If not, run:
+
+        [root@desktop1 ~]# yum -y install nfs-utils
+
+
+Configuration Steps 11-13
+
+    Create /mnt/securedexport on desktop1:
+
+        Mount point must exist to mount krb5p-secured export from server1 on desktop1
+
+        [root@desktop1 ~]# mkdir /mnt/securedexport
+
+    Mount exported directory on desktop1 with krb5p security enabled:
+
+    [root@desktop1 ~]# mount -o sec=krb5p server1.example.com:/securedexport /mnt/securedexport
+
+    Unmount /mnt/securedexport on desktop1:
+
+    [root@desktop1 ~]# umount /mnt/securedexport
+
+
+SELinux and Labeled NFS
+
+    SELinux locks down capabilities of services in Red Hat Enterprise Linux
+
+    NFS mounts have SELinux context nfs_t by default
+
+        Independent of SELinux context they have on server that provides export
+
+    To change behavior on client side, use context="selinux_context"
+
+        Example: Mount NFS export and enforce SELinux context system_u:object_r:public_content_rw_t:s0:
+
+        [root@server1 ~]# mount -o context="system_u:object_r:public_content_rw_t:s0" server1.example.com:/myshare 
+
+
+SELinux and Labeled NFS
+NFS 4.2
+
+    To force NFS server to properly export SELinux context of share, switch to NFS version 4.2
+
+        Currently exists as Internet draft
+
+        Already implemented in NFS server shipped by Red Hat Enterprise Linux 7
+
+        Need to turn on explicitly
+
+    To enable NFS 4.2 on server1 to export SELinux labels:
+
+        Change RPCNFSDARGS="" line in /etc/sysconfig/nfs to:
+
+        RPCNFSDARGS="-V 4.2"
+
+        Restart nfs-server or nfs-secure-server:
+
+        [root@server1 ~]# systemctl restart nfs-server
+        [root@server1 ~]# systemctl restart nfs-secure-server
+
+
+
+SELinux and Labeled NFS
+
+    On client side, specify mount -o v4.2 as mount option:
+
+    [root@desktop1 ~]# mount -o sec=krb5p,v4.2 server1.example.com:/securedexport /mnt/securedexport
+
+    For testing purposes, selinux.txt file created in /securedexport directory
+
+        After creation, SELinux type changed to public_content_t:
+
+        [root@server1 ~]# touch /securedexport/selinux.txt
+        [root@server1 ~]# chcon -t public_content_t /securedexport/selinux.txt
+
+    All SELinux labels now properly handled by server1 and forwarded to desktop1:
+
+    [root@desktop1 ~]# ls -Z /mnt/securedexport/
+    -rw-r--r--. root root unconfined_u:object_r:public_content_t:s0 selinux.txt
+
+
+SELinux Booleans
+
+    nfs_export_all_ro and nfs_export_all_rw SELinux Booleans enabled in default Red Hat Enterprise Linux 7 installation
+
+        Allows NFS daemon to read and write almost any file
+
+    To lock down NFS server capabilities, disable Booleans
+
+        To make content readable by NFS, use public_content_t or nfs_t context
+
+        To make content readable and writable, use public_content_rw_t or nfs_t context
+
+            If using public_content_rw_t, enable nfsd_anon_write Boolean to allow writes
+
+    
+
+    For more on NFS-related SELinux, see the nfsd_selinux(8) man page
+
+        Provided by selinux-policy-devel RPM package
+
+    For more on protecting NFS exports, see these man pages: nfs(5), mount(8), mount.nfs(8), exportfs(8), exports(5), and nfsd_selinux(8).]
+
+
+What Is SMB?
+
+    Server Message Block (SMB): Standard file-sharing protocol for Microsoft Windows servers/clients
+
+    Can configure SMB file servers multiple ways
+
+        Simple method: Configure file servers and clients as members of common Windows workgroup
+
+        Workgroup announces servers and clients to local subnet
+
+    File servers manage local user accounts/passwords independently
+
+    More sophisticated configurations may be members of Windows domain
+
+        Coordinate user authentication through domain controller
+
+    Using Samba, Red Hat Enterprise Linux can act as server for SMB file shares
+
+    Kernel driver and utilities in cifs-utils handle mounting SMB file shares as client
+
+
+SMB File Sharing With Samba
+
+    Samba can share Linux file systems as SMB network file shares
+
+    Steps to configure Samba to provide SMB file share as workgroup member:
+
+        Install samba package
+
+        Prepare permissions on directory to be shared
+
+        Configure /etc/samba/smb.conf
+
+        Set up Linux users with NTLMv2 passwords
+
+        Start Samba and open local firewall
+
+        Verify share can be mounted from client
+
+    To deploy Samba on Red Hat Enterprise Linux, install samba
+
+        Can install directly or via file-server package group:
+
+        [root@server1 ~]# yum install samba
+
+Preparing Directories for Sharing
+
+    Do not use Samba to share directory that is also NFS export or mounted NFS file system
+
+        Can result in file corruption, stale file locks, file access issues with share
+
+    Create directory to be shared if it does not exist:
+
+    [root@server1 ~]# mkdir /sharedpath
+
+Users and Regular Permissions
+
+    Permissions to set on directory depend on:
+
+        Who needs access
+
+        How clients will mount it
+
+    Client normally mounts share by authenticating access to SMB server as particular user
+
+    All files on share need to be readable (possibly writable) by user used to mount share
+
+
+SELinux Contexts and Booleans
+
+    For Samba to work correctly with SELinux in enforcing mode:
+
+        Directory needs correct SELinux contexts
+
+        May need to set certain SELinux Booleans
+
+    If shared directory only accessed through Samba:
+
+        Label directory, subdirectories, and files samba_share_t
+
+        Gives Samba read and write access
+
+    Recommended: Configure SELinux so restorecon sets samba_share_t on share and contents if file system is relabeled
+
+    [root@server1 ~]# semanage fcontext -a -t samba_share_t '/sharedpath(/.*)?'
+    [root@server1 ~]# restorecon -vvFR /sharedpath
+    restorecon reset /sharedpath context unconfined_u:object_r:default_t:s0->system_u:object_r:samba_share_t:s0
+
+    Samba can also serve files labeled with SELinux types:
+
+        public_content_t: Read-only
+
+        public_content_rw_t: Read-write
+
+            To allow read-write access to files/directories labeled public_content_rw_t, must enable smbd_anon_write
+
+
+/etc/samba/smb.conf
+
+    /etc/samba/smb.conf: Main configuration file for Samba
+
+        Divided into multiple sections
+
+        Each starts with section name in square brackets
+
+        Followed by list of parameters set to particular values
+
+    /etc/samba/smb.conf starts with [global] section
+
+        Used for general server configuration
+
+    Subsequent sections define file or printer share provided by Samba server
+
+    [homes] and [printers] sections have special uses
+
+    Line beginning with either ; or # character commented out
+
+[global] Section: workgroup and security
+
+    Defines basic configuration of Samba server
+
+    Configures three things:
+
+        workgroup: Specifies Windows workgroup for server
+
+            Most systems default to WORKGROUP
+
+            Windows XP Home defaulted to MSHOME
+
+            Helps systems browse for server using NetBIOS for TCP/IP name service
+
+            To set workgroup to WORKGROUP, change workgroup entry in /etc/samba/smb.conf to workgroup = WORKGROUP
+
+        security: Controls how Samba authenticates clients
+
+            For security = user, clients log in with username/password managed by local Samba server
+
+            This is default in /etc/samba/smb.conf
+
+
+
+[global] Section: hosts allow
+
+    hosts allow: comma-, space-, tab-delimited list of hosts permitted to access Samba service
+
+        If not specified, all hosts can access Samba
+
+        If not specified in [global] section, can set on each share separately
+
+        If specified in [global] section, applies to all shares
+
+    Can specify hosts by host name or source IP address
+
+        Host names checked by reverse-resolving IP address of incoming connection attempt
+
+        For full syntax, see hosts_access(5) man page
+
+    Can specify allowed hosts as:
+
+        IPv4 network/prefix: 192.168.0.0/24
+
+        IPv4 network/netmask: 192.168.0.0/255.255.255.0
+
+        If IPv4 subnet prefix is on byte boundary: 192.168.0.
+
+        IPv6 network/prefix: [2001:db8:0:1::/64]
+
+        Host name: desktop.example.com
+
+        All hosts ending in example.com: .example.com
+
+    Example: To restrict access to only hosts from 192.168.0.0/16 network using trailing dot notation, use hosts allow = 192.168
+
+    Example: To additionally allow access from all host names ending with ".example.com", use hosts allow = 192.168. .example.com
+
+
+File Share Sections
+
+    To create file share, at end of /etc/samba/smb.conf:
+
+        Place share name in brackets to start new section for share
+
+    Key directives to set:
+
+        path: Must set to indicate directory to share—for example, path = /sharedpath
+
+        writable = yes: Set to give authenticated users read-write access to share
+
+            Default setting: writable = no
+
+            If writable = no, can provide comma-separated write list of users with read-write access to share
+
+            Users not on list have read-only access
+
+            Can specify access for local group members: write list = @management
+
+        valid users: Specifies list of users allowed to access share
+
+            Users not on list not allowed to access share
+
+            If list is blank, all users can access share
+
+    Example: Allow user fred and members of group management read-only access to myshare:
+
+    [myshare]
+        path = /sharedpath
+        writable = no
+        valid users = fred, @management
+
+
+[homes] Section
+
+    Defines special file share
+
+    Enabled by default
+
+    Makes local home directories available via SMB
+
+    Can specify share name as homes
+
+        Samba server convert it to home directory path of authenticating user or as specific username
+
+    samba_enable_home_dirs allows local Linux home directories to be shared by Samba to other systems
+
+        Must enable this for [homes] to work: setsebool -P samba_enable_home_dirs=on
+
+    use_samba_home_dirs allows remote SMB file shares to be mounted and used as local Linux home directories
+
+        Easy to confuse two options
+
+
+Validating /etc/samba/smb.conf
+
+    To verify no errors in edited smb.conf file, use testparm with no arguments
+
+    read only = no is same as writable = yes
+
+        Can be confusing
+
+        [root@server1 ~]# testparm
+        Load smb config files from /etc/samba/smb.conf
+        rlimit_max: increasing rlimit_max (1024) to minimum Windows limit (16384)
+        Processing section "[random]"
+        Processing section "[homes]"
+        Processing section "[printers]"
+        Loaded services file OK.
+        Server role: ROLE_STANDALONE
+        Press enter to see a dump of your service definitions
+
+        [global]
+            server string = Samba Server Version %v
+            log file = /var/log/samba/log.%m
+            max log size = 50
+            idmap config * : backend = tdb
+            cups options = raw
+
+        [random]
+            comment = Test File Share
+            path = /srv/random
+
+        [homes]
+            comment = Home Directories
+            read only = No
+            browseable = No
+
+[printers]
+    comment = All Printers
+    path = /var/spool/samba
+    printable = Yes
+    print ok = Yes
+    browseable = No
+
+
+Preparing Samba Users
+
+    security = user requires Linux account with Samba account that has NTLM password.
+
+    To create a Samba-only system:
+
+        Keep Linux password locked
+
+        Set the login shell to /sbin/nologin
+
+    Prevents login of user directly, or with ssh on system
+
+        Example: Create locked Linux account for user fred:
+
+        [root@server1 ~]# useradd -s /sbin/nologin fred
+
+
+    samba-client contains smbpasswd command
+
+        Use to create Samba accounts and set passwords:
+
+        [root@server1 ~]# yum -y install samba-client
+
+    If smbpasswd passed username without options, attempts to change account password
+
+        root user can use -a to add Samba account and set NTLM password
+
+        root user can use -x to delete Samba account and password for user
+
+        Example: CreateSamba account for fred and assign NTLM password:
+
+        [root@server1 ~]# smbpasswd -a fred
+        New SMB password:  redhat
+        Retype new SMB password:  redhat
+        ...
+        Added user fred.
+
+    pdbedit: More powerful tool for root user
+
+        pdbedit -L lists all users with Samba accounts configured on system
+
+        For more information, see the pdbedit(8) man page
+
+
+Starting Samba
+
+    To start Samba services immediately and enable them to start at boot time, use systemctl:
+
+    [root@server1 ~]# systemctl start smb nmb
+    [root@server1 ~]# systemctl enable smb nmb
+
+    Starts two services: smbd and nmbd
+
+        Must communicate through local firewall
+
+    smbd normally uses TCP/445 for SMB connections
+
+        Listens on TCP/139 for NetBIOS over TCP backward compatibility
+
+    nmbd daemon uses UDP/137 and UDP/138 to provide NetBIOS over TCP/IP network browsing support
+
+
+    To configure firewalld to let clients talk to local Samba services:
+
+    [root@server1 ~]# firewall-cmd --permanent --add-service=samba
+    success
+    [root@server1 ~]# firewall-cmd --reload
+    success
+
+    Samba checks to determine if /etc/samba/smb.conf has been changed
+
+        If yes, Samba automatically reloads file
+
+        Does not affect any connections already established to Samba service, until connection closed or Samba is restarted
+
+    To reload the configuration file immediately, use systemctl reload smb nmb
+
+    To restart Samba entirely, use systemctl restart smb nmb
+
+Regular SMB Mounts
+
+    To mount SMB file shares on local system, use cifs-utils package
+
+        Can mount from Samba server or Microsoft Windows server
+
+    Default: SMB mounts use single set of user credentials (mount credentials) to:
+
+        Mount share
+
+        Determine access rights to files on share
+
+    All users on Linux system using mount use same credentials to determine file access
+
+
+    To mount share, use mount
+
+    Default: NTLMv2 password hashing encapsulated in Raw NTLMSSP messages (sec=ntlmssp) used to authenticate users
+
+        Expected by recent versions of Microsoft Windows
+
+    Two ways to provide mount credentials:
+
+        If mounting interactively at shell prompt, use username= to specify SMB user to authenticate as
+
+            User prompted for password
+
+        If mounting automatically, use credentials= to provide credentials file readable only by root containing username/password
+
+
+Example
+
+    To mount the myshare:
+
+        From SMB file server server1
+
+        Authenticating as SMB user fred
+
+        Who has NTLM password redhat:
+
+        [root@desktop1 ~]# mkdir /mnt/myshare
+        [root@desktop1 ~]# mount -o username=fred //server1.example.com/myshare /mnt/myshare
+        Password for fred@//server1/myshare:  redhat
+
+
+For more info on providing SMB file shares, see these man pages: samba(7), smb.conf(5), testparm(1), mount(8), mount.cifs(8), smbpasswd(8), pdbedit(8), and samba_selinux(8).
+
+
+Multiuser Mounts With Samba
+
+    When Samba share mounted, mount credentials determine access permissions on mount point
+
+    multiuser separates mount credentials from credentials used to determine file access for users
+
+        Can use with sec=ntlmssp authentication
+
+        mount.cifs(8) man page incorrect
+
+    Root user mounts share using multiuser and SMB username with minimal access to share contents
+
+    Users can stash SMB usernames and passwords in session kernel keyring usig cifscreds
+
+    Share access authenticated with user credentials from keyring
+
+        Not mount credentials
+
+    Users can clear or change credentials for login session any time
+    Credentials cleared when session ends
+
+File access permissions enforced by SMB server based on access credentials in use
+
+
+Example
+
+    Create mount point /mnt/multiuser
+
+        Mount myshare from SMB file server server1
+
+        Authenticate as SMB user fred
+
+            Has NTLM password redhat
+
+        Use multiuser mount option:
+
+        [root@desktop1 ~]# mkdir /mnt/multiuser
+        [root@desktop1 ~]# mount -o multiuser,sec=ntlmssp,username=fred \
+        > //server1/myshare /mnt/multiuser
+        Password for fred@//server1/myshare:  redhat
+
+cifscreds
+
+    To store authentication credentials in keyring of local user, use cifscreds
+
+        Credentials forwarded to Samba server on multiuser mount
+
+        cifs-utils package provides cifscreds
+
+            Required on desktop1
+
+            [root@desktop1 ~]# yum -y install cifs-utils
+
+
+
+add
+    
+
+    Adds SMB credentials to user session keyring of a user
+
+    Followed by SMB file server host name
+
+update
+    
+
+    Updates existing credentials in user session keyring
+
+    Followed by SMB file server host name
+
+clear
+    
+
+    Removes entry from user session keyring
+
+    Followed by Samba server host name
+
+clearall
+    
+
+* Clears all existing credentials from user session keyring
+
+
+
+cifscreds and Usernames
+
+    cifscreds assumes username to use with SMB credentials matches Linux username
+
+    To use different username for SMB credentials, add -u username after add, update, or clear
+
+        Example: Root mounts //server1/myshare on /mnt/multiuser using multiuser
+
+            To access files on share, frank must use cifscreds to stash username/password in kernel-managed session keyring:
+
+            [frank@desktop1 ~]$ cifscreds add server1
+            Password:  redhat
+            [frank@desktop1 ~]$ echo "Frank was here" >/mnt/multiuser/frank2.txt
+            [frank@desktop1 ~]$ cat /mnt/multiuser/frank2.txt
+            Frank was here.
+            [frank@desktop1 ~]$ exit
+
+            Assume permissions on SMB share files grant frank read-write access to directory, but grant jane read access only:
+
+            [jane@desktop1 ~]$ cifscreds add server1
+            Password:  redhat
+            [jane@desktop1 ~]$ echo "Jane was not here" >/mnt/multiuser/jane2.txt
+            -bash: /mnt/multiuser/jane2.txt: Permission denied
+            [jane@desktop1 ~]$ cat /mnt/multiuser/frank2.txt
+            Frank was here
+
+    To learn more about performing a multiuser SMB mount, see these man pages: mount(8), mount.cifs(8), and cifscreds(1).
+
+
+

@@ -1,0 +1,1081 @@
+Module Topics
+
+    Relational Databases
+
+    MariaDB Installation
+
+    Improve MariaDB Installation Security
+
+    MariaDB and Networking
+
+    Configuring MariaDB Networking
+
+    Creating a Database
+
+    Using SQL
+
+    Creating User Accounts With MariaDB
+
+    Granting and Revoking Account Privileges
+
+    Troubleshooting Database Access
+
+    Creating a Backup
+
+    Performing a Logical Backup
+
+    Performing a Physical Backup
+
+    Restoring a Backup
+
+
+Relational Databases
+
+    Relational database: Allows persistence of data in organized way
+
+    Stores data items organized as set of tables
+
+        Table represents entity
+
+        Row corresponds to record
+
+        Column corresponds to attribute
+
+ackages Included
+
+    PostgreSQL: Open source database developed by PostgreSQL Global Development Group
+
+        Consists of Postgres users, companies, volunteers
+
+        Supervised by companies like Red Hat and EnterpriseDB
+
+    MariaDB: Community-developed branch of MySQL built authors of MySQL
+
+        Offers feature enhancements including alternate storage engines, server optimizations, patches
+
+        MariaDB Foundation works closely with user/developer community
+
+MariaDB and MySQL
+
+    MariaDB: Community-developed replacement for MySQL
+
+        MySQL not shipped in Red Hat Enterprise Linux 7 core toolset
+
+        Available through Red Hat Software Collections 1.1
+
+    Red Hat Software Collections: Parallel set of tools included with most Red Hat Enterprise Linux 7 subscriptions
+
+        Provides dynamic programming languages, database servers, web servers, various related packages
+
+        Either more recent versions or versions not available in core Red Hat Enterprise Linux distribution
+
+        Faster but shorter support cycle
+
+    For more information, see the Red Hat Software Collections 1.1 Release Notes at https://docs.redhat.com
+
+MariaDB Installation
+
+    MariaDB database installation require mariadb and mariadb-client groups installed
+
+    Packages installed with mariadb:
+
+Package
+    
+
+Description
+    
+
+Mandatory/Optional
+
+mariadb-server
+    
+
+MariaDB server and related files
+    
+
+Mandatory
+
+mariadb-bench
+    
+
+MariaDB benchmark scripts and data
+    
+
+Optional
+
+mariadb-test
+    
+
+Test suite distributed with MariaDB
+    
+
+Optional
+
+    Packages installed with mariadb-client:
+
+mariadb
+    
+
+Community-developed branch of MySQL
+    
+
+Mandatory
+
+MySQL-python
+    
+
+MariaDB interface for Python
+    
+
+Default
+
+mysql-connector-odbc
+    
+
+ODBC driver for MariaDB
+    
+
+Default
+
+libdbi-dbd-mysql
+    
+
+MariaDB plug-in for libdbi
+    
+
+Optional
+
+mysql-connector-java
+    
+
+Native Java driver for MariaDB
+    
+
+Optional
+
+perl-DBD-MySQL
+    
+
+MariaDB interface for Perl
+    
+
+Optional
+
+    /etc/my.cnf file has default configurations for MariaDB
+
+        Data directory
+
+        Socket bindings
+
+        Log and error file location
+
+    Instead of adding new configurations to /etc/my.cnf, can add *.cnf file to /etc/my.cnf.d/ directory holding MariaDB configuration
+
+
+Demonstration
+
+    Install MariaDB on server1:
+
+    [root@server1 ~]# yum groupinstall mariadb mariadb-client -y
+
+    Start MariaDB service on server1:
+
+    [root@server1 ~]# systemctl start mariadb
+
+        The default MariaDB log file is /var/log/mariadb/mariadb.log. Look there first when troubleshooting MariaDB.
+
+    Enable MariaDB service to start at boot on server1:
+
+    [root@server1 ~]# systemctl enable mariadb
+
+    Verify status of service on server1:
+
+    [root@server1 ~]# systemctl status mariadb
+
+        status reports some attributes:
+
+            Loaded: Shows if service is loaded and enabled
+
+            Active: Shows if service is activated
+
+            Main PID: Shows main process ID from service
+
+            CGroup: Shows all processes that belong to service
+
+        If database is stopped, status reports last known PID and that service is inactive
+
+
+Improve MariaDB Installation Security
+
+    MariaDB provides program to improve security from install state
+
+    Run mysql_secure_installation without arguments:
+
+    [root@server1 ~]# mysql_secure_installation
+
+    Improves MariaDB security by:
+
+        Setting password for root accounts
+
+        Removing root accounts accessible from outside local host
+
+        Removing anonymous-user accounts
+
+        Removing test database
+
+    Script fully interactive
+
+    Prompts for each step in process
+
+MariaDB and Networking
+Local Access
+
+    Security greatly improved
+
+        Records accessed by applications on same server only
+
+    May have performance impact
+
+        Server shares resources with other services
+
+Remote Access
+
+    Safety decreases
+
+        Another port opened on server, may result in attack
+
+    Server performance increases
+
+        No sharing of resources
+
+    Default: Server listens for TCP/IP connections on available interfaces on port 3306
+
+        No users have remote access permission
+
+
+MariaDB network configuration directives are in /etc/my.cnf under [mysqld]
+
+bind-address
+    
+
+    Server listens based on this directive
+
+    Can enter only one of these values:
+
+        Host name
+
+        IPv4 address
+
+        IPv6 address
+
+    To connect to all available addresses (IPv6 and IPv4), set to ::
+
+    To connect to all IPv4 addresses, leave blank or set to 0.0.0.0
+
+    /etc/my.cnf can have only one bind-address entry
+
+    On system with multiple addresses, can select either one or all addresses
+
+skip-networking
+    
+
+    If set to 1, server listens for local clients only
+
+    Interaction with server through socket
+
+        Default location: /var/lib/mysql/mysql.sock
+
+        Can change with socket value in /etc/my.cnf
+
+    If shutting off networking this way:
+
+        Disables connections via localhost
+
+        MySQL client can still make local connections through socket file
+
+port
+    
+
+    Port to listen on for TCP/IP connections
+
+    For remote access, need to modify firewall
+
+    To add service:
+
+    [root@server1 ~]# firewall-cmd --permanent --add-service=mysql
+    [root@server1 ~]# firewall-cmd --reload
+
+    
+
+For more info on configuring MariaDB databases, see:
+
+    mysql_secure_installation(1), mysql.server(1), and mysqld_selinux(8) man pages
+
+    Red Hat Software Collections documentation at https://access.redhat.com/site/documentation/en-US/Red_Hat_Software_Collections/
+
+    mariadb-client installation provides mysql program
+
+        Lets you connect to local or remote MariaDB database server
+
+        [root@server1 ~]# mysql -u root -h localhost -p
+
+Creating a Database
+
+List Databases
+
+    Database in MariaDB implemented as directory
+
+    Default installation has four databases
+
+    To list databases:
+
+    MariaDB [(none)]> SHOW DATABASES;
+    +--------------------+
+    | Database           |
+    +--------------------+
+    | information_schema |
+    | mysql              |
+    | performance_schema |
+    | test               |
+    +--------------------+
+    4 rows in set (0.01 sec)
+
+    Can delete test default database only
+
+Case Sensitivity
+
+    MariaDB not case-sensitive for simple commands
+
+        show databases; = SHOW DATABASES; = ShOw DATAbases;
+
+    Table and database names case-sensitive
+
+    Many databases use all lowercase for database names
+
+    Common to use uppercase for commands
+
+        Differentiates command itself from target
+
+    Important part is to terminate command with ;
+
+Create Database
+
+    To create new database:
+
+    MariaDB [(none)]> CREATE DATABASE inventory;
+
+    To connect to or to switch between databases:
+
+    MariaDB [(none)]> USE inventory;
+
+List Tables
+
+    MariaDB can have multiple tables per database
+
+    To list tables:
+
+    MariaDB [(none)]>  USE mysql;
+    MariaDB [(none)]>  SHOW TABLES;
+
+List Attributes
+
+    To list attributes (column names) from table:
+
+    MariaDB [(mysql)]>  DESCRIBE servers;
+
+Using SQL
+
+    Structured Query Language (SQL): Programming language for managing data in relational databases
+
+    Common SQL commands:
+
+        insert
+
+        update
+
+        delete
+
+        select
+
+    Often referred to as CRUD operations:
+
+        Create (insert)
+
+        Read (select)
+
+        Update (update)
+
+        Delete (delete)
+
+nsert Data
+
+    To insert data into table, first determine tables attributes:
+
+    MariaDB [(inventory)]>  DESCRIBE product;
+    +-----------------+--------------+------+-----+---------+----------------+
+    | Field           | Type         | Null | Key | Default | Extra          |
+    +-----------------+--------------+------+-----+---------+----------------+
+    | id              | int(11)      | NO   | PRI | NULL    | auto_increment |
+    | name            | varchar(100) | NO   |     | NULL    |                |
+    | price           | double       | NO   |     | NULL    |                |
+    | stock           | int(11)      | NO   |     | NULL    |                |
+    | id_category     | int(11)      | NO   |     | NULL    |                |
+    | id_manufacturer | int(11)      | NO   |     | NULL    |                |
+    +-----------------+--------------+------+-----+---------+----------------+
+    6 rows in set (0.00 sec)
+
+        Example: All attributes required to insert new product:
+
+        MariaDB [(inventory)]>  INSERT INTO product \\ 
+                            (name,price,stock,id_category,id_manufacturer) \\ 
+                            VALUES ('SDSSDP-128G-G25 2.5',82.04,30,3,1); \\ 
+        Query OK, 1 row affected (0.00 sec)
+
+        Attribute ID not specified, although required
+
+        Because column is marked auto_increment, MariaDB automatically assigns sequential value for column when inserting new record
+Delete a Record
+
+    To delete record:
+
+    MariaDB [(inventory)]>  DELETE FROM product WHERE id = 1 ;
+    Query OK, 1 row affected (0.01 sec)
+
+    If WHERE clause not specified, all records in table are erased
+
+        Database equivalent of rm -rf /
+
+Update a Record
+
+    To update record:
+
+    MariaDB [(inventory)]>  UPDATE product SET price=89.90, stock=60 WHERE id = 5 ;
+     Query OK, 1 row affected (0.01 sec)
+
+    If WHERE clause not specified, all records are updated
+
+Read Data Records
+
+    To read data records from database:
+
+    MariaDB [(inventory)]>  SELECT name,price,stock FROM product;
+    +---------------------+--------+-------+
+    | name                | price  | stock |
+    +---------------------+--------+-------+
+    | ThinkServer TS140   | 539.88 |    20 |
+    | RT-AC68U            | 219.99 |    10 |
+    | X110 64GB           |  73.84 |   100 |
+    | SDSSDP-128G-G25 2.5 |  82.04 |    30 |
+    +---------------------+--------+-------+
+    4 rows in set (0.00 sec)
+
+
+Select All Attributes
+
+    To select all attributes, use *:
+
+    MariaDB [(inventory)]>  SELECT * FROM product;
+    +----+---------------------+--------+-------+-------------+-----------------+
+    | id | name                | price  | stock | id_category | id_manufacturer |
+    +----+---------------------+--------+-------+-------------+-----------------+
+    |  2 | ThinkServer TS140   | 539.88 |    20 |           2 |               4 |
+    |  3 | RT-AC68U            | 219.99 |    10 |           1 |               3 |
+    |  4 | X110 64GB           |  73.84 |   100 |           3 |               1 |
+    |  5 | SDSSDP-128G-G25 2.5 |  82.04 |    30 |           3 |               1 |
+    +----+---------------------+--------+-------+-------------+-----------------+
+    4 rows in set (0.00 sec)
+
+
+Filter Results
+
+    To filter results, use WHERE clause:
+
+    MariaDB [(inventory)]>  SELECT * FROM product WHERE price > 100;
+    +----+-------------------+--------+-------+-------------+-----------------+
+    | id | name              | price  | stock | id_category | id_manufacturer |
+    +----+-------------------+--------+-------+-------------+-----------------+
+    |  2 | ThinkServer TS140 | 539.88 |    20 |           2 |               4 |
+    |  3 | RT-AC68U          | 219.99 |    10 |           1 |               3 |
+    +----+-------------------+--------+-------+-------------+-----------------+
+    2 rows in set (0.00 sec)
+
+
+=
+    
+
+Equal
+
+<>
+    
+
+    Not equal
+
+    In some versions of SQL, may be written as !=
+
+>
+    
+
+Greater than
+
+<
+    
+
+Less than
+
+>=
+    
+
+Greater than or equal
+
+⇐
+    
+
+Less than or equal
+
+BETWEEN
+    
+
+Between an inclusive range
+
+LIKE
+    
+
+Search for a pattern
+
+IN
+    
+
+Specify multiple possible values for a column
+    
+
+For more information about working with MariaDB databases, see:
+
+    mysql(1) man page
+
+    MariaDB Knowledge Base: SQL Commands at https://mariadb.com/kb/en/sql-commands/
+
+    MariaDB Knowledge Base: Data Types at https://mariadb.com/kb/en/data-types/
+
+
+
+Creating User Accounts With MariaDB
+
+    Default: MariaDB handles authentication/authorization through user table in mysql database
+
+        Root password for database persisted in user table, not operating system
+
+    Recent versions of MariaDB can use PAM for authentication
+
+    To create new account, use CREATE USER
+
+        Creates new row in mysql.user table with no privileges
+
+    information_schema and test database allow some privileges for all users
+
+        Main reason why test database deleted
+
+    To create user:
+
+        Connected user must have CREATE USER or INSERT privilege for mysql
+
+
+Account Names
+
+    Account names specified as 'user_name'@'host_name'
+
+    Can create multiple user accounts with same name but different privileges according to source host
+
+    MariaDB [(none)]>  CREATE USER mobius@localhost IDENTIFIED BY 'redhat';
+
+
+Account Properties
+
+    Passwords encrypted in user table:
+
+    MariaDB [mysql]> SELECT host,user,password FROM user WHERE user = 'mobius';
+    +-----------+--------+-------------------------------------------+
+    | host      | user   | password                                  |
+    +-----------+--------+-------------------------------------------+
+    | localhost | mobius | *84BB5DF4823DA319BBF86C99624479A198E6EEE9 |
+    +-----------+--------+-------------------------------------------+
+    1 row in set (0.00 sec)
+
+    Before granting any privileges, access denied for almost any action:
+
+    [root@server1 ~]# mysql -u mobius -p
+    Enter password: redhat
+    MariaDB [(none)]> create database inventory;
+    ERROR 1044 (42000): Access denied for user 'mobius'@'localhost' to database 'inventory'
+
+        If host name not provided, assumed to be "%"
+
+        Means user can access from any source host
+
+mobius@localhost
+    
+
+User mobius can connect just from localhost
+
+mobius@192.168.1.5
+    
+
+User mobius can connect from 192.168.1.5 host
+
+mobius@192.168.1.%
+    
+
+User mobius can connect from any host that belongs to network 192.168.1.0
+
+mobius@%
+    
+
+User mobius can connect from any host
+
+mobius@2000:472:18:b51:c32:a21
+    
+
+User mobius can connect from 2000:472:18:b51:c32:a21 host
+
+
+Granting and Revoking Account Privileges
+Privileges
+
+    Privileges: Permissions user may have within MariaDB
+
+    Organized as:
+
+Global
+    
+
+CREATE USER, SHOW DATABASES
+    
+
+Administer database server
+
+Database
+    
+
+CREATE
+    
+
+Create work with databases on server at high level
+
+Table
+    
+
+CRUD commands
+    
+
+Create tables and manipulate database data
+
+Column
+        
+
+Grant table-like command usage on a column (generally rare)
+
+Other
+        
+
+More granular privileges, discussed in detail in MariaDB documentation
+
+
+GRANT Statement
+
+    To grant privileges to accounts, use GRANT statement
+
+    Connected user must have GRANT OPTION privilege
+
+    Users can grant privileges they have already been granted only
+
+        Example: mobius cannot grant SELECT privileges on database table unless mobius has both:
+
+            SELECT privilege
+
+            GRANT OPTION table privilege
+
+            [root@server1 ~]# mysql -u mobius -p
+            Enter password: redhat
+            MariaDB [(none)]> use inventory;
+            MariaDB [(inventory)]> select * from category;
+            ERROR 1142 (42000): SELECT command denied to user 'mobius'@'localhost' for table 'category'
+            MariaDB [(inventory)]> exit
+            [root@server1 ~]# mysql -u root -p
+            Enter password: redhat
+            MariaDB [(none)]> use inventory;
+            MariaDB [(inventory)]> GRANT SELECT, UPDATE, DELETE, INSERT on inventory.category to mobius@localhost;
+            Query OK, 0 rows affected (0.00 sec)
+            MariaDB [(inventory)]> exit
+            [root@server1 ~]# mysql -u mobius -p
+            Enter password: redhat
+            MariaDB [(none)]> use inventory;
+            MariaDB [(inventory)]> select * from category;
+            +----+------------+
+            | id | name       |
+            +----+------------+
+            |  1 | Networking |
+            |  2 | Servers    |
+            |  3 | Ssd        |
+            +----+------------+
+            3 rows in set (0.00 sec)
+
+
+GRANT SELECT ON database.table TO username@hostname
+    
+
+Grant select privilege for specific table in specific database to specific user
+
+GRANT SELECT ON database.* TO username@hostname
+    
+
+Grant select privilege for all tables in specific database to specific user
+
+GRANT SELECT ON *.* TO username@hostname
+    
+
+Grant select privilege for all tables in all databases to specific user
+
+GRANT CREATE, ALTER, DROP ON database.* to username@hostname
+    
+
+Grant privilege to create, alter, and drop tables in specific database to specific user.
+
+GRANT ALL PRIVILEGES ON *.* to username@hostname
+    
+
+Grant all available privileges for all databases to specific user, effectively creating a superuser, similar to root.
+
+
+Granting and Revoking Account Privileges
+REVOKE Statement
+
+    To revoke privileges from accounts, use REVOKE statement
+
+    Connected user must have both:
+
+        GRANT OPTION privilege
+
+        Privileges being revoked
+
+        MariaDB [(none)]> REVOKE SELECT, UPDATE, DELETE, INSERT on inventory.category from mobius@localhost;
+        Query OK, 0 rows affected (0.00 sec)
+
+    After granting or revoking privilege, reload all privileges from privileges tables in mysql database:
+
+    MariaDB [(none)]> FLUSH PRIVILEGES;
+
+
+SHOW GRANTS FOR
+
+    To revoke privileges, need list of privileges granted to user
+
+    To provide list, use SHOW GRANTS FOR username;:
+
+    MariaDB [(none)]> SHOW GRANTS FOR root@localhost;
+    +---------------------------------------------------------------------+
+    | Grants for root@localhost                                           |
+    +---------------------------------------------------------------------+
+    | GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION |
+    | GRANT PROXY ON ''@'' TO 'root'@'localhost' WITH GRANT OPTION        |
+    +---------------------------------------------------------------------+
+    2 rows in set (0.00 sec)
+
+
+DROP USER
+
+    To delete user from database when no longer required, use DROP USER username;
+
+        username should use same 'user'@'host' format as CREATE USER
+
+    If account being dropped is currently connected, account not deleted until connection is closed
+
+        Connection does not close automatically
+
+
+Troubleshooting Database Access
+User has been granted access to connect from any host, but can only connect on localhost using mysql (applications he or she uses cannot connect, even on localhost)
+    
+
+Remove skip-networking directive from my.cnf and restart service
+
+User can connect with any application on localhost, but not remotely.
+    
+
+    Check bind-address configuration in my.cnf to ensure database is accessible
+
+    Ensure user table includes entry for user from host from which user is trying to connect
+
+User can connect, but cannot see any database other than information_schema and test
+    
+
+    Common problem when user has just been created, as user has no privileges by default but can connect and use default databases
+
+    Add grants for database user requires
+
+User can connect, but cannot create any databases
+    
+
+Grant user global CREATE privilege (also grants DROP privileges)
+
+User can connect, but cannot read or write any data
+    
+
+Grant user CRUD privileges only for database he or she will be using
+    
+
+    For more info on managing database users and access rights, see:
+
+    mysql(1) man page
+
+    MariaDB Knowledge Base: User Account Management at https://mariadb.com/kb/en/user-account-management/
+
+    MariaDB Knowledge Base: Account Management SQL Commands: REVOKE at https://mariadb.com/kb/en/revoke/
+
+    MariaDB Knowledge Base: Account Management SQL Commands: GRANT, "Database Privileges" at https://mariadb.com/kb/en/grant/#database-privileges
+
+
+Creating a Backup
+
+    Important to back up MariaDB databases
+
+    Database often contains company mission-critical data
+
+    Backups let you recover data after:
+
+        Operating system crash
+
+        Power failure
+
+        File system crash
+
+        Hardware problem
+
+        Security breach
+
+        Database corruption
+
+        Data poisoning
+
+
+Ways to Back Up
+
+    Two ways to back up MariaDB:
+
+        Logical backups: Export information/records in plain text files
+
+        Physical (raw) backups: Contains copies of files/directories that store content
+
+Logical Backup Characteristics
+
+    Retrieve database structure by querying database
+
+    Highly portable
+
+    Can be restored to another database provider in some cases
+
+    Slower backup
+
+        Server must access database information and convert it to logical format
+
+    Performed while server is online
+
+    Backups do not include log/configuration files
+
+
+
+Physical Backup Characteristics
+
+    Consist of raw copies of database directories/folders
+
+    Output more compact
+
+    Backups can include log/configuration files
+
+    Portable only to machines with similar hardware/software
+
+    Faster backup
+
+    Should be performed while either:
+
+        Server is offline
+
+        All tables in database are locked
+
+            Prevents changes during backup
+
+
+Performing a Logical Backup
+
+    To do a logical backup, use mysqldump:
+
+    [root@server1 ~]# mysqldump -u root -p inventory > /backup/inventory.dump
+
+    To logically back up all databases, use --all-databases:
+
+    [root@server1 ~]# mysqldump -u root -p --all-databases > /backup/mariadb.dump
+
+
+Logical Backup Output
+
+    Logical backup output appears as series of SQL statements
+
+        Example: Snippet from dump of mysql:
+mysqldump requires at least:
+
+    Select privilege for dumped tables
+
+    SHOW VIEW for dumped views
+
+    TRIGGER for dumped triggers
+
+--add-drop-tables
+    
+
+Tells MariaDB to add DROP TABLE statement before each CREATE TABLE statement
+
+--no-data
+    
+
+Dumps database structure only, not contents
+
+--lock-all-tables
+    
+
+    Cannot insert new record anywhere in database while copy is finished
+
+    Option very important to ensure backup integrity
+
+--add-drop-databases
+    
+
+Tells MariaDB to add DROP DATABASE statement before each CREATE DATABASE statement
+
+    Tools available to perform physical backups:
+
+        ibbackup
+
+        cp
+
+        mysqlhotcopy
+
+        lvm
+
+    MariaDB physical backup task can use benefits of LVM snapshots
+
+    Key benefit: Very quick, keeps database downtime short
+
+        Supports putting database files on dedicated LVM partition
+
+
+Steps 1-3
+
+    Verify where MariaDB files are stored:
+
+    [root@server1 ~]# mysqladmin variables | grep datadir
+    | datadir                         | /var/lib/mysql/             |
+
+    Verify which logical volume hosts location:
+
+        Example: Volume group is vg0, logical volume name is mariadb
+
+        [root@server1 ~]# df /var/lib/mysql
+        Filesystem              1K-blocks    Used Available Use% Mounted on
+        /dev/mapper/vg0-mariadb  51475068 7320316  41516928  15% /var/lib/mysql             |
+
+    Verify space available for snapshot:
+
+        Example: 61.29 GB available
+
+        [root@server1 ~]# vgdisplay vg0 | grep Free
+        Free  PE / Size       15321 / 61.29 GB            |
+
+
+Steps 4-5
+
+    Connect to MariaDB, flush tables to disk, and lock them
+
+        Alternatively, shut down mariadb service
+
+        Important step, prevents new records being inserted into database while snapshot is created
+
+        [root@server1 ~]# mysql -u root -p
+        MariaDB [(none)]> FLUSH TABLES WITH READ LOCK;
+
+        Do not close session
+
+        Lock lifts as soon as client disconnects
+
+        Database must remained locked until LVM snapshot is created
+
+    In another terminal, create LVM snapshot:
+
+        Snapshot must be large enough to hold backup
+
+        [root@server1 ~]# lvcreate -L20G -s -n mariadb-backup /dev/vg0/mariadb           |
+
+=== ch08s06 → m24s54_MariaDB_Backups_Perform_Physical_4-5
+
+Connect to MariaDB, flush the tables to disk, and lock them (alternatively, shut down the mariadb service):
+
+This step is very important so that no new records are inserted into the database while the snapshot is created.
+    Do not close this session. As soon as the client disconnects, this lock is lifted. The database must remained locked until the LVM snapshot is created.
+
+In another terminal session, create the LVM snapshot:
+
+
+Steps 6-9
+
+    In original MariaDB session, unlock tables:
+
+        Alternatively, bring mariadb service up
+
+        MariaDB [(none)]> UNLOCK TABLES;
+
+    Mount snapshot at arbitrary location:
+
+    [root@server1 ~]# mkdir /mnt/snapshot
+    [root@server1 ~]# mount /dev/vg0/mariadb-backup /mnt/snapshot
+
+    Use standard file system backup to store copy of /var/lib/mysql as mounted under /mnt/snapshot
+
+    After backup, be sure to delete snapshot:
+
+    [root@server1 ~]# umount /mnt/snapshot
+    [root@server1 ~]# lvremove /dev/vg0/mariadb-backup
+
+
+
+Restoring a Backup
+Logical Restore
+
+    To do a logical restore, use mysql:
+
+    [root@server1 ~]# mysql -u root -p  inventory  < /backup/mariadb.dump
+
+Physical Restore
+
+    To do a physical restore, stop mariadb service:
+
+    [root@server1 ~]#  systemctl stop mariadb
+
+    Verify where MariaDB files are stored:
+
+    [root@server1 ~]# mysqladmin variables | grep datadir
+    | datadir                         | /var/lib/mysql/             |
+
+    Remove actual content:
+
+    [root@server1 ~]# rm -rf /var/lib/mysql/*
+
+    Use standard file system restore to restore copy from backup to /var/lib/mysql
+
+    
+
+For more info about creating and restoring MariaDB backups, see:
+
+    mysql(1), mysqladmin(1), mysqldump(1), lvcreate(8), lvremove(1), and vgdisplay(8) man pages
+
+    MariaDB Knowledge Base: Backup and Restore Overview at https://mariadb.com/kb/en/backup-and-restore-overview/
+
+
+
+

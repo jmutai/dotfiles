@@ -1,0 +1,362 @@
+Module Topics
+
+    Six design principles for architecting Ceph clusters
+
+    Reference architecture performance charts
+
+    Sample optimized hardware configurations
+
+    Subsystem sizing guidelines
+
+Building Blocks
+- Workloads
+- Access; Block or Object Ceph Clients
+ Ceph Storage Cluster
+Platform : Standard Servers and Media(HDD,SSD,PCIe)
+Network: Standard Network NICs and Switches
+
+
+Design Considerations
+
+    Determine need for scale-out storage
+
+    Design for target workload I/O profiles
+
+    Choose storage access methods
+
+    Qualify storage capacity
+
+    Determine fault-domain risk tolerance
+
+    Select data protection method
+
+
+Scale-Out Factors
+
+    Elastic provisioning across storage server cluster
+
+    Standardized servers and networking
+
+    Petabyte scale: 10s, 100s, or 1000s of servers/cluster
+
+    Data HA across "islands" of scale-up storage servers
+
+    Performance and capacity scaled independently
+
+    Incremental versus forklift upgrade
+
+
+Popular use cases
+- Openstack superuser
+- Yahoo cloud store
+
+
+Design for Workload I/O
+
+    Performance versus "cheap-and-deep"
+
+    Throughput versus IOPS
+
+    Small versus large block
+
+    Sequential versus random
+
+    Read versus write mix
+
+    Absolute latency versus consistent targets
+
+    Sync versus async
+
+
+Identification of Ideal Workload Profile
+- IOPS Optimized
+- Throughput Optimized
+- Cost/Capacity Optimized
+
+
+Optimized for Performance
+
+    Highest performance (MB/sec or IOPS)
+
+    CapEx: Lowest $/performance-unit
+
+    OpEx: Highest performance/BTU
+
+    OpEx: Highest performance/watt
+
+    Minimum server fault-domain recommendation (1 server is <10% cluster)
+
+
+Optimized for Cost and Capacity
+
+    CapEx: Lowest $/TB
+
+    OpEx: Lowest BTU/TB
+
+    OpEx: Lowest watt/TB
+
+    OpEx: Highest TB/Rack-unit
+
+    Minimum server-fault domain recommendation (1 server is <15% cluster)
+
+
+Storage Access Methods
+- File storage (CephFS) not yet supported by Red Hat Ceph Storage
+- Software defined storage cluster; distributed file, object, block
+
+
+
+Fault-Domain Risk Tolerance
+
+    During recovery from a server failure in a cluster with fewer nodes:
+
+        Workload performance degrades
+
+        Larger % of cluster’s reserve storage capacity used
+
+    Guidelines:
+
+Minimal RHCS
+    3 OSD nodes/cluster
+
+Cost/capacity Cluster
+    7 OSD nodes/cluster (1 node is <15% total capacity)
+
+Performance Cluster
+    10 OSD nodes/cluster (1 node is <10% total capacity)
+
+
+Data Protection Schemes
+
+One of the biggest choices affecting TCO in the entire solution!
+
+    Replication
+
+    Erasure Coding
+
+
+Your browser does not support the audio tag.
+Fault-Domain Risk Tolerance
+
+    During recovery from a server failure in a cluster with fewer nodes:
+
+        Workload performance degrades
+
+        Larger % of cluster’s reserve storage capacity used
+
+    Guidelines:
+
+Cluster Type
+    
+
+Minimum Recommended Number of Nodes
+
+Minimal RHCS
+    
+
+3 OSD nodes/cluster
+
+Cost/capacity Cluster
+    
+
+7 OSD nodes/cluster (1 node is <15% total capacity)
+
+Performance Cluster
+    
+
+10 OSD nodes/cluster (1 node is <10% total capacity)
+Copyright ©2015 Red Hat, Inc. - 1.0
+Your browser does not support the audio tag.
+Data Protection Schemes
+
+One of the biggest choices affecting TCO in the entire solution!
+
+    Replication
+
+    Erasure Coding
+
+    Replication
+
+        3x replication over JBOD = 33% usable:raw capacity ratio
+
+    Erasure Coding
+
+        8+3 over JBOD = 73% usable:raw capacity ratio
+
+    Replication
+
+        Ceph block storage default: 3x replication over JBOD disks.
+
+        Gluster file storage default: 2x replication over RAID6 bricks.
+
+    Erasure Coding
+
+        Can be used by Ceph object storage (RGW).
+
+Reference Architecture Examples
+
+    Supermicro reference architecture
+
+    Different configuration results
+
+    Optimized cluster designs
+
+
+Subsystem Guidelines
+
+    Server chassis size
+
+    CPU
+
+    Memory
+
+    Disk
+
+    SSD Write Journals (Red Hat Ceph only)
+
+    Network
+
+
+Concepts
+
+
+Module Topics
+
+    Architectural Components
+
+    Ceph Object Storage Daemons
+
+    RADOS Cluster and Components
+
+    Where do Objects Live?
+
+    Calculated Placement
+
+    CRUSH
+
+    Data Organized into Pools
+
+    Librados: RADOS Access for Apps
+
+    Ceph Application Layers
+
+    RADOS Block Devices
+
+    Advanced RBD Features and Support
+
+    Ceph and OpenStack
+
+
+Architectural Components
+
+App > RGW
+Host/VM> RBD
+Client> Cephfs
+Librados > Library
+Rados > software based, reliable, autonomous, distributed object store comprised of self-healing, self-managing,intelligent storage nodes and lightweight monitors.
+
+Ceph Object Storage Daemons
+
+OSD, FS(btrfs,xfs,ext4), DISK
+
+
+RADOS Components
+
+OSDs
+
+    Include 10s to 10,000s in a cluster
+
+    Serve stored objects to clients
+
+    Intelligently peer for replication and recovery
+
+    Each OSD is associated with one disk
+
+Monitors
+
+    Maintain cluster membership and state
+
+    Provide consensus for distributed decision-making
+
+    Always small, odd number of monitors
+
+    Do not serve stored objects to clients
+
+
+Where do Objects Live?
+Where do Objects Live?
+Calculated Placement
+
+
+Librados: RADOS Access for Applications
+concepts__Page_18
+    
+Librados
+
+    Direct access to RADOS for applications
+
+    C, C++, Python, PHP, Java, Erlang
+
+    Direct access to storage nodes
+
+    No HTTP overhead
+
+RADOS Gateway: Web Interface
+concepts__Page_21
+    
+RADOSGW
+
+    Supports REST-based object storage proxy
+
+    Uses RADOS to store objects
+
+    API supports buckets, accounts
+
+    Employs usage accounting for billing
+
+    Compatible with S3 and Swift applications
+
+Advanced RBD Features and Support
+
+Advanced Features
+
+    Supports snapshots
+
+    Allows copy-on-write clones
+
+Support
+
+    Mainline Linux Kernel (2.6.39+)
+
+    QEMU/KVM, native Xen coming soon
+
+    OpenStack, CloudStack, Nebula, Proxmox
+
+- Ceph and OpenStack
+- Web Application Storage
+
+RADOS BLOCK DEVICES
+VM > Hypervisor>LIBRDD>RADOS CLUSTER
+
+Separate Compute From Storage
+
+Advanced RBD Features and Support
+
+
+Erasure Coding
+
+Full Copies of Stored Objects
+
+    Very high durability
+    Quicker recovery
+
+
+One Copy Plus Parity
+
+    Cost-effective durability
+    Expensive recovery
+
+How Erasure Coding Works
+Object> OSD > ERASURE CODED POOL > CEPH STORAGE CLUSTER
+
+

@@ -1,0 +1,164 @@
+Architecture Lab
+Deploy Lab Environment
+
+    Log in to the OPENTLC CloudForms system at http://labs.opentlc.com.
+
+    Go to Services → Catalogs.
+
+    On the left, expand All Services → OPENTLC Datacenter Infrastructure Labs.
+
+    On the left, select Red Hat Gluster Storage 3.1 FASTRAX Lab.
+        For this step, clicking on the right may result in an error message.
+
+    On the right, click Order.
+
+    Read the message about lab expiration and runtime, then check the box to confirm.
+
+    At the bottom, click Submit.
+
+    Check your email for a message with information about accessing your environment.
+        It takes about 20 minutes for the lab to become accessible.
+
+2. Preview Lab Environment
+
+The Red Hat Gluster Storage 3.1 lab environment consists of several systems:
+
+    Four Red Hat Gluster Storage server nodes
+
+    Two additional remote nodes
+
+    Two client systems: Red Hat Enterprise Linux and Windows
+
+Lab Environment Systems
+
+RHS_v3.X_CLIENT1
+    
+
+External: client1-GUID.rhpds.opentlc.com
+Internal: client1.localdomain
+    
+
+10.100.0.101
+    
+
+SSH
+
+RHS_v3.X_WINCLIENT
+    
+
+External: winclient-GUID.rhpds.opentlc.com
+Internal: winclient.localdomain
+    
+
+10.100.0.102
+    
+
+RDP
+
+RHS_v3.X_RHGS1
+    
+
+rhgs1.localdomain
+    
+
+10.100.1.11
+    
+
+N/A
+
+RHS_v3.X_RHGS2
+    
+
+rhgs2.localdomain
+    
+
+10.100.1.12
+    
+
+N/A
+
+RHS_v3.X_RHGS3
+    
+
+rhgs3.localdomain
+    
+
+10.100.1.13
+    
+
+N/A
+
+RHS_v3.X_RHGS4
+    
+
+rhgs4.localdomain
+    
+
+10.100.1.14
+    
+
+N/A
+
+RHS_v3.X_REMOTE_RHGS1
+    
+
+remote-rhgs1.localdomain
+    
+
+10.100.2.11
+    
+
+N/A
+
+RHS_v3.X_REMOTE_RHGS2
+    
+
+remote-rhgs2.localdomain
+    
+
+10.100.2.12
+    
+
+N/A
+    The GUID in the external hostname for the client is provided in the provisioning email. Replace GUID in the table with the GUID you are assigned.
+
+To facilitate the exercises, the lab uses a simple networking schema. This schema is likely to be very different from a corporate networking setup.
+ 
+3. Access Lab Environment
+3.1. Access Storage Nodes
+
+The preferred method to access your lab environment is through the client1 system using SSH. Connect to the external hostname found in your provisioning email with SSH and your OPENTLC username. (More details on this below.) Then use SSH from client1 to access the storage nodes as root. If you have difficulty using SSH to connect to client1, you may use the console links provided in the provisioning email as an alternative.
+
+The client system prevents root logins via SSH.
+
+    When appropriate, you can use the sudo command to run commands as root on the client1 system.
+
+    The root password for the client1 system (external facing) is r3dh4t1!.
+
+    The root password for all other systems is Redhat12.
+
+    You can use SSH to access the storage nodes as root after you are logged into the client.
+
+    Do not change the root password in case the instructor needs to assist you.
+
+3.2. Set Up SSH Connection
+
+To remotely access the client1 system using SSH, use your personal OPENTLC SSO username and private SSH key. Your public SSH key must be registered in the OPENTLC SSO system. This only needs to be done once.
+    If you have not already done so, you must provide a public SSH key. To do this, follow the steps in the remainder of this section.
+
+    Go to https://www.opentlc.com/update and log in.
+
+    Paste your public key in that location.
+
+    Connect to client1 using SSH, specifying your OPENTLC username and private SSH key.
+
+    Replace GUID in the example below with your personal GUID, which is provided at the top of the lab provisioning email.
+
+    ssh -i ~/.ssh/yourprivatekey.key username-company.com@client1-GUID.rhpds.opentlc.com
+
+    
+
+    For more information on generating SSH keys, see https://www.opentlc.com/ssh.html.
+
+    If you are using Windows, use a terminal program such as PuTTY instead of the command shown here.
+

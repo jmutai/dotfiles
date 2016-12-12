@@ -1,0 +1,196 @@
+Configuring the Shell Environment
+
+Module Topics
+
+    Environment Variables
+
+    bash Startup Scripts
+
+    alias
+
+    Functions
+
+
+Environment Variables
+
+    Environment variables are variables that are passed to subprocesses
+
+    Applications and sessions use them to determine their behavior
+
+        Common environment variables: PATH, USER, and HOSTNAME
+
+    To make variable into environment variable, flag it with export
+
+        Will be passed, with value, to any subprocess spawned from shell
+
+    Any variable defined in shell can be environment variable
+
+    To view all environment variables, use env
+
+    Example: Set MYVAR and spawn sub-shell
+
+        MYVAR variable does not exist in sub-shell
+
+        [student@DEM ~]$ MYVAR="some value"
+        [student@DEM ~]$ echo $MYVAR
+        some value
+        [student@DEM ~]$ bash
+        [student@DEM ~]$ echo $MYVAR
+        [student@DEM ~]$ exit
+
+    Example: Set MYVAR, tag MYVAR with export, and spawn sub-shell
+
+        MYVAR environment variable exists in sub-shell
+
+        [student@DEM ~]$ MYVAR="some value"
+        [student@DEM ~]$ export MYVAR
+        [student@DEM ~]$ echo $MYVAR
+        some value
+        [student@DEM ~]$ bash
+        [student@DEM ~]$ echo $MYVAR
+        some value
+        [student@DEM ~]$ exit
+
+
+bash Startup Scripts
+
+    Upon login, environment variables initialize bash environment
+
+    Several shell scripts execute:
+
+        Start with /etc/profile
+
+        Follow with profile in user’s home directory, typically ~/.bash_profile
+
+    Bash shell looks for one of three files in user’s home directory:
+
+        .bash_profile
+
+        .bash_login
+
+        .profile
+
+    Shell looks for files in this order and executes first file it locates
+
+    Profiles contain additional scripting that calls other shell scripts
+
+    Bash login scripting typically looks like this:
+
+/etc/profile
+           \__ /etc/profile.d/*.sh
+
+~/.bash_profile
+              \__ ~/.bashrc
+                         \__ /etc/bashrc
+
+Profiles:
+
+    Set and export environment variables
+
+    Run commands that run only upon login
+
+    Only executed in login shell
+
+RCs:
+
+    Run commands, set aliases, define functions, and other settings that cannot be exported to sub-shells
+
+    Execute every time shell is created (login or non-login)
+
+        File call can override default settings provided by system-wide scripts
+
+        Many Red Hat config files contain comment about where to add user-specific changes
+
+alias
+
+    To define own system command or override system command, use alias
+
+        Aliases are parsed and substituted before shell checks PATH
+
+    Can use alias to display aliases defined in shell
+
+    [student@DEM ~]$ alias
+    alias egrep='egrep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias grep='grep --color=auto'
+    alias l.='ls -d .* --color=auto'
+    alias ll='ls -l --color=auto'
+    alias ls='ls --color=auto'
+    alias vi='vim'
+    alias which='alias | /usr/bin/which --tty-only --read-alias --show-dot --show-tilde'
+
+
+    Use alias to set an alias that exists only for the duration of current shell
+
+    alias mycomm="<command to execute>"
+
+    [student@DEM ~]$ alias usercmd='echo "Hurrah!"; ls -l'
+    [student@DEM ~]$ usercmd
+    Hurrah!
+    total 0
+    -rw-rw-r--. 1 student student 0 Jun  9 13:21 file1
+    -rw-rw-r--. 1 student student 0 Jun  9 13:21 file2
+    -rw-rw-r--. 1 student student 0 Jun  9 13:21 file3
+
+
+    To make alias persistent, add alias to bottom of ~/.bashrc
+
+    [student@DEM ~]$ vi ~/.bashrc
+    ...
+    # User specific aliases and functions
+    alias usercmd='echo "Hurrah!"; ls -l'
+
+    Alias added to ~/.bashrc will be available in every shell created
+
+    To remove alias from environment, use unalias
+
+Functions
+
+    Function isolates code segment so it can be called repeatedly
+
+    Updated code executes everywhere function is referenced
+
+        Example: pathmunge function defined in shell script in /etc/profile
+
+         pathmunge () {
+          if [ "[" = "after" ] ; then
+            PATH=$PATH:(
+          else
+            PATH=(:$PATH
+          fi
+        }
+        ...
+        if [ "$EUID" = "0" ]; then
+            pathmunge /sbin
+            pathmunge /usr/sbin
+            pathmunge /usr/local/sbin
+        else
+            pathmunge /usr/local/sbin after
+            pathmunge /usr/sbin after
+            pathmunge /sbin after
+        fi
+
+
+    Can also set functions in Bash shell environment
+
+    When set in environment, can execute as commands, similar to aliases
+
+    Unlike aliases, functions can:
+
+        Take arguments
+
+        Perform more sophisticated actions
+
+        Provide return code
+
+    Can type functions into current shell
+
+        Preferable to set in user’s ~/.bashrc or global /etc/bashrc
+
+    To see default functions and variables in current shell environment, use set
+
+    To remove function from environment, use unset and function or variable name
+
+    For more info, see these man pages: bash(1), env(1), and builtins(1).
+
+

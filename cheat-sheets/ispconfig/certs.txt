@@ -10,6 +10,7 @@ Create SSL Certificate
 
 ./letsencrypt-auto certonly
 
+certbot-auto renew
 
 Use next 4 commands if you are creating a SSL certificate for your ISPConfig Dashboard panel
 Backup original ISPConfig certificates
@@ -19,6 +20,9 @@ mv /usr/local/ispconfig/interface/ssl/isp* /usr/local/ispconfig/interface/ssl/or
 
 ln -s /etc/letsencrypt/live/rafikihost.co.ke/fullchain.pem /usr/local/ispconfig/interface/ssl/ispserver.crt
 ln -s /etc/letsencrypt/live/rafikihost.co.ke/privkey.pem /usr/local/ispconfig/interface/ssl/ispserver.key
+
+ln -s /etc/letsencrypt/live/www.rafikihost.co.ke/fullchain.pem /usr/local/ispconfig/interface/ssl/ispserver.crt
+ln -s /etc/letsencrypt/live/www.rafikihost.co.ke/privkey.pem /usr/local/ispconfig/interface/ssl/ispserver.key
 
 B) If you are creating a SSL certificate for one of your websites...
 

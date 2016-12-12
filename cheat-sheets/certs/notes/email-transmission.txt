@@ -1,0 +1,337 @@
+Module Topics
+
+    Email Architecture and Null Clients
+
+    Email Message Transmission
+
+    Postfix
+
+    Postfix Null Client Configuration
+
+
+Email Architecture and Null Clients
+
+    Linux servers send email to report errors and to administrators
+
+        Generally use /usr/sbin/sendmail
+
+        Most servers send mails when incidents occur
+
+        Uses corporate SMTP server to transmit messages
+
+    Null client: Client machine that runs local mail server that forwards emails to outbound mail relay for delivery
+
+        Does not accept local delivery for any messages
+
+        Can only send messages to outbound mail relay
+
+    Users may run mail clients on null client to read and send emails
+
+
+Email Message Transmission
+
+    To send email, mail client communicates with outgoing mail server
+
+        Server helps relay message to final destination
+
+        Client uses SMTP to transmit messages to server
+
+    If outgoing mail relay requires no authentication from internal clients, server listens on port 25/TCP
+
+        Relay restrict hosts that can relay
+
+        IP address-based restrictions or firewall rules
+
+    If outbound SMTP relay is reachable from Internet, normally configured as MSA
+
+        MSA listens on port 587/TCP and requires authentication of client before accepting mail
+
+        May be username/password or other means
+
+    Outgoing mail relay uses DNS to look up MX record
+
+        Identifies mail server that accepts delivery for messages sent to recipient domain
+
+    Relay uses SMTP on port 25/TCP to transmit email to server
+
+
+
+
+
+Email Message Transmission
+
+    Recipient mail service may provide POP3 or IMAP server to let mail client download messages
+
+    Mail service may provide web-based interface to let clients use web browser as mail client
+
+    Mail client on desktop1.example.com fetches incoming mails from IMAP server imap1.example.com
+
+    Outgoing mails sent to smtp1.example.com
+
+    MX DNS record defines smtp1.example.com as mail server for example.com
+
+
+Postfix
+
+    Postfix: Powerful, easy-to-configure mail server
+
+        Default mail server in Red Hat Enterprise Linux 7
+
+        Provided by postfix RPM package
+
+        Modular program made up of several programs
+
+        Components controlled by master process
+
+    /etc/postfix/main.cf: Main configuration file of postfix mail server
+
+        /etc/postfix contains other configuration files
+
+        /etc/postfix/master.cf controls subservices that are started
+
+
+inet_interfaces
+    
+
+    Controls network interfaces Postfix listens on for incoming and outgoing messages
+
+        If set to loopback-only, Postfix listens only on 127.0.0.1 and ::1
+
+        If set to all, Postfix listens on all network interfaces
+
+    Can list One or more host names and IP addresses, separated by white space
+
+    
+
+inet_interfaces = localhost
+
+myorigin
+    
+
+    Rewrite locally posted email to appear to come from this domain
+
+    Helps ensure responses return to correct domain for which mail server is responsible
+
+    
+
+myorigin = $myhostname
+
+relayhost
+    
+
+    Forward all messages to mail server specified supposed to be sent to foreign mail addresses
+
+    Square brackets around host name suppress MX record lookup
+
+    
+
+`relayhost = `
+
+mydestination
+    
+
+    Configure domains mail server is end point for
+
+    Email addressed to these domains delivered into local mailboxes
+
+    
+
+mydestination = $myhostname, localhost.$mydomain, localhost
+
+local_transport
+    
+
+    Determine how to deliver email addressed to $mydestination
+
+    By default, set to local:$myhostname
+
+        Uses local mail delivery agent to deliver incoming mail to local message store in /var/spool/mail
+
+    Set to error: error message, e.g., local_transport = error: local delivery disabled, to disable local delivery completely
+
+    
+
+local_transport = local:$myhostname
+
+mynetworks
+    
+
+    Allow relay through mail server from comma-separated list of IP addresses and networks in CIDR notation to anywhere, without further authentication
+
+    If mynetworks not explicitly set in /etc/postfix/main.cf, is filled automatically using setting for mynetworks_style
+
+    Default for mynetworks_style: subnet
+
+        Means all subnets in which tserver has IP address are added to mynetworks
+
+        Often not desired situation, especially if server has external IP address
+
+    Recommended: Add mynetworks setting manually, or set mynetworks_style to host
+
+
+
+Edit Configuration File
+
+    Two ways to edit /etc/postfix/main.cf:
+
+        By hand using a text editor such as vim
+
+        Using postconf utility
+
+    postconf lets you:
+
+        Query by individual/all settings
+
+        Modify settings
+
+        Query defaults
+
+        Showing all settings that differ from built-in defaults
+
+
+    To query all settings from /etc/postfix/main.cf, run postconf without any parameter:
+
+    [root@server1 ~]# postconf
+    2bounce_notice_recipient = postmaster
+    access_map_defer_code = 450
+    access_map_reject_code = 554
+    address_verify_cache_cleanup_interval = 12h
+    address_verify_default_transport = $default_transport
+    ...
+
+    To query particular set of options, list them after postconf
+
+        Example: To list inet_interfaces and myorigin options with corresponding values:
+
+        [root@server1 ~]# postconf inet_interfaces  myorigin
+        inet_interfaces = loopback-only
+        myorigin = $myhostname
+
+    If value in /etc/postfix/main.cf starts with $, it is not a literal value
+
+        Instead points to value of different setting
+
+        Syntax simplifies maintenance; need to update value in one place only
+
+
+    To add or change options in /etc/postfix/main.cf:
+
+    postconf -e 'setting = value'
+
+        If setting with name already exists in configuration file, it is updated to new value
+
+        Otherwise it is added to bottom of configuration file
+
+    To change myorigin to rewrite domain part of FROM: address to example.com:
+
+    [root@server1 ~]# postconf -e 'myorigin = example.com'
+
+    postfix requires reload or restart after making changes to /etc/postfix/main.cf.
+
+
+Troubleshooting
+
+    When troubleshooting email, log of all mail-related operations kept in systemd and /var/log/maillog
+
+        Includes information on mail server-related actions
+
+    To display list of queued outgoing mail messages, use postqueue -p
+
+    To attempt to deliver all queued messages again immediately, use postqueue -f command
+
+        Otherwise, Postfix attempts to resend once an hour until messages accepted or expire
+
+
+
+Postfix Null Client Configuration
+
+To act as null client, must configure Postfix and Red Hat Enterprise Linux so that:
+
+    sendmail and programs that use it forward all emails to existing outbound mail relay for delivery
+
+    Local Postfix service does not accept local delivery for any email messages
+
+    Users may run mail clients on null client to read and send emails
+Null client on server1.example.com delivers all messages to corporate SMTP mail server smtp1.example.com
+
+For a complete overview of all settings adjustable in /etc/postfix/main.cf and their explanations, see the postconf(5) man page.
+
+
+Steps
+
+    Adjust relayhost to point to corporate mail server:
+
+        Enclose host name of corporate mail server in square brackets
+
+        [root@server1 ~]# postconf -e "relayhost=[smtp1.example.com]"
+
+    Configure Postfix mail server to only relay emails from local system
+
+        Let mail server listen on loopback interface for emails to deliver only:
+
+        [root@server1 ~]# postconf -e "inet_interfaces=loopback-only"
+
+        Change null client configuration so it forwards mails originating from 127.0.0.0/8 IPv4 network and [::1]/128 IPv6 network to relay host:
+
+        [root@server1 ~]# postconf -e "mynetworks=127.0.0.0/8 [::1]/128"
+
+    Configure Postfix so outgoing mails have sender domain rewritten to company domain example.com:
+
+    [root@server1 ~]# postconf -e "myorigin=desktop1.example.com"
+
+
+    Prohibit Postfix mail server from delivering messages to local accounts
+
+        Configure the null client not to act as end point for any mail domain:
+
+            Does not accept mails where recipient is local email account for local delivery
+
+            Need to set mydestination to empty value
+
+            [root@server1 ~]# postconf -e "mydestination="
+
+        Configure local null client not to sort mails into mailboxes on local system:
+
+            Local email delivery turned off
+
+            [root@server1 ~]# postconf -e "local_transport=error: local delivery disabled"
+
+    Restart local postfix null client:
+
+    [root@server1 ~]# systemctl restart postfix
+
+\
+inet_interfaces
+    
+
+inet_interfaces = loopback-only
+
+myorigin
+    
+
+myorigin = desktop1.example.com
+
+relayhost
+    
+
+relayhost = [smtp1.example.com]
+
+mydestination
+    
+
+mydestination =
+
+local_transport
+    
+
+local_transport = error: local delivery disabled
+
+mynetworks
+    
+
+mynetworks = 127.0.0.0/8, [::1]/128
+
+For more information on configuring email transmission, see these man pages: postconf(1), postconf(5), mail(1), and mutt(1).
+
+
+
