@@ -1,0 +1,108 @@
+Class Setup
+
+    Your unique class setup is ALL cloud based.
+
+    You need only a computer with a web browser and SSH client installed to access your training environment.
+
+    Your setup runs for up to 2 days after the training ends and it is accessible from anywhere.
+
+    Each environment has a unique GUID to separate you from your peers.
+
+    The next page shows the names and IP addresses for the entities in your environment.
+
+
+Class Network Setup
+
+Name
+    
+
+Subnet
+    
+
+Netmask
+    
+
+VLAN
+    
+
+Gateway
+    
+
+DNS
+
+MGMT Net
+    
+
+192.168.0.0/16
+    
+
+255.255.0.0
+    
+
+N/A
+    
+
+192.168.0.2
+    
+
+192.168.0.1
+
+VM Net
+    
+
+10.10.10.0/24
+    
+
+255.255.255.0
+    
+
+10
+    
+
+10.10.10.1
+    
+
+N/A
+
+Storage Net
+    
+
+10.10.20.0/24
+    
+
+255.255.255.0
+    
+
+20
+    
+
+10.10.20.1
+    
+
+N/A
+
+
+Class Storage Setup
+
+192.168.0.30:/Training-ISODomain
+    
+
+NFS ISO Domain for Red Hat Enterprise Virtualization containing bootable ISOs for the labs
+
+192.168.0.30:/vms
+    
+
+A blank NFS share for Red Hat Enterprise Virtualization Data Domain
+
+192.168.0.30:/Training-ExportDomain
+    
+
+A populated Red Hat Enterprise Virtualization export domain containing pre built OS templates
+
+iqn.2013-07.com.opentlc:vmstore00
+    
+
+A blank iSCSI target for Red Hat Enterprise Virtualization Data Domain on the storage network
+
+    All passwords in our training environment are set to: r3dh@t1!
+

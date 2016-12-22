@@ -1,0 +1,124 @@
+Fortunately, both of these tools are mainstream with the majority of Java development shops.
+
+You’ll want to move at a steady pace
+
+Access to the Internet
+
+Often times internet access from corporate networks is problematic. In particular, corporate networks can be slow and sporadic. In addition, they often restrict outbound communication to http(s) only through corporate web proxys.
+
+Its best to work on this course on a broadband network that you either control or are sure provides unrestricted and reliable internet access.
+
+
+In order to quickly get you productive with the labs in this course, a virtual machine pre-installed with all of the needed client-side developer tooling is provided
+
+Prereqs
+
+In addition, it should be able to dedicate a minimum of 2 64-bit CPUs and 4G RAM to the course virtual machine virtual machine.
+
+
+The course virtual machine is a 64 bit virtual machine. Subsequently, ensure that the x86_64 bit (amd64) version of VirtualBox is installed. Also, ensure that virtualization is enabled in the BIOS of your host machine. Please refer to online VirtualBox documentation for assistance with configuring it for your workstation.
+
+
+Recommended: Enable [vbga] so as to leverage the full display resolution of your host machine.
+
+
+To test network connectivity of your new VM, execute the following:
+
+I am aghast when I hear of incidents of Wananchi being terrorized and monies being diverted.
+
+
+It is unfortunate that Wananchi are being fleeced & monies meant for development is stolen by unscrupulous leaders & public servants.
+
+
+The following provides reference for scenarios that you may encounter in later modules of this course.
+
+Please refer back to this section as needed.
+
+Throughout the labs for this course, you may need to view your mysql database tables to understand how JBoss BPM Suite 6 is operating. To view current data in your mysql database, execute the following:
+
+
+Red Hat, as the licensor of this document, waives the right to enforce, and agrees not to assert,
+Section 4d of CC-BY-SA to the fullest extent permitted by applicable law.
+
+
+Due to lingering process instances, you cannot build and redeploy a KIE project that includes a correction to the original problem in a BPMN2 process definition.
+
+If you find yourself in this situation, simply delete all records in the ProcessInstanceLog table in your JBoss jBPM database as follows:
+
+
+Until now, the rules you expressed in the labs were fairly simple.
+
+
+and how to put our incredibly diverse range of solutions to use to help your customers make the most of their business opportunities.
+
+
+By completing this course, you will have demonstrated an understanding of SUSE Linux Upsell Solutions and how it can solve the business challenges facing our customers today.
+
+SUSE Enterprise Linux
+SUSE Linux Enterprise Server is a highly reliable, scalable and secure server operating system, built to power both physical and virtual mission-critical workloads
+
+It shows to customers that your company will quickly jump on the bandwagon for the next cool technology.
+
+
+You will save yourself a lot of trouble.
+
+
+SUSE enjoys an edge over competitors because of its partner-friendly approach. The era of narrow platform dependencies is over. Customers that make new
+investments in IT need to use technologies that give them the maximum amount of portability and flexibility going forward.”
+
+
+Know the Market Conditions 
+Know the Customer’s Business Needs
+Know How the Solution Solves the Problem
+
+The most famous quality of a chameleon is its adaptability!
+
+
+Strategy Comparison:
+How Do You Define “Open”?
+
+A platform agnostic approach to systems management: SUSE Manager
+A clear strategy around interoperability and mixed open source
+
+We want you to be successful in as short a time as possible.
+
+If you would like a more detailed walk through with instructions for installing using different methods (in local virtual machines, EC2 and baremetal) and different distributions, then have a look at the Install guide.
+
+
+Today, we’re exited to release the much-anticipated Hugo 0.18!
+
+If at any point in time GlusterFS is unable to write to these files (for example, when the backing filesystem is full), it will at minimum cause erratic behavior for your system; or worse, take your system offline completely. 
+
+Elastic provisioning across storage server cluster
+
+Django is a powerful web framework that can help you get your Python application or website off the ground quickly.
+
+In this guide, we will demonstrate how to install and configure Django in a Python virtual environment. 
+
+Mostly news, sometimes rants about the Operating System. 
+
+I am the web hosting whisperer. Let me help you find a quality control tested, reviewed and reliable web hosting provider for your business.
+
+We will not allow a few people to derail efforts made in restoring security in the county,”
+
+“It is shocking; very unfortunate and police must deal firmly with criminals. 
+
+
+Whether you're a developer or not, it's great to know that the core of what you're running on your Droplet has undergone the scrutiny of a large open-source community and should be less susceptible to large security holes.
+
+
+
+One thing that is not inherently simple is knowing how to get these web frameworks up and running outside of your own development or testing environment.
+
+Test that the newly minted site works properly
+
+Ten criminals terrorising residents were reportedly shot dead in a fierce gun battle with police.
+
+However, they disappeared after an intensified police crackdown.
+
+The virtualenv command you'll be using soon doesn't play nicely with the default user tcsh shell in FreeBSD. We need bash instead. If you're coming from a Linux environment you'll feel right at home
+
+
+DM me if you want to meet up.
+DM > To send a Direct Message on twitter 
+

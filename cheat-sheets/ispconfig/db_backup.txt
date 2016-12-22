@@ -1,0 +1,8 @@
+mysqldump -u zabbix -pmy_password zabbix | \
+    bzip2 -cq9 > /backups/zabbix_db_dump_$(date +%Y-%m-%d-%H.%M.%S).sql.bz2"
+
+
+# Restore
+
+bunzip2 -dc /backups/zabbix_db_dump_2016-05-25-02.57.46.sql.bz2 | mysql -uzabbix -p --password=my_password zabbix
+

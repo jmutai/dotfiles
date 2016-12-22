@@ -100,3 +100,4 @@ alias ypa="youtube-dl  --write-auto-sub --ignore-errors --no-overwrites --embed-
 alias yv="youtube-dl  --write-auto-sub --ignore-errors --no-overwrites --embed-subs -f 22 -o  '%(title)s.%(ext)s'"
 
 alias apache='sudo systemctl restart  httpd.service'
+alias mypic='mycp ~/mysites/jmutai.com/pic.txt'

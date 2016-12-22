@@ -4,6 +4,15 @@ Bold:    **Strong** __Strong__
 Strikethrough uses two tildes. ~~Scratch this.~~
 Combined emphasis with **asterisks and _underscores_**.
 
+Comments
+[//]: <> (This is a comment)
+
+Pic
+
+![terminator screenshot gns3][]
+[terminator screenshot gns3]: /images/2016-12/gns3-terminator.png "terminator screenshot gns3" 
+
+
 Inline Links    
 A [link](http://example.com "Title").  => A link.
 

@@ -133,7 +133,7 @@ The client system prevents root logins via SSH.
 
     When appropriate, you can use the sudo command to run commands as root on the client1 system.
 
-    The root password for the client1 system (external facing) is r3dh4t1!.
+   The root password for the client1 system (external facing) is r3dh4t1!.
 
     The root password for all other systems is Redhat12.
 

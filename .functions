@@ -202,11 +202,11 @@ nouser () {
 }
 
 myhugo () {
-    USER=josepy
+    USER=jmutaijose
     HOST=rafiki
-    DIR=~/public # might sometimes be empty!
+    DIR=/web/
     rm -rf public
-    hugo && rsync -avz --delete public/ ${USER}@${HOST}:${DIR}
+    hugo && rsync -avz --delete public/* ${USER}@${HOST}:${DIR}
 }
 
 myrsync () {

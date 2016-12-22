@@ -1,0 +1,60 @@
+This tutorial is intended to give you step by step guide on setting up GlusterFS on CentOS 7/RHEL 7 Server.
+To use this tutorial, you'll need a  RHEL 7 or CentOS 7 server. Details on installing the OS are not provided here; consult official OS's doc.
+
+Since this guide aims at helping you get GlusterFS up and running in as short a time as possible, detailed steps are not provided.
+For further learning, it's recommended you read GlusterFS Admin Guide.
+
+## GLusterFS?
+GLusterFS is POSIX-compliant distributed file system that can scale to several peta-bytes storage.Here, data is stored in distributed way; replicated across all storage servers(nodes) in the cluster.
+
+GlusterFS can easily manage usntructured data for physical, virtual, and cloud environments.
+
+## Why GlusterFS?
+- Flexible and agile scaling
+- No metadata server
+- Aggregated storage and memory
+- Works on standard-based clients, applications and networks 
+- High redundancy
+- Simple and inexpensive deployment
+- Work with thousands of clients
+    * Easy scale-out; add GlusterFS nodes to trusted pool- (improved cluster performance)
+    * Easy scale-up; expands GlusterFS volume by adding disks and file systems to node 
+
+## GlusterFS Components
+- gluster
+- glusterd
+- glusterfs
+- glusterfsd
+- mount.glusterfs
+
+## Terminology
+ **Brick**:
+- This is the File system mount point
+- It is a unit of storage used as GlusterFS building block
+ 
+**Translator**
+ 
+         Logic between bits and global namespace
+ 
+         Layered to provide GlusterFS functionality
+ 
+**Volume**
+ 
+         Bricks combined and passed through translators
+ 
+**Node**
+ 
+         Server running gluster daemon and sharing volumes
+
+## Setting up High Availability Storage with GlusterFS on CentOS 7 and RHEL 7
+
+### Prereqs
+- Two  freshly installed and running CentOS 7/RHEL 7 servers
+- The two servers are named server1 and server2, under example.com domain
+- A working network connection. Internet connection required if not making use of local repository
+- At least two virtual disks. Os installed on sda/vda and GlusterFS served on sdb/vdb
+- Have enough space on backing file system for GlusterFS dynamically generated configuration files; stored at var/lib/glusterd
+
+
+
+

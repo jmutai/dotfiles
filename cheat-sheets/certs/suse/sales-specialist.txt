@@ -1,0 +1,133 @@
+What’s is Open Source?
+It’s open:
+• To the public
+• To change
+• To innovation
+
+Proprietary = closed,stop, do not open
+Open source = open,go, do not close
+
+
+Why Open Source?
+- Freedom of choice
+- Power of the community
+- Top Service Levels
+- Best of Breed Technology
+
+
+“Linux and open source software solutions today are becoming an increasingly attractive option. [It] has emerged as one of
+the most significant equalizers, bridging previously incompatible platforms with a common OS layer. The future of Linux is bright.
+
+    —IDC, The Linux Market Today
+
+
+Essential Linux Terminology 
+- It’s GNU
+- Linux is licensed under the GNU General Public License (GPL) and is “free”
+- Free refers to the freedom to distribute: You get the source code, you can change it, you can use pieces of the code in other free software – all rights and freedoms are passed along
+
+
+It’s not a license…it’s a subscription
+- You pay a subscription fee for support of your Linux distribution vs. a license fee for Linux software
+- Subscriptions vary by service level and length of term
+- Subscriptions are often defined in terms of Basic, Standard and Premium Maintenance contracts 
+
+
+- Licensing is typically more expensive in the first year and then a lesser percentage is charged each year in maintenance
+    - Maintenance is typically between 15-20% of the initial purchase price (or list price) per year
+
+Subscription pricing is the same per year –
+discounts are offered for longer 3-year subscription
+periods
+
+
+
+Reliability, Availability, Serviceability (RAS) + Scalability
+
+    • Reliability: The ability of the software component to consistently perform according to its specifications.
+    • Availability: The ratio of time a system or component is functional to the total time it is required or expected to function.
+    • Serviceability: An expression of the ease with which a software component can be maintained or repaired.
+    • Scalability: The ability to function well as the underlying hardware scales upward and takes full advantage of the added capacity.
+
+
+All of which makes Linux a viable alternative to UNIX or Windows for mission-critical applications and services.
+
+
+Why Linux
+- RAS
+- Performance and Scalability
+- Affordability
+- Innovation
+- Open Source
+
+“Linux is available on every major server architecture in use, ranging from IBM System z and Power Systems at the high end to ARM-based servers at the low end.
+
+This vast range of deployment options gives Linux considerable flexibility to meet application requirements on the right architecture.”
+
+
+Who is SUSE?
+- Over 20 years of Open Source
+- Setting the bar: Leading Provider of enterprise linux solutions
+- Global Market: Customers worldwide > 19,000+
+- Global Organization - Employees in 43 countries > 850+
+- Know How : 22+ years of linux engineering experience
+- Partners : 5,000+ member partner ecosystem
+- The Gold Standard award winning: Technical support and Customer service
+
+SUSE is a chameleon
+
+- SUSE is the Linux distribution the world turns to when it’s serious: When lives (and livelihoods) depend on the reliability, availability and performance of the 
+ Linux OS.
+
+
+Comprehensive Portfolio
+
+1. Server and Desktop
+- SUSE Linux Enterprise Server
+- SUSE Linux Enterprise Server for System z
+- SUSE Linux Enterprise Server for IBM Power
+- SUSE Linux Enterprise Server for SAP Applications
+- SUSE Linux Enterprise Server for High Performance Computing
+- SUSE Linux Enterprise Server with Expanded Support
+- SUSE Linux Enterprise Point of Service
+- SUSE Linux Enterprise Desktop
+
+2. Extensions
+- SUSE Linux Enterprise High Availability Extension
+- SUSE Linux Enterprise real Time Extension
+- SUSE Linux Enterprise Workstation Extension
+- SUSE Linux Enterprise Virtual Machone Driver Pack
+- SUSE Linux Enterprise Live Patching
+- Long Term Service Pack Support
+- SUSE Manager Management Pack for Microsoft System Center
+- Geo Clustering for SUSE Linux Enterprise High Availability Extension
+
+
+3. Cloud, Storage and Management
+- SUSE Openstack Cloud
+- SUSE Manager
+- SUSE Enterprise Storage
+- SUSE Studio
+- SUSE Linux Enterprise Server for Amazon EC2
+- SUSE Linux Enterprise Server for Windows Azure
+
+4. Technical Services
+- Premium Support
+- Consulting
+- Training
+
+Our Vision
+- To give enterprises back control over their IT infrastructure
+
+Our Mission
+
+- Adapt anbd deliver high performance Linux and open source solutions paired with exceptional service - giving enterprises the smarter innovation they need to succeed.
+
+OUR STRATEGY
+
+- Together with partners, we deliver practical, best-of-breed solutions for heterogeneous environments, which free companies from vendor lock-in.
+
+
+Where SUSE Leads
+
+
