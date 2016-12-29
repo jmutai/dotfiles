@@ -1,9 +1,0 @@
-cd /opt
-git clone git://github.com/zsh-users/zsh-completions.git
-
-Include the directory in your $fpath, for example by adding in ~/.zshrc:
-
-fpath=(/opt/zsh-completions/src $fpath)
-You may have to force rebuild zcompdump:
-
-rm -f ~/.zcompdump; compinit

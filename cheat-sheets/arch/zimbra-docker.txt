@@ -1,1 +1,0 @@
-https://wiki.zimbra.com/wiki/Deploy_Zimbra_Collaboration_using_docker

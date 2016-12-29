@@ -1,9 +1,0 @@
-# vim /etc/apache2/apache2.conf 
-
-ServerTokens ProductOnly
-ServerSignature Off
-
-apachectl -k graceful
-
-
-

@@ -1,2 +1,0 @@
-terminator --new-tab --title "%d" -x bash -c "telnet %h %p"
-

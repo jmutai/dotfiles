@@ -1,3 +1,0 @@
-$ sudo vim   /etc/coreos/update.conf 
- GROUP=alpha
-

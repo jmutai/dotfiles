@@ -1,7 +1,0 @@
-- For Gnome
-- Settings are in:
-# cd /etc/gconf/
-# cd schemas/
-
-- Terminal tool
-# gconftool-2

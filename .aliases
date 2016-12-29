@@ -5,7 +5,7 @@ alias lab='cd ~/.lab'
 alias cdgit='cd ~/mygit'
 alias dots='cd ~/mygit/dotfiles'
 alias docs='cd ~/mygit/dockerfiles/'
-alias cheats='~/mygit/dotfiles/cheat-sheets/'
+alias cheats='~/cheat-sheets/'
 alias commit="git commit -m 'updated'"
 alias add="git add ."
 

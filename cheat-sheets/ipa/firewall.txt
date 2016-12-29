@@ -1,1 +1,0 @@
- firewall-cmd --add-service={ssh,dns,http,https,freeipa-ldap,freeipa-ldaps} --permanent 

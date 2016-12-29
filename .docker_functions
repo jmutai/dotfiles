@@ -127,6 +127,20 @@ centos () {
          centos /bin/bash 
  }
 
+ rhel7 (){
+     docker run -it --rm \
+         --name rhel7 \
+         --privileged  \
+         -e "container=docker" \
+         --cap-add SYS_ADMIN \
+         --stop-signal=SIGRTMIN+3 \
+         --security-opt=seccomp:unconfined \
+         -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
+         -h rhel7.example.com \
+         registry.access.redhat.com/rhel7.3 \
+        /usr/sbin/init 
+ }
+
 # Mariadb docker start function
 # docker network create --driver overlay main-net
 

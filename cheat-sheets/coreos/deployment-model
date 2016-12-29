@@ -1,6 +1,0 @@
-1. Set up a cluster
-2. Set up fleet endpoint
-3. Set up a git hook server
-4. Write and test Dockerfiles (and .service files).
-5. Clone the bare repo to the hook server
-6. Write a script—

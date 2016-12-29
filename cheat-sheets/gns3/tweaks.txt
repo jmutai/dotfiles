@@ -1,5 +1,0 @@
-Erase startup configs
-
-# erase startup-config 
-#reload
-

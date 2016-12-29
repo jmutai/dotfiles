@@ -1,9 +1,0 @@
-cd /etc/pki/tls/certs 
-make server.key 
-
-> remove passphrase from private key
-# openssl rsa -in server.key -out server.key 
-
-# make server.csr 
-
-# openssl x509 -in server.csr -out server.crt -req -signkey server.key -days 3650

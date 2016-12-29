@@ -1,1 +1,0 @@
-/radius add service=hotspot,ppp address=192.168.0.109 secret=pepea

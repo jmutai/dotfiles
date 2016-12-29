@@ -1,4 +1,0 @@
-/usr/local/ispconfig/server/lib/mysql_clientdb.conf 
-
-select host, user, password from mysql.user;
-

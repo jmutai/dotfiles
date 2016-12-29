@@ -217,3 +217,7 @@ myfind () {
     local f_size=${1}
     sudo find / -type f  -size +"${f_size}" -exec ls -lsh {} \; 2>/dev/null
 }
+
+myip () {
+    ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1  -d'/'
+}
