@@ -16,6 +16,10 @@ set history=1000
 filetype plugin on
 filetype indent on
 
+" Set fold method
+set foldmethod=manual
+au BufWinLeave * mkview
+au BufWinEnter * silent loadview
 
 " Set to auto read when a file is changed from the outside
 set autoread
