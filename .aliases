@@ -101,3 +101,4 @@ alias yv="youtube-dl  --write-auto-sub --ignore-errors --no-overwrites --embed-s
 
 alias apache='sudo systemctl restart  httpd.service'
 alias mypic='mycp ~/mysites/jmutai.com/pic.txt'
+alias myvmstat='vmstat -S M 1 3'

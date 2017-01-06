@@ -47,6 +47,9 @@ ask "Install icons and themes?" Y && bash install-scripts/icons_and_themes
 ask "Install oh-my-zsh setup?"  Y && bash install-scripts/oh-my-zsh 
 ask "Install vim packages?"  Y && bash install-scripts/vim-packages
 
+ask "Install symlinks for tmux?" Y && ln -sfn ${dir}/.tmux.conf ${HOME}/.tmux.conf; ln -sfn ${dir}/.tmux_prompt.sh ${HOME}/.tmux_prompt.sh
+ask "Install symlink for .dircolors?" Y && ln -sfn ${dir}/.dircolors ${HOME}/.dircolors
+
 ask "Install symlink for .gitconfig?" Y && ln -sfn ${dir}/.gitconfig ${HOME}/.gitconfig
 ask "Install symlink for .zshrc?" Y && ln -sfn ${dir}/.zshrc ${HOME}/.zshrc
 ask "Install symlink for .vimrc?" Y && ln -sfn ${dir}/.vimrc ${HOME}/.vimrc

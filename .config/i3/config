@@ -26,6 +26,7 @@ set $mod1 Mod1
 set $terminal termite
 
 # bindsym F1 exec ~/bin/dmenu
+ bindsym $mod+m exec terminator
 
 
 # Font for window titles. Will also be used by the bar unless a different font
@@ -310,6 +311,7 @@ mode "$mode_launcher" {
     bindsym l exec lxappearance  
     bindsym t exec thunar
     bindsym f exec firefox
+    bindsym m exec terminator
     bindsym v exec virt-manager 
     bindsym s exec spotify
     bindsym d exec deepin-screenshot 

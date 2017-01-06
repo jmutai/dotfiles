@@ -17,7 +17,7 @@ filetype plugin on
 filetype indent on
 
 " Set fold method
-set foldmethod=manual
+set foldmethod=marker
 au BufWinLeave * mkview
 au BufWinEnter * silent loadview
 

@@ -269,3 +269,25 @@ spotify () {
 		--name spotify \
 		${DOCKER_REPO}/spotify
 }
+
+cs1 () {
+cont_del server1 2>/dev/null
+docker run -d \
+    --name server1 \
+    --hostname server1.example.com \
+    --net rhce_bridge \
+    --ip 192.168.10.2 \
+    --privileged \
+    -e NAME=server1 \
+    -v /etc/localtime:/etc/localtime:ro \
+    -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
+    -e "container=docker" \
+    centos \
+    /usr/sbin/init 
+}
+
+cs1shell () {
+export TERM=xterm
+docker exec -it server1 /bin/bash
+}
+
