@@ -71,6 +71,7 @@ ask "Install symlink for .config/i3/?" Y && ln -sfn ${dir}/.config/i3 ${HOME}/.c
 ask "Install symlink for .config/ranger/?" Y && ln -sfn ${dir}/.config/ranger ${HOME}/.config/ranger
 ask "Install symlink for .config/termite/?" Y && ln -sfn ${dir}/.config/termite ${HOME}/.config/termite
 ask "Install symlink for .config/dunst/?" Y && ln -sfn ${dir}/.config/dunst ${HOME}/.config/dunst
+ask "Install symlink for .local/share/fonts?" Y && ln -sfn ${dir}/fonts ${HOME}/~/.local/share/fonts
 
 ask "Install symlink for .mutt/?" Y && ln -sfn ${dir}/.mutt ${HOME}/.mutt
 ask "Install symlink for scripts/?" Y && ln -sfn ${dir}/scripts ${HOME}/scripts
