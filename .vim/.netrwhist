@@ -1,10 +1,2 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =8
-let g:netrw_dirhist_1='/home/josepy/mysites/jmutai.com/themes/hugo-icarus/layouts'
-let g:netrw_dirhist_2='/home/josepy/mysites/jmutai.com/themes/hugo-icarus/layouts/partials'
-let g:netrw_dirhist_3='/home/josepy/mysites/jmutai.com/themes/hugo-icarus/layouts'
-let g:netrw_dirhist_4='/home/josepy/mysites/jmutai.com/themes/hugo-icarus/layouts/partials'
-let g:netrw_dirhist_5='/home/josepy/mysites/jmutai.com/themes/hugo-icarus/layouts/_default'
-let g:netrw_dirhist_6='/home/josepy/mysites/jmutai.com/themes/hugo-icarus/static/css/contact-form.css'
-let g:netrw_dirhist_7='/home/josepy/dockerfiles/zimbra-docker/docker'
-let g:netrw_dirhist_8='/home/josepy/dockerfiles'
+let g:netrw_dirhist_cnt =0

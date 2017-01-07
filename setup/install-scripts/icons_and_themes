@@ -13,13 +13,12 @@
  fi  
  
 echo ""
+#	gtk-engine-murrine-git \
 pacaur --needed --noconfirm --noedit -S \
     faenza-icon-theme \
-	gtk-engine-murrine-git \
-	gtk-theme-arc-git \
 	moka-icon-theme-git \
+	gtk-theme-arc-git \
 	numix-folders-git \
-	numix-frost-themes \
 	numix-icon-theme-git \
     numix-circle-icon-theme-git \
 	numix-themes \

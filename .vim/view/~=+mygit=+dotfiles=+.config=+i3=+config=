@@ -90,7 +90,7 @@ setlocal nospell
 setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
 setlocal spellfile=
 setlocal spelllang=en
-setlocal statusline=%!airline#statusline(1)
+setlocal statusline=
 setlocal suffixesadd=
 setlocal noswapfile
 setlocal synmaxcol=3000
@@ -109,21 +109,21 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-328,328fold
-328,339fold
-328,339fold
-328
+330,330fold
+330,341fold
+330,341fold
+330
 normal! zo
-328
+330
 normal! zo
-328
+330
 normal! zc
-let s:l = 344 - ((36 * winheight(0) + 24) / 48)
+let s:l = 322 - ((28 * winheight(0) + 18) / 37)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-344
-normal! 0
+322
+normal! 021|
 let &so = s:so_save | let &siso = s:siso_save
 doautoall SessionLoadPost
 " vim: set ft=vim :

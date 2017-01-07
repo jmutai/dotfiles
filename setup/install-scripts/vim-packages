@@ -9,6 +9,6 @@ pacaur -S  --noedit --noconfirm --needed -S \
     vim-airline-gruvbox-git \
     vim-youcompleteme-git \
     vim-startify-git \
-    vim-tmuxline-git \
     vim-promptline-git  \
     #vim-gitgutter-git 
+    #vim-tmuxline-git \

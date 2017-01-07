@@ -1,5 +1,22 @@
 let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
 argglobal
+let s:cpo_save=&cpo
+set cpo&vim
+imap <buffer> <MiddleMouse> <Plug>IMiddlemouse
+imap <buffer> <LeftMouse> <Plug>ILeftmouse
+nnoremap <buffer> <F1> :he netrw-quickhelp
+nmap <buffer> <silent> <Plug>Netrw2Leftmouse -
+nmap <buffer> <2-LeftMouse> <Plug>Netrw2Leftmouse
+nmap <buffer> <S-LeftDrag> <Plug>NetrwSLeftdrag
+nmap <buffer> <S-LeftMouse> <Plug>NetrwSLeftmouse
+nmap <buffer> <MiddleMouse> <Plug>NetrwMiddlemouse
+nmap <buffer> <C-LeftMouse> <Plug>NetrwCLeftmouse
+nmap <buffer> <LeftMouse> <Plug>NetrwLeftmouse
+nmap <buffer> <nowait> <silent> <S-CR> <Plug>NetrwTreeSqueeze
+nnoremap <buffer> <silent> <S-Up> :Pexplore
+nnoremap <buffer> <silent> <S-Down> :Nexplore
+let &cpo=s:cpo_save
+unlet s:cpo_save
 setlocal keymap=
 setlocal noarabic
 setlocal noautoindent
@@ -8,8 +25,8 @@ setlocal balloonexpr=
 setlocal nobinary
 setlocal nobreakindent
 setlocal breakindentopt=
-setlocal bufhidden=
-setlocal buflisted
+setlocal bufhidden=hide
+setlocal nobuflisted
 setlocal buftype=
 setlocal nocindent
 setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
@@ -33,8 +50,8 @@ setlocal nodiff
 setlocal equalprg=
 setlocal errorformat=
 setlocal expandtab
-if &filetype != ''
-setlocal filetype=
+if &filetype != 'netrw'
+setlocal filetype=netrw
 endif
 setlocal fixendofline
 setlocal foldcolumn=1
@@ -67,16 +84,16 @@ setlocal nolist
 setlocal makeprg=
 setlocal matchpairs=(:),{:},[:]
 setlocal modeline
-setlocal modifiable
+setlocal nomodifiable
 setlocal nrformats=bin,octal,hex
-setlocal number
+setlocal nonumber
 setlocal numberwidth=4
 setlocal omnifunc=
 setlocal path=
 setlocal nopreserveindent
 setlocal nopreviewwindow
 setlocal quoteescape=\\
-setlocal noreadonly
+setlocal readonly
 setlocal norelativenumber
 setlocal norightleft
 setlocal rightleftcmd=search
@@ -94,10 +111,10 @@ setlocal statusline=
 setlocal suffixesadd=
 setlocal noswapfile
 setlocal synmaxcol=3000
-if &syntax != ''
-setlocal syntax=
+if &syntax != 'netrw'
+setlocal syntax=netrw
 endif
-setlocal tabstop=4
+setlocal tabstop=33
 setlocal tagcase=
 setlocal tags=
 setlocal textwidth=500
@@ -106,14 +123,15 @@ setlocal noundofile
 setlocal undolevels=-123456
 setlocal nowinfixheight
 setlocal nowinfixwidth
-setlocal wrap
+setlocal nowrap
 setlocal wrapmargin=0
-let s:l = 1 - ((0 * winheight(0) + 10) / 20)
+let s:l = 8 - ((7 * winheight(0) + 22) / 45)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
-normal! 016|
+8
+normal! 03|
+lcd ~/mysites/jmutai.com
 let &so = s:so_save | let &siso = s:siso_save
 doautoall SessionLoadPost
 " vim: set ft=vim :

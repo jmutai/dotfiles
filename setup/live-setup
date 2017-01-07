@@ -24,7 +24,7 @@ bash-completion \
 sudo  \
 dhclient \
 efibootmgr \
-vim \
+gvim \
 btrfs-progs \
 lvm2 
 
@@ -36,9 +36,7 @@ pacman -S xorg --noconfirm
 echo ""
 echo "Installing alsa and pulseaudio"
 pacman -S --noconfirm \
-pulseaudio \
 pulseaudio-{equalizer,alsa,gconf} \
-alsa \
 alsa-{utils,plugins,firmware} 
 
 echo ""
@@ -47,12 +45,11 @@ pacman -S --noconfirm  xf86-video-intel \
 xf86-input-{keyboard,synaptics,mouse,libinput} 
 
 echo "Installing i3 wm"
-pacman -S --noconfirm \
+pacman -S --noconfirm  \
 i3 \
 dmenu \
 rofi \
-xorg-init \
-xorg-init
+xorg-xinit
 
 echo "Configuring i3"
 cat <<EOF >>/etc/profile
@@ -85,7 +82,7 @@ unset username
 echo "*** Adding user and setting password ***"
 read -p  "Enter username to add: " username
 echo "You typed username ${username}"
-useradd -G power,audio,wheel,storage $username
+useradd -m -G power,audio,wheel,storage $username
 
 echo "*** Settting password for user ${username} ***"
 read -p "Enter new password: " pw1
@@ -114,8 +111,21 @@ slepp 3
 grub-install --target=x86_64-efi --efi-directory=/boot/efi 
 echo ""
 echo "*** Generating grub config files ***"
-slepp 3
 grub-mkconfig -o /boot/grub/grub.cfg
 grub-mkconfig -o  /boot/efi/EFI/arch/grub.cfg
 echo ""
+
+echo "Configuring repos"
+
+cat >> /etc/pacman.conf<<EOF
+[multilib]
+Include = /etc/pacman.d/mirrorlist
+EOF
+
+cat >> /etc/pacman.conf<<EOF
+[archlinuxfr]
+SigLevel = Never
+Server = http://repo.archlinux.fr/$arch
+EOF
+
 

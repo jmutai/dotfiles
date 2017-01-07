@@ -37,7 +37,7 @@ source  $S_DIR/.vm_functions
 source  $S_DIR/.aliases 
 source  $S_DIR/.functions 
 source  $S_DIR/.exports 
-source ~/.dig
+#source ~/.dig
 
 # Compilation flags
 export ARCHFLAGS="-arch x86_64"

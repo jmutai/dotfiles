@@ -2,9 +2,10 @@
  
 # My arch Linux regular package list
 # By jmutai
-# computingforgeeks.com
+# jmutai.com
 #
- set -e
+# set -e
+ set -x
 
 echo "" 
  pacaur --needed --noconfirm --noedit -S \
@@ -47,8 +48,10 @@ echo ""
 	htop \
     httrack \
     iw \
-	i3blocks-gaps-git \
-	i3-gaps-next-git \
+	i3blocks-gaps-git 
+
+ echo "Installing second patch"
+pacaur -S --needed --noconfirm --noedit i3-gaps-next-git \
 	i3lock-git \
 	i3-vim-syntax-git \
     imagemagick \
@@ -58,8 +61,7 @@ echo ""
 	libmtp \
 	libnotify \
     lxappearance \
-    lshw \ 
-	lm_sensors \
+    lm_sensors \
     nvidia \
     nvidia-utils \
     nvidia-settings \
@@ -96,7 +98,6 @@ echo ""
     pepper-flash \
     freshplayerplugin \
 	poppler \
-	powerline-fonts-git \
     python-pip \
     pinfo \
     pm-utils \
@@ -113,11 +114,10 @@ echo ""
     startup-notification \
     screenfetch \
     scrot \
-	termite-git \
+    terminator \
 	termite-ranger-fix-git \
 	thunar \
 	thunar-archive-plugin \
-    thunar-volman-git \
     thunar-dropbox \
     thunar-media-tags-plugin \
     upower \
@@ -126,17 +126,16 @@ echo ""
 	transmission-cli \
 	ttf-dejavu \
 	ttf-font-awesome \
-	ttf-hack \
 	ttf-inconsolata \
+    powerline-fonts-git \
+    pcmanfm-gtk3-git \
 	tumbler \
 	unzip \
-    unrar \
     vsftpd \
     vde2 \
     virt-install \
     virt-manager \
     virt-viewer \
-    vundle \
 	w3m \
     wget \
     wireless_tools \
@@ -149,4 +148,11 @@ echo ""
     zenity \
 	zip \
 	zsh-completions \
-    zathura-epub-git
+	zathura-epub-git \
+	wget
+
+if [ $? -eq 0 ]; then
+    echo "Installation successful"
+else
+    echo "Installation failed"
+fi

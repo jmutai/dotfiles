@@ -32,6 +32,12 @@ GRUB_CMDLINE_LINUX_DEFAULT
 
 GRUB_HIDDEN_TIMEOUT=1
 
+Startx
+========
+To hide startx messages, you could redirect its output to /dev/null, in your .bash_profile
+$ vim ~/.bash_profile
+$ [[ $(fgconsole 2>/dev/null) == 1 ]] && exec startx -- vt1 &> /dev/null
+
 
 MKINITCPIO
 ==========
@@ -107,8 +113,11 @@ tmpfs   /home/josepy/.cache   tmpfs   noatime,nodev,nosuid,size=1G  0   0
 Chromium Profile in tmpfs
 $ pacaur -S profile-sync-daemon
 - It symlinks and syncs the browser profile directories to RAM.
-$psd
+
+$ psd
+
 - First time running psd so please edit /home/josepy/.config/psd/psd.conf to your liking and run again.
+
 $ vim /home/josepy/.config/psd/psd.conf
 USE_OVERLAYFS="yes"
 BROWSERS="chromium opera"
