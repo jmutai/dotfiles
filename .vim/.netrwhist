@@ -1,2 +1,7 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =0
+let g:netrw_dirhist_cnt =5
+let g:netrw_dirhist_1='/home/josepy/mygit/dotfiles/.config/ranger'
+let g:netrw_dirhist_2='/home/josepy/mygit/dotfiles/.config/ranger/__pycache__'
+let g:netrw_dirhist_3='/home/josepy/mygit/dotfiles/.config/ranger'
+let g:netrw_dirhist_4='/home/josepy/docker-images/rhel7-zimbra/final/opt/zimbra-install'
+let g:netrw_dirhist_5='/home/josepy/.config/termite'

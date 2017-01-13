@@ -120,12 +120,14 @@ echo "Configuring repos"
 cat >> /etc/pacman.conf<<EOF
 [multilib]
 Include = /etc/pacman.d/mirrorlist
-EOF
 
-cat >> /etc/pacman.conf<<EOF
 [archlinuxfr]
 SigLevel = Never
 Server = http://repo.archlinux.fr/$arch
+
+[archlinuxcn]
+SigLevel = Never
+Server = http://repo.archlinuxcn.org/$arch
 EOF
 
 

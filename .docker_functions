@@ -3,7 +3,7 @@ export DOCKER_REPO=jmutai
 
 dock () {
    sudo systemctl restart docker
-   sudo systemctl start vsftpd
+   sudo systemctl start httpd
 } 
 
 images_backup () {
@@ -113,15 +113,11 @@ transmission () {
 }
 
 centos () {
-     sudo mount -o loop ~/iso/CentOS-7-x86_64-Everything-1511.iso /srv/ftp/cent7
+     sudo mount -o loop ~/iso/CentOS-7-x86_64-Everything-1611.iso  /srv/http/cent7
      docker run -it --rm \
          --name cent7 \
-         --privileged  \
          -e "container=docker" \
-         --cap-add SYS_ADMIN \
-         --stop-signal=SIGRTMIN+3 \
-         --security-opt=seccomp:unconfined \
-         -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
+         -e XTERM="term" \
          -v ~/docker-env/local.repo:/etc/yum.repos.d/local.repo \
          -h cent7.example.com \
          centos /bin/bash 
@@ -274,11 +270,13 @@ cs1 () {
 cont_del server1 2>/dev/null
 docker run -d \
     --name server1 \
-    --hostname server1.example.com \
+    --hostname cs1.example.com \
     --net rhce_bridge \
     --ip 192.168.10.2 \
     --privileged \
     -e NAME=server1 \
+    -e TERM="xterm" \
+    -v ~/docker-env/local.repo:/etc/yum.repos.d/local.repo \
     -v /etc/localtime:/etc/localtime:ro \
     -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
     -e "container=docker" \
@@ -287,7 +285,31 @@ docker run -d \
 }
 
 cs1shell () {
-export TERM=xterm
 docker exec -it server1 /bin/bash
+}
+
+
+## Spin Server2 on docker
+
+cs2 () {
+cont_del server2 2>/dev/null
+docker run -d \
+    --name server2 \
+    --hostname cs2.example.com \
+    --net rhce_bridge \
+    --ip 192.168.10.3 \
+    --privileged \
+    -e NAME=server2 \
+    -e TERM="xterm" \
+    -v /etc/localtime:/etc/localtime:ro \
+    -v ~/docker-env/local.repo:/etc/yum.repos.d/local.repo \
+    -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
+    -e "container=docker" \
+    centos \
+    /usr/sbin/init 
+}
+
+cs2shell () {
+docker exec -it server2 /bin/bash
 }
 

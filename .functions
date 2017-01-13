@@ -206,7 +206,8 @@ myhugo () {
     HOST=rafiki
     DIR=/web/
     rm -rf public
-    hugo && rsync -avz --delete public/* ${USER}@${HOST}:${DIR}
+    hugo 
+    rsync -avz --delete public/* ${USER}@${HOST}:${DIR}
 }
 
 myrsync () {
@@ -220,4 +221,16 @@ myfind () {
 
 myip () {
     ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1  -d'/'
+}
+
+gethugo () {
+    go get -u -v github.com/kardianos/govendor
+    go get -u -v github.com/spf13/hugo
+    cd $GOPATH/src/github.com/spf13/hugo
+    dns
+    govendor sync && go install
+}
+
+playlist () {
+    touch ~/.mpd/playlists/${1}.m3u
 }

@@ -38,12 +38,16 @@ echo ""
     ebtables \
 	eog \
 	epdfview \
+    ethtool \
 	feh \
 	file-roller \
+    fuse2 \
 	gnome-keyring \
 	gpicview \
 	gvfs-mtp \
 	gvim \
+    gksu \
+    gtkmm \
 	highlight \
 	htop \
     httrack \
@@ -62,9 +66,11 @@ pacaur -S --needed --noconfirm --noedit i3-gaps-next-git \
 	libnotify \
     lxappearance \
     lm_sensors \
+    linux-headers \
     nvidia \
     nvidia-utils \
     nvidia-settings \
+    ncurses5-compat-libs \
     xorg-server-devel \
     xorg-xinit \
     opencl-nvidia \
@@ -82,13 +88,6 @@ pacaur -S --needed --noconfirm --noedit i3-gaps-next-git \
 	neomutt-git \
 	networkmanager \
 	network-manager-applet \
-    nemo \
-    nemo-fileroller \
-    nemo-compare \
-    nemo-preview \
-    nemo-seahorse \
-    nemo-share \
-    nemo-terminal \
 	nitrogen \
 	offlineimap \
 	ohsnap \
@@ -102,7 +101,6 @@ pacaur -S --needed --noconfirm --noedit i3-gaps-next-git \
     pinfo \
     pm-utils \
     qemu \
-    qbittorrent \
     qutebrowser \
 	ranger \
     rar \
@@ -116,10 +114,6 @@ pacaur -S --needed --noconfirm --noedit i3-gaps-next-git \
     scrot \
     terminator \
 	termite-ranger-fix-git \
-	thunar \
-	thunar-archive-plugin \
-    thunar-dropbox \
-    thunar-media-tags-plugin \
     upower \
     xdiff-ext-git \
 	tk \
@@ -128,7 +122,7 @@ pacaur -S --needed --noconfirm --noedit i3-gaps-next-git \
 	ttf-font-awesome \
 	ttf-inconsolata \
     powerline-fonts-git \
-    pcmanfm-gtk3-git \
+    pcmanfm-gtk3 \
 	tumbler \
 	unzip \
     vsftpd \
@@ -149,7 +143,8 @@ pacaur -S --needed --noconfirm --noedit i3-gaps-next-git \
 	zip \
 	zsh-completions \
 	zathura-epub-git \
-	wget
+	wget \
+    wps-office
 
 if [ $? -eq 0 ]; then
     echo "Installation successful"

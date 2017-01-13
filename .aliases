@@ -52,10 +52,10 @@ alias list='sudo virsh list --all'
 
 
 # Package management
-alias paci='pacaur -S'
+alias paci='pacaur --needed --noconfirm --noedit -S'
 alias pacr='pacaur -Rns'
 alias pacc='pacaur -Sc --noconfirm'
-alias pacu='pacaur -Syu'
+alias pacu='pacaur --needed --noconfirm --noedit -Syu'
 alias pacs='pacaur -Ss'
 alias pacqi='pacaur -Qi'
 alias pacfix='sudo rm -f /var/lib/pacman/db.lck'
@@ -102,3 +102,13 @@ alias yv="youtube-dl  --write-auto-sub --ignore-errors --no-overwrites --embed-s
 alias apache='sudo systemctl restart  httpd.service'
 alias mypic='mycp ~/mysites/jmutai.com/pic.txt'
 alias myvmstat='vmstat -S M 1 3'
+alias mydate="date '+%Y-%m-%d-%H:%M:%S'"
+alias rebuild="sudo vmware-modconfig --console --install-all"
+alias myfs='sudo btrfs filesystem show'
+alias virt='sudo umount /dev/sdb6; sudo mount /dev/sdb6  /home/josepy/Desktop/virt'
+
+# System mgt
+alias virsh='sudo virsh'
+alias systemctl='sudo systemctl'
+alias mysleep='sudo /lib/systemd/systemd-sleep hybrid-sleep'
+alias jmutai='rsync -avz --delete public/* jmutaijose@rafiki:/web'

@@ -6,8 +6,16 @@ vm () {
     sudo systemctl restart libvirtd.service
     sudo systemctl restart vsftpd.service
     sudo systemctl restart virtlogd.socket
-    sudo mount -o loop ~/iso/CentOS-7-x86_64-Everything-1511.iso /srv/ftp/cent7
+    sudo mount -o loop ~/iso/CentOS-7-x86_64-Everything-1611.iso  /srv/http/cent7
 
+}
+
+vm_clean () {
+    sudo virsh shutdown  ${1} 2>/dev/null 
+    sudo virsh destroy  ${1} 2>/dev/null 
+    sudo virsh undefine ${1} --remove-all-storage 2>/dev/null
+    sudo virsh vol-delete ${1}.qcow2 --pool default 2>/dev/null
+    sudo virsh list --all
 }
 
 # stop libvirt daemon and vsftpd services
@@ -27,6 +35,28 @@ novm () {
 # List all kvm vms
 vmlist () {
 	sudo virsh list --all
+}
+
+# Volume management
+
+vol_list () {
+    sudo virsh vol-list --pool default
+}
+vol_create (){
+    sudo virsh vol-create-as default  ${1}.qcow2  ${2}
+}
+
+vol_delete () {
+    sudo virsh vol-delete ${1}  --pool default
+}
+
+vol_attach () {
+    sudo virsh attach-disk --domain ${1} --source /var/lib/libvirt/images/${2}.qcow2  --persistent --target ${3}
+    # 3 e.g vdb
+}
+
+vol_detach () {
+    virsh detach-disk --domain ${1} --persistent --live --target ${2}
 }
 
 # Snapshot management
@@ -70,19 +100,6 @@ snap () {
     sudo  virsh snapshot-delete --domain "$1" --snapshotname "$2"
 }
 
-
-
-# Virtual Machines
-
-# Start ispconfig server
-ispconfig () {
-    sudo virsh start ispconfig 2>/dev/null 
-}
-
-ispssh () {
-    TERM=xterm 
-    ssh josepy@isp 2>/dev/null
-}
 # Start CentOS 7 server
 server () {
     sudo virsh start server 2>/dev/null
@@ -91,37 +108,91 @@ server () {
     ssh root@server 2>/dev/null
 }
 
-# Start CentOS 7 client
-client () {
-    sudo virsh start client 2>/dev/null 
-    sleep 30 
-    TERM=xterm
-    ssh root@client 2>/dev/null  
+# VM installer script
+installer() {
+    local ISO_ DIR="/home/josepy/iso"
+    echo -en "Enter vm name: "
+    read VM_NAME
+    echo -en "Enter memory size: "
+    read MEM_SIZE
+    echo -en "Enter no of vcpus: "
+    read VCPUS
+    echo -en "Enter OS type: "
+    read OS_TYPE
+    echo -en "Enter virtual disk size : "
+    read DISK_SIZE
+    echo -en "Enter OS Variant e.g (rhel7,ubuntu16.04,debianjessie,wink12): "
+    read OS_VARIANT
+    echo -en "Enter Graphics type (none,vnc): "
+    read GRAPHICS_TYPE
+    echo -en "Specify ISO name (rhel7,cent7,deb8,ubuntu16,sles): "
+    read ISO_NAME
+    case $ISO_NAME in 
+        rhel7)
+           ISO_FILE="/home/josepy/iso/rhel-server-7.3-x86_64-dvd.iso"
+           ;;
+        cent7)
+           ISO_FILE="/home/josepy/iso/CentOS-7-x86_64-Minimal-1611.iso"
+           ;; 
+        deb8)
+           ISO_FILE="/home/josepy/iso/debian-8.6.0-amd64-CD-1.iso"
+           ;; 
+        ubuntu16)
+           ISO_FILE="/home/josepy/iso/ubuntu-16.04.1-server-amd64.iso"
+           ;; 
+        sles)
+           ISO_FILE="/home/josepy/iso/SLE-12-SP2-Server-DVD-x86_64-GM-DVD1.iso"
+           ;; 
+   esac
+
+sudo virt-install \
+    --name ${VM_NAME} \
+    --memory=${MEM_SIZE} \
+    --vcpus=${VCPUS} \
+    --os-type ${OS_TYPE} \
+    --location ${ISO_FILE} \
+    --disk size=${DISK_SIZE}  \
+    --network bridge=virbr0 --network bridge=docker0 \
+    --graphics=${GRAPHICS_TYPE} \
+    --hvm \
+    --os-variant=${OS_VARIANT}
+    #--console pty,target_type=serial \
+    #--extra-args 'console=ttyS0,115200n8 serial' \
+
+# List os variants: virt-install --os-variant list, common are:
+# rhel7,win2k8,win2k12,win7,opensuse12,ubuntu16.04
+# --initrd-inject=/root/ks.cfg --extra-args "ks=file:/ks.cfg"
+# --network bridge=br-ex --network bridge=br-ctlplane 
+#Live snapsho
+# virsh snapshot-create-as --domain undercloud --disk-only --atomic --quiesce
+# Take a copy of the (now read-only) QCOW backing file
+# rsync --sparse -avh --progress /var/lib/libvirt/images/undercloud.qcow2 1.qcow2
+# Merge the QCOW overlay file into the backing file and switch the undercloud VM back to using the original file:
+# virsh blockcommit undercloud vda --active --verbose --pivot
 }
 
-# start rhev vms
-rhev () { 
-	sudo virsh start node1
-	sudo virsh start rhevm
-}
+cent_installer() {
+    echo -en "Enter vm name: "
+    read VM_NAME
+    local MEM_SIZE=1024
+    local VCPUS=1
+    local OS_TYPE="linux"
+    echo -en "Enter virtual disk size : "
+    read DISK_SIZE
+    local OS_VARIANT="rhel7"
+    echo -en "Enter Graphics type (none,vnc): "
+    read GRAPHICS_TYPE
+    local ISO_FILE="$HOME/iso/CentOS-7-x86_64-Everything-1611.iso"
 
-# start Debian 8 server
-deb8 () {
-    sudo virsh start debian8
-}
-deb8ssh () {
-    ssh josepy@wp
-}
-# Stop debian8 server
-deb8stop () {
-    sudo virsh shutdown debian8
-}
-
-
-core () {
-    sudo virsh shutdown coreos
-}
-coressh () {
-    export XTERM=xterm
-    ssh -p 6999 josepy@coreos
+sudo virt-install \
+    --name ${VM_NAME} \
+    --memory=${MEM_SIZE} \
+    --vcpus=${VCPUS} \
+    --os-type ${OS_TYPE} \
+    --location ${ISO_FILE} \
+    --disk size=${DISK_SIZE}  \
+    --network bridge=virbr0 --network bridge=docker0 \
+    --graphics=${GRAPHICS_TYPE} \
+    --os-variant=${OS_VARIANT} \
+    --extra-args="ks=http://192.168.122.1/ks.cfg console=tty0 console=ttyS0,115200n8" 
 }

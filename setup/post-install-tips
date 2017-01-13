@@ -140,7 +140,7 @@ Docker
 sudo  gpasswd -a  josepy docker
 newgrp docker
 
-Configure suspend
+Configure suspend/sleep
 # vim /etc/systemd/sleep.conf
 Add:
     [Sleep]
@@ -203,3 +203,14 @@ resume=/dev/mapper/archVolumeGroup-archLogicVolume -- example if using LVM
 # vim /etc/mkinitcpio.conf
 > Add resume hook after udev hook
 HOOKS="base udev resume 
+
+Disable password requirements for this josepy when using sudo:
+==============================================================
+
+echo "josepy ALL=(root) NOPASSWD:ALL" | tee -a /etc/sudoers.d/josepy
+chmod 0440 /etc/sudoers.d/josepy
+su - josepy
+
+Add gpg keys
+==============
+gpg --recv-keys 
