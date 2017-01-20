@@ -17,17 +17,28 @@ filetype plugin on
 filetype indent on
 
 set rtp+=~/.vim/bundle/vundle/
-call vundle#begin()
+"call vundle#begin()
+call vundle#rc()
 
-" let vundle manage vundle
-Plugin 'gmarik/vundle'
+" let vundle manage color schemes
+Plugin  'gmarik/vundle'
+Plugin  'arcticicestudio/nord-vim'
+Plugin  'morhetz/gruvbox'
+Plugin  'freeo/vim-kalisi'
+Plugin  'sjl/badwolf'
+
+
 
 " list all plugins that you'd like to install here
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'Valloric/YouCompleteMe'
 Plugin 'kien/ctrlp.vim' " fuzzy find files
 Plugin 'scrooloose/nerdtree' " file drawer, open with :NERDTreeToggle
 Plugin 'benmills/vimux'
 Plugin 'tpope/vim-fugitive' " the ultimate git helper
 Plugin 'tpope/vim-commentary' " comment/uncomment lines with gcc or gc in 
+
 "visual mode
 
 " Set fold method
@@ -37,6 +48,13 @@ au BufWinEnter * silent loadview
 
 " Set to auto read when a file is changed from the outside
 set autoread
+
+" badwolf color scheme settings
+" Turn on CSS properties highlighting
+let g:badwolf_css_props_highlight = 1
+" Turn off HTML link underlining
+let g:badwolf_html_link_underline = 0
+
 
 " With a map leader it's possible to do extra key combinations
 " like <leader>w saves the current file
@@ -168,7 +186,8 @@ if has("gui_running")
     set background=dark
     colorscheme tomorrow-night
 else
-    colorscheme tomorrow-night
+    "colorscheme tomorrow-night
+    colorscheme badwolf
     let g:solarized_termcolors=256    
 endif
 
@@ -570,6 +589,12 @@ func! CurrentFileDir(cmd)
     return a:cmd . " " . expand("%:p:h") . "/"
 endfunc
 
+if has ('autocmd') " Remain compatible with earlier versions
+     augroup vimrc     " Source vim configuration upon save
+             autocmd! BufWritePost $MYVIMRC source % | echom "Reloaded " . $MYVIMRC | redraw
+                 autocmd! BufWritePost $MYGVIMRC if has('gui_running') | so % | echom "Reloaded " . $MYGVIMRC | endif | redraw
+                   augroup END
+               endif " has autocmd
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Custom header
