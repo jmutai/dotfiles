@@ -1,0 +1,18 @@
+# Sample minimal config file.  Copy this to ~/.offlineimaprc and edit to
+# get started fast.
+
+[general]
+accounts = Test
+
+[Account Test]
+localrepository = Local
+remoterepository = Remote
+
+[Repository Local]
+type = Maildir
+localfolders = ~/Test
+
+[Repository Remote]
+type = IMAP
+remotehost = examplehost
+remoteuser = jgoerzen

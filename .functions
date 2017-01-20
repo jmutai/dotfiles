@@ -234,3 +234,16 @@ gethugo () {
 playlist () {
     touch ~/.mpd/playlists/${1}.m3u
 }
+
+mkcdir (){
+    mkdir -p -- "$1" && cd -P -- "$1"
+}
+
+txt2pdf () {
+    # Depend on enscript ghostscript
+    echo -en "Enter output file name:"
+    read FILE_NAME
+    enscript -p ${FILE_NAME}.ps ${1}
+    ps2pdf ${FILE_NAME}.ps ~/Documents/${FILE_NAME}.pdf
+    rm -rf ${FILE_NAME}.ps
+}

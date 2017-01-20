@@ -3,7 +3,7 @@ export DOCKER_REPO=jmutai
 
 dock () {
    sudo systemctl restart docker
-   sudo systemctl start httpd
+   nginx
 } 
 
 images_backup () {
@@ -40,7 +40,8 @@ cont_del () {
 
 # Clean docker environment
 dockclean () {
-    docker ps -aq | xargs -r docker rm  
+    # docker ps ${1} 2>/dev/null | xargs -r docker rm  
+    docker rm ${1} 2>/dev/null
     docker ps --filter status=exited -q 2>/dev/null | xargs -r docker rm 
     docker images --filter dangling=true -q 2>/dev/null | xargs -r docker rmi  
     docker volume ls -qf dangling=true | xargs -r docker volume rm 
@@ -81,6 +82,9 @@ dockstop () {
     docker stop "$1" 2>/dev/null
 }
 
+dockshell () {
+    docker exec -it ${1} /bin/bash
+}
 
 # Dump all sql databases on dabase container
 dockdumpsql () {
@@ -223,6 +227,7 @@ fire () {
         -v /etc/machine-id:/etc/machine-id:ro \
         jmutai/firefox firefox
 }
+
 ydl () {
 docker run -it --rm \
     -v $(pwd):/downloads \
@@ -268,13 +273,20 @@ spotify () {
 
 cs1 () {
 cont_del server1 2>/dev/null
-docker run -d \
-    --name server1 \
-    --hostname cs1.example.com \
+echo -en "Enter Cont name: " 
+read NAME
+echo -en "Enter Hostname: " 
+read HOST_NAME
+echo -en "Enter IP Address: " 
+read IP_ADDRESS
+docker run -d --name ${NAME} \
+    --hostname ${HOST_NAME} \
     --net rhce_bridge \
-    --ip 192.168.10.2 \
+    --ip ${IP_ADDRESS} \
     --privileged \
-    -e NAME=server1 \
+    -e NAME=${NAME} \
+    -e HOSTNAME=${HOST_NAME} \
+    -e IP=${IP_ADDRESS} \
     -e TERM="xterm" \
     -v ~/docker-env/local.repo:/etc/yum.repos.d/local.repo \
     -v /etc/localtime:/etc/localtime:ro \
@@ -284,32 +296,29 @@ docker run -d \
     /usr/sbin/init 
 }
 
-cs1shell () {
-docker exec -it server1 /bin/bash
+cs1s () {
+docker exec -it ${1} /bin/bash
 }
 
 
-## Spin Server2 on docker
-
-cs2 () {
-cont_del server2 2>/dev/null
-docker run -d \
-    --name server2 \
-    --hostname cs2.example.com \
-    --net rhce_bridge \
-    --ip 192.168.10.3 \
-    --privileged \
-    -e NAME=server2 \
-    -e TERM="xterm" \
-    -v /etc/localtime:/etc/localtime:ro \
-    -v ~/docker-env/local.repo:/etc/yum.repos.d/local.repo \
-    -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
-    -e "container=docker" \
-    centos \
-    /usr/sbin/init 
+nginx () {
+dockstop nginx 2>/dev/null
+docker rm nginx 2>/dev/null
+docker run -d --name nginx \
+    -p 8090:80 \
+    -v /srv/http:/usr/share/nginx/html \
+    -v ${HOME}/docker-env/nginx.conf:/etc/nginx/nginx.conf \
+    nginx
 }
 
-cs2shell () {
-docker exec -it server2 /bin/bash
+cadvisor () {
+sudo docker run \
+  --volume=/:/rootfs:ro \
+  --volume=/var/run:/var/run:rw \
+  --volume=/sys:/sys:ro \
+  --volume=/var/lib/docker/:/var/lib/docker:ro \
+  --publish=8080:8080 \
+  --detach=true \
+  --name=cadvisor \
+  google/cadvisor:latest
 }
-

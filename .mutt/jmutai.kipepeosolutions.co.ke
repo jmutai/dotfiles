@@ -1,0 +1,16 @@
+set hostname = mail.kipepeosolutions.co.ke
+set mail_check = 120
+set timeout = 10
+set imap_user="jmutai@kipepeosolutions.co.ke"
+set imap_pass=$my_kip_pw
+set from=$imap_user
+set realname = 'Josphat Mutai'
+set folder="imaps://mail.kipepeosolutions.co.ke/"
+set postponed="imaps://mail.kipepeosolutions.co.ke/Drafts"
+set spoolfile="imaps://mail.kipepeosolutions.co.ke/INBOX"
+set record="imaps://mail.kipepeosolutions.co.ke/Sent"
+set signature="~/.mutt/signature.jmutai.kipepeosolutions.co.ke"
+set use_from = yes
+set smtp_url=smtps://$imap_user:$imap_pass@$hostname
+set ssl_force_tls = yes
+

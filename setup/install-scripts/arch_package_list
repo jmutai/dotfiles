@@ -1,4 +1,3 @@
-#!/usr/bin/env bash 
  
 # My arch Linux regular package list
 # By jmutai
@@ -11,7 +10,6 @@ echo ""
  pacaur --needed --noconfirm --noedit -S \
 	acpi \
     alsa-tools \
-    apache \
 	android-file-transfer \
 	android-tools \
 	android-udev \
@@ -20,6 +18,7 @@ echo ""
 	bash-completion \
     bridge-utils \
     btrfs-progs \
+    bind-tools \
 	ccze \
 	chrony \
     chromium \
@@ -27,6 +26,8 @@ echo ""
     conky \
     cronie \
     curl \
+    cups \
+    cups-pdf \
 	deepin-screenshot \
 	dmenu \
     dnsmasq \
@@ -36,6 +37,7 @@ echo ""
 	dunst \
 	elinks \
     ebtables \
+    enscript \
 	eog \
 	epdfview \
     ethtool \
@@ -48,6 +50,8 @@ echo ""
 	gvim \
     gksu \
     gtkmm \
+    gtk3-print-backends \
+    ghostscript \
 	highlight \
 	htop \
     httrack \
@@ -94,6 +98,7 @@ pacaur -S --needed --noconfirm --noedit i3-gaps-next-git \
 	openssh \
 	openssh \
     openbsd-netcat \
+    offlineimap-git \
     pepper-flash \
     freshplayerplugin \
 	poppler \
@@ -116,7 +121,10 @@ pacaur -S --needed --noconfirm --noedit i3-gaps-next-git \
 	termite-ranger-fix-git \
     upower \
     xdiff-ext-git \
+    tree \
+    tor-browser-en \
 	tk \
+    tmux \
 	transmission-cli \
 	ttf-dejavu \
 	ttf-font-awesome \
@@ -125,6 +133,7 @@ pacaur -S --needed --noconfirm --noedit i3-gaps-next-git \
     pcmanfm-gtk3 \
 	tumbler \
 	unzip \
+    urlview \
     vsftpd \
     vde2 \
     virt-install \

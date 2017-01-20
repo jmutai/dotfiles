@@ -1,0 +1,31 @@
+set editor=`echo \$EDITOR`
+set certificate_file=~/.mutt/certificates
+set header_cache=~/.mutt/cache/headers
+set message_cachedir=~/.mutt/cache/bodies
+set my_name = "Josphat Mutai"
+
+#macro index <f2> '<change-folder>imaps://mail.kipepeosolutions.co.ke<enter>'
+#macro index <f3> '<change-folder>imaps://jmutai.com<enter>'
+
+#folder-hook 'kipepeosolutions.co.ke' 'source ~/.mutt/jmutai.kipepeosolutions.co.ke'
+#folder-hook 'jmutai.com' 'source ~/.mutt/m.jmutai.com'
+
+## Shortcuts
+macro index,pager <f2> '<sync-mailbox><enter-command>source ~/.mutt/jmutai.kipepeosolutions.co.ke<enter><change-folder>!<enter>'
+macro index,pager <f3> '<sync-mailbox><enter-command>source  ~/.mutt/m.jmutai.com<enter><change-folder>!<enter>'
+#
+source $HOME/.mutt/themes/tomorrow-night.muttrc
+# switch to default account on startup
+source "gpg2 -dq $HOME/.my-pwds.gpg |"
+source ~/.mutt/m.jmutai.com
+source ~/.mutt/jmutai.kipepeosolutions.co.ke
+
+# Key bindings
+bind pager j next-line
+bind pager k previous-line
+bind attach,index,pager \CD next-page
+bind attach,index,pager \CU previous-page
+bind pager g top
+bind pager G bottom
+bind attach,index g first-entry
+bind attach,index G last-entry

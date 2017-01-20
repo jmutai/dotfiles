@@ -42,10 +42,8 @@ alias dns='sudo setfacl -m u:josepy:rw /etc/resolv.conf && sudo echo nameserver 
 alias dnss='cat /etc/resolv.conf'
 
 # Rhev
-alias rhevh='ssh rhevh'
-alias rhevm='ssh rhevm'
-alias s1s='ssh root@server'
-alias c1s='ssh root@client'
+alias s1s='ssh root@server1'
+alias c1s='ssh root@client1'
 
 # Virsh mgt
 alias list='sudo virsh list --all'
@@ -85,6 +83,7 @@ alias virt='sudo mount /dev/sdb6 /home/josepy/Desktop/virt/'
 
 
 alias sleep='sudo  /lib/systemd/systemd-sleep hybrid-sleep'
+alias mutt='cd ~/Documents/mutt && mutt'
 
 # Docker aliases
 alias images='docker images'
@@ -106,9 +105,13 @@ alias mydate="date '+%Y-%m-%d-%H:%M:%S'"
 alias rebuild="sudo vmware-modconfig --console --install-all"
 alias myfs='sudo btrfs filesystem show'
 alias virt='sudo umount /dev/sdb6; sudo mount /dev/sdb6  /home/josepy/Desktop/virt'
+alias btrfs='sudo btrfs'
+alias cups='systemctl start org.cups.cupsd.service'
+alias vi='vim'
 
 # System mgt
 alias virsh='sudo virsh'
 alias systemctl='sudo systemctl'
 alias mysleep='sudo /lib/systemd/systemd-sleep hybrid-sleep'
 alias jmutai='rsync -avz --delete public/* jmutaijose@rafiki:/web'
+
