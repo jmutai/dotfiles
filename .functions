@@ -207,7 +207,7 @@ myhugo () {
     DIR=/web/
     rm -rf public
     hugo 
-    rsync -avz --delete public/* ${USER}@${HOST}:${DIR}
+    rsync -avz --del public/* ${USER}@${HOST}:${DIR}
 }
 
 myrsync () {

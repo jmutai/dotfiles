@@ -44,6 +44,7 @@ echo ""
 	feh \
 	file-roller \
     fuse2 \
+    furiusisomount \
 	gnome-keyring \
 	gpicview \
 	gvfs-mtp \
@@ -52,6 +53,7 @@ echo ""
     gtkmm \
     gtk3-print-backends \
     ghostscript \
+    gparted \
 	highlight \
 	htop \
     httrack \

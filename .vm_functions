@@ -70,6 +70,10 @@ vol_detach () {
     virsh detach-disk --domain ${1} --persistent --live --target ${2}
 }
 
+disk_grow () {
+    sudo qemu-img resize ${1} +${2}G
+}
+
 # Snapshot management
 
 # Create a snaphost or a domaun
