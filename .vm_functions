@@ -187,6 +187,18 @@ sudo virt-install \
 }
 
 cent_installer() {
+    echo ""
+    sudo cp ~/ks.cfg /srv/http/ks.cfg
+    # Kickstart update
+    echo -en "Enter Hostname: "
+    read HOST_NAME
+    echo -en "Enter IP Address: "
+    read IP_ADDRESS
+    sudo sed -i 's/server1/'$HOST_NAME'/g' /srv/http/ks.cfg
+    sudo sed -i 's/192.168.122.100/'$IP_ADDRESS'/g' /srv/http/ks.cfg
+
+    ## VM configs
+    echo ""
     echo -en "Enter vm name: "
     read VM_NAME
     local MEM_SIZE=1024
@@ -195,8 +207,6 @@ cent_installer() {
     echo -en "Enter virtual disk size : "
     read DISK_SIZE
     local OS_VARIANT="rhel7"
-    echo -en "Enter Graphics type (none,vnc): "
-    read GRAPHICS_TYE
     local ISO_FILE="$HOME/iso/CentOS-7-x86_64-Everything-1611.iso"
 
 sudo virt-install \
@@ -207,7 +217,11 @@ sudo virt-install \
     --location ${ISO_FILE} \
     --disk size=${DISK_SIZE}  \
     --network bridge=virbr0 --network bridge=docker0 \
-    --graphics=${GRAPHICS_TYPE} \
+    --graphics=none \
     --os-variant=${OS_VARIANT} \
-    --extra-args="ks=http://192.168.122.1/ks.cfg console=tty0 console=ttyS0,115200n8" 
+    --console pty,target_type=serial \
+    -x 'console=ttyS0,115200n8 serial' \
+    -x "ks=http://192.168.122.1:8090/ks.cfg" 
 }
+
+

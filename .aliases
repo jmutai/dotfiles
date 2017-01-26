@@ -109,6 +109,7 @@ alias virt='sudo umount /dev/sdb6; sudo mount /dev/sdb6  /home/josepy/Desktop/vi
 alias btrfs='sudo btrfs'
 alias cups='systemctl start org.cups.cupsd.service'
 alias vi='vim'
+alias ks='sudo vim /srv/http/ks.cfg'
 
 # System mgt
 alias virsh='sudo virsh'

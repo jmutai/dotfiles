@@ -34,6 +34,7 @@ echo ""
 	dosfstools \
     docker \
     docker-compose \
+    docker-machine \
 	dunst \
 	elinks \
     ebtables \
@@ -95,6 +96,7 @@ pacaur -S --needed --noconfirm --noedit i3-gaps-next-git \
 	networkmanager \
 	network-manager-applet \
 	nitrogen \
+    ntfs-3g \
 	offlineimap \
 	ohsnap \
 	openssh \
