@@ -4,6 +4,24 @@ set header_cache=~/.mutt/cache/headers
 set message_cachedir=~/.mutt/cache/bodies
 set my_name = "Josphat Mutai"
 
+# Show sidebar
+set sidebar_visible = yes
+bind index,pager B sidebar-toggle-visible
+
+# Sidebar Shortcuts
+# Ctrl-n, Ctrl-p to select next, previous folder.
+# Ctrl-o to open selected folder.
+ bind index,pager \CP sidebar-prev
+ bind index,pager \CN sidebar-next
+ bind index,pager \CO sidebar-open
+
+# Truncate name son mailbox
+set sidebar_short_path = yes
+
+# Set mailbox separator
+mailboxes "+-- My mailbox -----------"
+
+
 #macro index <f2> '<change-folder>imaps://mail.kipepeosolutions.co.ke<enter>'
 #macro index <f3> '<change-folder>imaps://jmutai.com<enter>'
 
@@ -12,12 +30,12 @@ set my_name = "Josphat Mutai"
 
 ## Shortcuts
 macro index,pager <f2> '<sync-mailbox><enter-command>source ~/.mutt/jmutai.kipepeosolutions.co.ke<enter><change-folder>!<enter>'
-macro index,pager <f3> '<sync-mailbox><enter-command>source  ~/.mutt/m.jmutai.com<enter><change-folder>!<enter>'
+macro index,pager <f3> '<sync-mailbox><enter-command>source  ~/.mutt/mutai.jmutai.com<enter><change-folder>!<enter>'
 #
 source $HOME/.mutt/themes/tomorrow-night.muttrc
 # switch to default account on startup
 source "gpg2 -dq $HOME/.my-pwds.gpg |"
-source ~/.mutt/m.jmutai.com
+source ~/.mutt/mutai.jmutai.com
 source ~/.mutt/jmutai.kipepeosolutions.co.ke
 
 # Key bindings

@@ -25,6 +25,11 @@ set $mod Mod4
 set $mod1 Mod1
 set $terminal termite
 
+gaps outer 0
+gaps inner 0
+set $borderwidth 1
+
+
 # bindsym F1 exec ~/bin/dmenu
  bindsym $mod+m exec terminator
 
@@ -191,9 +196,10 @@ bindsym $mod+l exec i3lock -i ~/Pictures/others/cube.png
 
 # Pulse Audio controls
 # run pactl list sinks
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle       # mute sound
+
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume $(pacmd list-sinks |awk '/* index:/{print $3}') +5% # Raise
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume $(pacmd list-sinks |awk '/* index:/{print $3}') -5% # Lower
+bindsym XF86AudioMute exec pactl set-sink-mute  $(pacmd list-sinks |awk '/* index:/{print $3}') toggle # Mute
 
 # Sreen brightness controls
 bindsym XF86MonBrightnessUp exec xbacklight -inc 5    # increase screen brightness
@@ -221,30 +227,16 @@ bindsym XF86AudioPause exec "mpc pause"
 # i3blocks
 bar {
         
-    status_command i3blocks
-    #status_command py3status -c ~/.i3/i3status.conf
-  
-    position top
-    font pango:Hack, FontAwesome 10
-    separator_symbol  " " 
-
-
-   #strip_workspace_numbers yes
-
-  colors {
-        #separator #268bd2
-        #background #002b36
-        #statusline #839496
-        #focused_workspace #fdf6e3 #6c71c4 #fdf6e3
-        #active_workspace #fdf6e3 #6c71c4 #fdf6e3
-        #inactive_workspace #002b36 #586e75 #002b36
-        #urgent_workspace #d33682 #d33682 #fdf6e3
-
-        statusline         $white
-        background         $transparent
-        separator          $transparent
+    #    status_command i3blocks
+    #    status_command py3status -c ~/.i3/i3status.conf
+    #    position top
+    #    font pango:Hack, FontAwesome 10
+    #    separator_symbol  " " 
+    #strip_workspace_numbers yes
+    #       statusline         $white
+    #        background         $transparent
+    #      separator          $transparent
   }
-}
 
 #client.focused #6c71c4 #6c71c4 #fdf6e3 #6c71c4
 #client.focused_inactive #073642 #073642 #eee8d5 #6c71c4
@@ -262,11 +254,32 @@ set $m2 #FFF0E0
                        client.background       $black
 
 
-#                       client.focused          $black      $black      $darkwhite  $darkblack  $darkblack
-#                       client.unfocused        $black      $black      $white      $darkblack  $darkblack
-#                       client.focused_inactive $black      $black      $white      $darkblack  $darkblack
-#                       client.urgent           $darkred    $darkred    $black      $darkred    $darkred
-#                       client.background       $black
+
+
+
+# Colors alias
+set $CL_BG #282C34
+set $CL_FG #ABB2BF
+set $CL_CUR #528BFF
+set $CL_BLACK #000000
+set $CL_RED #E06C75
+set $CL_GREEN #98C379
+set $CL_ORANGE #D19A66
+set $CL_BLUE #61AEEE
+set $CL_MAGENTA #C678DD
+set $CL_CYAN #56B6C2
+set $CL_LIGHTGRAY #ABB2BF
+set $CL_DARKGRAY #5C6370
+set $CL_WHITE #FFFFFF
+
+# Decotations colors
+
+# class                 border      backgr.     text    indicator   child_border
+#client.focused          $CL_CUR     $CL_CUR     $CL_BG   $CL_CUR     $CL_CUR
+#client.focused_inactive $CL_MAGENTA $CL_MAGENTA $CL_BG   $CL_MAGENTA $CL_MAGENTA
+#client.unfocused        $CL_BG      $CL_BG      $CL_CUR  $CL_BG      $CL_BG
+#client.urgent           $CL_RED     $CL_RED     $CL_BG   $CL_RED     $CL_RED
+#client.placeholder      $CL_BG      $CL_BG      $CL_WHITE $CL_BLACK  $CL_BG
 
 # Startup programs
 
@@ -280,6 +293,8 @@ exec ~/.config/i3/scripts/batnotify &
 # bindsym $mod+j exec --no-startup-id feh --bg-fill "$(find ~/Pictures/wallpapers | shuf -n1)" &
 #exec_always --no-startup-id nm-applet
 #exec --no-startup-id termite -name ncmpcpp -e ncmpcpp -s playlist
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+
 
 
 # Bind App to workspace

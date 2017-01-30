@@ -1,80 +1,187 @@
+! URXVT-CONFIG
+!------------------------------------------------
+!Xft.dpi:                    96
+!Xft.antialias:              true
+!Xft.rgba:                   rgb
+!Xft.hinting:                true
+!Xft.hintstyle:              hintslight
 
-! ------------------------------------------------------------------------------
-! ROFI Color theme
-! ------------------------------------------------------------------------------
-rofi.color-enabled: true
-rofi.color-window: #002b37, #002b37, #003642
-rofi.color-normal: #002b37, #819396, #003643, #008ed4, #ffffff
-rofi.color-active: #002b37, #008ed4, #003643, #008ed4, #66c6ff
-rofi.color-urgent: #002b37, #da4281, #003643, #008ed4, #890661
+URxvt.buffered:         true
+URxvt.font:             xft:xos4 Terminess Powerline:style=Regular:pixelsize=10
+URxvt.boldFont:         xft:xos4 Terminess Powerline:style=Bold:pixelsize=11
+!URxvt.letterSpace: 	-4
+URxvt*scrollBar:                      	false
+URxvt*mouseWheelScrollPage:           	true
+URxvt*cursorBlink:                    	true
+URxvt.geometry: 		      	        95x55+0+0
+URxvt*depth: 				            32
+URxvt.intensityStyles:			        true
+URxvt.fading: 				            15
+
+! EXTENSIONS
+!-------------------------------------------------
+URxvt*perl-lib:        			/usr/lib/urxvt/perl/
+URxvt*perl-ext-common: 			default,matcher,searchable-scrollback
+URxvt.cutchars: 			"()*,<>[]{}|''"
+*URxvt.perl-ext-common:		osc-xterm-clipboard
+
+! URXVT COPY PASTE SHORTCUTS
+!------------------------------------------------
+
+URxvt.keysym.M-c:                     	perl:clipboard:copy
+URxvt.keysym.M-v:                     	perl:clipboard:pasteq
+
+! URXVT FULLSCREEN TOGGLE
+!------------------------------------------------
+
+URxvt.keysym.F11:                       perl:fullscreen:switch
+URxvt.perl-ext-common: 			default,matcher,vtwheel
+URxvt.url-launcher: 			/usr/bin/palemoon
+URxvt.matcher.button: 			1
+
+! XTERM-CONFIG
+!------------------------------------------------
+
+! Fonts:
+Uxterm*faceName: Terminess Powerline
+Uxterm*faceSize:	8
+
+! Configuración local
+UXTerm*locale: 	true
+
+!Adjust line spacing
+UXTerm*scaleHeight: 1.01
+
+! Shell entrada por defecto...
+UXTerm*loginshell: true
+
+! Enable bell urgent
+Uxterm*bellIsUrgent: true
+
+! Fix the 'Alt' key
+UXTerm*metaSendsEscape: true
+
+! scrollback...
+UXTerm*savelines: 10000
+
+! Doble click selección de URL...
+UXTerm*charClass: 33:48,36-47:48,58-59:48,61:48,63-64:48,95:48,126:48
+
+! Geometra de ventana...
+Uxterm*VT100.geometry: 94x28+0+0
 
 
-# Rofi settings
- rofi.font:             Hack Bold 10
- rofi.terminal:         i3-sensible-terminal
- rofi.separator-style:  solid
- rofi.hide-scrollbar:   false
- rofi.scrollbar-width:  6
- rofi.bw:               3
- rofi.padding:          15                                                        
- rofi.eh:               1
- rofi.line-margin:      2
- rofi.opacity:          90
- rofi.width:            30
- rofi.lines:            15
- rofi.threads:          4
- !custom keybinding
- rofi.kb-delete-entry:  Delete,Alt+BackSpace
+! URXVT + XTERM COLOR
+!------------------------------------------------
 
-# Rofi shell and ssh settings
-rofi.ssh-client: ssh
-rofi.ssh-command: {terminal} -e {ssh-client} {host}
-rofi.run-command: {cmd}
-rofi.run-shell-command: {terminal} -e {cmd}
+!BLACK
+#define _color0        #272727
+#define _color8        #363636
 
-# Other rofi options
-rofi.case-sensitive: false
-rofi.auto-select: false
-rofi.parse-hosts: false
-rofi.disable-history: false
+!RED
+#define _color1        #D40000
+#define _color9        #FF2222
+
+!GREEN
+#define _color2        #005F87
+#define _color10       #00AAD4
+
+!YELLOW
+#define _color3        #FF4500
+#define _color11       #FF6830
+
+!BLUE
+#define _color4        #354857
+#define _color12       #728391
+
+!MAGENTA
+#define _color5        #438EAD
+#define _color13       #3EAEC9
+
+!CYAN
+#define _color6        #20786D
+#define _color14       #34AF9F
+
+!WHITE
+#define _color7        #818ea2
+#define _color15       #F1F1F1
+
+!FMT Include, StatusLine, ErrorMsg
+#define _colorBD       #ffffff
+#define _colorUL       #355d5d
+#define _colorIT       #999999
+
+!TXT Normal, Normal, Cursor
+#define _foreground    #202020
+#define _background    #B2B2B2
+#define _cursorColor   #FF4500
 
 
-!! drop in Solarized colorscheme for Xresources/Xdefaults
+URxvt*color0         : _color0
+URxvt*color1         : _color1
+URxvt*color2         : _color2
+URxvt*color3         : _color3
+URxvt*color4         : _color4
+URxvt*color5         : _color5
+URxvt*color6         : _color6
+URxvt*color7         : _color7
+URxvt*color8         : _color8
+URxvt*color9         : _color9
+URxvt*color10        : _color10
+URxvt*color11        : _color11
+URxvt*color12        : _color12
+URxvt*color13        : _color13
+URxvt*color14        : _color14
+URxvt*color15        : _color15
+URxvt*colorBD        : _colorBD
+URxvt*colorIT        : _colorIT
+URxvt*colorUL        : _colorUL
+URxvt*foreground     : _foreground
+URxvt*background     : [50]#B2B2B2
+URxvt*cursorColor    : _cursorColor
 
-!!SOLARIZED HEX     16/8 TERMCOL  XTERM/HEX   L*A*B      RGB         HSB
-!!--------- ------- ---- -------  ----------- ---------- ----------- -----------
-!!base03    #002b36  8/4 brblack  234 #1c1c1c 15 -12 -12   0  43  54 193 100  21
-!!base02    #073642  0/4 black    235 #262626 20 -12 -12   7  54  66 192  90  26
-!!base01    #586e75 10/7 brgreen  240 #585858 45 -07 -07  88 110 117 194  25  46
-!!base00    #657b83 11/7 bryellow 241 #626262 50 -07 -07 101 123 131 195  23  51
-!!base0     #839496 12/6 brblue   244 #808080 60 -06 -03 131 148 150 186  13  59
-!!base1     #93a1a1 14/4 brcyan   245 #8a8a8a 65 -05 -02 147 161 161 180   9  63
-!!base2     #eee8d5  7/7 white    254 #e4e4e4 92 -00  10 238 232 213  44  11  93
-!!base3     #fdf6e3 15/7 brwhite  230 #ffffd7 97  00  10 253 246 227  44  10  99
-!!yellow    #b58900  3/3 yellow   136 #af8700 60  10  65 181 137   0  45 100  71
-!!orange    #cb4b16  9/3 brred    166 #d75f00 50  50  55 203  75  22  18  89  80
-!!red       #dc322f  1/1 red      160 #d70000 50  65  45 220  50  47   1  79  86
-!!magenta   #d33682  5/5 magenta  125 #af005f 50  65 -05 211  54 130 331  74  83
-!!violet    #6c71c4 13/5 brmagenta 61 #5f5faf 50  15 -45 108 113 196 237  45  77
-!!blue      #268bd2  4/4 blue      33 #0087ff 55 -10 -45  38 139 210 205  82  82
-!!cyan      #2aa198  6/6 cyan      37 #00afaf 60 -35 -05  42 161 152 175  74  63
-!!green     #859900  2/2 green     64 #5f8700 60 -20  65 133 153   0  68 100  60
+!rgba:0000/0000/0200/c800 
 
-#define S_base03        #002b36
-#define S_base04        #00171d
-#define S_base02        #073642
-#define S_base01        #586e75
-#define S_base00        #c1cacd
-#define S_base0         #839496
-#define S_base1         #93a1a1
-#define S_base2         #eee8d5
-#define S_base3         #fdf6e3
-#define S_yellow        #b58900
-#define S_orange        #cb4b16
-#define S_red           #dc322f
-#define S_magenta       #d33682
-#define S_violet        #6c71c4
-#define S_blue          #268bd2
-#define S_cyan          #2aa198
-#define S_green         #859900
+UXTerm*color0         : _color0
+UXTerm*color1         : _color1
+UXTerm*color2         : _color2
+UXTerm*color3         : _color3
+UXTerm*color4         : _color4
+UXTerm*color5         : _color5
+UXTerm*color6         : _color6
+UXTerm*color7         : _color7
+UXTerm*color8         : _color8
+UXTerm*color9         : _color9
+UXTerm*color10        : _color10
+UXTerm*color11        : _color11
+UXTerm*color12        : _color12
+UXTerm*color13        : _color13
+UXTerm*color14        : _color14
+UXTerm*color15        : _color15
+UXTerm*colorBD        : _colorBD
+UXTerm*colorIT        : _colorIT
+UXTerm*colorUL        : _colorUL
+UXTerm*foreground     : _foreground
+UXTerm*background     : _background
+UXTerm*cursorColor    : _cursorColor
 
+! ROFI
+!---------------------------------
+
+rofi.font		: terminal 9
+
+!			   'bg'	    'fg'     'bgalt'  'hlbg'      'hlf'
+rofi.color-normal	: #00AAD4,  #EEEEEE, #00222B, #f9f9f9,	#000000 
+rofi.color-urgent	: #011015,  #000000, #000000, #d094e4,	#000000 
+rofi.color-active	: #011015,  #5f819d, #000000, #5f819d,	#000000	
+
+!			'background' 'border'
+rofi.color-window	: #272727,   #005f87
+
+! XPDF
+!-------------------------------------
+xpdf*antialias		: yes
+xpdf*background		: white
+xpdf*enableFreetype	: yes
+xpdf*foreground		: black
+xpdf*urlCommand		: chromium %s

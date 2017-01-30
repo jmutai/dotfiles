@@ -272,13 +272,17 @@ spotify () {
 }
 
 cs1 () {
-cont_del server1 2>/dev/null
+cont_del ${1} 2>/dev/null
 echo -en "Enter Cont name: " 
 read NAME
 echo -en "Enter Hostname: " 
 read HOST_NAME
 echo -en "Enter IP Address: " 
 read IP_ADDRESS
+#local NAME="${1}"
+#local HOST_NAME="${2}"
+#local IP="${3}"
+
 docker run -d --name ${NAME} \
     --hostname ${HOST_NAME} \
     --net rhce_bridge \
@@ -321,4 +325,12 @@ sudo docker run \
   --detach=true \
   --name=cadvisor \
   google/cadvisor:latest
+}
+
+wp_stop () {
+    cd ~/rafikihost.co.ke  && docker-compose stop
+}
+
+wp_start () {
+    cd ~/rafikihost.co.ke  && docker-compose up -d
 }

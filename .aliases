@@ -58,6 +58,8 @@ alias pacu='pacaur --needed --noconfirm --noedit -Syu'
 alias pacs='pacaur -Ss'
 alias pacqi='pacaur -Qi'
 alias pacfix='sudo rm -f /var/lib/pacman/db.lck'
+alias  vimcolors='cd ~/.vim/bundle/vim-colorschemes/colors'
+alias pb='vim .config/polybar/config'
 
 # dock
 alias dockvim='vim ~/mygit/dotfiles/.docker_functions'
