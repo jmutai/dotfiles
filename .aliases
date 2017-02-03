@@ -33,6 +33,7 @@ alias i3env='cd ~/.config/i3/blocklets/'
 alias i3r='i3-msg restart'
 
 alias ssh='TERM=xterm  ssh'
+alias hugoserve='cd ~/mysites/jmutai.com && hugo server'
 
 # Git
 alias push='git push -u origin master'
@@ -118,4 +119,4 @@ alias virsh='sudo virsh'
 alias systemctl='sudo systemctl'
 alias mysleep='sudo /lib/systemd/systemd-sleep hybrid-sleep'
 alias jmutai='rsync -avz --delete public/* jmutaijose@rafiki:/web'
-
+alias cover='mycp ~/cheat-sheets/coverletter.txt'

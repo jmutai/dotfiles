@@ -310,3 +310,14 @@ else
 fi
 
 }
+
+mycpu () {
+	sudo dmidecode |grep -i cpu
+
+	cat /proc/cpuinfo | grep "physical id" | sort -u | wc -l # No of sockets
+	echo ""
+	# Show hyperthreading
+	egrep -e "core id" -e ^physical /proc/cpuinfo|xargs -l2 echo|sort -u
+	echo ""
+	lscpu | grep -i thread
+}

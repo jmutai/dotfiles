@@ -3,6 +3,7 @@
 # Vm management
 # start vm management daemons
 vm () {
+    dock 
     sudo systemctl restart libvirtd.service
     sudo systemctl restart vsftpd.service
     sudo systemctl restart virtlogd.socket
@@ -194,6 +195,8 @@ cent_installer() {
     read HOST_NAME
     echo -en "Enter IP Address: "
     read IP_ADDRESS
+    HOST_NAME=${HOST_NAME:-$1}
+    IP_ADDRESS=${IP_ADDRESS:-$2}
     sudo sed -i 's/server1/'$HOST_NAME'/g' /srv/http/ks.cfg
     sudo sed -i 's/192.168.122.100/'$IP_ADDRESS'/g' /srv/http/ks.cfg
 
@@ -208,6 +211,9 @@ cent_installer() {
     read DISK_SIZE
     local OS_VARIANT="rhel7"
     local ISO_FILE="$HOME/iso/CentOS-7-x86_64-Everything-1611.iso"
+    
+    VM_NAME=${VM_NAME:-$3}
+    DISK_SIZE=${DISK_SIZE:-$4}
 
 sudo virt-install \
     --name ${VM_NAME} \
@@ -216,7 +222,7 @@ sudo virt-install \
     --os-type ${OS_TYPE} \
     --location ${ISO_FILE} \
     --disk size=${DISK_SIZE}  \
-    --network bridge=virbr0 --network bridge=docker0 \
+    --network bridge=virbr0 \
     --graphics=none \
     --os-variant=${OS_VARIANT} \
     --console pty,target_type=serial \

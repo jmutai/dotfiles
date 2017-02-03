@@ -25,12 +25,15 @@ set $mod Mod4
 set $mod1 Mod1
 set $terminal termite
 
-gaps outer 0
-gaps inner 0
-set $borderwidth 1
 
+new_window pixel 4
+smart_gaps on
+gaps inner 10
+#gaps outer 0
+#set $borderwidth 1
 
 # bindsym F1 exec ~/bin/dmenu
+
  bindsym $mod+m exec terminator
 
 
@@ -288,7 +291,7 @@ exec --no-startup-id mpd
 #exec --no-startup-id dropbox &
 exec --no-startup-id dunst 
 exec_always compton &
-exec_always feh --bg-scale ~/Pictures/server-room.jpg
+exec_always feh --bg-scale ~/Pictures/grub.png
 exec ~/.config/i3/scripts/batnotify &
 # bindsym $mod+j exec --no-startup-id feh --bg-fill "$(find ~/Pictures/wallpapers | shuf -n1)" &
 #exec_always --no-startup-id nm-applet
@@ -305,6 +308,7 @@ assign [class="Thunar"] $ws4
 assign [class="Pcmanfm"] $ws4
 assign [class="mtp-ng-qt"] $ws4
 assign [class="Virt-manager"] $ws5
+assign [class="VirtualBox"] $ws5
 assign [class="Vmware"] $ws5
 assign [class="Firefox"] $ws6
 assign [class="Opera"] $ws6

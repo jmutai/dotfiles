@@ -7,6 +7,25 @@ set my_name = "Josphat Mutai"
 # Show sidebar
 set sidebar_visible = yes
 bind index,pager B sidebar-toggle-visible
+set sidebar_width = 20
+set sidebar_short_path = yes
+set sidebar_delim_chars = '/.'
+set sidebar_folder_indent = no
+set sidebar_new_mail_only = no
+sidebar_whitelist '~/.mutt/mutai.jmutai.com'
+sidebar_whitelist '~/.mutt/jmutai.kipepeosolutions.co.ke'
+set sidebar_next_new_wrap = no
+set sidebar_on_right = no
+set sidebar_divider_char = '|'
+set mail_check_stats
+set sidebar_format = '%B%?F? [%F]?%* %?N?%N/?%S'
+set sidebar_sort_method = 'unsorted'
+bind index,pager <F5> sidebar-page-up
+bind index,pager <F6> sidebar-page-down
+bind index,pager <F7> sidebar-prev-new
+bind index,pager <F8> sidebar-next-new
+bind index,pager B sidebar-toggle-visible
+
 
 # Sidebar Shortcuts
 # Ctrl-n, Ctrl-p to select next, previous folder.
@@ -15,8 +34,7 @@ bind index,pager B sidebar-toggle-visible
  bind index,pager \CN sidebar-next
  bind index,pager \CO sidebar-open
 
-# Truncate name son mailbox
-set sidebar_short_path = yes
+
 
 # Set mailbox separator
 mailboxes "+-- My mailbox -----------"
