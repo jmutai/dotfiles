@@ -120,3 +120,8 @@ alias systemctl='sudo systemctl'
 alias mysleep='sudo /lib/systemd/systemd-sleep hybrid-sleep'
 alias jmutai='rsync -avz --delete public/* jmutaijose@rafiki:/web'
 alias cover='mycp ~/cheat-sheets/coverletter.txt'
+alias coreos1s='ssh  -p 2222  coreos1'
+alias coreos2s='ssh  -p 2222  coreos2'
+alias coreos3s='ssh  -p 2222  coreos3'
+
+

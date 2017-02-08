@@ -25,15 +25,12 @@ set $mod Mod4
 set $mod1 Mod1
 set $terminal termite
 
+gaps outer 0
+gaps inner 0
+set $borderwidth 1
 
-new_window pixel 4
-smart_gaps on
-gaps inner 10
-#gaps outer 0
-#set $borderwidth 1
 
 # bindsym F1 exec ~/bin/dmenu
-
  bindsym $mod+m exec terminator
 
 
@@ -235,54 +232,25 @@ bar {
     #    position top
     #    font pango:Hack, FontAwesome 10
     #    separator_symbol  " " 
-    #strip_workspace_numbers yes
-    #       statusline         $white
-    #        background         $transparent
-    #      separator          $transparent
+    #    strip_workspace_numbers yes
+    #    statusline         $white
+    #    background         $transparent
+    #    separator          $transparent
   }
 
-#client.focused #6c71c4 #6c71c4 #fdf6e3 #6c71c4
-#client.focused_inactive #073642 #073642 #eee8d5 #6c71c4
-#client.unfocused #073642 #073642 #93a1a1 #586e75
-#client.urgent #d33682 #d33682 #fdf6e3 #dc322f
 
 
 set $m1 #808080 
 set $m2 #FFF0E0
                                                #BORDER    BACKGROUND   TEXT         INDICATOR   CHILD_BORDER
-                       client.focused          $black      $black      $m2          $darkblack  $darkblack
-                       client.unfocused        $black      $black      $m1          $darkblack  $darkblack
-                       client.focused_inactive $black      $black      $m1          $darkblack  $darkblack
-                       client.urgent           $darkred    $darkred    $black       $darkred    $darkred
+
+                       client.unfocused        $black      $black      $m2         $darkblack  $darkblack
+                       client.focused_inactive $black      $black      $m1         $darkblack  $darkblack
+                       client.urgent           $darkred    $darkred    $black      $darkred    $darkred
                        client.background       $black
 
 
 
-
-
-# Colors alias
-set $CL_BG #282C34
-set $CL_FG #ABB2BF
-set $CL_CUR #528BFF
-set $CL_BLACK #000000
-set $CL_RED #E06C75
-set $CL_GREEN #98C379
-set $CL_ORANGE #D19A66
-set $CL_BLUE #61AEEE
-set $CL_MAGENTA #C678DD
-set $CL_CYAN #56B6C2
-set $CL_LIGHTGRAY #ABB2BF
-set $CL_DARKGRAY #5C6370
-set $CL_WHITE #FFFFFF
-
-# Decotations colors
-
-# class                 border      backgr.     text    indicator   child_border
-#client.focused          $CL_CUR     $CL_CUR     $CL_BG   $CL_CUR     $CL_CUR
-#client.focused_inactive $CL_MAGENTA $CL_MAGENTA $CL_BG   $CL_MAGENTA $CL_MAGENTA
-#client.unfocused        $CL_BG      $CL_BG      $CL_CUR  $CL_BG      $CL_BG
-#client.urgent           $CL_RED     $CL_RED     $CL_BG   $CL_RED     $CL_RED
-#client.placeholder      $CL_BG      $CL_BG      $CL_WHITE $CL_BLACK  $CL_BG
 
 # Startup programs
 
@@ -291,7 +259,7 @@ exec --no-startup-id mpd
 #exec --no-startup-id dropbox &
 exec --no-startup-id dunst 
 exec_always compton &
-exec_always feh --bg-scale ~/Pictures/grub.png
+exec_always feh --bg-scale ~/Pictures/server-room.jpg
 exec ~/.config/i3/scripts/batnotify &
 # bindsym $mod+j exec --no-startup-id feh --bg-fill "$(find ~/Pictures/wallpapers | shuf -n1)" &
 #exec_always --no-startup-id nm-applet
@@ -308,7 +276,6 @@ assign [class="Thunar"] $ws4
 assign [class="Pcmanfm"] $ws4
 assign [class="mtp-ng-qt"] $ws4
 assign [class="Virt-manager"] $ws5
-assign [class="VirtualBox"] $ws5
 assign [class="Vmware"] $ws5
 assign [class="Firefox"] $ws6
 assign [class="Opera"] $ws6

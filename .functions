@@ -184,7 +184,7 @@ pass () {
 myssh () {
     eval $(ssh-agent)
     ssh-add
-    ssh -A "$1"
+    ssh -A "$@"
 }
 
 update_hostness () {
@@ -219,6 +219,11 @@ myfind () {
     sudo find / -type f  -size +"${f_size}" -exec ls -lsh {} \; 2>/dev/null
 }
 
+recert () {
+	sudo  pacman-key --init
+	sudo pacman-key --populate archlinux
+	sudo pacman-key --refresh-keys
+}
 myip () {
     ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1  -d'/'
 }
@@ -235,7 +240,7 @@ playlist () {
     touch ~/.mpd/playlists/${1}.m3u
 }
 
-mkcdir (){
+mkcd (){
     mkdir -p -- "$1" && cd -P -- "$1"
 }
 
@@ -320,4 +325,12 @@ mycpu () {
 	egrep -e "core id" -e ^physical /proc/cpuinfo|xargs -l2 echo|sort -u
 	echo ""
 	lscpu | grep -i thread
+}
+
+getip () {
+	ip -4 addr ls ${1} | awk '/inet / {print $2}' | cut -d"/" -f1
+}
+
+cloud-config () {
+scp -9 2222 ~/cheat-sheets/coreos/cloud-config  root@${1}:/var/lib/coreo-install/user_date
 }

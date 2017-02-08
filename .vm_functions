@@ -15,6 +15,16 @@ vm_stop () {
 sudo virsh shutdown $1
 }
 
+vm_stopall () {
+    sudo virsh list | awk '{ print $2 }' | xargs -I {} sudo virsh shutdown {} 2>/dev/null
+    sleep 5
+    list
+}
+
+vm_start () {
+sudo virsh start $1
+}
+
 vm_clean () {
     sudo virsh shutdown  ${1} 2>/dev/null 
     sudo virsh destroy  ${1} 2>/dev/null 

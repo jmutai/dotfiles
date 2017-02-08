@@ -1,35 +1,29 @@
-[options]
-resize_grip = false
-scroll_on_output = false
-scroll_on_keystroke = true
-audible_bell = false
-visible_bell = false
-mouse_autohide = false
-allow_bold = true
-dynamic_title = true
-urgent_on_bell = true
-clickable_url = true
+#[options]
+#resize_grip = false
+#scroll_on_output = false
+#scroll_on_keystroke = true
+#audible_bell = false
+#visible_bell = false
+#mouse_autohide = false
+#allow_bold = true
+#dynamic_title = true
+#urgent_on_bell = true
+#clickable_url = true
 #font = Hack 10
 #scrollback_lines = 1000
-search_wrap = true
+#search_wrap = true
 #geometry = 400x240
-geometry = 80x22
-
+#geometry = 80x22
 # "system", "on" or "off"
-cursor_blink = off
-
+#cursor_blink = off
 # "block", "underline" or "ibeam"
-cursor_shape = block
-
+#cursor_shape = block
 # $BROWSER is used by default
-browser = chromium 
-
+#browser = chromium 
 # set size hints for the window
-size_hints = true
-padding = 10
-border_width = 10
-
-
+#size_hints = true
+#padding = 10
+#border_width = 10
 
 #[colors]
 #background = #282828
