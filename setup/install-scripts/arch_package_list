@@ -28,6 +28,7 @@ echo ""
     curl \
     cups \
     cups-pdf \
+    cinelerra-cv \
 	deepin-screenshot \
 	dmenu \
     dnsmasq \

@@ -168,15 +168,20 @@ UXTerm*cursorColor    : _cursorColor
 ! ROFI
 !---------------------------------
 
-rofi.font		: terminal 9
-
-!			   'bg'	    'fg'     'bgalt'  'hlbg'      'hlf'
-rofi.color-normal	: #00AAD4,  #EEEEEE, #00222B, #f9f9f9,	#000000 
-rofi.color-urgent	: #011015,  #000000, #000000, #d094e4,	#000000 
-rofi.color-active	: #011015,  #5f819d, #000000, #5f819d,	#000000	
-
-!			'background' 'border'
-rofi.color-window	: #272727,   #005f87
+! ------------------------------------------------------------------------------
+! ROFI Color theme
+! Copyright: 2017 leofa
+! ------------------------------------------------------------------------------
+! "Color scheme for normal row" Set from: File
+rofi.color-normal:                   argb:0383c4a, #c4cbd4, argb:96404552, #4084d6, #f9f9f9
+! "Color scheme for urgent row" Set from: File
+rofi.color-urgent:                   argb:02d303b, #cc6666, argb:e52d303b, #a54242, #f9f9f9
+! "Color scheme for active row" Set from: File
+rofi.color-active:                   argb:02d303b, #b5bd68, argb:e42d303b, #8c9440, #f9f9f9
+! "Color scheme window" Set from: File
+rofi.color-window:                   argb:f22d303b, #7c8389, #1d1f21
+! "Separator style (none, dash, solid)" Set from: XResources
+rofi.separator-style:                solid
 
 ! XPDF
 !-------------------------------------

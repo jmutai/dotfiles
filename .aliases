@@ -125,3 +125,18 @@ alias coreos2s='ssh  -p 2222  coreos2'
 alias coreos3s='ssh  -p 2222  coreos3'
 
 
+# tmux alias
+tl () {
+    echo ""
+    tmux list-sessions
+    echo -n ""
+    echo ""
+    echo "Tmux windows"
+    tmux list-windows
+}
+
+alias ta='tmux a -t $1'
+alias tk='tmux kill-session -t $1'
+alias tc='tmux a -t $1'
+alias tn='tmux new -s $1'
+

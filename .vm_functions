@@ -11,48 +11,69 @@ vm () {
 
 }
 
-vm_stop () {
-sudo virsh shutdown $1
-}
-
-vm_stopall () {
-    sudo virsh list | awk '{ print $2 }' | xargs -I {} sudo virsh shutdown {} 2>/dev/null
-    sleep 5
-    list
-}
-
 vm_start () {
-sudo virsh start $1
+    echo ""
+    nodes=("$@")
+     for node in ${nodes[@]}; do
+        sudo virsh start $node
+    done
 }
 
-vm_clean () {
-    sudo virsh shutdown  ${1} 2>/dev/null 
-    sudo virsh destroy  ${1} 2>/dev/null 
-    sudo virsh undefine ${1} --remove-all-storage 2>/dev/null
-    sudo virsh vol-delete ${1}.qcow2 --pool default 2>/dev/null
-    sudo virsh list --all
+vm_reboot () {
+    echo ""
+    nodes=("$@")
+    for node in ${nodes[@]}; do
+        sudo virsh reboot $node
+    done
 }
 
-# stop libvirt daemon and vsftpd services
-vmstop () {
-    sudo systemctl stop libvirtd.service 
-    sudo systemctl stop vsftpd.service
+vm_stop () {
+    nodes=("$@")
+    for node in ${nodes[@]}; do
+        sudo virsh shutdown $node
+    done
 }
+
+vm_stop_force () {
+    echo ""
+    nodes=("$@")
+    for node in ${nodes[@]}; do
+        sudo virsh destroy $node
+    done
+}
+
+vm_destroy () {
+    echo ""
+    nodes=("$@")
+    for node in ${nodes[@]}; do
+        sudo virsh destroy $node 2>/dev/null
+    done
+    for node in ${nodes[@]}; do
+        sudo virsh undefine $node 
+    done
+    sudo virsh pool-refresh default
+    for node in ${nodes[@]}; do
+        sudo virsh vol-delete --pool default $node.qcow2
+    done
+}
+
+# Stop all vms running
+vm_stopall () {
+    for i in `sudo virsh list | grep running | awk '{print $2}'`
+    do
+        sudo virsh shutdown $i
+    done
+}
+
 
 vm_mem () {
     virsh setmaxmem ${1} ${2} --config
-    virsh setmaxmem ${1} ${2} --config 
+    virsh setmaxmem ${1} ${2} --config
     virsh shutdown ${1}
+    virsh start ${1}
 }
 
 
-# Stop all vms running
-novm () {
-	for i in `sudo virsh list | grep running | awk '{print $2}'`
-	do
-		sudo virsh shutdown $i
-	done                                                                          
-}
 
 # List all kvm vms
 vmlist () {

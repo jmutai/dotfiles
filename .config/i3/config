@@ -259,12 +259,16 @@ exec --no-startup-id mpd
 #exec --no-startup-id dropbox &
 exec --no-startup-id dunst 
 exec_always compton &
-exec_always feh --bg-scale ~/Pictures/server-room.jpg
+exec_always feh --bg-scale ~/Pictures/grub.png
 exec ~/.config/i3/scripts/batnotify &
 # bindsym $mod+j exec --no-startup-id feh --bg-fill "$(find ~/Pictures/wallpapers | shuf -n1)" &
 #exec_always --no-startup-id nm-applet
 #exec --no-startup-id termite -name ncmpcpp -e ncmpcpp -s playlist
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+
+# ssh passphrase
+#exec --no-startup-id /usr/lib/gnome-settings-daemon/gnome-settings-daemon
+
 
 
 
@@ -277,6 +281,7 @@ assign [class="Pcmanfm"] $ws4
 assign [class="mtp-ng-qt"] $ws4
 assign [class="Virt-manager"] $ws5
 assign [class="Vmware"] $ws5
+assign [class="VirtualBox"] $ws5
 assign [class="Firefox"] $ws6
 assign [class="Opera"] $ws6
 assign [class="GNS3"] $ws7
@@ -303,7 +308,7 @@ mode "$mode_launcher" {
     bindsym m exec terminator
     bindsym v exec virt-manager 
     bindsym w exec vmware
-    bindsym s exec spotify
+    bindsym s exec simplescreenrecorder
     bindsym d exec deepin-screenshot 
     bindsym a exec android-file-transfer
     bindsym b exec virtualbox
