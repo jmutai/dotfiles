@@ -111,12 +111,9 @@ disk_grow () {
 # Create a snaphost or a domaun
 snap () {
     while [[ $dom_name == "" || $snap_name == "" ]]; do
-        echo  -n "Enter domain name: " 
-        read dom_name
-        echo  -n "Enter snapshot name: " 
-        read snap_name
-        echo  -n "Enter Snapshot description: " 
-        read desc
+        dom_name=${dom_name:-$1}
+        snap_name=${snap_name:-$2}
+        desc=${desc:-$3}
     done
     echo ""
     sudo virsh snapshot-create-as --domain "$dom_name" \

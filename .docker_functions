@@ -348,3 +348,12 @@ function mydnsmasq {
         --address=/matchbox.foo/192.168.1.2 --log-queries --log-dhcp \
         quay.io/coreos/dnsmasq
 }
+
+mariadb () {
+docker run --name mariadb -d \
+    -p 3306:3306  \
+    --net host \
+    -e MYSQL_ROOT_PASSWORD=password \
+    -v ~/db_data:/var/lib/mysql \
+    mariadb
+}

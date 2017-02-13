@@ -73,13 +73,10 @@ fi
      }
 
 mylanip () {
-    echo ""
-    echo -en "Con name: " 
-    read con_name
-    echo -en "IP Address: " 
-    read ip_address
+	con_name="$1"
+	ip_address="$2"
 
-    if [[ "$con_name" == "" || "$ip_address" == "" ]]; then
+	if [[ "$con_name" == "" || "$ip_address" == "" ]]; then
         echo "
         No arguments given:
         Argument 1: Connection name
@@ -88,7 +85,7 @@ mylanip () {
     else
         echo ""
     nmcli con mod "$con_name" ipv4.addresses "$ip_address"  ipv4.method manual connection.autoconnect yes
-    nmcli con up eno1
+    nmcli con up "$con_name"
 fi
 } 
 
@@ -101,7 +98,6 @@ mylangw (){
         Argument 2: gateway addrss
         Default dns: 8.8.8.8 8.8.4.4
         "
-        exit 
     fi
 }
 
@@ -257,7 +253,7 @@ newpost () {
     if  [[ "$NAME" == "" ]]; then 
         echo "Enter valid post name: "
     else
-    cd ~/mysites/jmutai.com/ &&  hugo new post/Jan-2017/${NAME} && \
+    cd ~/mysites/jmutai.com/ &&  hugo new post/Feb-2017/${NAME} && \
         vim content/post/Jan-2017/${NAME}
 fi
 }

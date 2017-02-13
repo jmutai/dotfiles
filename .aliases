@@ -113,6 +113,9 @@ alias btrfs='sudo btrfs'
 alias cups='systemctl start org.cups.cupsd.service'
 alias vi='vim'
 alias ks='sudo vim /srv/http/ks.cfg'
+alias mycover='mycp ~/cheat-sheets/coverletter.txt'
+alias mariadbs='docker exec -ti mariadb /bin/bash'
+alias postdir='cd ~/mysites/jmutai.com/content/post/Feb-2017/'
 
 # System mgt
 alias virsh='sudo virsh'
