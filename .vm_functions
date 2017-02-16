@@ -152,6 +152,27 @@ server () {
     ssh root@server 2>/dev/null
 }
 
+# Newtork Management
+
+vm_attach_interface () {
+    DOMAIN=${DOMAIN:-"$1"}
+    INT_TYPE=${INT_TYPE:-"$2"}
+    SOURCE=${SOURCE:-"$3"}
+
+    if [[ $# -eq 0 ]]; then
+        echo ""
+        echo "USAGE: ${0##*/} <Argument>"
+        echo "Arguments:"
+        echo -e "\t1\tDomain name"
+        echo -e "\t2\tInterface type, e.g bridge,network"
+        echo -e "\t3\tInterface source, e.g br1"
+    else
+
+    sudo virsh attach-interface --domain $DOMAIN --type $INT_TYPE --source $SOURCE --model virtio --config --live
+    sudo virsh domiflist $DOMAIN
+fi
+}
+
 # VM installer script
 installer() {
     local ISO_ DIR="/home/josepy/iso"
@@ -250,12 +271,12 @@ sudo virt-install \
     --os-type ${OS_TYPE} \
     --location ${ISO_FILE} \
     --disk size=${DISK_SIZE}  \
-    --network bridge=virbr0 \
+    --network bridge=br1 \
     --graphics=none \
     --os-variant=${OS_VARIANT} \
     --console pty,target_type=serial \
     -x 'console=ttyS0,115200n8 serial' \
-    -x "ks=http://192.168.122.1:8090/ks.cfg" 
+    -x "ks=http://192.168.10.1:8090/ks.cfg" 
 }
 
 

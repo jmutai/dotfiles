@@ -197,6 +197,7 @@ nouser () {
 }
 
 myhugo () {
+	cd ~/mysites/jmutai.com
     USER=jmutaijose
     HOST=rafiki
     DIR=/web/
@@ -254,7 +255,7 @@ newpost () {
         echo "Enter valid post name: "
     else
     cd ~/mysites/jmutai.com/ &&  hugo new post/Feb-2017/${NAME} && \
-        vim content/post/Jan-2017/${NAME}
+        vim content/post/Feb-2017/${NAME}
 fi
 }
 
@@ -331,7 +332,6 @@ cloud-config () {
 scp -9 2222 ~/cheat-sheets/coreos/cloud-config  root@${1}:/var/lib/coreo-install/user_date
 }
 
-extract ()
 extract () {
 	echo Extracting $1 ...
 	if [ -f $1 ] ; then

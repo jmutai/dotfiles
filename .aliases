@@ -116,6 +116,7 @@ alias ks='sudo vim /srv/http/ks.cfg'
 alias mycover='mycp ~/cheat-sheets/coverletter.txt'
 alias mariadbs='docker exec -ti mariadb /bin/bash'
 alias postdir='cd ~/mysites/jmutai.com/content/post/Feb-2017/'
+alias ifdown='sudo ip link set "$1" down'
 
 # System mgt
 alias virsh='sudo virsh'

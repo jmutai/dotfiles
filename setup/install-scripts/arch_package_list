@@ -72,9 +72,11 @@ pacaur -S --needed --noconfirm --noedit i3-gaps-next-git \
     jq \
 	libmtp \
 	libnotify \
+    libguestfs \
     lxappearance \
     lm_sensors \
     linux-headers \
+    lftp \
     nvidia \
     nvidia-utils \
     nvidia-settings \
