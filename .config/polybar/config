@@ -67,7 +67,7 @@ module-margin-right = 2
 ;font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
 font-0 = Monaco:size=8:weight=bold
 font-1 = FontAwesome:size=11
-;font-2 = siji:pixelsize=10;1
+font-2 = siji:pixelsize=10;1
 
 ;modules-left = menu i3 xwindow
 ;modules-left = menu i3 xwindow
