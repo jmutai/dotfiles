@@ -8,15 +8,17 @@
 ;=====================================================
 
 [colors]
-;background = ${xrdb:color0:#222}
-background = #282C34
-background-alt = #528BFF
-;foreground = ${xrdb:color7:#222}
-foreground = #ABB2BF
-foreground-alt = #555
+background = #ee2f343f
+background-alt = #f72f343f
+foreground = #f3f4f5
+foreground-alt = #f3f4f5
+foreground-dim = #676e7d
 primary = #ffb52a
 secondary = #e60053
-alert = #bd2c40
+alert = #ff6600
+
+high = #268bd2
+high-alt = #0c2b41
 
 ; other colors
 black = #000000
@@ -31,14 +33,20 @@ darkgray = #5C6370
 white = #FFFFFF
 
 
-[bar/mybar]
+[bar/main]
 ;monitor = ${env:MONITOR:HDMI-1}
+;bottom = true
 width = 100%
 height = 18
-;offset-x = 1%
-;offset-y = 1%
-radius = 6.0
-fixed-center = false
+offset-x = 0
+offset-y = 0
+;radius = 6.0
+;fixed-center = false
+
+overline-size = 2
+overline-color = #f00
+underline-size = 2
+underline-color = ${colors.high}
 
 background = ${colors.background}
 foreground = ${colors.foreground}
@@ -52,7 +60,7 @@ border-color = #00000000
 padding-left = 0
 padding-right = 2
 
-module-margin-left = 1
+module-margin-left = 0
 module-margin-right = 2
 
 ;font-0 = fixed:pixelsize=10;1
@@ -61,9 +69,11 @@ font-0 = Monaco:size=8:weight=bold
 font-1 = FontAwesome:size=11
 ;font-2 = siji:pixelsize=10;1
 
-;modules-left = i3
+;modules-left = menu i3 xwindow
+;modules-left = menu i3 xwindow
+#modules-left = i3
 modules-center = mpd
-modules-right = filesystem xkeyboard memory cpu xbacklight volume wlan eth battery temperature date powermenu
+modules-right = fsroot fshome  xkeyboard memory cpu xbacklight volume wlan eth battery temperature date powermenu
 
 tray-position = right
 tray-padding = 2
@@ -83,35 +93,35 @@ tray-padding = 2
 
 [module/xwindow]
 type = internal/xwindow
-label = %title:0:30:...%
+;label = %title:0:30:...%
+label = %title:0:30:...%  %{B- -o -u}
+
 
 [module/xkeyboard]
 type = internal/xkeyboard
 blacklist-0 = num lock
 
 format-prefix = " "
+format-underline = ${colors.secondary}
 format-prefix-foreground = ${colors.foreground-alt}
-format-prefix-underline = ${colors.secondary}
 
 label-layout = %layout%
-label-layout-underline = ${colors.secondary}
 
 label-indicator-padding = 2
-label-indicator-margin = 1
 label-indicator-background = ${colors.secondary}
 label-indicator-underline = ${colors.secondary}
 
-[module/filesystem]
-type = internal/fs
-interval = 25
-
-mount-0 = /
-mount-1 = /home
-
-label-mounted = %{F#0a81f5}%mountpoint%%{F-}: %free%
-;label-mounted = %mountpoint%: %percentage_free%% of %total%
-label-unmounted = %mountpoint% not mounted
-label-unmounted-foreground = ${colors.foreground-alt}
+#[module/filesystem]
+#type = internal/fs
+#interval = 25
+#
+#mount-0 = /
+#mount-1 = /home
+#
+#label-mounted = %{F#0a81f5}%mountpoint%%{F-}: %free%
+#;label-mounted = %mountpoint%: %percentage_free%% of %total%
+#label-unmounted = %mountpoint% not mounted
+#label-unmounted-foreground = ${colors.foreground-alt}
 
 [module/bspwm]
 type = internal/bspwm
@@ -136,7 +146,15 @@ label-empty-padding = 2
 type = internal/i3
 format = <label-state> <label-mode>
 index-sort = true
-wrapping-scroll = false
+strip-wsnumbers = true  ;This will split the workspace name on ':'
+ws-icon-0 = 1;
+ws-icon-1 = 2; 
+ws-icon-2 = 3; 
+ws-icon-3 = 4; 
+ws-icon-4 = 5; 
+ws-icon-5 = 6; 
+ws-icon-6 = 7; 
+ws-icon-default = ♟
 
 ; Only show workspaces on the same output as the bar
 ;pin-workspaces = true
@@ -166,9 +184,11 @@ label-urgent = %index%
 label-urgent-background = ${module/bspwm.label-urgent-background}
 label-urgent-padding = ${module/bspwm.label-urgent-padding}
 
+; 
+
 [module/mpd]
 type = internal/mpd
-format-online = <label-song>  <icon-prev> <icon-stop> <toggle> <icon-next>
+format-online = <icon-prev> <toggle> <icon-next> <icon-random>  <icon-repeat> <label-time> 
 format-offline = <label-offline>
 label-offline =  no music
 
@@ -178,7 +198,10 @@ icon-play = 
 icon-pause = 
 icon-next = 
 icon-seekf = >>
+icon-random = 
+icon-repeat = 
 
+;label-song = 𝄞 %artist% - %title%
 label-song-maxlen = 25
 label-song-ellipsis = true
 
@@ -186,13 +209,21 @@ toggle-on-foreground = #e60053
 toggle-off-foreground = #66
 
 
+
 [module/xbacklight]
 type = internal/xbacklight
 
 format = <label> <bar>
-label = 
+label =  %percentage%%
 
-bar-width = 10
+; Only applies if <ramp> is used
+ramp-0 = 🌕
+ramp-1 = 🌔
+ramp-2 = 🌓
+ramp-3 = 🌒
+ramp-4 = 🌑
+
+bar-width = 1
 bar-indicator = |
 bar-indicator-foreground = #ff
 bar-indicator-font = 2
@@ -211,29 +242,42 @@ card = intel_backlight
 [module/cpu]
 type = internal/cpu
 interval = 2
-format-prefix = "  "
-format-underline = #f90000
+format-prefix = " "
+;format-underline = #f90000
 label = %percentage%%
 
 [module/memory]
+inherit = module/theme
+format-underline = #999999
 type = internal/memory
 interval = 2
-format-prefix = ""
-format-foreground = ${colors.orange}
-format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #4bffdc
+format-prefix = " "
+;format-underline = #4bffdc
 ;label = %percentage%%
 label = %gb_used%/%gb_total%
+;label-foreground = #ed5456
+label-foreground = #999999
 
+;bar-used-width = 10
+bar-used-gradient = true
+bar-used-foreground-0 = #0088CC
+bar-used-foreground-1 = #2f8419
+bar-used-foreground-2 = #f5a70a
+bar-used-foreground-3 = #ed5456
 
 [module/wlan]
+inherit = module/theme
 type = internal/network
 interface = wlo1
-interval = 3.0
-
+interval = 1
+;format-connected-underline = #268bd2
 format-connected = <ramp-signal> <label-connected>
-format-connected-underline = #9f78e1
-label-connected =   %essid%
+;label-connected-foreground = ${colors.high}
+
+;format-connected-underline = #0a6cf5
+;label-connected =  %essid%
+;label-connected =    %downspeed% |     %upspeed% 
+label-connected = " %signal% [  %downspeed% ] [  %upspeed% ]"
 
 format-disconnected = 
 ;format-disconnected = <label-disconnected>
@@ -268,15 +312,15 @@ format-disconnected =
 type = internal/date
 interval = 1
 
-date = "%a %d-%m-%Y"
+date =  %a %d-%m-%Y |
 date-alt = " %Y-%m-%d"
 
-time = %H:%M:%S
+time =   %H:%M:%S
 time-alt = %H:%M:%S
 
 format-prefix = 
 format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #0a6cf5
+;format-underline = #0a6cf5
 
 label = %date% %time%
 
@@ -336,7 +380,7 @@ thermal-zone = 0
 warn-temperature = 60
 
 format = <ramp> <label>
-format-underline = #f50a4d
+;format-underline = #f50a4d
 format-warn = <ramp> <label-warn>
 format-warn-underline = ${self.format-underline}
 
@@ -389,4 +433,80 @@ screenchange-reload = true
 margin-top = 5
 margin-bottom = 5
 
+
+[module/fsroot]
+inherit = module/theme
+type = internal/fs
+interval = 20
+mount-0 = /
+label-mounted = " %free%"
+label-unmounted = " ??"
+format-mounted-underline = #39c639
+format-unmounted-underline = #39c639
+
+[module/fshome]
+inherit = module/theme
+type = internal/fs
+interval = 20
+format-prefix = ""
+mount-0 = /home
+label-mounted = " %free%"
+label-unmounted = " ??"
+format-mounted-underline = #39c639
+format-unmounted-underline = #39c639
+
+[module/menu-apps]
+type = custom/menu
+
+; "menu-LEVEL-N" has the same properties as "label-NAME" with
+;  the additional "exec" property
+; 
+;  Available exec commands:
+;    menu-open-LEVEL
+;    menu-close
+;  Other commands will be executed using "/usr/bin/env sh -c $COMMAND"
+; 
+
+ menu-0-0 =  
+ #menu-0-0-exec = menu-open-1
+ menu-0-2 =  
+ #menu-0-2-exec = menu-open-3
+
+ menu-1-0 = Firefox
+ menu-1-0-exec = firefox &
+ menu-1-1 = Chromium
+ menu-1-1-exec = chromium &
+
+ menu-2-0 = Gimp
+ menu-2-0-exec = gimp &
+ menu-2-1 = Scrot
+ menu-2-1-exec = scrot &
+
+ menu-3-0 = Gvim
+ menu-3-0-exec = gvim &
+
+[module/theme]
+format-background = ${colors.background}
+format-padding = 2
+format-foreground = ${self.format-underline}
+
+format-connected-background = ${module/theme.format-background}
+format-unconnected-background = ${module/theme.format-background}
+format-mounted-background = ${module/theme.format-background}
+format-unmounted-background = ${module/theme.format-background}
+format-charging-background = ${module/theme.format-background}
+format-discharging-background = ${module/theme.format-background}
+
+format-connected-padding = ${module/theme.format-padding}
+format-unconnected-padding = ${module/theme.format-padding}
+format-mounted-padding = ${module/theme.format-padding}
+format-unmounted-padding = ${module/theme.format-padding}
+format-charging-padding = ${module/theme.format-padding}
+format-discharging-padding = ${module/theme.format-padding}
+
+format-mounted-foreground = ${self.format-mounted-underline}
+format-unmounted-foreground = ${self.format-unmounted-underline}
+
+
 ; vim:ft=dosini
+
