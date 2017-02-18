@@ -283,32 +283,42 @@ spotify () {
 }
 
 cs1 () {
-cont_del ${1} 2>/dev/null
-echo -en "Enter Cont name: " 
-read NAME
-echo -en "Enter Hostname: " 
-read HOST_NAME
-echo -en "Enter IP Address: " 
-read IP_ADDRESS
-#local NAME="${1}"
-#local HOST_NAME="${2}"
-#local IP="${3}"
+#cont_del ${1} 2>/dev/null
+#echo -en "Enter Cont name: " 
+#read NAME
+#echo -en "Enter Hostname: " 
+#read HOST_NAME
+#echo -en "Enter IP Address: " 
+#read IP_ADDRESS
 
-docker run -d --name ${NAME} \
-    --hostname ${HOST_NAME} \
-    --net rhce_bridge \
-    --ip ${IP_ADDRESS} \
-    --privileged \
-    -e NAME=${NAME} \
-    -e HOSTNAME=${HOST_NAME} \
-    -e IP=${IP_ADDRESS} \
-    -e TERM="xterm" \
-    -v ~/docker-env/local.repo:/etc/yum.repos.d/local.repo \
-    -v /etc/localtime:/etc/localtime:ro \
-    -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
-    -e "container=docker" \
-    centos \
-    /usr/sbin/init 
+NAME=${NAME:-"$1"}
+HOST_NAME=${HOST_NAME:-"$2"}
+IP_ADDRESS=${IP_ADDRESS:-"$3"}
+
+if [[ "$NAME" == "" || "$HOST_NAME" == "" || "$IP_ADDRESS" == "" ]]; then
+    echo ""
+    echo "USAGE: ${0##*/} <Argument>"                                                                                                                                 
+    echo "Arguments:"
+    echo -e "\t1\tContainer Name"
+    echo -e "\t2\tHost name"
+    echo -e "\t3\tIP address: 192.168.2.x for rhce_bridge"
+else
+    docker run -d --name ${NAME} \
+        --hostname ${HOST_NAME} \
+        --net rhce_bridge \
+        --ip ${IP_ADDRESS} \
+        --privileged \
+        -e NAME=${NAME} \
+        -e HOSTNAME=${HOST_NAME} \
+        -e IP=${IP_ADDRESS} \
+        -e TERM="xterm" \
+        -v ~/docker-env/local.repo:/etc/yum.repos.d/local.repo \
+        -v /etc/localtime:/etc/localtime:ro \
+        -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
+        -e "container=docker" \
+        centos \
+        /usr/sbin/init 
+fi
 }
 
 cs1s () {
@@ -367,4 +377,17 @@ docker run --name mariadb -d \
     -e MYSQL_ROOT_PASSWORD=password \
     -v ~/db_data:/var/lib/mysql \
     mariadb
+}
+
+mympsyt () {
+    xhost +local:docker
+    docker run --rm -it \
+        -v /tmp/.X11-unix:/tmp/.X11-unix \
+        -e DISPLAY=$DISPLAY \
+        -v /dev/snd:/dev/snd \
+        -e uid=$(id -u) \
+        -e gid=$(id -g) \
+        --privileged \
+        --name mpsyt \
+        jmutai/mpsyt set show_video true
 }
