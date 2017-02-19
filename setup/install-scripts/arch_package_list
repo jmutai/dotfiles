@@ -70,6 +70,7 @@ pacaur -S --needed --noconfirm --noedit i3-gaps-next-git \
     iptables \
 	j4-dmenu-desktop \
     jq \
+    keychain \
 	libmtp \
 	libnotify \
     libguestfs \
@@ -77,13 +78,6 @@ pacaur -S --needed --noconfirm --noedit i3-gaps-next-git \
     lm_sensors \
     linux-headers \
     lftp \
-    nvidia \
-    nvidia-utils \
-    nvidia-settings \
-    ncurses5-compat-libs \
-    xorg-server-devel \
-    xorg-xinit \
-    opencl-nvidia \
 	maim \
     masterpdfeditor \
 	mediainfo \
@@ -94,18 +88,24 @@ pacaur -S --needed --noconfirm --noedit i3-gaps-next-git \
 	mpv \
 	msmtp \
 	mtpfs  \
+    mps-youtube \
 	ncmpcpp \
 	neomutt-git \
 	networkmanager \
 	network-manager-applet \
 	nitrogen \
     ntfs-3g \
+    nvidia \
+    nvidia-utils \
+    nvidia-settings \
+    ncurses5-compat-libs \
 	offlineimap \
 	ohsnap \
 	openssh \
 	openssh \
     openbsd-netcat \
     offlineimap-git \
+    opencl-nvidia \
     pepper-flash \
     freshplayerplugin \
 	poppler \
@@ -135,12 +135,14 @@ pacaur -S --needed --noconfirm --noedit i3-gaps-next-git \
 	transmission-cli \
 	ttf-dejavu \
 	ttf-font-awesome \
+    ttf-monaco \
 	ttf-inconsolata \
     powerline-fonts-git \
     pcmanfm-gtk3 \
     polybar-git \
 	tumbler \
 	unzip \
+    uml-utilities \
     urlview \
     vsftpd \
     vde2 \
@@ -155,6 +157,9 @@ pacaur -S --needed --noconfirm --noedit i3-gaps-next-git \
 	xdotool \
 	xorg-xinit \
 	xsel \
+    x11-ssh-askpass \
+    xorg-server-devel \
+    xorg-xinit \
 	youtube-dl \
     zenity \
 	zip \
