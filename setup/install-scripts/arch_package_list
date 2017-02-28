@@ -89,6 +89,7 @@ pacaur -S --needed --noconfirm --noedit i3-gaps-next-git \
 	msmtp \
 	mtpfs  \
     mps-youtube \
+    mysql-python \
 	ncmpcpp \
 	neomutt-git \
 	networkmanager \
@@ -116,6 +117,7 @@ pacaur -S --needed --noconfirm --noedit i3-gaps-next-git \
     qutebrowser \
 	ranger \
     rar \
+    reptyr \
 	rofi \
 	rsync \
 	simple-mtpfs \

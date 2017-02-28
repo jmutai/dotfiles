@@ -1,4 +1,4 @@
-# Please see http://i3wm.org/docs/userguide.html for a complete reference!
+#http://computingforgeeks.com/ Please see http://i3wm.org/docs/userguide.html for a complete reference!
 #
 
 set_from_resource $darkred     color1  #000000
@@ -25,9 +25,13 @@ set $mod Mod4
 set $mod1 Mod1
 set $terminal termite
 
-gaps outer 0
-gaps inner 0
-set $borderwidth 1
+# i3-gaps
+# for_window [class="^.*"] border pixel 0
+gaps inner 4
+gaps outer -4
+smart_gaps on
+smart_borders on
+#set $borderwidth 1
 
 
 # bindsym F1 exec ~/bin/dmenu
@@ -123,7 +127,7 @@ set $ws3 "3:  "
 set $ws4 "4:  "
 set $ws5 "5:  "
 set $ws6 "6:  "
-set $ws7 "7:  "
+set $ws7 "7: "
 
 
 # switch to workspace
@@ -285,6 +289,8 @@ assign [class="VirtualBox"] $ws5
 assign [class="Firefox"] $ws6
 assign [class="Opera"] $ws6
 assign [class="GNS3"] $ws7
+assign [class="Skype"] $ws7
+assign [class="PacketTracer7"] $ws7
 
 
 # Assign to certain workspace
@@ -315,6 +321,8 @@ mode "$mode_launcher" {
     bindsym g exec  gns3
     bindsym p exec  pcmanfm
     bindsym o exec  opera
+    bindsym c exec  packettracer
+
 
     bindsym Esc mode "default"
     bindsym Return mode "default"

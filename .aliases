@@ -6,8 +6,9 @@ alias cdgit='cd ~/mygit'
 alias dots='cd ~/mygit/dotfiles'
 alias docs='cd ~/mygit/dockerfiles/'
 alias cheats='~/cheat-sheets/'
-alias commit="git commit -m 'updated'"
-alias add="git add ."
+alias mycommit="git commit -m 'updated'"
+alias myadd="git add ."
+alias makefile='cp ~/mygit/dockerfiles/mpsyt/Makefile .'
 
 # Disk and sys
 alias duh='du -sh'
@@ -83,7 +84,7 @@ alias rafiki='ssh -X josepy@rafiki'
 alias cdr='cd /srv/http/rafikihost'
 alias site='cd ~/mysites/jmutai.com/'
 alias notes='cd ~/mygit/dotfiles/cheat-sheets/certs/notes/'
-alias virt='sudo mount /dev/sdb6 /home/josepy/Desktop/virt/'
+alias virt='sudo mount UUID="cbe29e4a-025b-4ed0-9017-cbc3d49d1154" /home/josepy/Desktop/virt/'
 
 
 alias sleep='sudo  /lib/systemd/systemd-sleep hybrid-sleep'
@@ -108,7 +109,6 @@ alias myvmstat='vmstat -S M 1 3'
 alias mydate="date '+%Y-%m-%d-%H:%M:%S'"
 alias rebuild="sudo vmware-modconfig --console --install-all"
 alias myfs='sudo btrfs filesystem show'
-alias virt='sudo umount /dev/sdb6; sudo mount /dev/sdb6  /home/josepy/Desktop/virt'
 alias btrfs='sudo btrfs'
 alias cups='systemctl start org.cups.cupsd.service'
 alias vi='vim'
@@ -118,6 +118,9 @@ alias mariadbs='docker exec -ti mariadb /bin/bash'
 alias postdir='cd ~/mysites/jmutai.com/content/post/Feb-2017/'
 alias ifdown='sudo ip link set "$1" down'
 alias polyconf='vim ~/.config/polybar/config'
+#alias open='rifle'
+alias open='xdg-open'
+alias hosts='sudo vim /etc/hosts '
 
 # System mgt
 alias virsh='sudo virsh'
@@ -125,9 +128,10 @@ alias systemctl='sudo systemctl'
 alias mysleep='sudo /lib/systemd/systemd-sleep hybrid-sleep'
 alias jmutai='rsync -avz --delete public/* jmutaijose@rafiki:/web'
 alias cover='mycp ~/cheat-sheets/coverletter.txt'
-alias coreos1s='ssh  -p 2222  coreos1'
-alias coreos2s='ssh  -p 2222  coreos2'
-alias coreos3s='ssh  -p 2222  coreos3'
+alias db=' mysql -u root -h 127.0.0.1 -ppassword'
+
+# ss
+alias mydmsg='sudo dmesg --follow --ctime --human'
 
 
 # tmux alias
@@ -145,3 +149,6 @@ alias tk='tmux kill-session -t $1'
 alias tc='tmux a -t $1'
 alias tn='tmux new -s $1'
 
+# Ansible
+
+alias ansible_hosts='ansible --list all'

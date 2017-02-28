@@ -353,3 +353,43 @@ extract () {
       echo "'$1' is not a valid file"
   fi
 }
+
+send () {
+	echo -en "\tEnter Email Subject: "
+	read SUBJECT
+	echo -en "\tEnter Cc Mail: "
+	read CC_ADDRESS
+	echo -en "\tBcc Mail: "
+	read BCC_ADDRESS
+	echo -en "\tEnter To Email: "
+	read TO_ADDRESS
+	echo -en "\tEnter File to Attach: "
+	read FILE_ATTACHED
+
+	SUBJECT=${SUBJECT:-"$1"}
+	CC_ADDRESS=${CC_ADDRESS:-"$2"}
+	BCC_ADDRESS=${BCC_ADDRESS:-"$3"}
+	FILE_ATTACHED=${FILE_ATTACHED:-"$4"}
+
+	mutt -s "$SUBJECT" -a "$FILE_ATTACHED" -c "$CC_ADDRESS"  -b "$BCC_ADDRESS"  "$TO_ADDRESS"
+}
+
+opendns () {
+	cat > /etc/resolv.conf <<EOF
+	nameserver 208.67.222.123
+	nameserver 208.67.220.123
+EOF
+}
+
+myss () {
+	echo ""
+	export PORT=$1
+	ss -tunlp state established "( dport = :$PORT or sport = :$PORT )"
+}
+
+suse () {
+	sudo exportfs -arv
+	sudo systemctl start nfs-server rpcbind.service
+	systemctl status nfs-server rpcbind
+	#sudo mount -t iso9660 -o loop $HOME/iso/coursefiles_3124_TS-SLE-12-Server-DVD-x86_64-GM-DVD.iso /mnt/suse 2>/dev/null
+}

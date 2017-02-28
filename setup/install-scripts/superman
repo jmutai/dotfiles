@@ -1,0 +1,8 @@
+cd /tmp
+git clone https://github.com/libguestfs/supermin.git
+./bootstrap
+./autogen.sh
+./configure
+make
+sudo make install
+

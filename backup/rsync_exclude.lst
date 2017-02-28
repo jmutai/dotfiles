@@ -9,4 +9,3 @@ lost+found
 home/*
 var/lib/libvirt/images/*
 srv/ftp
-

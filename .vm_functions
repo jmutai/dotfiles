@@ -65,12 +65,33 @@ vm_stopall () {
     done
 }
 
+nested () {
+echo "options kvm_intel nested=1" | sudo tee /etc/modprobe.d/kvm-nested.conf
+sudo modprobe -r kvm_intel && sudo modprobe kvm_intel   # unload and reload kvm module
+echo ""
+echo "If output is Y, kvm module is loaded"
+}
+
+vm_edit () {
+sudo EDITOR=vim virsh edit $1
+}
 
 vm_mem () {
-    virsh setmaxmem ${1} ${2} --config
-    virsh setmaxmem ${1} ${2} --config
-    virsh shutdown ${1}
-    virsh start ${1}
+local domain="$1"
+local max_mem="$2"
+sudo virsh setmaxmem $domain $max_mem --config
+sudo virsh setmem $domain $max_mem --config 
+sudo virsh reboot $domain
+echo ""
+sudo virsh dominfo $dom_name
+}
+
+vm_vcpu () {
+local domain="$1"
+local vcpus="$2"
+sudo virsh setvcpus --domain xen --maximum $vcpus --config
+sudo virsh setvcpus --domain $domain --count $vcpus --current 
+sudo virsh reboot $domain
 }
 
 
@@ -271,12 +292,30 @@ sudo virt-install \
     --os-type ${OS_TYPE} \
     --location ${ISO_FILE} \
     --disk size=${DISK_SIZE}  \
-    --network bridge=br1 \
+    --network bridge=virbr0 \
     --graphics=none \
     --os-variant=${OS_VARIANT} \
     --console pty,target_type=serial \
     -x 'console=ttyS0,115200n8 serial' \
-    -x "ks=http://192.168.10.1:8090/ks.cfg" 
+    -x "ks=http://192.168.122.1:8090/ks.cfg" 
 }
 
+virt_sysprep () {
+sudo virt-sysprep  -c qemu:///system -d pxe \
+--selinux-relabel --timezone  Africa/Nairobi  \
+--root-password  password --no-network  \
+--hostname template.example.com -uninstall syslinux,xinetd,tftp-server \
+#--update --install  bash-completion,vim,htop,chrony
+}
 
+ova2qcow2 () {
+tar xvf $1
+qemu-img convert -O qcow2 $1 $2
+}
+
+vm_clone () {
+sudo virt-clone --connect qemu:///system \
+--original $1 \
+--name $2 \
+--file /var/lib/libvirt/images/$2.qcow2 \
+}

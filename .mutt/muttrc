@@ -47,8 +47,8 @@ mailboxes "+-- My mailbox -----------"
 #folder-hook 'jmutai.com' 'source ~/.mutt/m.jmutai.com'
 
 ## Shortcuts
-macro index,pager <f2> '<sync-mailbox><enter-command>source ~/.mutt/jmutai.kipepeosolutions.co.ke<enter><change-folder>!<enter>'
-macro index,pager <f3> '<sync-mailbox><enter-command>source  ~/.mutt/mutai.jmutai.com<enter><change-folder>!<enter>'
+macro index,pager <f2> '<sync-mailbox><enter-command>source  ~/.mutt/mutai.jmutai.com<enter><change-folder>!<enter>'
+macro index,pager <f3> '<sync-mailbox><enter-command>source ~/.mutt/jmutai.kipepeosolutions.co.ke<enter><change-folder>!<enter>'
 #
 source $HOME/.mutt/themes/tomorrow-night.muttrc
 # switch to default account on startup

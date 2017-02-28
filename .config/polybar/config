@@ -71,7 +71,7 @@ font-2 = siji:pixelsize=10;1
 
 ;modules-left = menu i3 xwindow
 ;modules-left = menu i3 xwindow
-#modules-left = i3
+;modules-left = i3
 modules-center = mpd
 modules-right = fsroot fshome  xkeyboard memory cpu xbacklight volume wlan eth battery temperature date powermenu
 
@@ -126,26 +126,26 @@ label-indicator-underline = ${colors.secondary}
 [module/bspwm]
 type = internal/bspwm
 
-label-focused = %index%
+label-focused = %name%
 label-focused-background = ${colors.background-alt}
 label-focused-underline= ${colors.primary}
 label-focused-padding = 2
 
-label-occupied = %index%
+label-occupied = %name%
 label-occupied-padding = 2
 
-label-urgent = %index%!
+label-urgent = %name%!
 label-urgent-background = ${colors.alert}
 label-urgent-padding = 2
 
-label-empty = %index%
+label-empty = %name%
 label-empty-foreground = ${colors.foreground-alt}
 label-empty-padding = 2
 
 [module/i3]
 type = internal/i3
 format = <label-state> <label-mode>
-index-sort = true
+name-sort = true
 strip-wsnumbers = true  ;This will split the workspace name on ':'
 ws-icon-0 = 1;
 ws-icon-1 = 2; 
@@ -164,23 +164,23 @@ label-mode-foreground = #000
 label-mode-background = ${colors.primary}
 
 ; focused = Active workspace on focused monitor
-label-focused = %index%
+label-focused = %name%
 label-focused-background = ${module/bspwm.label-focused-background}
 label-focused-underline = ${module/bspwm.label-focused-underline}
 label-focused-padding = ${module/bspwm.label-focused-padding}
 
 ; unfocused = Inactive workspace on any monitor
-label-unfocused = %index%
+label-unfocused = %name%
 label-unfocused-padding = ${module/bspwm.label-occupied-padding}
 
 ; visible = Active workspace on unfocused monitor
-label-visible = %index%
+label-visible = %name%
 label-visible-background = ${self.label-focused-background}
 label-visible-underline = ${self.label-focused-underline}
 label-visible-padding = ${self.label-focused-padding}
 
 ; urgent = Workspace with urgency hint set
-label-urgent = %index%
+label-urgent = %name%
 label-urgent-background = ${module/bspwm.label-urgent-background}
 label-urgent-padding = ${module/bspwm.label-urgent-padding}
 
