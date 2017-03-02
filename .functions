@@ -178,8 +178,8 @@ pass () {
 }
 
 myssh () {
-    eval $(ssh-agent)
-    ssh-add
+    ssh-add ~/.ssh/id_rsa
+	ssh  $1
 }
 
 update_hostness () {
@@ -387,7 +387,7 @@ myss () {
 	ss -tunlp state established "( dport = :$PORT or sport = :$PORT )"
 }
 
-suse () {
+nfs () {
 	sudo exportfs -arv
 	sudo systemctl start nfs-server rpcbind.service
 	systemctl status nfs-server rpcbind

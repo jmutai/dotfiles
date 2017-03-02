@@ -300,12 +300,21 @@ sudo virt-install \
     -x "ks=http://192.168.122.1:8090/ks.cfg" 
 }
 
-virt_sysprep () {
-sudo virt-sysprep  -c qemu:///system -d pxe \
+vm_sysprep () {
+if [[ $# -eq 0 ]]; then
+echo ""
+echo "USAGE: ${0##*/} Argument"
+echo -e "\t1\tDomain"
+echo -e "\t2\tHostname"
+
+else
+sudo virt-sysprep  -c qemu:///system -d $1 \
 --selinux-relabel --timezone  Africa/Nairobi  \
 --root-password  password --no-network  \
---hostname template.example.com -uninstall syslinux,xinetd,tftp-server \
+--hostname $2 
+#-uninstall syslinux,xinetd,tftp-server \
 #--update --install  bash-completion,vim,htop,chrony
+fi
 }
 
 ova2qcow2 () {
@@ -314,8 +323,23 @@ qemu-img convert -O qcow2 $1 $2
 }
 
 vm_clone () {
+
+if [[ $# -eq 0 ]]; then
+          echo ""
+          echo "USAGE: ${0##*/} <Argument>"
+          echo "Arguments:"
+          echo -e "\t1\tOriginal domain"
+          echo -e "\t2\tTarget domain"
+   else
+
 sudo virt-clone --connect qemu:///system \
 --original $1 \
 --name $2 \
 --file /var/lib/libvirt/images/$2.qcow2 \
+# sudo virt-sysprep  -d $2
+fi
+}
+
+vm_net_edit () {
+sudo EDITOR=vim virsh net-edit $1
 }
