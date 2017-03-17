@@ -152,3 +152,7 @@ alias tn='tmux new -s $1'
 # Ansible
 
 alias ansible_hosts='ansible --list all'
+alias ads='mycp ~/cheat-sheets/ads'
+alias audio='ydl -x --audio-format mp3'
+
+alias playbooks='cd ~/code/ansible/playbooks/'

@@ -343,3 +343,33 @@ fi
 vm_net_edit () {
 sudo EDITOR=vim virsh net-edit $1
 }
+
+vm_mount () {
+
+if [[ $# -eq 0 ]]; then
+          echo ""
+          echo "USAGE: ${0##*/} <Argument>"
+          echo "Arguments:"
+          echo -e "\t1\tDomain name"
+          echo -e "\t2\tMount Point"
+   else
+   sudo guestmount -d $1 -o nonempty -i $2
+   sudo ls $2
+   fi
+
+}
+
+ubuntu_installer () {
+sudo virt-install \
+--name $1 \
+--ram 1024 \
+--disk path=/var/lib/libvirt/images/$1.qcow2,size=10 \
+--vcpus 1 \
+--os-type linux \
+--os-variant ubuntu14.04 \
+--network bridge=virbr0 \
+--graphics vnc \
+--console pty,target_type=serial \
+--cdrom '/home/josepy/Downloads/ubuntu-14.04.1-server-amd64.iso' \
+
+}

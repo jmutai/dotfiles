@@ -38,13 +38,13 @@ cont_del () {
 # Clean docker environment
 dockclean () {
     # docker ps ${1} 2>/dev/null | xargs -r docker rm  
-    docker rm ${1} 2>/dev/null
-    docker ps --filter status=exited -q 2>/dev/null | xargs -r docker rm 
-    docker images --filter dangling=true -q 2>/dev/null | xargs -r docker rmi  
-    docker volume ls -qf dangling=true | xargs -r docker volume rm 
-
-    # remove unused images:
-    docker images --no-trunc | grep '<none>' | awk '{ print $3 }' | xargs -r docker rmi
+    docker rm -f ${1} 2>/dev/null
+#    docker ps --filter status=exited -q 2>/dev/null | xargs -r docker rm 
+#    docker images --filter dangling=true -q 2>/dev/null | xargs -r docker rmi  
+#    docker volume ls -qf dangling=true | xargs -r docker volume rm 
+#
+#    # remove unused images:
+#    docker images --no-trunc | grep '<none>' | awk '{ print $3 }' | xargs -r docker rmi
  
     # remove unused volumes:
     #sudo find '/var/lib/docker/volumes/' -mindepth 1 -maxdepth 1 -type d | grep -vFf <(
@@ -88,6 +88,7 @@ dockstop_all () {
 
 dockstop () {
     docker stop "$1" 2>/dev/null
+    dockclean $1
 }
 
 dockshell () {
@@ -308,13 +309,11 @@ else
         -e NAME=${NAME} \
         -e HOSTNAME=${HOST_NAME} \
         -e IP=${IP_ADDRESS} \
-        -e TERM="xterm" \
         -v ~/docker-env/local.repo:/etc/yum.repos.d/local.repo \
         -v /etc/localtime:/etc/localtime:ro \
         -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
         -e "container=docker" \
-        centos \
-        /usr/sbin/init 
+        $DOCKER_REPO/centos 
 fi
 }
 
@@ -389,3 +388,36 @@ mympsyt () {
         --name mpsyt \
         jmutai/mpsyt set show_video true
 }
+
+manageiq () {
+    docker run -di \
+         --privileged \
+         --name manageiq \
+         -v /etc/localtime:/etc/localtime:ro \
+         -p 8080:80 \
+         -p 8443:443 \
+         manageiq/manageiq \
+}
+
+elk () {
+    if [[ ! -d ~/elasticsearch || ! -d ~/ossec_mnt ]]; then
+        mkdir ~/elasticsearch 2>/dev/null
+        mkdir ~/ossec_mnt 2>/dev/null
+    fi
+    
+docker run -d -p 55000:55000 \
+    -p 1514:1514/udp \
+    -p 1515:1515 \
+    -p 5601:5601 \
+    -v ~/elasticsearch:/var/lib/elasticsearch \
+    -v ~/ossec_mnt:/var/ossec/data \
+    --name ossec \
+    wazuh/ossec-elk
+    }
+
+portainer () {
+    docker run -d \
+        --name portainer \
+        -p 9000:9000 \
+        portainer/portainer
+    }

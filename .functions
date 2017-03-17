@@ -254,8 +254,8 @@ newpost () {
     if  [[ "$NAME" == "" ]]; then 
         echo "Enter valid post name: "
     else
-    cd ~/mysites/jmutai.com/ &&  hugo new post/Feb-2017/${NAME} && \
-        vim content/post/Feb-2017/${NAME}
+    cd ~/mysites/jmutai.com/ &&  hugo new post/Mar-2017/${NAME} && \
+        vim content/post/Mar-2017/${NAME}
 fi
 }
 
@@ -392,4 +392,24 @@ nfs () {
 	sudo systemctl start nfs-server rpcbind.service
 	systemctl status nfs-server rpcbind
 	#sudo mount -t iso9660 -o loop $HOME/iso/coursefiles_3124_TS-SLE-12-Server-DVD-x86_64-GM-DVD.iso /mnt/suse 2>/dev/null
+}
+
+cheatpush () {
+	cd ~/.cheat && myadd && mycommit && push
+}
+
+dotspush () {
+	cd ~/mygit/dotfiles && myadd && mycommit && push
+}
+
+jmutaipush () {
+	cd ~/mysites/jmutai.com/ && myadd && mycommit && push
+}
+
+codepush () {
+	cd ~/code && myadd && mycommit && push
+}
+
+notespush () {
+	cd ~/cheat-sheets && myadd && mycommit && push
 }
