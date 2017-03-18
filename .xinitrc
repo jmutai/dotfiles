@@ -10,5 +10,5 @@ xset -b # turn off bell/beep volume; caja crucial
 
 # exec i3  &>/dev/null
 export SSH_ASKPASS=ssh-askpass
-exec i3  &>/dev/null
+#exec i3  &>/dev/null
 #exec dwm

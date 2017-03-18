@@ -89,9 +89,9 @@ sudo virsh dominfo $dom_name
 vm_vcpu () {
 local domain="$1"
 local vcpus="$2"
-sudo virsh setvcpus --domain xen --maximum $vcpus --config
-sudo virsh setvcpus --domain $domain --count $vcpus --current 
-sudo virsh reboot $domain
+sudo virsh setvcpus --domain $1 --maximum 2 --config
+sudo virsh setvcpus --domain $1 --count 2 --config
+sudo virsh reboot $1 
 }
 
 

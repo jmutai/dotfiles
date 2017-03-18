@@ -133,7 +133,15 @@ install_date () {
 
 # Configure system wide proxy
 proxy () {
-     export http_proxy=http://172.16.15.83:8020
+	until [ "$proxy_ip" != '' ] || [ "$proxy_port" != '' ]; do
+		echo ""
+		echo -en "Enter proxy ip: "
+		read proxy_ip
+		echo -en "Enter proxy port: "
+		read proxy_port
+	done
+
+     export http_proxy=http://$proxy_ip:$proxy_port
      export https_proxy=$http_proxy
      export ftp_proxy=$http_proxy
      export rsync_proxy=$http_proxy
