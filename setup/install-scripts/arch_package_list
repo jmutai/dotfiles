@@ -112,7 +112,6 @@ pacaur -S --needed --noconfirm --noedit i3-gaps-next-git \
 	poppler \
     python-pip \
     pinfo \
-    pm-utils \
     qemu \
     qutebrowser \
 	ranger \
@@ -131,7 +130,6 @@ pacaur -S --needed --noconfirm --noedit i3-gaps-next-git \
     upower \
     xdiff-ext-git \
     tree \
-    tor-browser-en \
 	tk \
     tmux \
 	transmission-cli \
@@ -139,12 +137,10 @@ pacaur -S --needed --noconfirm --noedit i3-gaps-next-git \
 	ttf-font-awesome \
     ttf-monaco \
 	ttf-inconsolata \
-    powerline-fonts-git \
     pcmanfm-gtk3 \
     polybar-git \
 	tumbler \
 	unzip \
-    uml-utilities \
     urlview \
     vsftpd \
     vde2 \

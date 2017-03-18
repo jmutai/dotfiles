@@ -27,10 +27,10 @@ set $terminal termite
 
 # i3-gaps
 # for_window [class="^.*"] border pixel 0
-gaps inner 4
-gaps outer -4
-smart_gaps on
-smart_borders on
+#gaps inner 4
+#gaps outer -4
+#smart_gaps on
+#smart_borders on
 #set $borderwidth 1
 
 

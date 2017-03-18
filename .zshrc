@@ -46,3 +46,4 @@ export ARCHFLAGS="-arch x86_64"
 setopt HIST_IGNORE_ALL_DUPS
 
 cat ~/.ssh/id_rsa | SSH_ASKPASS="$HOME/.passfile" ssh-add - &>/dev/null
+
