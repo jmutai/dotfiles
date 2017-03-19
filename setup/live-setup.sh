@@ -9,6 +9,7 @@ echo "arch.localhost" > /etc/hostname
 echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 locale-gen
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
+unlink /etc/localtime
 ln -s /usr/share/zoneinfo/Africa/Nairobi  /etc/localtime
 
 
@@ -24,7 +25,6 @@ bash-completion \
 sudo  \
 dhclient \
 efibootmgr \
-gvim \
 btrfs-progs \
 lvm2 
 
@@ -51,11 +51,6 @@ dmenu \
 rofi \
 xorg-xinit
 
-echo "Configuring i3"
-cat <<EOF >>/etc/profile
-[ -z "${DISPLAY}" -a "${fgconsole}" -eq 1 ] && exec startx
-EOF
-
 echo "*** Setting root password ***"
 echo -n "Enter new root password: "
 read pw1
@@ -72,7 +67,7 @@ while [ "$pw1" != "$pw2" ]; do
     read pw2
 done
 
-username=${user:-root}
+username=${root}
 echo "${username}:${pw1}" | chpasswd
 
 unset pw1
@@ -105,29 +100,4 @@ echo "Paswword set successfully"
 else
     echo "Password set failed"
 fi
-
-echo "*** Installing grub***"
-slepp 3
-grub-install --target=x86_64-efi --efi-directory=/boot/efi 
-echo ""
-echo "*** Generating grub config files ***"
-grub-mkconfig -o /boot/grub/grub.cfg
-grub-mkconfig -o  /boot/efi/EFI/arch/grub.cfg
-echo ""
-
-echo "Configuring repos"
-
-cat >> /etc/pacman.conf<<EOF
-[multilib]
-Include = /etc/pacman.d/mirrorlist
-
-[archlinuxfr]
-SigLevel = Never
-Server = http://repo.archlinux.fr/$arch
-
-[archlinuxcn]
-SigLevel = Never
-Server = http://repo.archlinuxcn.org/$arch
-EOF
-
 

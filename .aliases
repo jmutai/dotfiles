@@ -156,3 +156,4 @@ alias ads='mycp ~/cheat-sheets/ads'
 alias audio='ydl -x --audio-format mp3'
 
 alias playbooks='cd ~/code/ansible/playbooks/'
+alias myshred='shred --remove --zero'
