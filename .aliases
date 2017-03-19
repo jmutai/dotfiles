@@ -85,6 +85,7 @@ alias cdr='cd /srv/http/rafikihost'
 alias site='cd ~/mysites/jmutai.com/'
 alias notes='cd ~/mygit/dotfiles/cheat-sheets/certs/notes/'
 alias virt='sudo mount UUID="cbe29e4a-025b-4ed0-9017-cbc3d49d1154" /home/josepy/Desktop/virt/'
+alias archie='sudo mount UUID="e22886f8-e086-d101-a020-84f8e086d101"  /home/josepy/Desktop/Archie/'
 
 
 alias sleep='sudo  /lib/systemd/systemd-sleep hybrid-sleep'

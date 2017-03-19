@@ -59,6 +59,7 @@ echo ""
 	highlight \
 	htop \
     httrack \
+    hugo \
     iw \
 	i3blocks-gaps-git 
 
@@ -102,7 +103,6 @@ pacaur -S --needed --noconfirm --noedit i3-gaps-next-git \
     ncurses5-compat-libs \
 	offlineimap \
 	ohsnap \
-	openssh \
 	openssh \
     openbsd-netcat \
     offlineimap-git \
