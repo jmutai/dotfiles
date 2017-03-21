@@ -61,10 +61,8 @@ echo ""
     httrack \
     hugo \
     iw \
-	i3blocks-gaps-git 
-
- echo "Installing second patch"
-pacaur -S --needed --noconfirm --noedit i3-gaps-next-git \
+    i3pystatus \
+	i3-gaps-next-git \
 	i3lock-git \
 	i3-vim-syntax-git \
     imagemagick \
@@ -93,6 +91,7 @@ pacaur -S --needed --noconfirm --noedit i3-gaps-next-git \
     mysql-python \
 	ncmpcpp \
 	neomutt-git \
+    neovim \
 	networkmanager \
 	network-manager-applet \
 	nitrogen \
@@ -139,6 +138,7 @@ pacaur -S --needed --noconfirm --noedit i3-gaps-next-git \
 	ttf-inconsolata \
     pcmanfm-gtk3 \
     polybar-git \
+    pavucontrol \
 	tumbler \
 	unzip \
     urlview \
