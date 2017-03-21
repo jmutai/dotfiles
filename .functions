@@ -419,5 +419,14 @@ codepush () {
 }
 
 notespush () {
-	cd ~/cheat-sheets && myadd && mycommit && push
+	cd ~/notes && myadd && mycommit && push
+}
+
+psmem () {
+    ps_name=$1
+    if [[ "$ps_name" == '' ]]; then
+        sudo ps_mem
+    else
+        sudo ps_mem | grep -P $ps_name
+    fi
 }
