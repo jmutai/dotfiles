@@ -7,7 +7,7 @@ vm () {
     sudo systemctl restart libvirtd.service
     sudo systemctl restart vsftpd.service
     sudo systemctl restart virtlogd.socket
-    sudo mount -o loop ~/iso/CentOS-7-x86_64-Everything-1611.iso  /srv/http/cent7
+    sudo mount -o loop ~/iso/CentOS-7-x86_64-Minimal-1611.iso  /srv/http/cent7
 
 }
 
@@ -19,7 +19,7 @@ vm_start () {
     done
 }
 
-vm_reboot () {
+vm_restart () {
     echo ""
     nodes=("$@")
     for node in ${nodes[@]}; do
@@ -34,7 +34,7 @@ vm_stop () {
     done
 }
 
-vm_stop_force () {
+vm_shutdown () {
     echo ""
     nodes=("$@")
     for node in ${nodes[@]}; do
@@ -81,9 +81,8 @@ local domain="$1"
 local max_mem="$2"
 sudo virsh setmaxmem $domain $max_mem --config
 sudo virsh setmem $domain $max_mem --config 
-sudo virsh reboot $domain
 echo ""
-sudo virsh dominfo $dom_name
+virsh dominfo $domain
 }
 
 vm_vcpu () {
@@ -91,7 +90,7 @@ local domain="$1"
 local vcpus="$2"
 sudo virsh setvcpus --domain $1 --maximum 2 --config
 sudo virsh setvcpus --domain $1 --count 2 --config
-sudo virsh reboot $1 
+virsh dominfo $domain
 }
 
 
@@ -280,7 +279,7 @@ cent_installer() {
     echo -en "Enter virtual disk size : "
     read DISK_SIZE
     local OS_VARIANT="rhel7"
-    local ISO_FILE="$HOME/iso/CentOS-7-x86_64-Everything-1611.iso"
+    local ISO_FILE="$HOME/iso/CentOS-7-x86_64-Minimal-1611.iso"
     
     VM_NAME=${VM_NAME:-$3}
     DISK_SIZE=${DISK_SIZE:-$4}
