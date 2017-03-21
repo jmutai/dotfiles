@@ -1,5 +1,18 @@
 #!/bin/bash
-sudo pip3 install mps-youtube
-sudo pip3 install youtube_dl cheat MySQL-python
+sudo pip3 install \
+     cs \
+    mps-youtube \
+    youtube_dl \
+    cheat \
+    MySQL-python \
+    pyalsaaudio \
+    netifaces \
+    basiciw \
+    colour \
+    psutil \
+    requests  \
+    git+https://github.com/sivel/speedtest-cli.git@modularize-2 
+
+
 
 
