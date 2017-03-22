@@ -14,7 +14,7 @@
 
 # Make sure our shiny new arch is up-to-date
 echo "Checking for system updates..."
-sudo pacman -Syu
+sudo pacman -Syu --noconfirm
 
 # Create a tmp-working-dir an navigate into it
 mkdir -p /tmp/pacaur_install
@@ -37,6 +37,6 @@ curl -o PKGBUILD https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=pacaur
 makepkg PKGBUILD
 sudo pacman -U pacaur*.tar.xz --noconfirm
 
-# Clean up...
-cd ~
+echo "Doing clean up..."
 rm -r /tmp/pacaur_install
+cd -

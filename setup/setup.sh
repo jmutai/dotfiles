@@ -42,11 +42,16 @@ if [ ! -e "${dir}/${0}" ]; then
 fi
 dir="${dir}/.."
 
+# Create some dirs
+mkdir ~/{.ncmpcpp,.mpd} && mkdir ~/.mpd/playlists
+
+
 ask "Install pacaur?" Y && bash install-scripts/pacaur_install.sh  
 ask "Install arch base packages?" Y && bash install-scripts/arch_package_list 
 ask "Install icons and themes?" Y && bash install-scripts/icons_and_themes
 ask "Install oh-my-zsh setup?"  Y && bash install-scripts/oh-my-zsh 
 ask "Install vim packages?"  Y && bash install-scripts/vim-packages
+ask "Setup i3 ssh ?"  Y && bash install-scripts/i3-ssh.sh
 
 ask "Install symlinks for tmux?" Y && ln -sfn ${dir}/.tmux.conf ${HOME}/.tmux.conf; ln -sfn ${dir}/.tmux_prompt.sh ${HOME}/.tmux_prompt.sh
 ask "Install symlink for .dircolors?" Y && ln -sfn ${dir}/.dircolors ${HOME}/.dircolors
@@ -68,6 +73,7 @@ ask "Install symlink for .ncmpcpp/config ?" Y && ln -sfn ${dir}/.ncmpcpp/config 
 # .config subdir
 ask "Install symlink for .i3blocks.conf?" Y && ln -sfn ${dir}/.i3blocks.conf ${HOME}/.i3blocks.conf
 ask "Install symlink for .config/mpv/?" Y && ln -sfn ${dir}/.config/mpv ${HOME}/.config/mpv
+ask "Install symlink for .config/i3/?" Y && ln -sfn ${dir}/.config/i3 ${HOME}/.config/i3
 ask "Install symlink for .config/i3/?" Y && ln -sfn ${dir}/.config/i3 ${HOME}/.config/i3
 ask "Install symlink for .config/polybar/?" Y && ln -sfn ${dir}/.config/polybar ${HOME}/.config/polybar
 ask "Install symlink for .config/ranger/?" Y && ln -sfn ${dir}/.config/ranger ${HOME}/.config/ranger

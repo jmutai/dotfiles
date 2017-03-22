@@ -136,9 +136,11 @@ echo ""
 	ttf-font-awesome \
     ttf-monaco \
 	ttf-inconsolata \
+    ttf-font-icons \
     pcmanfm-gtk3 \
     polybar-git \
     pavucontrol \
+    pm-utils \
 	tumbler \
 	unzip \
     urlview \
