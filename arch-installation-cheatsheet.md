@@ -1,15 +1,3 @@
-+++
-slug = "arch-linux-installation-cheatsheet-with-luks-encryption-and-lvm"
-news_keywords = ["Arch Linux Cheetsheet", "Arch Linux LVM installation", "LVM on LUKS", "LUKS encryption on Arch Linux"]
-images = []
-tags = ["LUKS","LVM"]
-categories = ["Linux", "Arch Linux", "LVM","LUKS","RHCE","RHEL","CentOS"]
-date = "2017-03-19T16:22:47+03:00"
-title = "Arch Linux Installation Cheatsheet With LUKS Encryption"
-description = "Arch Linux Installation Cheatsheet, Arch Linux Luks encryption, Arch Installation Cheatsheet with LVM, LVM on LUKS Arch Linux Installation, LUKS on Arch Linux Cheatsheet"
-banner = "images/banners/Mar-2017/arch-installation-cheatsheet.png"
-
-+++
 Here is Arch Linux Installation Cheatsheet i made for my own reference. This Arch Linux Installation Cheatsheet  uses UEFI and LVM on LUKS for the installation.
 <!--more-->
 
