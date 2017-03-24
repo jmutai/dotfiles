@@ -1,8 +1,9 @@
-IMAGE=mpsyt
+IMAGE=<docker-image-name>
+REPO=jmutai
 
 .PHONY: all build
 
 all: build
 
 build:
-	docker build --rm -t jmutai/$(IMAGE) .
+	docker build --rm -t ${REPO}/$(IMAGE) .
