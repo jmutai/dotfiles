@@ -259,11 +259,12 @@ txt2pdf () {
 
 newpost () {
     local NAME=${1}
+    local month='Mar-2017'
     if  [[ "$NAME" == "" ]]; then 
         echo "Enter valid post name: "
     else
     cd ~/mysites/jmutai.com/ &&  hugo new post/Mar-2017/${NAME} && \
-        vim content/post/Mar-2017/${NAME}
+        vim content/post/${month}/${NAME}
 fi
 }
 
@@ -429,4 +430,33 @@ psmem () {
     else
         sudo ps_mem | grep -P $ps_name
     fi
+}
+
+ssh_config () {
+    user=root
+    ip_address=$1
+    short_hostname=$2 
+    domain=$3
+    long_hostname=$short_hostname.$domain
+    if [[ $1 == "" || $2 == "" || $3 == "" ]]; then
+        echo ""
+        echo "USAGE: ${0##*/} <Argument>"
+        echo "Arguments:"
+        echo -e "\t1\tIP Address:"
+        echo -e "\t2\tShort Hostname:"
+        echo -e "\t3\tDomain Name:"
+    else
+        echo $ip_address $short_hostname.$domain $short_hostname | sudo tee -a /etc/hosts
+        tail -5 /etc/hosts
+        echo ""
+        echo "" >> ~/.ssh/config
+cat >>~/.ssh/config<<EOF
+Host  $short_hostname
+  Hostname  $long_hostname
+  User      $user 
+EOF
+
+cat ~/.ssh/config
+
+fi
 }
