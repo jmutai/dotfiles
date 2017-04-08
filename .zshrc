@@ -50,3 +50,7 @@ cat ~/.ssh/id_rsa | SSH_ASKPASS="$HOME/.passfile" ssh-add - &>/dev/null
 if [[ "$TTY" == "/dev/tty1" ]]; then
     ssh-agent startx
 fi
+
+#export MPD_HOST=~/.mpd/socket
+alias master='tmux new -s master'
+

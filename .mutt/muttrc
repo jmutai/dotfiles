@@ -13,7 +13,6 @@ set sidebar_delim_chars = '/.'
 set sidebar_folder_indent = no
 set sidebar_new_mail_only = no
 sidebar_whitelist '~/.mutt/mutai.jmutai.com'
-sidebar_whitelist '~/.mutt/jmutai.kipepeosolutions.co.ke'
 set sidebar_next_new_wrap = no
 set sidebar_on_right = no
 set sidebar_divider_char = '|'
@@ -48,13 +47,11 @@ mailboxes "+-- My mailbox -----------"
 
 ## Shortcuts
 macro index,pager <f2> '<sync-mailbox><enter-command>source  ~/.mutt/mutai.jmutai.com<enter><change-folder>!<enter>'
-macro index,pager <f3> '<sync-mailbox><enter-command>source ~/.mutt/jmutai.kipepeosolutions.co.ke<enter><change-folder>!<enter>'
 #
 source $HOME/.mutt/themes/tomorrow-night.muttrc
 # switch to default account on startup
 source "gpg2 -dq $HOME/.my-pwds.gpg |"
 source ~/.mutt/mutai.jmutai.com
-source ~/.mutt/jmutai.kipepeosolutions.co.ke
 
 # Key bindings
 bind pager j next-line

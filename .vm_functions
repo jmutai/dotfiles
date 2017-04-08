@@ -42,7 +42,7 @@ vm_shutdown () {
     done
 }
 
-vm_destroy () {
+vm_clean () {
     echo ""
     nodes=("$@")
     for node in ${nodes[@]}; do

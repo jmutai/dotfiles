@@ -8,7 +8,7 @@ alias docs='cd ~/mygit/dockerfiles/'
 alias cheats='~/cheat-sheets/'
 alias mycommit="git commit -m 'updated'"
 alias myadd="git add ."
-alias makefile='cp ~/mygit/dockerfiles/mpsyt/Makefile .'
+alias makefile='cp ~/mygit/dotfiles/docker-makefile ./Makefile'
 
 # Disk and sys
 alias duh='du -sh'
@@ -83,7 +83,7 @@ alias sshmacs='ssh -Q mac'
 alias rafiki='ssh -X josepy@rafiki'
 alias cdr='cd /srv/http/rafikihost'
 alias site='cd ~/mysites/jmutai.com/'
-alias notes='cd ~/mygit/dotfiles/cheat-sheets/certs/notes/'
+alias notes='cd ~/notes/'
 alias virt='sudo mount UUID="cbe29e4a-025b-4ed0-9017-cbc3d49d1154" /home/josepy/Desktop/virt/'
 alias archie='sudo mount UUID="e22886f8-e086-d101-a020-84f8e086d101"  /home/josepy/Desktop/Archie/'
 
@@ -119,6 +119,7 @@ alias mariadbs='docker exec -ti mariadb /bin/bash'
 alias postdir='cd ~/mysites/jmutai.com/content/post/Mar-2017/'
 alias ifdown='sudo ip link set "$1" down'
 alias polyconf='vim ~/.config/polybar/config'
+alias i3pyconf='vim ~/.config/i3/i3pystatus.conf'
 #alias open='rifle'
 alias open='xdg-open'
 alias hosts='sudo vim /etc/hosts '

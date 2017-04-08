@@ -229,19 +229,22 @@ bindsym XF86AudioPause exec "mpc pause"
 
 
 # i3blocks
-bar {
-        
-    #    status_command i3blocks
-    #    status_command py3status -c ~/.i3/i3status.conf
-    #    position top
-    #    font pango:Hack, FontAwesome 10
-    #    separator_symbol  " " 
-    #    strip_workspace_numbers yes
-    #    statusline         $white
-    #    background         $transparent
-    #    separator          $transparent
-  }
 
+bar {
+    status_command    python ~/.config/i3/i3pystatus.conf
+    position          top
+    workspace_buttons yes
+    font pango:Hack, FontAwesome 10
+    colors {
+        background #253941
+        statusline #e7dfd9
+        separator  #081419
+        focused_workspace  #2aa198 #073642 #eee895
+        active_workspace   #073642 #859900 #839496
+        inactive_workspace #002b36  #002b36   #586e75
+        urgent_workspace   #cb4b16 #dc322f #fdf6e3
+    }
+  }
 
 
 set $m1 #808080 
@@ -268,7 +271,7 @@ exec ~/.config/i3/scripts/batnotify &
 # bindsym $mod+j exec --no-startup-id feh --bg-fill "$(find ~/Pictures/wallpapers | shuf -n1)" &
 #exec_always --no-startup-id nm-applet
 #exec --no-startup-id termite -name ncmpcpp -e ncmpcpp -s playlist
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+#exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 # ssh passphrase
 #exec --no-startup-id /usr/lib/gnome-settings-daemon/gnome-settings-daemon
@@ -288,6 +291,7 @@ assign [class="Vmware"] $ws5
 assign [class="VirtualBox"] $ws5
 assign [class="Firefox"] $ws6
 assign [class="Opera"] $ws6
+assign [class="HipChat"] $ws6
 assign [class="GNS3"] $ws7
 assign [class="Skype"] $ws7
 assign [class="PacketTracer7"] $ws7
