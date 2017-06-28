@@ -261,13 +261,19 @@ txt2pdf () {
 
 newpost () {
     local NAME=${1}
-    local month='Mar-2017'
+    local month='June-2017'
     if  [[ "$NAME" == "" ]]; then 
         echo "Enter valid post name: "
     else
-    cd ~/mysites/jmutai.com/ &&  hugo new post/Mar-2017/${NAME} && \
+    cd ~/mysites/jmutai.com/ &&  hugo new post/${month}/${NAME} && \
         vim content/post/${month}/${NAME}
 fi
+}
+
+monitor () {
+    echo -en "Enter process:"
+    read process
+    sudo journalctl -flu $process -o cat
 }
 
 todo () {
@@ -407,23 +413,23 @@ nfs () {
 }
 
 cheatpush () {
-	cd ~/.cheat && myadd && mycommit && push
+	cd ~/.cheat && myadd && mycommit && push && cd -
 }
 
 dotspush () {
-	cd ~/mygit/dotfiles && myadd && mycommit && push
+	cd ~/mygit/dotfiles && myadd && mycommit && push && cd -
 }
 
 jmutaipush () {
-	cd ~/mysites/jmutai.com/ && myadd && mycommit && push
+	cd ~/mysites/jmutai.com/ && myadd && mycommit && push && cd -
 }
 
 codepush () {
-	cd ~/code && myadd && mycommit && push
+	cd ~/code && myadd && mycommit && push && cd -
 }
 
 notespush () {
-	cd ~/notes && myadd && mycommit && push
+	cd ~/notes && myadd && mycommit && push && cd -
 }
 
 psmem () {
@@ -462,4 +468,22 @@ EOF
 cat ~/.ssh/config
 
 fi
+}
+
+myrd () {
+    rdesktop -g 1067x640 -P -z $1:3389
+}
+
+engine_backup () {
+    export backup_file="ovirt-engine-backup-`date +%Y-%m-%d`"
+    ssh root@ovirtengine "engine-backup --mode=backup --file=${backup_file} --log=backup1.log" && \
+    scp root@ovirtengine:/root/${backup_file} ~/.cheat && \
+    ls -lh ~/.cheat/${backup_file} && \
+    cheatpush
+}
+
+encrypted_passwd () {
+    python -c 'import crypt,getpass; \
+print(crypt.crypt(getpass.getpass(), \
+crypt.mksalt(crypt.METHOD_SHA512)))'
 }

@@ -192,7 +192,7 @@ bindsym $mod+Shift+f exec ~/.config/i3/bin/rofi_finder
 # Custom bind keys
 #bindsym $mod+l exec i3lock
 #
-bindsym $mod+l exec i3lock -i ~/Pictures/others/cube.png 
+bindsym $mod+l exec i3lock -i ~/Pictures/cube.png 
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)

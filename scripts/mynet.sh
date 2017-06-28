@@ -12,8 +12,8 @@ set -euo pipefail
 wifi_connect () {
   echo -e " \e[01;31m[!]\e[00m Checking available wifi AP:"
   echo ""
-  nmcli device wifi rescan
-  sleep 10
+  #nmcli device wifi rescan
+  #sleep 10
   dev_list=`nmcli dev wifi list`
   echo "$dev_list"
   echo ""

@@ -40,7 +40,7 @@ alias hugoserve='cd ~/mysites/jmutai.com && hugo server'
 alias push='git push -u origin master'
 
 # Google dns set
-alias dns='sudo setfacl -m u:josepy:rw /etc/resolv.conf && sudo echo nameserver 8.8.8.8 > /etc/resolv.conf'                            
+alias dns='sudo setfacl -m u:josepy:rw /etc/resolv.conf && sudo echo nameserver 8.8.8.8 > /etc/resolv.conf && sudo echo nameserver 192.168.70.250  >> /etc/resolv.conf'
 alias dnss='cat /etc/resolv.conf'
 
 # Rhev
@@ -116,7 +116,7 @@ alias vi='vim'
 alias ks='sudo vim /srv/http/ks.cfg'
 alias mycover='mycp ~/cheat-sheets/coverletter.txt'
 alias mariadbs='docker exec -ti mariadb /bin/bash'
-alias postdir='cd ~/mysites/jmutai.com/content/post/Mar-2017/'
+alias postdir='cd ~/mysites/jmutai.com/content/post/April-2017/'
 alias ifdown='sudo ip link set "$1" down'
 alias polyconf='vim ~/.config/polybar/config'
 alias i3pyconf='vim ~/.config/i3/i3pystatus.conf'
@@ -160,5 +160,23 @@ alias audio='ydl -x --audio-format mp3'
 alias playbooks='cd ~/code/ansible/playbooks/'
 alias myshred='shred --remove --zero'
 alias mydig='dig +short $1 $2 '
-alias win7='rdesktop -g 100% -P -z 192.168.122.64:3389'
+#alias win7='rdesktop -g 100% -P -z 192.168.122.64:3389'
 alias mywin7="rdesktop -g $(xrandr -q | awk '/Screen 0/ {print int($8/1.28) $9 int($10/1.2)}' | sed 's/,//g') -P -z 192.168.122.64:3389"
+alias mywin10="rdesktop -g $(xrandr -q | awk '/Screen 0/ {print int($8/1.28) $9 int($10/1.2)}' | sed 's/,//g') -P -z 197.232.56.218:3389"
+alias winrdp="rdesktop -g $(xrandr -q | awk '/Screen 0/ {print int($8/1.28) $9 int($10/1.2)}' | sed 's/,//g') -P -z $1"
+alias mypass='mycp ~/.cheat/pass'
+alias jtl_add='sudo nmcli con import type openvpn file ~/.cheat/josphat-jtl@angani.co.ovpn'
+alias jtl_up='nmcli con up josphat-jtl@angani.co'
+alias jtl_down='nmcli con down josphat-jtl@angani.co'
+alias angani_add='sudo nmcli con import type openvpn file ~/.cheat/angani.ovpn'
+alias angani_up='nmcli con up angani'
+alias angani_down='nmcli con down angani'
+alias bsc_add='sudo nmcli con import type openvpn file ~/.cheat/josphat@bsc.rw.ovpn'
+alias bsc_up='nmcli con up josphat@bsc.rw'
+alias bsc_down='nmcli con down josphat@bsc.rw'
+
+
+# pass
+alias harun_pass='mycp ~/.cheat/harun_pass'
+alias whmcs_pass='mycp ~/.cheat/whmcs_pass'
+alias openldap='cd ~/code/angani/scripts/openldap'

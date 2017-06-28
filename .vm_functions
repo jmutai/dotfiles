@@ -96,7 +96,7 @@ virsh dominfo $domain
 
 
 # List all kvm vms
-vmlist () {
+vm_list () {
 	sudo virsh list --all
 }
 
@@ -375,3 +375,14 @@ sudo virt-install \
 vm_mac () {
     MACADDR="52:54:$(dd if=/dev/urandom count=1 2>/dev/null | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\).*$/\1:\2:\3:\4/')"; echo $MACADDR
 }
+
+iface_attach () {
+echo -en "Enter domain name: "
+read DOMAIN
+echo -en "Enter host bridge name: eg br-em1: "
+read source_bridge
+echo -en "Enter interface type, e.g bridge: "
+read iface_type
+virsh attach-interface --domain $DOMAIN --type $iface_type --source $source_bridge --model virtio --config --live
+}
+
