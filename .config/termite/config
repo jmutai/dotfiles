@@ -1,4 +1,6 @@
-#[options]
+[options]
+transparency = 1.0
+pseudo_transparency = false
 #resize_grip = false
 #scroll_on_output = false
 #scroll_on_keystroke = true

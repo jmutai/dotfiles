@@ -1,0 +1,14 @@
+#!/bin/bash
+
+PROG="${BLOCK_INSTANCE}"
+
+# Mouse buttons control
+
+case $BLOCK_BUTTON in
+    3) exec mpc toggle > /dev/null ;; # Play/pause on right click
+    1) exec notify-send -t 10000 "$(mpc current)" 2>/dev/null  ;; # Stop on right click
+    4) exec mpc next   ;; # Play next on scroll up
+    5) exec mpc prev   ;; # Play previous on scroll down
+esac
+
+echo " " 

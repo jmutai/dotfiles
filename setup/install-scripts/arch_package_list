@@ -13,7 +13,6 @@ echo ""
 	android-file-transfer \
 	android-tools \
 	android-udev \
-    arch-wiki-man \
 	atool \
 	bash-completion \
     bridge-utils \
@@ -31,7 +30,6 @@ echo ""
     cinelerra-cv \
 	deepin-screenshot \
 	dmenu \
-    dnsmasq \
 	dosfstools \
     docker \
     docker-compose \
@@ -50,9 +48,7 @@ echo ""
 	gnome-keyring \
 	gpicview \
 	gvfs-mtp \
-	gvim \
     gksu \
-    gtkmm \
     gtk3-print-backends \
     ghostscript \
     gparted \
@@ -62,9 +58,6 @@ echo ""
     hugo \
     iw \
     i3pystatus \
-	i3-gaps-next-git \
-	i3lock-git \
-	i3-vim-syntax-git \
     imagemagick \
     iptables \
 	j4-dmenu-desktop \
@@ -72,13 +65,8 @@ echo ""
     keychain \
 	libmtp \
 	libnotify \
-    libguestfs \
-    lxappearance \
-    lm_sensors \
-    linux-headers \
     lftp \
 	maim \
-    masterpdfeditor \
 	mediainfo \
 	mingetty \
 	mlocate \
@@ -96,19 +84,12 @@ echo ""
 	network-manager-applet \
 	nitrogen \
     ntfs-3g \
-    nvidia \
-    nvidia-utils \
-    nvidia-settings \
-    ncurses5-compat-libs \
 	offlineimap \
 	ohsnap \
 	openssh \
     openbsd-netcat \
     offlineimap-git \
-    opencl-nvidia \
     pepper-flash \
-    freshplayerplugin \
-	poppler \
     python-pip \
     pinfo \
     qemu \
@@ -164,12 +145,6 @@ echo ""
     zenity \
 	zip \
 	zsh-completions \
-	zathura-epub-git \
 	wget \
     wps-office
 
-if [ $? -eq 0 ]; then
-    echo "Installation successful"
-else
-    echo "Installation failed"
-fi

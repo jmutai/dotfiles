@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# use provided interface, otherwise use default route.
+if [[ -n $BLOCK_INSTANCE ]]; then
+  IF=$BLOCK_INSTANCE
+else
+  IF=$(ip route | awk '/^default/ { print $5 ; exit }')
+fi
+
+# only show for instance specified in i3blocks.conf
+[[ ! -d /sys/class/net/${IF} ]] && exit
+
+INTERFACE="${BLOCK_INSTANCE}"
+IP=$(ip route get 1 | awk '{print $NF;exit}')
+WANIP=$(curl -s http://whatismijnip.nl |cut -d " " -f 5)
+
+if [[ "$(cat /sys/class/net/$IF/operstate)" = 'down' ]]; then
+  echo "<span font='8' foreground='#B4B7B4'></span><span foreground='#A3685A'> X</span>" # full text
+  echo "<span font='8' foreground='#B4B7B4'></span><span foreground='#A3685A'> X</span>"
+   else  
+      echo "<span font='8' foreground='#87AFAF'></span><span font='4' foreground='#282A2E'>/</span>$IP" 
+  fi
+
+# mouse buttons 
+case $BLOCK_BUTTON in
+   3) rofi-connm ;; # rofi connection manager
+   1) yad --no-buttons --width=180 --height=200 --text-info --class "yadinfo" --margins=10 --filename=<(echo -n "
+ $INTERFACE 
+------------------------------------
+ip = $IP
+gateway = $(ip route | cut -d " " -f 3 | grep [.])
+route = $(ip route | cut -d " " -f 1 | grep [0-9]) 
+resolv = $(cat /etc/resolv.conf | cut -d " " -f 2 | grep [0-9])
+wanip = $WANIP
+") "$@" &>/dev/null
+esac
+

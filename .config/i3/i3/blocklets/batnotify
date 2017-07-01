@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# Battery notifier script for i3
+# First warning is at 25%,  Second at 15%, and sleep below 10%
+# By NerdJK23
+# www.computingforgeeks.com
+# kiplangatmtai@gmail.com
+
+# Packages that should be installed are libnotify and acpi 
+# pacman -S acpi libnotify > Arch Linux
+
+discharge_mode=`acpi -a | grep -o off` # a, --ac-adapter         ac adapter information
+
+# Get current battery lavel 
+battery_level=$(cat /sys/class/power_supply/BAT0/capacity)
+critical_value=20
+
+# battery_level=$(acpi -b | sed 's/.*[dg], //g;s/\%,.*//g') # b, --battery battery information
+# battery_level=`acpi -b | cut -d ' ' -f 4 | grep -o '[0-9]*'`
+
+# Messages to print to notification
+message="*** Battery level is ${battery_level}%, critical, sleeping in 30 seconds time ***"
+
+# Notification icon to use
+not_icon="/usr/share/icons/gnome/scalable/status/battery-low-symbolic.svg" 
+
+
+if [ "$discharge_mode" == "off" ]; then
+
+if [  "$battery_level" -le "$critical_value" ]; then 
+    if [ -f "$not_icon" ]; then
+        notify-send -u critical -i "$not_icon" -t 30000 "$message"
+       # i3-nagbar -m "$message"
+        sleep 120
+        sudo  /lib/systemd/systemd-sleep hybrid-sleep
+
+
+    else
+         notify-send -u critical  -t 10000 "$message"
+        #i3-nagbar -m "$message"
+        sleep 120
+        sudo  /lib/systemd/systemd-sleep hybrid-sleep
+
+    fi
+fi
+fi
+
+#echo "<span foreground='#B294BB'>!</span>"
+

@@ -40,12 +40,12 @@ set $terminal termite
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:monospace 12
+font pango:monospace 10
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 
-font pango:DejaVu Sans Mono 12
+font pango:DejaVu Sans Mono 10
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -316,6 +316,7 @@ mode "$mode_launcher" {
     bindsym t exec thunar
     bindsym f exec firefox
     bindsym m exec terminator
+    bindsym h exec hipchat4
     bindsym v exec virt-manager 
     bindsym w exec vmware
     bindsym s exec simplescreenrecorder
@@ -325,7 +326,7 @@ mode "$mode_launcher" {
     bindsym g exec  gns3
     bindsym p exec  pcmanfm
     bindsym o exec  opera
-    bindsym c exec  packettracer
+    bindsym n exec  networkmanager_dmenu
 
 
     bindsym Esc mode "default"
@@ -339,7 +340,7 @@ bindsym $mod+Shift+q      mode $power_mode
 mode $power_mode {
     bindsym p         exec systemctl poweroff
     bindsym r         exec systemctl reboot 
-    bindsym l         exec i3lock -i ~/Pictures/cube.png , mode "default"
+    bindsym l         exec i3lock -i ~/Pictures/cube.png -t -e
     bindsym q         exec --no-startup-id i3-msg exit, mode "default"
     bindsym h         exec systemctl hibernate 
     bindsym s         exec sudo  /lib/systemd/systemd-sleep hybrid-sleep 
@@ -352,10 +353,10 @@ mode $power_mode {
 
 # Floating windows
 
-for_window [window_role="pop-up"] floating enable
-for_window [window_role="bubble"] floating enable
-for_window [window_role="task_dialog"] floating enable
-for_window [window_role="Preferences"] floating enable
+#for_window [window_role="pop-up"] floating enable
+#for_window [window_role="bubble"] floating enable
+#for_window [window_role="task_dialog"] floating enable
+#for_window [window_role="Preferences"] floating enable
 
 for_window [window_role="task_dialog|bubble|page-info|Preferences|pop-up"] floating enable
 for_window [window_role="Open Files"] floating enable sticky
@@ -377,7 +378,7 @@ for_window [class="info|Mate-color-select|gcolor2|timesup|QtPass|GtkFileChooserD
 # Teamviewer
 for_window [instance="TeamViewer.exe"] floating enable
 for_window [class="TeamViewer"] floating enable
-#for_window [instance="Qt-subapplication" title="TeamViewer"] move scratchpad
+for_window [instance="Qt-subapplication" title="TeamViewer"] move scratchpad
 
 # Focus window settings
 no_focus [window_role="pop-up"]

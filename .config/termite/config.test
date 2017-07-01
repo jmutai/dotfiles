@@ -1,0 +1,114 @@
+[options]
+resize_grip = false
+scroll_on_output = false
+scroll_on_keystroke = true
+audible_bell = true
+visible_bell = true
+mouse_autohide = true
+allow_bold = false
+dynamic_title = true
+urgent_on_bell = true
+clickable_url = false
+font = PragmataPro Bold 9
+scrollback_lines = 65535
+search_wrap = true
+icon_name = terminal
+#geometry = 640x480
+
+# 0.0: opaque, 1.0: transparent
+transparency = 1.0
+pseudo_transparency = false
+
+# "system", "on" or "off"
+cursor_blink = on
+
+# "block", "underline" or "ibeam"
+cursor_shape = ibeam
+
+# $BROWSER is used by default
+browser = xombrero
+
+# word characters used for word selection
+# (default if unset: all graphic non-punctuation/space characters)
+#word_chars = -A-Za-z0-9,./?%&#:_=+@~
+
+[colors]
+# Tango from terminal.sexy
+foreground      = #babdb6
+foreground_bold = #babdb6
+cursor          = #babdb6
+background = rgba(0, 0, 0, 0.80)
+
+# black
+color0  = #2e3436
+color8  = #555753
+
+# red
+color1  = #cc0000
+color9  = #ef2929
+
+# green
+color2  = #4e9a06
+color10 = #8ae234
+
+# yellow
+color3  = #c4a000
+color11 = #fce94f
+
+# blue
+color4  = #3465a4
+color12 = #729fcf
+
+# magenta
+color5  = #75507b
+color13 = #ad7fa8
+
+# cyan
+color6  = #06989a
+color14 = #34e2e2
+
+# white
+color7  = #d3d7cf
+color15 = #eeeeec
+
+######################################
+
+#[colors]
+# SRS defaults from Lenovo Thinkpad
+#foreground = lightgray
+#foreground_bold = white
+#foreground_dim = #888888
+#background = rgba(0, 0, 0, 0.85)
+#cursor = lightgray
+
+# if unset, will reverse foreground and background
+#highlight = #2f2f2f
+
+# colors from color0 to color254 can be set
+#color0 = #222946
+#color1 = #B32323
+#color2 = #1AAA13
+#color3 = #FF9F3E
+#color4 = #4957F3
+#color5 = #BF3E94
+#color6 = #09A5B3
+#color7 = #AEAEAE
+#color8 = #8C8B89
+#color9 = #DC2C2C
+#color10 = #5DCE33
+#color11 = #E6CB29
+#color12 = #4D79FF
+#color13 = #B641CC
+#color14 = #3CB6F3
+#color15 = #DBDDE4
+
+[hints]
+font = Monospace 12
+foreground = #dcdccc
+background = #3f3f3f
+padding = 2
+border = #3f3f3f
+border_width = 0.5
+roundness = 2.0
+
+# vim: ft=dosini

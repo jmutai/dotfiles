@@ -47,10 +47,14 @@ setopt HIST_IGNORE_ALL_DUPS
 
 cat ~/.ssh/id_rsa | SSH_ASKPASS="$HOME/.passfile" ssh-add - &>/dev/null
 
-if [[ "$TTY" == "/dev/tty1" ]]; then
-    ssh-agent startx
-fi
+#if [[ "$TTY" == "/dev/tty1" ]]; then
+#    ssh-agent startx
+#fi
 
 #export MPD_HOST=~/.mpd/socket
 alias master='tmux new -s master'
 
+if [ -z "$DISPLAY" ] && [ -n "$XDG_VTNR" ] && [ "$XDG_VTNR" -eq 1 ]; then
+ssh-agent startx
+#exec startx
+fi

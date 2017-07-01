@@ -1,10 +1,6 @@
-# DO NOT EDIT! This file will be overwritten by LXAppearance.
-# Any customization should be done in ~/.gtkrc-2.0.mine instead.
-
-include "/home/josepy/.gtkrc-2.0.mine"
-gtk-theme-name="Arc-Dark"
-gtk-icon-theme-name="Faenza-Radiance"
-gtk-font-name="Hack 10"
+gtk-theme-name="Arc-Darker"
+gtk-icon-theme-name="deepin"
+gtk-font-name="Hack 14"
 gtk-cursor-theme-name="Adwaita"
 gtk-cursor-theme-size=0
 gtk-toolbar-style=GTK_TOOLBAR_BOTH_HORIZ

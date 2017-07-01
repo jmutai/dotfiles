@@ -16,11 +16,10 @@ echo ""
 #	gtk-engine-murrine-git \
 pacaur --needed --noconfirm --noedit -S \
     faenza-icon-theme \
-	moka-icon-theme-git \
 	gtk-theme-arc-git \
 	numix-folders-git \
 	numix-icon-theme-git \
     numix-circle-icon-theme-git \
-	numix-themes \
-	vertex-themes-git \
+	vertex-themes-git
 
+#numix-themes \

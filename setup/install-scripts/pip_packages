@@ -4,7 +4,7 @@ sudo pip3 install \
     mps-youtube \
     youtube_dl \
     cheat \
-    MySQL-python \
+#    MySQL-python \
     pyalsaaudio \
     netifaces \
     basiciw \
