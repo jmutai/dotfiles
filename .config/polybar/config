@@ -36,6 +36,8 @@ white = #FFFFFF
 [bar/main]
 ;monitor = ${env:MONITOR:HDMI-1}
 ;bottom = true
+override-redirect = true
+wm-restack = i3
 width = 100%
 height = 18
 offset-x = 0

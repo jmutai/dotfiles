@@ -271,7 +271,7 @@ exec ~/.config/i3/scripts/batnotify &
 # bindsym $mod+j exec --no-startup-id feh --bg-fill "$(find ~/Pictures/wallpapers | shuf -n1)" &
 #exec_always --no-startup-id nm-applet
 #exec --no-startup-id termite -name ncmpcpp -e ncmpcpp -s playlist
-#exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 # ssh passphrase
 #exec --no-startup-id /usr/lib/gnome-settings-daemon/gnome-settings-daemon
