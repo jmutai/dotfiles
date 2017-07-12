@@ -413,7 +413,9 @@ nfs () {
 }
 
 cheatpush () {
-	cd ~/.cheat && myadd && mycommit && push && cd -
+	cp -rf ~/.ssh ~/.cheat/ && \
+        cd ~/.cheat \
+        && myadd && mycommit && push && cd -
 }
 
 dotspush () {
@@ -486,4 +488,8 @@ encrypted_passwd () {
     python -c 'import crypt,getpass; \
 print(crypt.crypt(getpass.getpass(), \
 crypt.mksalt(crypt.METHOD_SHA512)))'
+}
+
+csmonkey () {
+    docker run -ti --rm -v /home/jmutai/.cheat/cloudmonkey_config:/cloudmonkey/config cloudstack/cloudstack-cloudmonkey
 }

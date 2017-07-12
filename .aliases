@@ -182,3 +182,6 @@ alias bsc_down='nmcli con down josphat@bsc.rw'
 alias harun_pass='mycp ~/.cheat/harun_pass'
 alias whmcs_pass='mycp ~/.cheat/whmcs_pass'
 alias openldap='cd ~/code/angani/scripts/openldap'
+alias ydl_mp3='youtube-dl --extract-audio --audio-format mp3 $1'
+alias ydl_mp4='youtube-dl -f 137+140 $1'
+
