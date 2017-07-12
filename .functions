@@ -491,5 +491,5 @@ crypt.mksalt(crypt.METHOD_SHA512)))'
 }
 
 csmonkey () {
-    docker run -ti --rm -v /home/jmutai/.cheat/cloudmonkey_config:/cloudmonkey/config cloudstack/cloudstack-cloudmonkey
+    docker run -ti --rm -v ~/.cheat/cloudmonkey_config:/cloudmonkey/config cloudstack/cloudstack-cloudmonkey
 }
