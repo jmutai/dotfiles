@@ -40,7 +40,6 @@ alias hugoserve='cd ~/mysites/jmutai.com && hugo server'
 alias push='git push -u origin master'
 
 # Google dns set
-alias dns='sudo setfacl -m u:josepy:rw /etc/resolv.conf && sudo echo nameserver 8.8.8.8 > /etc/resolv.conf && sudo echo nameserver 192.168.70.250  >> /etc/resolv.conf'
 alias dnss='cat /etc/resolv.conf'
 
 # Rhev
@@ -162,7 +161,7 @@ alias myshred='shred --remove --zero'
 alias mydig='dig +short $1 $2 '
 #alias win7='rdesktop -g 100% -P -z 192.168.122.64:3389'
 alias mywin7="rdesktop -g $(xrandr -q | awk '/Screen 0/ {print int($8/1.28) $9 int($10/1.2)}' | sed 's/,//g') -P -z 192.168.122.64:3389"
-alias mywin10="rdesktop -g $(xrandr -q | awk '/Screen 0/ {print int($8/1.28) $9 int($10/1.2)}' | sed 's/,//g') -P -z 197.232.56.218:3389"
+alias mywin10="rdesktop -g $(xrandr -q | awk '/Screen 0/ {print int($8/1.28) $9 int($10/1.2)}' | sed 's/,//g') -P -z $1:3389"
 alias winrdp="rdesktop -g $(xrandr -q | awk '/Screen 0/ {print int($8/1.28) $9 int($10/1.2)}' | sed 's/,//g') -P -z $1"
 alias mypass='mycp ~/.cheat/pass'
 alias jtl_add='sudo nmcli con import type openvpn file ~/.cheat/josphat-jtl@angani.co.ovpn'
@@ -184,4 +183,28 @@ alias whmcs_pass='mycp ~/.cheat/whmcs_pass'
 alias openldap='cd ~/code/angani/scripts/openldap'
 alias ydl_mp3='youtube-dl --extract-audio --audio-format mp3 $1'
 alias ydl_mp4='youtube-dl -f 137+140 $1'
+alias openstack="cd ~/hacks/angani/playbooks/angani-openstack"
 
+
+
+# s3
+
+s3-rb () {
+aws s3 rb s3://$1
+}
+
+s3-rbf () {
+aws s3 rb s3://$1 --force
+}
+
+s3-ro () {
+aws s3 ls s3://$1/$2
+}
+
+s3-ls () {
+aws s3 ls s3://$1
+}
+
+s3-mb () {
+aws s3 mb s3://$1
+}

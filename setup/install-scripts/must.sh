@@ -73,5 +73,8 @@
     libx11 \
     libxt \
     keepass \
+    freerdp \
+    remmina \
+    krdc
 
 

@@ -426,8 +426,8 @@ jmutaipush () {
 	cd ~/mysites/jmutai.com/ && myadd && mycommit && push && cd -
 }
 
-codepush () {
-	cd ~/code && myadd && mycommit && push && cd -
+hackspush () {
+	cd ~/hacks && myadd && mycommit && push && cd -
 }
 
 notespush () {
