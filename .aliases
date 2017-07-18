@@ -156,7 +156,7 @@ alias ansible_hosts='ansible --list all'
 alias ads='mycp ~/cheat-sheets/ads'
 alias audio='ydl -x --audio-format mp3'
 
-alias playbooks='cd ~/code/ansible/playbooks/'
+alias playbooks='cd ~/hacks/angani/playbooks/'
 alias myshred='shred --remove --zero'
 alias mydig='dig +short $1 $2 '
 #alias win7='rdesktop -g 100% -P -z 192.168.122.64:3389'
