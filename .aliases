@@ -208,3 +208,11 @@ aws s3 ls s3://$1
 s3-mb () {
 aws s3 mb s3://$1
 }
+
+# rel
+
+alias outboundmx='ssh outboundmx "sudo qshape -s deferred"'
+alias outboundmx-1='ssh outboundmx "sudo qshape -s deferred"'
+alias inboundmx='ssh inboundmx "sudo qshape -s deferred"'
+alias inboundmx-1='ssh inboundmx-1 "sudo qshape -s deferred"'
+
