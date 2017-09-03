@@ -185,6 +185,8 @@ alias ydl_mp3='youtube-dl --extract-audio --audio-format mp3 $1'
 alias ydl_mp4='youtube-dl -f 137+140 $1'
 alias openstack="cd ~/hacks/angani/playbooks/angani-openstack"
 
+alias zimbra="cd ~/hacks/angani/scripts/zimbra"
+alias tv="systemctl start teamviewerd.service"
 
 
 # s3

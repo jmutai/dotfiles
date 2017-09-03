@@ -179,7 +179,7 @@ pass () {
      echo -en "Re-enter password : "
      read PW2
 
-     if test "$PW1" == "$PW2"; then
+     if test "${PW1}" == "${PW2}"; then
          python3 -c 'import crypt; print(crypt.crypt("${PW1}", crypt.mksalt(crypt.METHOD_SHA512)))'
      else
          echo "Passwords don't match"
@@ -261,7 +261,7 @@ txt2pdf () {
 
 newpost () {
     local NAME=${1}
-    local month='June-2017'
+    local month='August-2017'
     if  [[ "$NAME" == "" ]]; then 
         echo "Enter valid post name: "
     else
@@ -414,6 +414,7 @@ nfs () {
 
 cheatpush () {
 	cp -rf ~/.ssh ~/.cheat/ && \
+        tar -czvf ~/.cheat/josphat_documents.tgz ~/Documents/Josphat/ &&
         cd ~/.cheat \
         && myadd && mycommit && push && cd -
 }
@@ -491,5 +492,6 @@ crypt.mksalt(crypt.METHOD_SHA512)))'
 }
 
 csmonkey () {
-    docker run -ti --rm -v ~/.cheat/cloudmonkey_config:/cloudmonkey/config cloudstack/cloudstack-cloudmonkey
+    systemctl start docker
+    docker run -ti --rm -v ~/.cheat/cloudmonkey_config:/cloudmonkey/config cloudstack/cloudstack-cloudmonkey $@
 }
