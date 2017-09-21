@@ -51,3 +51,5 @@ name=high-availability
 baseurl= http://yum.schmoozecom.net/high-availability/6/r1/$basearch/
 gpgcheck=0
 enabled=0
+
+138de202-852c-427f-93bc-4c0fed2974ef
