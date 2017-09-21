@@ -1,0 +1,193 @@
+ssh-askpass*background: #000000
+! URXVT-CONFIG
+!------------------------------------------------
+!Xft.dpi:                    96
+!Xft.antialias:              true
+!Xft.rgba:                   rgb
+!Xft.hinting:                true
+!Xft.hintstyle:              hintslight
+
+URxvt.buffered:         true
+URxvt.font:             xft:xos4 Terminess Powerline:style=Regular:pixelsize=10
+URxvt.boldFont:         xft:xos4 Terminess Powerline:style=Bold:pixelsize=11
+!URxvt.letterSpace: 	-4
+URxvt*scrollBar:                      	false
+URxvt*mouseWheelScrollPage:           	true
+URxvt*cursorBlink:                    	true
+URxvt.geometry: 		      	        95x55+0+0
+URxvt*depth: 				            32
+URxvt.intensityStyles:			        true
+URxvt.fading: 				            15
+
+! EXTENSIONS
+!-------------------------------------------------
+URxvt*perl-lib:        			/usr/lib/urxvt/perl/
+URxvt*perl-ext-common: 			default,matcher,searchable-scrollback
+URxvt.cutchars: 			"()*,<>[]{}|''"
+*URxvt.perl-ext-common:		osc-xterm-clipboard
+
+! URXVT COPY PASTE SHORTCUTS
+!------------------------------------------------
+
+URxvt.keysym.M-c:                     	perl:clipboard:copy
+URxvt.keysym.M-v:                     	perl:clipboard:pasteq
+
+! URXVT FULLSCREEN TOGGLE
+!------------------------------------------------
+
+URxvt.keysym.F11:                       perl:fullscreen:switch
+URxvt.perl-ext-common: 			default,matcher,vtwheel
+URxvt.url-launcher: 			/usr/bin/palemoon
+URxvt.matcher.button: 			1
+
+! XTERM-CONFIG
+!------------------------------------------------
+
+! Fonts:
+Uxterm*faceName: Terminess Powerline
+Uxterm*faceSize:	8
+
+! Configuración local
+UXTerm*locale: 	true
+
+!Adjust line spacing
+UXTerm*scaleHeight: 1.01
+
+! Shell entrada por defecto...
+UXTerm*loginshell: true
+
+! Enable bell urgent
+Uxterm*bellIsUrgent: true
+
+! Fix the 'Alt' key
+UXTerm*metaSendsEscape: true
+
+! scrollback...
+UXTerm*savelines: 10000
+
+! Doble click selección de URL...
+UXTerm*charClass: 33:48,36-47:48,58-59:48,61:48,63-64:48,95:48,126:48
+
+! Geometra de ventana...
+Uxterm*VT100.geometry: 94x28+0+0
+
+
+! URXVT + XTERM COLOR
+!------------------------------------------------
+
+!BLACK
+#define _color0        #272727
+#define _color8        #363636
+
+!RED
+#define _color1        #D40000
+#define _color9        #FF2222
+
+!GREEN
+#define _color2        #005F87
+#define _color10       #00AAD4
+
+!YELLOW
+#define _color3        #FF4500
+#define _color11       #FF6830
+
+!BLUE
+#define _color4        #354857
+#define _color12       #728391
+
+!MAGENTA
+#define _color5        #438EAD
+#define _color13       #3EAEC9
+
+!CYAN
+#define _color6        #20786D
+#define _color14       #34AF9F
+
+!WHITE
+#define _color7        #818ea2
+#define _color15       #F1F1F1
+
+!FMT Include, StatusLine, ErrorMsg
+#define _colorBD       #ffffff
+#define _colorUL       #355d5d
+#define _colorIT       #999999
+
+!TXT Normal, Normal, Cursor
+#define _foreground    #202020
+#define _background    #B2B2B2
+#define _cursorColor   #FF4500
+
+
+URxvt*color0         : _color0
+URxvt*color1         : _color1
+URxvt*color2         : _color2
+URxvt*color3         : _color3
+URxvt*color4         : _color4
+URxvt*color5         : _color5
+URxvt*color6         : _color6
+URxvt*color7         : _color7
+URxvt*color8         : _color8
+URxvt*color9         : _color9
+URxvt*color10        : _color10
+URxvt*color11        : _color11
+URxvt*color12        : _color12
+URxvt*color13        : _color13
+URxvt*color14        : _color14
+URxvt*color15        : _color15
+URxvt*colorBD        : _colorBD
+URxvt*colorIT        : _colorIT
+URxvt*colorUL        : _colorUL
+URxvt*foreground     : _foreground
+URxvt*background     : [50]#B2B2B2
+URxvt*cursorColor    : _cursorColor
+
+!rgba:0000/0000/0200/c800 
+
+UXTerm*color0         : _color0
+UXTerm*color1         : _color1
+UXTerm*color2         : _color2
+UXTerm*color3         : _color3
+UXTerm*color4         : _color4
+UXTerm*color5         : _color5
+UXTerm*color6         : _color6
+UXTerm*color7         : _color7
+UXTerm*color8         : _color8
+UXTerm*color9         : _color9
+UXTerm*color10        : _color10
+UXTerm*color11        : _color11
+UXTerm*color12        : _color12
+UXTerm*color13        : _color13
+UXTerm*color14        : _color14
+UXTerm*color15        : _color15
+UXTerm*colorBD        : _colorBD
+UXTerm*colorIT        : _colorIT
+UXTerm*colorUL        : _colorUL
+UXTerm*foreground     : _foreground
+UXTerm*background     : _background
+UXTerm*cursorColor    : _cursorColor
+
+! ROFI
+!---------------------------------
+
+! ------------------------------------------------------------------------------
+! ROFI Color theme
+! Copyright: 2017 leofa
+! ------------------------------------------------------------------------------
+! "Color scheme for normal row" Set from: File
+rofi.color-normal:                   argb:0383c4a, #c4cbd4, argb:96404552, #4084d6, #f9f9f9
+! "Color scheme for urgent row" Set from: File
+rofi.color-urgent:                   argb:02d303b, #cc6666, argb:e52d303b, #a54242, #f9f9f9
+! "Color scheme for active row" Set from: File
+rofi.color-active:                   argb:02d303b, #b5bd68, argb:e42d303b, #8c9440, #f9f9f9
+! "Color scheme window" Set from: File
+rofi.color-window:                   argb:f22d303b, #7c8389, #1d1f21
+! "Separator style (none, dash, solid)" Set from: XResources
+rofi.separator-style:                solid
+
+! XPDF
+!-------------------------------------
+xpdf*antialias		: yes
+xpdf*background		: white
+xpdf*enableFreetype	: yes
+xpdf*foreground		: black
+xpdf*urlCommand		: chromium %s

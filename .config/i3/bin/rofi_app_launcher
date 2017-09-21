@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 # Run rofi app launcher
-i3-dmenu-desktop --dmenu="rofi -dmenu -i -p 'apps:'"
 
-#rofi -modi "run,ssh" -show run
+ i3-dmenu-desktop --dmenu="rofi -dmenu -i -p 'apps:'"
+# i3-dmenu-desktop --dmenu="rofi -dmenu -i -p 'ssh:'"
+# rofi -modi "run,ssh" -show run
+# rofi -combi-modi window,drun -show combi -modi combi
+
+#rofi -show ssh
 
 # Use ctrl+tab to switch

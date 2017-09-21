@@ -1,0 +1,53 @@
+# FreePBX-Base.repo
+#
+# If the mirrorlist= does not work for you, as a fall back you can try the 
+# remarked out baseurl= line instead.
+#
+#
+
+[base]
+name=SHMZ-$releasever - Base
+mirrorlist=http://mirrorlist.freepbxdistro.org/?release=6.6&arch=$basearch&repo=os
+#baseurl=http://yum.freepbxdistro.org/shmz-os/6.6/os/$basearch/
+gpgcheck=0
+enabled=1
+
+#released updates 
+[updates]
+name=SHMZ-$releasever - Updates
+mirrorlist=http://mirrorlist.freepbxdistro.org/?release=6.6&arch=$basearch&repo=updates
+#baseurl=http://yum.freepbxdistro.org/shmz-os/6.6/updates/$basearch/
+gpgcheck=0
+enabled=1
+
+#additional packages that may be useful
+[extras]
+name=SHMZ-$releasever - Extras
+mirrorlist=http://mirrorlist.freepbxdistro.org/?release=6.6&arch=$basearch&repo=extras
+#baseurl=http://yum.freepbxdistro.org/shmz-os/6.6/extras/$basearch/
+gpgcheck=0
+enabled=1
+
+#Core PBX Packages
+[pbx]
+name=pbx
+mirrorlist=http://mirrorlist.freepbxdistro.org/?pbxver=10.13.66&release=6.6&arch=$basearch&repo=pbx
+#baseurl=http://yum.freepbxdistro.org/pbx/10.13.66/$basearch/
+gpgcheck=0
+enabled=1
+
+#Schmooze Commercial Packages
+[schmooze-commercial]
+name=schmooze-commercial
+mirrorlist= http://mirrorlist.schmoozecom.net/?release=6.6&arch=$basearch&repo=schmooze-commercial
+#baseurl= http://yum.schmoozecom.net/schmooze-commercial/6/$basearch/
+gpgcheck=0
+enabled=1
+
+#High Availability Packages
+[high-availability]
+name=high-availability
+#mirrorlist= http://mirrorlist.schmoozecom.net/?release=6.6&arch=$basearch&haver=r1&repo=high-availability
+baseurl= http://yum.schmoozecom.net/high-availability/6/r1/$basearch/
+gpgcheck=0
+enabled=0
