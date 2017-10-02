@@ -60,3 +60,5 @@ if [ -z "$DISPLAY" ] && [ -n "$XDG_VTNR" ] && [ "$XDG_VTNR" -eq 1 ]; then
 ssh-agent startx
 #exec startx
 fi
+
+. /usr/share/z/z.sh
