@@ -35,7 +35,7 @@ source  $ZSH/oh-my-zsh.sh
 source  $S_DIR/.docker_functions 
 source  $S_DIR/.vm_functions
 source  $S_DIR/.aliases 
-source  $S_DIR/.functions 
+#source  $S_DIR/.functions 
 source  $S_DIR/.exports 
 
 source  ~/.cheat/functions.sh

@@ -206,7 +206,7 @@ teamv () {
     docker run  --rm --name teamviewer \
         -v /tmp/.X11-unix:/tmp/.X11-unix \
         -e DISPLAY=$DISPLAY \
-        jmutai/teamviewer
+        jmutai/teamviewer /etc/init.d/teamviewerd start && teamviewer
 }
 
 
