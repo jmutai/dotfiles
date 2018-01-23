@@ -34,11 +34,13 @@ ZSH_THEME="honukai"
 source  $ZSH/oh-my-zsh.sh
 source  $S_DIR/.docker_functions 
 source  $S_DIR/.vm_functions
-source  $S_DIR/.aliases 
+#source  $S_DIR/.aliases 
 #source  $S_DIR/.functions 
 source  $S_DIR/.exports 
 
+source ~/.cheat/.aliases.sh
 source  ~/.cheat/functions.sh
+
 #source ~/.dig
 
 # Compilation flags
@@ -61,4 +63,13 @@ ssh-agent startx
 #exec startx
 fi
 
+# Source zsh
+
+
 . /usr/share/z/z.sh
+
+# kubectl bash completion
+
+if [ $commands[kubectl] ]; then
+  source <(kubectl completion zsh)
+fi
