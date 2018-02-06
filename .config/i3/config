@@ -56,6 +56,7 @@ bindsym $mod+x exec $terminal
 
 # Custom bindsyms
 bindsym $mod+p exec ~/.config/i3/bin/logout
+bindsym $mod+Shift+x exec ~/.config/i3/bin/screen
 
 
 # kill focused window
@@ -348,6 +349,10 @@ mode $power_mode {
     bindsym Return    mode "default"
     bindsym Escape    mode "default"
 }
+
+# HDMI mode
+# source https://wiki.archlinux.org/index.php/i3
+# xrandr --query --> determine names of your devices
 
 
 # Floating windows

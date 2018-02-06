@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+# Manage logout with rofi
+# By jmutai@computingforgeeks.com
+
+option=`echo -e "hdmi\nhdmioff" | rofi -width 500 -dmenu -p Screen:`
+
+# Case switch
+
+case $option in
+    hdmi)
+        xrandr --output HDMI1 --auto --left-of eDP1 
+        ;;
+    hdmioff)
+        xrandr --output HDMI1 --auto --off
+        ;;
+esac
+
