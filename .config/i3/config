@@ -233,6 +233,7 @@ bindsym XF86AudioPause exec "mpc pause"
 
 bar {
     status_command    python ~/.config/i3/i3pystatus.conf
+    #status_command    $HOME/.config/polybar/launch.sh
     position          top
     workspace_buttons yes
     font pango:Hack, FontAwesome 12
