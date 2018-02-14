@@ -75,6 +75,7 @@
     keepass \
     freerdp \
     remmina \
-    krdc
+    krdc \
+    powertop
 
 

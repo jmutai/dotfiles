@@ -84,11 +84,9 @@ echo ""
 	network-manager-applet \
 	nitrogen \
     ntfs-3g \
-	offlineimap \
 	ohsnap \
 	openssh \
     openbsd-netcat \
-    offlineimap-git \
     pepper-flash \
     python-pip \
     pinfo \
@@ -105,7 +103,6 @@ echo ""
     startup-notification \
     screenfetch \
     scrot \
-    terminator \
 	termite-ranger-fix-git \
     upower \
     xdiff-ext-git \
