@@ -1,11 +1,14 @@
 #!/bin/bash
+
+# Deps
+# yum -y install mailx | apt-get -y install mailutils
 set -o nounset
 
 WEB_ROOT="/opt/zimbra/jetty/webapps/zimbra/public/"
 SCRIPTNAME=${0##*/}
 ZIMBRA_LETSENCRYPT_DIR="/opt/zimbra/ssl/letsencrypt"
 ZIMBRA_SSL_DIR="/opt/zimbra/ssl/letsencrypt"
-CERTPATH=/etc/letsencrypt/live/`hostname -f`
+CERTPATH="/etc/letsencrypt/live/`hostname -f`"
 DATE_FORMAT=`date +%Y-%m-%d`
 CERTBOT_BIN="/usr/local/bin/certbot-auto"
 
@@ -35,6 +38,9 @@ renew_ssl () {
     else
 
     # Create Letsencypt ssl dir if doesn't exist
+    su - zimbra -c "zmproxyctl stop && zmmailboxdctl stop"
+    echo "Renewing ssl certificate..."
+    $CERTBOT_BIN renew
     [[ -d $ZIMBRA_LETSENCRYPT_DIR ]] || mkdir -p $ZIMBRA_LETSENCRYPT_DIR
 
     # Copy Renewed letsencrypt certs
@@ -115,4 +121,3 @@ fi
 
 install_certbot
 renew_ssl
-
