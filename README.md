@@ -4,9 +4,9 @@ These are  dotfiles for the following setups.
 
 ## Arch Linux
 
-Laptop: **Lenovo ideapad 710s
+Laptop: **Lenovo ideapad 710s**
 
-Window Manager: **i3
+Window Manager: **i3**
 
 Terminal: Termite
 
