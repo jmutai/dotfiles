@@ -8,20 +8,20 @@ Laptop: **Lenovo ideapad 710s**
 
 Window Manager: **i3**
 
-Terminal: Termite
+Terminal: **Termite**
 
-X server: xorg
+X server: **Xorg**
 
-Shell: zsh
+Shell: **zsh**
 
 ## macOS 
 
-Hardware: MacBook Pro (13-inch, 2017, Two Thunderbolt 3 ports)
+Hardware: **MacBook Pro (13-inch, 2017, Two Thunderbolt 3 ports)**
 
-OS Version: High Sierra 10.13.3 (17D102)
+OS Version: **High Sierra 10.13.3 (17D102)**
 
-Shell: Zsh
+Shell: **Zsh**
 
-Terminal: kitty
+Terminal: **kitty**
 
-Window Manager: skhdrc and chunkwmrc 
+Window Manager: **skhdrc and chunkwmrc** 
