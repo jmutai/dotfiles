@@ -1,5 +1,19 @@
 # Dotfiles
 
-These are  dotfiles for my i3 + i3blocks and other tools i use on Arch Linux . I've obtained some settings/configurations from other shares and i appreciate everyone's 
-Hard work and ability to share.
+These are  dotfiles for the following setups.
 
+## Arch Linux
+
+Laptop: Lenovo ideapad 710s
+Window Manager: i3
+Terminal: Termite
+x server: xorg
+Shell: zsh
+
+## macOS 
+
+Hardware: MacBook Pro (13-inch, 2017, Two Thunderbolt 3 ports)
+OS Version: High Sierra 10.13.3 (17D102)
+Shell: Zsh
+Terminal: kitty
+Window Manager: skhdrc and chunkwmrc 
