@@ -20,9 +20,11 @@
   export S_DIR=~/mygit/dotfiles
   export F_DIR="~/opt/foxitsoftware/foxitreader" 
   export GOPATH=~/go
+  export RUBY_PATH="~/.gem/ruby/2.5.0/bin"
   export PATH="$PATH:$GOPATH/bin:$F_DIR:$S_DIR:$SCRIPTS_DIR"
   export ZSH=~/.oh-my-zsh
   export EDITOR="vim"
+
 
 # zsh theme of choice
 ZSH_THEME="honukai"
@@ -66,10 +68,19 @@ fi
 # Source zsh
 
 
-. /usr/share/z/z.sh
+#. /usr/share/z/z.sh
 
 # kubectl bash completion
 
 if [ $commands[kubectl] ]; then
   source <(kubectl completion zsh)
+fi
+
+# DPI
+export GDK_SCALE=2
+export QT_AUTO_SCREEN_SCALE_FACTOR=1
+
+if [[ $TERM == xterm-termite ]]; then
+  . /etc/profile.d/vte.sh
+  __vte_osc7
 fi

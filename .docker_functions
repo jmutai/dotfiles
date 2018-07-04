@@ -237,12 +237,6 @@ fire () {
         jmutai/firefox firefox
 }
 
-ydl () {
-docker run -it --rm \
-    -v $(pwd):/downloads \
-    jmutai/youtubedl \
-    "$@"
-}
 
 
 docknet () {

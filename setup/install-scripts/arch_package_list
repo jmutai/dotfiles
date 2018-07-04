@@ -103,7 +103,6 @@ echo ""
     startup-notification \
     screenfetch \
     scrot \
-	termite-ranger-fix-git \
     upower \
     xdiff-ext-git \
     tree \

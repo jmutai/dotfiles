@@ -40,12 +40,16 @@ set $terminal termite
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:monospace 12
+
+#font pango:monospace 16
+#font pango:monospace 16
+font pango:monospace 10
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 
-font pango:DejaVu Sans Mono 12
+#font pango:DejaVu Sans Mono 12
+#font pango:DejaVu Sans Mono 18
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -236,7 +240,10 @@ bar {
     #status_command    $HOME/.config/polybar/launch.sh
     position          top
     workspace_buttons yes
-    font pango:Hack, FontAwesome 12
+    #font pango:Hack, FontAwesome 12
+    font pango:Hack, FontAwesome 10
+    #font pango:Hack, FontAwesome
+    #font pango:Source Code Pro for Powerline 12
     colors {
         background #253941
         statusline #e7dfd9
@@ -274,7 +281,7 @@ exec ~/.config/i3/scripts/batnotify &
 #exec_always --no-startup-id nm-applet
 #exec --no-startup-id termite -name ncmpcpp -e ncmpcpp -s playlist
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
-
+exec --no-startup-id /usr/lib/gsd-xsettings
 # ssh passphrase
 #exec --no-startup-id /usr/lib/gnome-settings-daemon/gnome-settings-daemon
 
@@ -283,29 +290,29 @@ exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 # Bind App to workspace
 # Check class by : xprop
-assign [class="Chromium"] $ws2
+assign [class="Google-chrome"] $ws2
 assign [class="Foxit Reader"] $ws3
-assign [class="Thunar"] $ws4
-assign [class="Pcmanfm"] $ws4
+assign [class="KeePass2"] $ws3
+assign [class="pcmanfm-qt"] $ws4
 assign [class="mtp-ng-qt"] $ws4
 assign [class="Virt-manager"] $ws5
 assign [class="Vmware"] $ws5
 assign [class="VirtualBox"] $ws5
 assign [class="Firefox"] $ws6
 assign [class="Opera"] $ws6
-assign [class="HipChat"] $ws6
+assign [class="Remmina"] $ws3
 assign [class="GNS3"] $ws7
-assign [class="Skype"] $ws7
+#assign [class="Skype"] $ws7
 assign [class="PacketTracer7"] $ws7
 
 
 # Assign to certain workspace
 #assign [window_role="browser"] $ws2
 #assign [class="(?i)qutebrowser"] $ws2
-assign [instance="spotify|cheese|gimp"] $ws6
+assign [instance="spotify|cheese|gimp|KeePass2"] $ws6
 
 # Custom Keybinds
-bindsym $mod+c exec chromium
+bindsym $mod+c exec google-chrome-stable
 
 # Press $mod+o followed by either f, t, Esc or Return to launch firefox,
 # thunderbird or return to the default mode, respectively.
@@ -325,7 +332,7 @@ mode "$mode_launcher" {
     bindsym a exec android-file-transfer
     bindsym b exec virtualbox
     bindsym g exec  gns3
-    bindsym p exec  pcmanfm
+    bindsym p exec pcmanfm-qt
     bindsym o exec  opera
     bindsym c exec  packettracer
 

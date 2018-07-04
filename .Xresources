@@ -92,9 +92,11 @@ rofi.fuzzy:                          true
 rofi.kb-cancel:                      Escape,Control+c
 
 ! Font settings
+Xft.dpi:                    210
+Xft.autohint:               0
 Xft.hintstyle:              hintfull
-Xft.hinting:                1
+Xft.hinting:                true
 Xft.antialias:              true
 Xft.rgba:                   rgb
-Xft.lcdfilter:              lcdlight
-Xft.dpi:                    96
+Xft.lcdfilter:              lcddefault
+#Xft.dpi:                    144

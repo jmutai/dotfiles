@@ -76,6 +76,20 @@
     freerdp \
     remmina \
     krdc \
-    powertop
+    powertop \
+    tp_smapi \
+    tpl \
+    pwgen \
+    xf86-input-wacom \
+    udiskie \
+    deepin-screenshot \
+    acpi_call \
+    google-chrome \
+    vagrant \
+    pcmanfm-qt \
+    p7zip \
+    file-roller
+
+
 
 
