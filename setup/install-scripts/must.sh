@@ -88,8 +88,12 @@
     vagrant \
     pcmanfm-qt \
     p7zip \
-    file-roller
-
-
-
+    file-roller \
+    powerline \
+    powerline-fonts \
+    python-pdftotext \
+    emutools \
+    transmission-qt \
+    odt2txt \
+    gpicview \
 
