@@ -11,7 +11,6 @@ tmp_table_size=128M
 join_buffer_size=64M
 innodb_buffer_pool_size=512M
 innodb_doublewrite=OFF
-innodb_additional_mem_pool_size=128M
 innodb_flush_log_at_timeout=3
 innodb_read_io_threads=32
 innodb_write_io_threads=16
