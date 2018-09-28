@@ -12,6 +12,7 @@
 
 # Path to your oh-my-zsh installation.
 
+export TERM="xterm-256color"
 
   fpath=(~/.zsh/completion $fpath)
   autoload -Uz compinit && compinit -i
@@ -90,3 +91,11 @@ if [[ $TERM == xterm-termite ]]; then
   . /etc/profile.d/vte.sh
   __vte_osc7
 fi
+
+# nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/bin/terraform terraform
