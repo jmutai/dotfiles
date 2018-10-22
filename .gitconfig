@@ -3,3 +3,6 @@
 	email = m@jmutai.com
 [http "https://gopkg.in"]
 	followRedirects = true
+[author]
+	name = Josphat
+	email = josphatkmutai@gmail.com

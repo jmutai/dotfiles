@@ -29,6 +29,7 @@ export TERM="xterm-256color"
 
 # zsh theme of choice
 #ZSH_THEME="honukai"
+#ZSH_THEME="robbyrussell"
 
 # https://github.com/bhilburn/powerlevel9k
 ZSH_THEME="powerlevel9k/powerlevel9k"
@@ -84,7 +85,7 @@ if [ $commands[kubectl] ]; then
 fi
 
 # DPI
-export GDK_SCALE=2
+export GDK_SCALE=1
 export QT_AUTO_SCREEN_SCALE_FACTOR=1
 
 if [[ $TERM == xterm-termite ]]; then
@@ -97,5 +98,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+source ~/.cheat/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/bin/terraform terraform
+eval "$(chef shell-init zsh)"
