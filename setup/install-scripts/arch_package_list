@@ -48,9 +48,6 @@ echo ""
 	gnome-keyring \
 	gpicview \
 	gvfs-mtp \
-    gksu \
-    gtk3-print-backends \
-    ghostscript \
     gparted \
 	highlight \
 	htop \
@@ -60,7 +57,6 @@ echo ""
     i3pystatus \
     imagemagick \
     iptables \
-	j4-dmenu-desktop \
     jq \
     keychain \
 	libmtp \
@@ -78,13 +74,11 @@ echo ""
     mps-youtube \
     mysql-python \
 	ncmpcpp \
-	neomutt-git \
     neovim \
 	networkmanager \
 	network-manager-applet \
 	nitrogen \
     ntfs-3g \
-	ohsnap \
 	openssh \
     openbsd-netcat \
     pepper-flash \
@@ -104,7 +98,6 @@ echo ""
     screenfetch \
     scrot \
     upower \
-    xdiff-ext-git \
     tree \
 	tk \
     tmux \
@@ -115,9 +108,7 @@ echo ""
 	ttf-inconsolata \
     ttf-font-icons \
     pcmanfm-gtk3 \
-    polybar-git \
     pavucontrol \
-    pm-utils \
 	tumbler \
 	unzip \
     urlview \

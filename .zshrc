@@ -18,7 +18,7 @@ export TERM="xterm-256color"
   autoload -Uz compinit && compinit -i
 
   export SCRIPTS_DIR="~/mygit/dotfiles/scripts"
-  export S_DIR=~/mygit/dotfiles
+  export S_DIR=~/dotfiles
   export F_DIR="~/opt/foxitsoftware/foxitreader" 
   export GOPATH=~/go
   export RUBY_PATH="~/.gem/ruby/2.5.0/bin"
@@ -29,7 +29,7 @@ export TERM="xterm-256color"
 
 # zsh theme of choice
 #ZSH_THEME="honukai"
-#ZSH_THEME="robbyrussell"
+#ZSH_THEME="spaceship"
 
 # https://github.com/bhilburn/powerlevel9k
 ZSH_THEME="powerlevel9k/powerlevel9k"
@@ -37,7 +37,31 @@ ZSH_THEME="powerlevel9k/powerlevel9k"
 
 # Add wisely, as too many plugins slow down shell startup.
 #plugins=(git)
-plugins=(zsh-autosuggestions)
+plugins=(
+git
+vagrant
+aws
+command-not-found
+zsh-autosuggestions
+cp
+docker
+docker-compose
+httpie
+knife
+kitche
+minikube
+nmap
+node
+npm
+python
+pyenv
+sudo
+systemadmin
+history
+systemd
+kubectl
+terraform
+)
 
 
 # Scripts to source
@@ -59,7 +83,7 @@ export ARCHFLAGS="-arch x86_64"
 # Ignoe hostory dups
 setopt HIST_IGNORE_ALL_DUPS
 
-cat ~/.ssh/id_rsa | SSH_ASKPASS="$HOME/.passfile" ssh-add - &>/dev/null
+###cat ~/.ssh/id_rsa | SSH_ASKPASS="$HOME/.passfile" ssh-add - &>/dev/null
 
 #if [[ "$TTY" == "/dev/tty1" ]]; then
 #    ssh-agent startx
@@ -78,27 +102,16 @@ fi
 
 #. /usr/share/z/z.sh
 
-# kubectl bash completion
-
-if [ $commands[kubectl] ]; then
-  source <(kubectl completion zsh)
-fi
 
 # DPI
-export GDK_SCALE=1
-export QT_AUTO_SCREEN_SCALE_FACTOR=1
+#export GDK_SCALE=1
+#export QT_AUTO_SCREEN_SCALE_FACTOR=1
 
 if [[ $TERM == xterm-termite ]]; then
   . /etc/profile.d/vte.sh
   __vte_osc7
 fi
 
-# nvm
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-source ~/.cheat/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
-autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /usr/bin/terraform terraform
+#source ~/.cheat/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
 eval "$(chef shell-init zsh)"
+

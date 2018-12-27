@@ -92,7 +92,7 @@ rofi.fuzzy:                          true
 rofi.kb-cancel:                      Escape,Control+c
 
 ! Font settings
-Xft.dpi:                    210
+#Xft.dpi:                    210
 Xft.autohint:               0
 Xft.hintstyle:              hintfull
 Xft.hinting:                true

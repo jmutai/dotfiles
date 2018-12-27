@@ -8,7 +8,6 @@
     lxappearance-gtk3 \
     networkmanager-openconnect \
     networkmanager-openvpn \
-    hipchat \
     wmctrl \
     x11-ssh-askpass \
     xorg-server-devel \
@@ -78,7 +77,6 @@
     krdc \
     powertop \
     tp_smapi \
-    tpl \
     pwgen \
     xf86-input-wacom \
     udiskie \

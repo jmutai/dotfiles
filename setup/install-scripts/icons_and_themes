@@ -18,8 +18,8 @@ pacaur --needed --noconfirm --noedit -S \
     faenza-icon-theme \
 	gtk-theme-arc-git \
 	numix-folders-git \
-	numix-icon-theme-git \
-    numix-circle-icon-theme-git \
-	vertex-themes-git
+	numix-icon-theme \
+    numix-circle-icon-theme \
+	vertex-themes
 
 #numix-themes \

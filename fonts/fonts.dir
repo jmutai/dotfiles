@@ -1,9 +1,12 @@
-40
+48
 AIcons.ttf -misc-fontello-medium-r-normal--0-0-0-0-p-0-iso10646-1
+Droid sans mono for powerline nerd font complete.otf -misc-droidsansmonoforpowerline nerd font-medium-r-normal--0-0-0-0-p-0-ascii-0
 Droid sans mono for powerline nerd font complete.otf -misc-droidsansmonoforpowerline nerd font-medium-r-normal--0-0-0-0-p-0-iso10646-1
 Droid sans mono for powerline nerd font complete.otf -misc-droidsansmonoforpowerline nerd font-medium-r-normal--0-0-0-0-p-0-iso8859-1
 Droid sans mono for powerline nerd font complete.otf -misc-droidsansmonoforpowerline nerd font-medium-r-normal--0-0-0-0-p-0-iso8859-10
+Droid sans mono for powerline nerd font complete.otf -misc-droidsansmonoforpowerline nerd font-medium-r-normal--0-0-0-0-p-0-iso8859-13
 Droid sans mono for powerline nerd font complete.otf -misc-droidsansmonoforpowerline nerd font-medium-r-normal--0-0-0-0-p-0-iso8859-15
+Droid sans mono for powerline nerd font complete.otf -misc-droidsansmonoforpowerline nerd font-medium-r-normal--0-0-0-0-p-0-iso8859-16
 Droid sans mono for powerline nerd font complete.otf -misc-droidsansmonoforpowerline nerd font-medium-r-normal--0-0-0-0-p-0-iso8859-2
 Droid sans mono for powerline nerd font complete.otf -misc-droidsansmonoforpowerline nerd font-medium-r-normal--0-0-0-0-p-0-iso8859-3
 Droid sans mono for powerline nerd font complete.otf -misc-droidsansmonoforpowerline nerd font-medium-r-normal--0-0-0-0-p-0-iso8859-4
@@ -14,10 +17,14 @@ Droid sans mono for powerline nerd font complete.otf -misc-droidsansmonoforpower
 Droid sans mono for powerline nerd font complete.otf -misc-droidsansmonoforpowerline nerd font-medium-r-normal--0-0-0-0-p-0-koi8-ru
 Droid sans mono for powerline nerd font complete.otf -misc-droidsansmonoforpowerline nerd font-medium-r-normal--0-0-0-0-p-0-koi8-u
 Droid sans mono for powerline nerd font complete.otf -misc-droidsansmonoforpowerline nerd font-medium-r-normal--0-0-0-0-p-0-koi8-uni
+Droid sans mono for powerline nerd font complete.otf -misc-droidsansmonoforpowerline nerd font-medium-r-normal--0-0-0-0-p-0-microsoft-cp1252
+DroidSansMonoForPowerlinePlusNerdFileTypesMono.otf -misc-droid sans mono for powerline plus nerd file types mono-medium-r-normal--0-0-0-0-p-0-ascii-0
 DroidSansMonoForPowerlinePlusNerdFileTypesMono.otf -misc-droid sans mono for powerline plus nerd file types mono-medium-r-normal--0-0-0-0-p-0-iso10646-1
 DroidSansMonoForPowerlinePlusNerdFileTypesMono.otf -misc-droid sans mono for powerline plus nerd file types mono-medium-r-normal--0-0-0-0-p-0-iso8859-1
 DroidSansMonoForPowerlinePlusNerdFileTypesMono.otf -misc-droid sans mono for powerline plus nerd file types mono-medium-r-normal--0-0-0-0-p-0-iso8859-10
+DroidSansMonoForPowerlinePlusNerdFileTypesMono.otf -misc-droid sans mono for powerline plus nerd file types mono-medium-r-normal--0-0-0-0-p-0-iso8859-13
 DroidSansMonoForPowerlinePlusNerdFileTypesMono.otf -misc-droid sans mono for powerline plus nerd file types mono-medium-r-normal--0-0-0-0-p-0-iso8859-15
+DroidSansMonoForPowerlinePlusNerdFileTypesMono.otf -misc-droid sans mono for powerline plus nerd file types mono-medium-r-normal--0-0-0-0-p-0-iso8859-16
 DroidSansMonoForPowerlinePlusNerdFileTypesMono.otf -misc-droid sans mono for powerline plus nerd file types mono-medium-r-normal--0-0-0-0-p-0-iso8859-2
 DroidSansMonoForPowerlinePlusNerdFileTypesMono.otf -misc-droid sans mono for powerline plus nerd file types mono-medium-r-normal--0-0-0-0-p-0-iso8859-3
 DroidSansMonoForPowerlinePlusNerdFileTypesMono.otf -misc-droid sans mono for powerline plus nerd file types mono-medium-r-normal--0-0-0-0-p-0-iso8859-4
@@ -28,6 +35,7 @@ DroidSansMonoForPowerlinePlusNerdFileTypesMono.otf -misc-droid sans mono for pow
 DroidSansMonoForPowerlinePlusNerdFileTypesMono.otf -misc-droid sans mono for powerline plus nerd file types mono-medium-r-normal--0-0-0-0-p-0-koi8-ru
 DroidSansMonoForPowerlinePlusNerdFileTypesMono.otf -misc-droid sans mono for powerline plus nerd file types mono-medium-r-normal--0-0-0-0-p-0-koi8-u
 DroidSansMonoForPowerlinePlusNerdFileTypesMono.otf -misc-droid sans mono for powerline plus nerd file types mono-medium-r-normal--0-0-0-0-p-0-koi8-uni
+DroidSansMonoForPowerlinePlusNerdFileTypesMono.otf -misc-droid sans mono for powerline plus nerd file types mono-medium-r-normal--0-0-0-0-p-0-microsoft-cp1252
 WEBDINGS.TTF -microsoft-webdings-medium-r-normal--0-0-0-0-p-0-iso8859-1
 WEBDINGS.TTF -microsoft-webdings-medium-r-normal--0-0-0-0-p-0-microsoft-symbol
 WINGDNG2.ttf -microsoft-wingdings 2-medium-r-normal--0-0-0-0-p-0-microsoft-symbol

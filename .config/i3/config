@@ -197,7 +197,7 @@ bindsym $mod+Shift+f exec ~/.config/i3/bin/rofi_finder
 # Custom bind keys
 #bindsym $mod+l exec i3lock
 #
-bindsym $mod+l exec i3lock -i ~/Pictures/cube.png 
+bindsym $mod+l exec i3lock -i ~/Pictures/lostDog-wallpaper-1920x1200.png 
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
@@ -275,7 +275,7 @@ exec --no-startup-id mpd
 #exec --no-startup-id dropbox &
 exec --no-startup-id dunst 
 exec_always compton &
-exec_always feh --bg-scale ~/Pictures/grub.png
+exec_always feh --bg-scale ~/Pictures/bestFriend-wallpaper-07-1920x1200.png
 exec ~/.config/i3/scripts/batnotify &
 # bindsym $mod+j exec --no-startup-id feh --bg-fill "$(find ~/Pictures/wallpapers | shuf -n1)" &
 #exec_always --no-startup-id nm-applet
@@ -293,7 +293,7 @@ exec --no-startup-id /usr/lib/gsd-xsettings
 assign [class="Google-chrome"] $ws2
 assign [class="Foxit Reader"] $ws3
 assign [class="KeePass2"] $ws3
-assign [class="pcmanfm-qt"] $ws4
+assign [class="Pcmanfm"] $ws4
 assign [class="mtp-ng-qt"] $ws4
 assign [class="Virt-manager"] $ws5
 assign [class="Vmware"] $ws5
@@ -332,7 +332,7 @@ mode "$mode_launcher" {
     bindsym a exec android-file-transfer
     bindsym b exec virtualbox
     bindsym g exec  gns3
-    bindsym p exec pcmanfm-qt
+    bindsym p exec pcmanfm
     bindsym o exec  opera
     bindsym c exec  packettracer
 
