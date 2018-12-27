@@ -1,32 +1,4 @@
 #!/usr/bin/env bash
-set -e
-username=""
-# To be run just after chroot and installing git
-
-echo "Setting locale and hostname...."
-
-echo "arch.localhost" > /etc/hostname 
-echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
-locale-gen
-echo "LANG=en_US.UTF-8" > /etc/locale.conf
-unlink /etc/localtime
-ln -s /usr/share/zoneinfo/Africa/Nairobi  /etc/localtime
-
-
-echo " Doing database update"
-pacman -Syyu
-
-echo ""
-echo " Installing base packages"
-sleep 3
-pacman -S --noconfirm \
-grub \
-bash-completion \
-sudo  \
-dhclient \
-efibootmgr \
-btrfs-progs \
-lvm2 
 
 
 echo ""
@@ -36,7 +8,7 @@ pacman -S xorg --noconfirm
 echo ""
 echo "Installing alsa and pulseaudio"
 pacman -S --noconfirm \
-pulseaudio-{equalizer,alsa,gconf} \
+pulseaudio-{equalizer,alsa} \
 alsa-{utils,plugins,firmware} 
 
 echo ""
