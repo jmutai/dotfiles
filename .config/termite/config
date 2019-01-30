@@ -6,18 +6,18 @@
 #scroll_on_keystroke = true
 #audible_bell = false
 #visible_bell = false
-#mouse_autohide = false
+mouse_autohide = false
 #allow_bold = true
 #dynamic_title = true
 #urgent_on_bell = true
-#clickable_url = true
+clickable_url = true
 #font = Hack 10
 #scrollback_lines = 1000
 #search_wrap = true
 #geometry = 400x240
 #geometry = 80x22
 # "system", "on" or "off"
-#cursor_blink = off
+cursor_blink = on
 # "block", "underline" or "ibeam"
 #cursor_shape = block
 # $BROWSER is used by default

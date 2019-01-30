@@ -60,7 +60,7 @@ ask "Install symlink for .gitconfig?" Y && ln -sfn ${dir}/.gitconfig ${HOME}/.gi
 ask "Install symlink for .zshrc?" Y && ln -sfn ${dir}/.zshrc ${HOME}/.zshrc
 #ask "Install symlink for .vimrc?" Y && ln -sfn ${dir}/.vimrc ${HOME}/.vimrc
 #ask "Install symlink for .gvimrc?" Y && ln -sfn ${dir}/.gvimrc  ${HOME}/.gvimrc
-#ask "Install symlink for .vim?" Y && ln -sfn ${dir}/.vim ${HOME}/.vim
+ask "Install symlink for .vim?" Y && ln -sfn ${dir}/.vim ${HOME}/.vim
 ask "Install symlink for .Xresources?" Y && ln -sfn ${dir}/.Xresources ${HOME}/.Xresources
 ask "Install symlink for .xinitrc?" Y && ln -sfn ${dir}/.xinitrc ${HOME}/.xinitrc
 ask "Install symlink for .compton.conf?" Y && ln -sfn ${dir}/.compton.conf ${HOME}/.compton.conf

@@ -113,5 +113,8 @@ if [[ $TERM == xterm-termite ]]; then
 fi
 
 #source ~/.cheat/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
-eval "$(chef shell-init zsh)"
+#eval "$(chef shell-init zsh)"
 
+source <(awless completion zsh)
+
+#[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
