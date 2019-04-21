@@ -7,7 +7,7 @@
  set -x
 
 echo "" 
- pacaur --needed --noconfirm --noedit -S \
+ yay --needed --noconfirm  -S \
 	acpi \
     alsa-tools \
 	android-file-transfer \

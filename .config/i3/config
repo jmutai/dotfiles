@@ -302,14 +302,14 @@ assign [class="Firefox"] $ws6
 assign [class="Opera"] $ws6
 assign [class="Remmina"] $ws3
 assign [class="GNS3"] $ws7
-#assign [class="Skype"] $ws7
-assign [class="PacketTracer7"] $ws7
+assign [class="Skype"] $ws7
 
 
 # Assign to certain workspace
 #assign [window_role="browser"] $ws2
 #assign [class="(?i)qutebrowser"] $ws2
 assign [instance="spotify|cheese|gimp|KeePass2"] $ws6
+assign [instance="ranger"] $ws4
 
 # Custom Keybinds
 bindsym $mod+c exec google-chrome-stable
@@ -323,7 +323,7 @@ mode "$mode_launcher" {
     bindsym f exec foxitreader 
     bindsym l exec lxappearance  
     bindsym t exec thunar
-    bindsym f exec firefox
+    #bindsym f exec firefox
     bindsym m exec terminator
     bindsym v exec virt-manager 
     bindsym w exec vmware
@@ -333,6 +333,7 @@ mode "$mode_launcher" {
     bindsym b exec virtualbox
     bindsym g exec  gns3
     bindsym p exec pcmanfm
+    #bindsym p exec  ranger
     bindsym o exec  opera
     bindsym c exec  packettracer
 

@@ -1,4 +1,16 @@
- pacaur --needed --noconfirm --noedit -S galculator \
+ yay --needed --noconfirm  -S \
+    galculator \
+    nnn \
+    fzf \
+    pngquant \
+    opera \
+    xterm \
+    lshw \
+    fd \
+    surf \
+    woeusb \
+    os-prober \
+    axel \
     gsimplecal \
     arandr \
     traceroute \
@@ -94,4 +106,6 @@
     transmission-qt \
     odt2txt \
     gpicview \
+    nerd-fonts-complete \
+    vim-youcompleteme-git
 

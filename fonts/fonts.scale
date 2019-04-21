@@ -1,4 +1,4 @@
-48
+79
 AIcons.ttf -misc-fontello-medium-r-normal--0-0-0-0-p-0-iso10646-1
 Droid Sans Mono for Powerline Nerd Font Complete.otf -misc-droidsansmonoforpowerline nerd font-medium-r-normal--0-0-0-0-p-0-ascii-0
 Droid Sans Mono for Powerline Nerd Font Complete.otf -misc-droidsansmonoforpowerline nerd font-medium-r-normal--0-0-0-0-p-0-iso10646-1
@@ -11,6 +11,7 @@ Droid Sans Mono for Powerline Nerd Font Complete.otf -misc-droidsansmonoforpower
 Droid Sans Mono for Powerline Nerd Font Complete.otf -misc-droidsansmonoforpowerline nerd font-medium-r-normal--0-0-0-0-p-0-iso8859-3
 Droid Sans Mono for Powerline Nerd Font Complete.otf -misc-droidsansmonoforpowerline nerd font-medium-r-normal--0-0-0-0-p-0-iso8859-4
 Droid Sans Mono for Powerline Nerd Font Complete.otf -misc-droidsansmonoforpowerline nerd font-medium-r-normal--0-0-0-0-p-0-iso8859-5
+Droid Sans Mono for Powerline Nerd Font Complete.otf -misc-droidsansmonoforpowerline nerd font-medium-r-normal--0-0-0-0-p-0-iso8859-7
 Droid Sans Mono for Powerline Nerd Font Complete.otf -misc-droidsansmonoforpowerline nerd font-medium-r-normal--0-0-0-0-p-0-iso8859-9
 Droid Sans Mono for Powerline Nerd Font Complete.otf -misc-droidsansmonoforpowerline nerd font-medium-r-normal--0-0-0-0-p-0-koi8-e
 Droid Sans Mono for Powerline Nerd Font Complete.otf -misc-droidsansmonoforpowerline nerd font-medium-r-normal--0-0-0-0-p-0-koi8-r
@@ -29,6 +30,7 @@ DroidSansMonoForPowerlinePlusNerdFileTypesMono.otf -misc-droid sans mono for pow
 DroidSansMonoForPowerlinePlusNerdFileTypesMono.otf -misc-droid sans mono for powerline plus nerd file types mono-medium-r-normal--0-0-0-0-p-0-iso8859-3
 DroidSansMonoForPowerlinePlusNerdFileTypesMono.otf -misc-droid sans mono for powerline plus nerd file types mono-medium-r-normal--0-0-0-0-p-0-iso8859-4
 DroidSansMonoForPowerlinePlusNerdFileTypesMono.otf -misc-droid sans mono for powerline plus nerd file types mono-medium-r-normal--0-0-0-0-p-0-iso8859-5
+DroidSansMonoForPowerlinePlusNerdFileTypesMono.otf -misc-droid sans mono for powerline plus nerd file types mono-medium-r-normal--0-0-0-0-p-0-iso8859-7
 DroidSansMonoForPowerlinePlusNerdFileTypesMono.otf -misc-droid sans mono for powerline plus nerd file types mono-medium-r-normal--0-0-0-0-p-0-iso8859-9
 DroidSansMonoForPowerlinePlusNerdFileTypesMono.otf -misc-droid sans mono for powerline plus nerd file types mono-medium-r-normal--0-0-0-0-p-0-koi8-e
 DroidSansMonoForPowerlinePlusNerdFileTypesMono.otf -misc-droid sans mono for powerline plus nerd file types mono-medium-r-normal--0-0-0-0-p-0-koi8-r
@@ -36,6 +38,35 @@ DroidSansMonoForPowerlinePlusNerdFileTypesMono.otf -misc-droid sans mono for pow
 DroidSansMonoForPowerlinePlusNerdFileTypesMono.otf -misc-droid sans mono for powerline plus nerd file types mono-medium-r-normal--0-0-0-0-p-0-koi8-u
 DroidSansMonoForPowerlinePlusNerdFileTypesMono.otf -misc-droid sans mono for powerline plus nerd file types mono-medium-r-normal--0-0-0-0-p-0-koi8-uni
 DroidSansMonoForPowerlinePlusNerdFileTypesMono.otf -misc-droid sans mono for powerline plus nerd file types mono-medium-r-normal--0-0-0-0-p-0-microsoft-cp1252
+Font Awesome 5 Brands-Regular-400.otf -misc-font awesome 5 brands regular-medium-r-normal--0-0-0-0-p-0-adobe-fontspecific
+Font Awesome 5 Brands-Regular-400.otf -misc-font awesome 5 brands regular-medium-r-normal--0-0-0-0-p-0-iso10646-1
+Font Awesome 5 Free-Regular-400.otf -misc-font awesome 5 free regular-medium-r-normal--0-0-0-0-p-0-adobe-fontspecific
+Font Awesome 5 Free-Regular-400.otf -misc-font awesome 5 free regular-medium-r-normal--0-0-0-0-p-0-iso10646-1
+Font Awesome 5 Free-Solid-900.otf -misc-font awesome 5 free solid-black-r-normal--0-0-0-0-p-0-adobe-fontspecific
+Font Awesome 5 Free-Solid-900.otf -misc-font awesome 5 free solid-black-r-normal--0-0-0-0-p-0-iso10646-1
+Knack Regular Nerd Font Complete Mono.ttf -misc-knack nerd font mono-medium-r-normal--0-0-0-0-m-0-ascii-0
+Knack Regular Nerd Font Complete Mono.ttf -misc-knack nerd font mono-medium-r-normal--0-0-0-0-m-0-ibm-cp850
+Knack Regular Nerd Font Complete Mono.ttf -misc-knack nerd font mono-medium-r-normal--0-0-0-0-m-0-ibm-cp852
+Knack Regular Nerd Font Complete Mono.ttf -misc-knack nerd font mono-medium-r-normal--0-0-0-0-m-0-ibm-cp866
+Knack Regular Nerd Font Complete Mono.ttf -misc-knack nerd font mono-medium-r-normal--0-0-0-0-m-0-iso10646-1
+Knack Regular Nerd Font Complete Mono.ttf -misc-knack nerd font mono-medium-r-normal--0-0-0-0-m-0-iso8859-1
+Knack Regular Nerd Font Complete Mono.ttf -misc-knack nerd font mono-medium-r-normal--0-0-0-0-m-0-iso8859-10
+Knack Regular Nerd Font Complete Mono.ttf -misc-knack nerd font mono-medium-r-normal--0-0-0-0-m-0-iso8859-13
+Knack Regular Nerd Font Complete Mono.ttf -misc-knack nerd font mono-medium-r-normal--0-0-0-0-m-0-iso8859-15
+Knack Regular Nerd Font Complete Mono.ttf -misc-knack nerd font mono-medium-r-normal--0-0-0-0-m-0-iso8859-16
+Knack Regular Nerd Font Complete Mono.ttf -misc-knack nerd font mono-medium-r-normal--0-0-0-0-m-0-iso8859-2
+Knack Regular Nerd Font Complete Mono.ttf -misc-knack nerd font mono-medium-r-normal--0-0-0-0-m-0-iso8859-3
+Knack Regular Nerd Font Complete Mono.ttf -misc-knack nerd font mono-medium-r-normal--0-0-0-0-m-0-iso8859-4
+Knack Regular Nerd Font Complete Mono.ttf -misc-knack nerd font mono-medium-r-normal--0-0-0-0-m-0-iso8859-5
+Knack Regular Nerd Font Complete Mono.ttf -misc-knack nerd font mono-medium-r-normal--0-0-0-0-m-0-iso8859-7
+Knack Regular Nerd Font Complete Mono.ttf -misc-knack nerd font mono-medium-r-normal--0-0-0-0-m-0-iso8859-9
+Knack Regular Nerd Font Complete Mono.ttf -misc-knack nerd font mono-medium-r-normal--0-0-0-0-m-0-koi8-e
+Knack Regular Nerd Font Complete Mono.ttf -misc-knack nerd font mono-medium-r-normal--0-0-0-0-m-0-koi8-r
+Knack Regular Nerd Font Complete Mono.ttf -misc-knack nerd font mono-medium-r-normal--0-0-0-0-m-0-koi8-ru
+Knack Regular Nerd Font Complete Mono.ttf -misc-knack nerd font mono-medium-r-normal--0-0-0-0-m-0-koi8-u
+Knack Regular Nerd Font Complete Mono.ttf -misc-knack nerd font mono-medium-r-normal--0-0-0-0-m-0-koi8-uni
+Knack Regular Nerd Font Complete Mono.ttf -misc-knack nerd font mono-medium-r-normal--0-0-0-0-m-0-microsoft-cp1252
+PowerlineSymbols.otf -misc-powerlinesymbols-medium-r-normal--0-0-0-0-m-0-adobe-fontspecific
 WEBDINGS.TTF -microsoft-webdings-medium-r-normal--0-0-0-0-p-0-iso8859-1
 WEBDINGS.TTF -microsoft-webdings-medium-r-normal--0-0-0-0-p-0-microsoft-symbol
 WINGDNG2.ttf -microsoft-wingdings 2-medium-r-normal--0-0-0-0-p-0-microsoft-symbol

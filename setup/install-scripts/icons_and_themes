@@ -14,12 +14,12 @@
  
 echo ""
 #	gtk-engine-murrine-git \
-pacaur --needed --noconfirm --noedit -S \
+yay --needed --noconfirm  -S \
     faenza-icon-theme \
 	gtk-theme-arc-git \
 	numix-folders-git \
 	numix-icon-theme \
-    numix-circle-icon-theme \
+        numix-circle-icon-theme \
 	vertex-themes
 
 #numix-themes \

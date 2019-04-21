@@ -1,5 +1,3 @@
-
-
 #
 # User configuration sourced by interactive shells
 #
@@ -17,7 +15,7 @@ export TERM="xterm-256color"
   fpath=(~/.zsh/completion $fpath)
   autoload -Uz compinit && compinit -i
 
-  export SCRIPTS_DIR="~/mygit/dotfiles/scripts"
+  export SCRIPTS_DIR="~/dotfiles/scripts"
   export S_DIR=~/dotfiles
   export F_DIR="~/opt/foxitsoftware/foxitreader" 
   export GOPATH=~/go
@@ -29,10 +27,10 @@ export TERM="xterm-256color"
 
 # zsh theme of choice
 #ZSH_THEME="honukai"
-#ZSH_THEME="spaceship"
+ZSH_THEME="spaceship"
 
 # https://github.com/bhilburn/powerlevel9k
-ZSH_THEME="powerlevel9k/powerlevel9k"
+# ZSH_THEME="powerlevel9k/powerlevel9k"
 
 
 # Add wisely, as too many plugins slow down shell startup.
@@ -48,7 +46,7 @@ docker
 docker-compose
 httpie
 knife
-kitche
+kitchen
 minikube
 nmap
 node

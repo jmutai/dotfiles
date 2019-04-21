@@ -1,16 +1,17 @@
 #!/bin/bash
-sudo pip3 install \
-     cs \
+sudo pip install \
+    cs \
     mps-youtube \
     youtube_dl \
     cheat \
-#    MySQL-python \
     pyalsaaudio \
     netifaces \
     basiciw \
     colour \
     psutil \
     requests  \
+    python-language-server \
+    mdv \
     git+https://github.com/sivel/speedtest-cli.git@modularize-2 
 
 
