@@ -11,6 +11,7 @@
     woeusb \
     os-prober \
     axel \
+    boostnote \
     gsimplecal \
     arandr \
     traceroute \

@@ -3,11 +3,12 @@
 # My bash Script to convert mp4 to mp3
 # By NerdJK23
 # web: www.computingforgeeks.com
-# email: kiplangatmtai@gmail.com, josepy@computingforgeeks.com
+# email: kiplangatmtai@gmail.com
 
 # Requires
 # ffmpeg installed
 # lame installed
+# Check https://computingforgeeks.com/how-to-convert-mp4-to-mp3-on-linux/
 
 echo -ne """
 1: Current directory
