@@ -27,7 +27,6 @@ echo ""
     curl \
     cups \
     cups-pdf \
-    cinelerra-cv \
 	deepin-screenshot \
 	dmenu \
 	dosfstools \
@@ -111,7 +110,6 @@ echo ""
     pavucontrol \
 	tumbler \
 	unzip \
-    urlview \
     vsftpd \
     vde2 \
     virt-install \

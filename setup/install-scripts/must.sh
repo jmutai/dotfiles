@@ -108,5 +108,5 @@
     odt2txt \
     gpicview \
     nerd-fonts-complete \
-    vim-youcompleteme-git
+    otf-font-awesome
 
