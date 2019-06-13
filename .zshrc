@@ -26,8 +26,8 @@ export TERM="xterm-256color"
 
 
 # zsh theme of choice
-#ZSH_THEME="honukai"
-ZSH_THEME="spaceship"
+#ZSH_THEME="powerlevel10k/powerlevel10k"
+#ZSH_THEME="spaceship"
 
 # https://github.com/bhilburn/powerlevel9k
 # ZSH_THEME="powerlevel9k/powerlevel9k"
@@ -70,6 +70,9 @@ source  $S_DIR/.vm_functions
 #source  $S_DIR/.functions 
 source  $S_DIR/.exports 
 
+autoload -U promptinit; promptinit
+prompt pure
+
 source ~/.cheat/.aliases.sh
 source  ~/.cheat/functions.sh
 
@@ -110,7 +113,7 @@ if [[ $TERM == xterm-termite ]]; then
   __vte_osc7
 fi
 
-#source ~/.cheat/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
+source ~/.cheat/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
 #eval "$(chef shell-init zsh)"
 
 source <(awless completion zsh)
