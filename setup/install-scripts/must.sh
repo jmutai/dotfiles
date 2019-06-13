@@ -108,5 +108,9 @@
     odt2txt \
     gpicview \
     nerd-fonts-complete \
+<<<<<<< HEAD
     zsh-pure-prompt
+=======
+    otf-font-awesome
+>>>>>>> 565245a24fdc715a19880ec56224cb59224a449e
 
