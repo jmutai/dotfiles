@@ -1,0 +1,431 @@
+#http://computingforgeeks.com/ Please see http://i3wm.org/docs/userguide.html for a complete reference!
+#
+
+#set_from_resource $darkred     color1  #000000
+#set_from_resource $red         color9  #000000
+#set_from_resource $darkgreen   color2  #000000
+#set_from_resource $green       color10 #000000
+#set_from_resource $darkyellow  color3  #000000
+#set_from_resource $yellow      color11 #000000
+#set_from_resource $darkblue    color4  #000000
+#set_from_resource $blue        color12 #000000
+#set_from_resource $darkmagenta color5  #000000
+#set_from_resource $magenta     color13 #000000
+#set_from_resource $darkcyan    color6  #000000
+#set_from_resource $cyan        color14 #000000
+#set_from_resource $darkwhite   color7  #000000
+#set_from_resource $white       color15 #000000
+
+# Use custom colors for black
+# set $black       #282828
+# set $darkblack   #1d2021
+# set $transparent #00000000
+
+set $mod Mod4
+set $mod1 Mod1
+set $terminal termite
+
+# i3-gaps
+# for_window [class="^.*"] border pixel 0
+#gaps inner 4
+#gaps outer -4
+#smart_gaps on
+#smart_borders on
+#set $borderwidth 1
+
+
+# bindsym F1 exec ~/bin/dmenu
+ bindsym $mod+m exec terminator
+
+
+# Font for window titles. Will also be used by the bar unless a different font
+# is used in the bar {} block below.
+
+#font pango:monospace 16
+#font pango:monospace 16
+#font pango:monospace 10
+
+# This font is widely installed, provides lots of unicode glyphs, right-to-left
+# text rendering and scalability on retina/hidpi displays (thanks to pango).
+
+#font pango:DejaVu Sans Mono 12
+#font pango:DejaVu Sans Mono 18
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# start a terminal
+bindsym $mod+Return exec $terminal
+bindsym $mod+x exec $terminal
+
+# Custom bindsyms
+bindsym $mod+p exec ~/.config/i3/bin/logout
+bindsym $mod+Shift+x exec ~/.config/i3/bin/screen
+
+
+# kill focused window
+bindsym $mod+q kill
+
+# start dmenu (a program launcher)
+
+bindsym $mod+d exec --no-startup-id rofi -show run  -m -1 
+#bindsym $mod+d exec --no-startup-id rofi -show run -font "FontAwesome 12" -m -1 
+
+#bindsym $mod+d exec --no-startup-id ~/.config/i3/bin/rofi_app_launcher
+
+
+# change focus
+bindsym $mod+j focus left
+bindsym $mod+k focus down
+# bindsym $mod+l focus up
+bindsym $mod+semicolon focus right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# move focused window
+bindsym $mod+Shift+j move left
+bindsym $mod+Shift+k move down
+bindsym $mod+Shift+l move up
+bindsym $mod+Shift+semicolon move right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# split in horizontal orientation
+bindsym $mod+h split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+#bindsym $mod+w layout tabbed
+bindsym $mod+t layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# focus the child container
+#bindsym $mod+d focus child
+
+# Workspace Variables
+
+set $ws1 "1:  "
+set $ws2 "2:  "
+set $ws3 "3:  "
+set $ws4 "4:  "
+set $ws5 "5:  "
+set $ws6 "6:  "
+set $ws7 "7: "
+
+
+# switch to workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+
+        # Pressing left will shrink the window’s width.
+        # Pressing right will grow the window’s width.
+        # Pressing up will shrink the window’s height.
+        # Pressing down will grow the window’s height.
+        bindsym j resize shrink width 10 px or 10 ppt
+        bindsym k resize grow height 10 px or 10 ppt
+        bindsym l resize shrink height 10 px or 10 ppt
+        bindsym semicolon resize grow width 10 px or 10 ppt
+
+        # same bindings, but for the arrow keys
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Up resize grow height 10 px or 10 ppt
+        bindsym Down resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+bindsym $mod+r mode "resize"
+bindsym $mod+Shift+f exec ~/.config/i3/bin/rofi_finder
+
+
+# Custom bind keys
+#bindsym $mod+l exec i3lock
+#
+bindsym $mod+l exec i3lock -i ~/Pictures/lostDog-wallpaper-1920x1200.png 
+
+# Start i3bar to display a workspace bar (plus the system information i3status
+# finds out, if available)
+
+
+# Pulse Audio controls
+# run pactl list sinks
+
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume $(pacmd list-sinks |awk '/* index:/{print $3}') +5% # Raise
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume $(pacmd list-sinks |awk '/* index:/{print $3}') -5% # Lower
+bindsym XF86AudioMute exec pactl set-sink-mute  $(pacmd list-sinks |awk '/* index:/{print $3}') toggle # Mute
+
+# Sreen brightness controls
+#bindsym XF86MonBrightnessUp exec xbacklight -inc 5    # increase screen brightness
+#bindsym XF86MonBrightnessDown exec xbacklight -dec 5  # decrease screen brightness
+
+# https://github.com/haikarainen/light
+bindsym XF86MonBrightnessUp exec light -A 5    # increase screen brightness
+bindsym XF86MonBrightnessDown exec light -U 5  # decrease screen brightness
+
+# Touchpad controls
+#bindsym XF86TouchpadToggle exec ~/.toggletouchpad.sh  # toggle touchpad
+
+# Mpd keys
+# bindsym F9 exec mpc stop
+# bindsym F10 exec mpc toggle
+# bindsym F11 exec mpc prev
+# bindsym F12 exec mpc next
+
+# multimedia keys
+bindsym XF86AudioPlay  exec "mpc toggle"
+bindsym XF86AudioStop  exec "mpc stop"
+bindsym XF86AudioNext  exec "mpc next"
+bindsym XF86AudioPrev  exec "mpc prev"
+bindsym XF86AudioPause exec "mpc pause"
+
+
+
+
+# i3blocks
+
+bar {
+    #status_command    python ~/.config/i3/i3pystatus.conf
+    #status_command  i3status
+    swaybar_command waybar
+    #status_command    $HOME/.config/polybar/launch.sh
+    position          top
+    workspace_buttons yes
+    #font pango:Hack, FontAwesome 12
+    #font pango:Hack, FontAwesome 10
+    #font  Monaco,Bold 11px
+    #font pango:Hack, FontAwesome
+    #font pango:Source Code Pro for Powerline 11
+    colors {
+        background #253941
+        statusline #e7dfd9
+        separator  #081419
+        focused_workspace  #2aa198 #073642 #eee895
+        active_workspace   #073642 #859900 #839496
+        inactive_workspace #002b36  #002b36   #586e75
+        urgent_workspace   #cb4b16 #dc322f #fdf6e3
+    }
+  }
+
+
+#set $m1 #808080 
+#set $m2 #FFF0E0
+                                               #BORDER    BACKGROUND   TEXT         INDICATOR   CHILD_BORDER
+#
+#                       client.unfocused        $black      $black      $m2         $darkblack  $darkblack
+#                       client.focused_inactive $black      $black      $m1         $darkblack  $darkblack
+#                       client.urgent           $darkred    $darkred    $black      $darkred    $darkred
+#                       client.background       $black
+#
+
+
+
+
+# Startup programs
+
+exec --no-startup-id mpd  
+#exec --no-startup-id conky  
+#exec --no-startup-id dropbox &
+exec --no-startup-id dunst 
+exec_always compton &
+exec_always feh --bg-scale ~/Pictures/bestFriend-wallpaper-07-1920x1200.png
+#exec ~/.config/i3/scripts/batnotify &
+# bindsym $mod+j exec --no-startup-id feh --bg-fill "$(find ~/Pictures/wallpapers | shuf -n1)" &
+#exec_always --no-startup-id nm-applet
+#exec --no-startup-id termite -name ncmpcpp -e ncmpcpp -s playlist
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+exec --no-startup-id /usr/lib/gsd-xsettings
+# ssh passphrase
+#exec --no-startup-id /usr/lib/gnome-settings-daemon/gnome-settings-daemon
+
+
+
+
+# Bind App to workspace
+# Check class by : xprop
+assign [class="Google-chrome"] $ws2
+assign [class="Foxit Reader"] $ws3
+assign [class="KeePass2"] $ws3
+assign [class="Pcmanfm"] $ws4
+assign [class="mtp-ng-qt"] $ws4
+assign [class="Virt-manager"] $ws5
+assign [class="Vmware"] $ws5
+assign [class="VirtualBox"] $ws5
+assign [class="Firefox"] $ws6
+assign [class="Opera"] $ws6
+assign [class="Remmina"] $ws3
+assign [class="GNS3"] $ws7
+assign [class="Skype"] $ws7
+
+
+# Assign to certain workspace
+#assign [window_role="browser"] $ws2
+#assign [class="(?i)qutebrowser"] $ws2
+assign [instance="spotify|cheese|gimp|KeePass2"] $ws6
+assign [instance="ranger"] $ws4
+
+# Custom Keybinds
+bindsym $mod+c exec google-chrome-stable
+
+# Press $mod+o followed by either f, t, Esc or Return to launch firefox,
+# thunderbird or return to the default mode, respectively.
+set $mode_launcher Launcher
+bindsym $mod+o mode "$mode_launcher"
+
+mode "$mode_launcher" {
+    bindsym f exec foxitreader 
+    bindsym l exec lxappearance  
+    bindsym t exec thunar
+    #bindsym f exec firefox
+    bindsym m exec terminator
+    bindsym v exec virt-manager 
+    bindsym w exec vmware
+    bindsym s exec simplescreenrecorder
+    bindsym d exec deepin-screenshot 
+    bindsym a exec android-file-transfer
+    bindsym b exec virtualbox
+    bindsym g exec  gns3
+    bindsym p exec pcmanfm
+    #bindsym p exec  ranger
+    bindsym o exec  opera
+    bindsym c exec  packettracer
+
+
+    #bindsym Esc mode "default"
+    bindsym Return mode "default"
+}
+
+# Shutdown, Reboot, Lock Screen, and Logout 
+
+set $power_mode "power"
+bindsym $mod+Shift+q      mode $power_mode
+mode $power_mode {
+    bindsym p         exec systemctl poweroff
+    bindsym r         exec systemctl reboot 
+    bindsym l         exec i3lock -i ~/Pictures/cube.png , mode "default"
+    bindsym q         exec --no-startup-id i3-msg exit, mode "default"
+    bindsym h         exec systemctl hibernate 
+    #bindsym s         exec sudo  /lib/systemd/systemd-sleep hybrid-sleep 
+    bindsym s         exec pm-suspend
+
+
+    bindsym Return    mode "default"
+    bindsym Escape    mode "default"
+}
+
+# HDMI mode
+# source https://wiki.archlinux.org/index.php/i3
+# xrandr --query --> determine names of your devices
+
+
+# Floating windows
+
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="bubble"] floating enable
+for_window [window_role="task_dialog"] floating enable
+for_window [window_role="Preferences"] floating enable
+
+for_window [window_role="task_dialog|bubble|page-info|Preferences|pop-up"] floating enable
+for_window [window_role="Open Files"] floating enable sticky
+for_window [window_role="File Operation Progress"] floating enable sticky
+for_window [window_role="Save As"] floating enable
+
+
+
+for_window [class="qBittorrent" window_role="pop-up"] floating enable
+for_window [class="mtp-ng-qt" window_role="Open"] floating enable
+for_window [window_type="dialog"] floating enable
+for_window [window_type="menu"] floating enable
+#for_window [class="VirtualBox"] floating enable
+
+# Sticky window
+for_window [instance="file_progress"]  sticky enable
+for_window [class="info|Mate-color-select|gcolor2|timesup|QtPass|GtkFileChooserDialog"] sticky enable
+
+# Teamviewer
+for_window [instance="TeamViewer.exe"] floating enable
+for_window [class="TeamViewer"] floating enable
+#for_window [instance="Qt-subapplication" title="TeamViewer"] move scratchpad
+
+# Focus window settings
+no_focus [window_role="pop-up"]
+focus_on_window_activation focus 
+#for_window [class="(?i)"] focus 
+
+# Rename workspace with i3-input using numbers and text
+
+bindsym $mod+n exec i3-input -F 'rename workspace to "%s"' -P 'New name for this workspace: '
+
+for_window [class="chromium" instance="chromium"] border none
+
+
+
+# screenshot
+bindsym --release Print exec --no-startup-id "maim -p 0 -c 0.96,0.5,0.09 $HOME/Pictures/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png"
+bindsym --release Shift+Print exec --no-startup-id "maim -s -p 0 -c 0.96,0.5,0.09 $HOME/Pictures/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png"
+
+exec --no-startup-id xrdb ~/.Xresources &
+
+#output eDP-1 resolution 1920x1080
+# swaymsg -t get_outputs
+output eDP-1 {
+                background ~/Pictures/bestFriend-wallpaper-07-1920x1200.png fill
+                resolution 1920x1080
+		scale 1.4
+           }
