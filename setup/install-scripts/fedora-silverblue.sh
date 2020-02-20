@@ -21,4 +21,6 @@ slurp \
 cheat \
 ansible \
 youtube-dl \
-unrar
+unrar \
+thefuck \
+
