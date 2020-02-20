@@ -20,4 +20,5 @@ grim \
 slurp \
 cheat \
 ansible \
-youtube-dl
+youtube-dl \
+unrar
