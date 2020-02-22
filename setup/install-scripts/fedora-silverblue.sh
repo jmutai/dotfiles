@@ -24,4 +24,7 @@ youtube-dl \
 unrar \
 thefuck \
 transmission \
-gnome-boxes
+gnome-boxes \
+tmux \
+telnet \
+
