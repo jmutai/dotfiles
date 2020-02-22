@@ -23,4 +23,5 @@ ansible \
 youtube-dl \
 unrar \
 thefuck \
-
+transmission \
+gnome-boxes

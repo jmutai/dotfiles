@@ -6,7 +6,7 @@
     //"modules-center": ["custom/tidepool", "custom/time", "custom/weather"],
     //"modules-right": ["cpu", "memory", "custom/unsync", "custom/storage", "custom/storage-tor", "custom/snapcount", "pulseaudio", "battery", "clock", "tray"],
     "modules-left": ["sway/workspaces", "sway/mode"],
-    "modules-center": ["mpd", "custom/storage-root", "custom/storage-home"],
+    "modules-center": ["mpd", "custom/storage-home"],
     "modules-right": ["memory", "cpu", "network", "pulseaudio", "battery", "backlight", "custom/time", "clock"],
 
     "sway/mode": {
