@@ -27,4 +27,7 @@ transmission \
 gnome-boxes \
 tmux \
 telnet \
-
+pngquant \
+ImageMagick \
+keepass \
+remmina
