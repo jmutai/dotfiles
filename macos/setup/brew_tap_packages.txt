@@ -1,4 +1,4 @@
-crisidev/homebrew-chunkwm
 phinze/cask
 caskroom/cask
 d12frosted/emacs-plus
+homebrew/aliases
