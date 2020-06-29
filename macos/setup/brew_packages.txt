@@ -47,3 +47,5 @@ screenfetch
 zsh-completions
 zsh-syntax-highlighting
 iproute2mac
+ImageMagick
+awscli

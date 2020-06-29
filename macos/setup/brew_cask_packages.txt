@@ -22,4 +22,5 @@ spotify
 love
 knockknock
 hammerspoon
+skype
 
