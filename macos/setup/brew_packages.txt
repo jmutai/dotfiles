@@ -49,3 +49,4 @@ zsh-syntax-highlighting
 iproute2mac
 ImageMagick
 awscli
+awless

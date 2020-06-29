@@ -2,3 +2,4 @@ phinze/cask
 caskroom/cask
 d12frosted/emacs-plus
 homebrew/aliases
+brew tap wallix/awless
