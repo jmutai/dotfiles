@@ -50,3 +50,4 @@ iproute2mac
 ImageMagick
 awscli
 awless
+telnet
