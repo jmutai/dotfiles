@@ -51,3 +51,15 @@ ImageMagick
 awscli
 awless
 telnet
+mutt
+zopfli
+pigz
+gzip
+p7zip
+xz
+git-lfs
+nmap
+pngcheck
+gnu-sed
+openssh
+tree
