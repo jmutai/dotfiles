@@ -63,3 +63,5 @@ pngcheck
 gnu-sed
 openssh
 tree
+bash
+coreutils
